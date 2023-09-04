@@ -22,7 +22,7 @@ require('./libs/controller.php')
         <!-- Page Title -->
         <title>Connexion</title>
         <!-- StyleSheets -->
-        <link rel="stylesheet" href="./public/assets/css/dashlite.css?ver=3.2.0">
+        <link rel="stylesheet" href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
         <link
             id="skin-default"
             rel="stylesheet"
