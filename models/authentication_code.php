@@ -13,7 +13,7 @@ function validateinput($dbcon, $input){
 }
 
 function redirect($message, $page){
-    $redirectTo = SITE_URL.$page;
+    $redirectTo = URL.$page;
     $_SESSION['message'] = $message; // Notez la correction ici (suppression des guillemets autour de $message)
     header("Location: $redirectTo");
     exit(0);
