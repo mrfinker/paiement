@@ -1,4 +1,4 @@
-<?php include('./views/include/header') ?>
+<?php include('./views/include/header.php') ?>
 <!-- content @s -->
 <div class="nk-content ">
     <div class="container-fluid">
@@ -10,4 +10,4 @@
     </div>
 </div>
 <!-- content @e -->
-<?php include('./views/include/footer') ?>
+<?php include('./views/include/footer.php') ?>
