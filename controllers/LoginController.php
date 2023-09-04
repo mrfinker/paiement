@@ -1,10 +1,10 @@
 <?php
 
-class LoginController {
-    private $conn;
-
-    public function __construct($db) {
-        $this->conn = $db;
+class LoginController extends Controller {
+    function __construct(){
+        parent::__construct();
+        Session::init();
+        $this->view->js = array("login/js/login.js");
     }
 
     public function userlogin($email, $password) {
