@@ -10,7 +10,7 @@ define('DB_DATABASE', 'paiment');
 
 define('LIBS', 'libs/');
 define('URL','http://paiement.mr:81/');
-define('LOGIN', 'http://paiement.mr:81/views/login');
+define('LOGIN', 'http://paiement.mr:81/views/login.php');
 
 
 define ('HASH_PASSWORD_KEY', 'rouuge');
