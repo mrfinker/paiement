@@ -1,6 +1,6 @@
 <?php
 
-include_once('./app/config/config.php')
+include_once('config.php')
 
 ?>
 
