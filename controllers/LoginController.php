@@ -42,7 +42,9 @@ class LoginController {
             ];
         }
     }
+
+    function logout(){
+        Session::destroy();
+    }
     
 }
-
-?>
