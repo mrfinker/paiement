@@ -79,7 +79,7 @@
                                         <div class="form-group">
                                             <div class="form-label-group">
                                                 <label class="form-label" for="password">Mot de passe</label>
-                                                <a class="link link-primary link-sm" href="/app/views/auth-reset.php">Mot de passe oublier ?</a>
+                                                <a class="link link-primary link-sm" href="#">Mot de passe oublier ?</a>
                                             </div>
                                             <div class="form-control-wrap">
                                                 <a
