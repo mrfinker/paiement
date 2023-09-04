@@ -8,13 +8,13 @@ class RegisterController extends Controller {
     }
 
     public function registration($name, $username, $email, $phone, $address, $password) {
-        // Vérifiez d'abord si l'utilisateur existe déjà
+   
         if ($this->isUserExists($email)) {
-            return false; // L'utilisateur existe déjà, renvoyez false
+            return false; 
         }
 
         if (strlen($password) < 8 || strlen($password) > 20) {
-            return false; // Le mot de passe ne respecte pas les critères de longueur
+            return false;
         }
         
         // Hash du mot de passe
@@ -38,11 +38,10 @@ class RegisterController extends Controller {
         $stmt->bindParam(':phone', $phone);
         $stmt->bindParam(':address', $address);
 
-        // Exécutez la requête
         if ($stmt->execute()) {
-            return true; // L'inscription a réussi
+            return true;
         } else {
-            return false; // L'inscription a échoué
+            return false;
         }
     }
 
@@ -53,9 +52,9 @@ class RegisterController extends Controller {
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return true; // L'utilisateur existe déjà
+            return true;
         } else {
-            return false; // L'utilisateur n'existe pas
+            return false;
         }
     }
 
