@@ -7,41 +7,89 @@ class LoginController extends Controller {
         $this->view->js = array("login/js/login.js");
     }
 
-    public function userlogin($email, $password) {
-    
-        $checkLogin = "SELECT * FROM users WHERE email = :email LIMIT 1";
-        $stmt = $this->conn->prepare($checkLogin);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        // Vérifier si l'utilisateur existe dans la base de données
-        if (!empty($result)) {
-            // Vérifier le mot de passe haché
-            if (password_verify($password, $result['password'])) {
-                $this->userAuthentication($result);
-                return true;
-            }
-        }
-    
-        return false;
-    }    
+    function index()
+  {
+    $this->view->render('login/index', true);
+  }
+  function register()
+  {
+    $this->view->render('register/register', true);
+  }
 
-    private function userAuthentication($data) {
-        // Démarrer la session si elle n'est pas déjà démarrée
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-            
-            // Stocker les informations de l'utilisateur dans la session
-            $_SESSION['authenticated'] = true;
-            $_SESSION['auth_user'] = [
-                'id' => $data['id'],
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'phone' => $data['phone']
-            ];
+  function handleRegister()
+  {
+
+    if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuwenfas,mcn;sdiojd") {
+      $nom = htmlspecialchars($_POST["email"]);
+      $username = htmlspecialchars($_POST["username"]);
+      $email = htmlspecialchars($_POST["email"]);
+      $phone = htmlspecialchars($_POST["phone"]);
+      $address = htmlspecialchars($_POST["address"]);
+      $password = htmlspecialchars($_POST["password"]);
+      $confirmPassword = htmlspecialchars($_POST["confirmPassword"]);
+      if (
+        !empty($nom) &&
+        !empty($username) &&
+        !empty($email) &&
+        !empty($phone) &&
+        !empty($qddress) &&
+        !empty($password) &&
+        !empty($confirmPassword)
+      ) {
+        if ($password === $confirmPassword) {
+          $getUserByEmail = $this->model->getUserByEmail($email);
+          if (empty($getUserByEmail)) {
+            $save = $this->model->saveUser(array(
+              "username" => $username,
+              "email" => $email,
+              "pwd" => $password
+            ));
+            if ($save) {
+              $getUserByEmail = $this->model->getUserByEmail($email);
+              Session::set("users", $getUserByEmail[0]);
+              echo "success";
+            } else {
+              echo "Une erreur de traitement";
+            }
+          } else {
+            echo "l'adresse email existe deja";
+          }
+        } else {
+          echo "Les deux mots de passes doivent etre indetique";
         }
+      } else {
+        echo "Touts les champs sont obligatoires";
+      }
+    } else {
+      echo "Pas d'autorisation";
     }
+  }
+
+  function handleLogin()
+  {
+
+    if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
+      $email = htmlspecialchars($_POST["email"]);
+      $password = htmlspecialchars($_POST["password"]);
+      if (!empty($email) && !empty($password)) {
+        $getUserByEmail = $this->model->getUserByEmail($email);
+        if (!empty($getUserByEmail)) {
+          if ($getUserByEmail[0]["pwd"] == $password) {
+            Session::set("users", $getUserByEmail[0]);
+            echo "success";
+          } else {
+            echo "Identifiant incorrecte";
+          }
+        } else {
+          echo "Identifiant incorrecte";
+        }
+      } else {
+        echo "Touts les champs sont obligatoires";
+      }
+    } else {
+      echo "Pas d'autorisation";
+    }
+  }
 
     function logout(){
         Session::destroy();
