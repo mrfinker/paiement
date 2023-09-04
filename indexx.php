@@ -1,6 +1,6 @@
 <?php
 //Config
-require './config/config.php';
+require 'config.php';
 
 require LIBS.'Bootstrap.php';
 require LIBS.'controller.php';
