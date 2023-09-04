@@ -11,9 +11,14 @@ class LoginController extends Controller {
   {
     $this->view->render('login/index', true);
   }
+
   function register()
   {
     $this->view->render('register/register', true);
+  }
+
+  function dashboard(){
+    $this->view->render('dashboard/dashboard', true);
   }
 
   function handleRegister()
