@@ -25,7 +25,7 @@
     }
 	// Select all from a table
 	function getAll($table){
-		$query = "SELECT * FROM $table";
+		$query = "SELECT * FROM $users";
 		$statement = $this->db->prepare($query);
 		$statement->execute();
 		$rows = $statement->fetchAll();
