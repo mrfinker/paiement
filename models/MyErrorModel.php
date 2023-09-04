@@ -1,6 +1,6 @@
 <?php
 
-class My_error_model extends Model {
+class MyErrorModel extends Model {
 
     function __construct() {
         parent:: __construct();
