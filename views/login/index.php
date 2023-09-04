@@ -18,7 +18,7 @@ require('./libs/controller.php')
             name="description"
             content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
         <!-- Fav Icon -->
-        <link rel="shortcut icon" href="./public/images/favicon.png">
+        <link rel="shortcut icon" href="<?= URL ?>public/images/favicon.png">
         <!-- Page Title -->
         <title>Connexion</title>
         <!-- StyleSheets -->
@@ -26,7 +26,7 @@ require('./libs/controller.php')
         <link
             id="skin-default"
             rel="stylesheet"
-            href="./public/assets/css/theme.css?ver=3.2.0">
+            href="<?= URL ?>public/assets/css/theme.css?ver=3.2.0">
     </head>
 
     <body class="nk-body bg-white npc-general pg-auth">
@@ -43,13 +43,13 @@ require('./libs/controller.php')
                                 <a href="html/index.html" class="logo-link">
                                     <img
                                         class="logo-light logo-img logo-img-lg"
-                                        src="./public/images/logo.png"
-                                        srcset="./public/images/logo2x.png 2x"
+                                        src="<?= URL ?>public/images/logo.png"
+                                        srcset="<?= URL ?>public/images/logo2x.png 2x"
                                         alt="logo">
                                     <img
                                         class="logo-dark logo-img logo-img-lg"
-                                        src="./public/images/logo-dark.png"
-                                        srcset="./public/images/logo-dark2x.png 2x"
+                                        src="<?= URL ?>public/images/logo-dark.png"
+                                        srcset="<?= URL ?>public/images/logo-dark2x.png 2x"
                                         alt="logo-dark">
                                 </a>
                             </div>
