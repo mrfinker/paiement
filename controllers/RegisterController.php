@@ -1,5 +1,5 @@
 <?php
-class RegisterController {
+class RegisterController extends Controller {
 
     private $conn;
 
