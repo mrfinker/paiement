@@ -1,5 +1,5 @@
 <?php
-include_once('./classes/Database.php');
+include_once('./libs/Database.php');
 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
