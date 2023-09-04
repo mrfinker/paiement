@@ -1,6 +1,6 @@
 <?php
 require_once('./models/authentication_code.php');
-require_once('.config.php');
+require_once('config.php');
 ?>
 
 <!DOCTYPE html>

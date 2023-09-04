@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('./config/config.php');
+include_once('config.php');
 include_once('./controllers/RegisterController.php');
 include_once('./controllers/LoginController.php');
 
