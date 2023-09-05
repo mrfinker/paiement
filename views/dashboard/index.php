@@ -16,7 +16,9 @@
         <!-- Page Title -->
         <title>Blank - Layout | DashLite Admin Template</title>
         <!-- StyleSheets -->
-        <link rel="stylesheet" href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
+        <link
+            rel="stylesheet"
+            href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
         <link
             id="skin-default"
             rel="stylesheet"
@@ -1000,20 +1002,20 @@
                                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                                             <div class="quick-icon border border-light">
-                                                <img class="icon" src="<?= URl ?>images/flags/english-sq.png" alt="">
+                                                <img class="icon" src="./images/flags/english-sq.png" alt="">
                                             </div>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
                                             <ul class="language-list">
                                                 <li>
                                                     <a href="#" class="language-item">
-                                                        <img src="<?= URl ?>images/flags/english.png" alt="" class="language-flag">
+                                                        <img src="./images/flags/english.png" alt="" class="language-flag">
                                                         <span class="language-name">English</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a href="#" class="language-item">
-                                                        <img src="<?= URl ?>images/flags/french.png" alt="" class="language-flag">
+                                                        <img src="./images/flags/french.png" alt="" class="language-flag">
                                                         <span class="language-name">Français</span>
                                                     </a>
                                                 </li>
@@ -1093,20 +1095,20 @@
                     <!-- .container-fliud -->
                 </div>
                 <!-- main header @e -->
-<!-- content @s -->
-<div class="nk-content ">
-    <div class="container-fluid">
-        <div class="nk-content-inner">
-            <div class="nk-content-body">
-                <p>Starter page for Demo6 layout.</p>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- content @e -->
-<!-- JavaScript -->
-<!-- footer @s -->
-<div class="nk-footer bg-white">
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <p>Starter page for Demo6 layout.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+                <!-- JavaScript -->
+                <!-- footer @s -->
+                <div class="nk-footer bg-white">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
                             <div class="nk-footer-copyright">
@@ -1122,7 +1124,6 @@
         </div>
         <!-- app-root @e -->
 
-        
         <script src="<?= URL ?>public/assets/js/bundle.js?ver=3.2.0"></script>
         <script src="<?= URL ?>public/assets/js/scripts.js?ver=3.2.0"></script>
     </body>
