@@ -2,9 +2,11 @@
 class Register extends Controller {
 
     public function __construct() {
-
-        $this->user;
-        $this->view->js = array("login/js/login.js");
+        parent::__construct();
+        // if (!isset($this->user["privilege"]) || $this->user["privilege"] !== "admin" ) {
+        //     header("location:".LOGIN);
+        // }
+        $this->view->js = array("register/js/register.js");
     }
 
     public function handleRegister() {
