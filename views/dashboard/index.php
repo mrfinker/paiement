@@ -1,5 +1,5 @@
 <?php
-require_once("session.php");
+require_once("./libs/session.php");
 Session::init();
 
 Session::destroy();
