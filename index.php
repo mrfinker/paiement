@@ -12,3 +12,7 @@ require LIBS.'views.php';
 
 $bootstrap = new Bootstrap();
 $bootstrap->int();
+
+?>
+
+<h1>INDEX</h1>
