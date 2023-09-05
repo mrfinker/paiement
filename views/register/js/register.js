@@ -25,7 +25,7 @@ $(document).ready(function () {
         action: "jddiuanjkanciuwenfas,mcn;sdiojd",
       },
       success: function (res) {
-        if (res.status === "success") {
+        if (res.status === 200) {
           // Enregistrement réussi, afficher un SweetAlert de succès avec le message personnalisé
           Swal.fire({
             icon: 'success',
