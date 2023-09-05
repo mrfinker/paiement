@@ -15,7 +15,7 @@ $(document).ready(function () {
                     action: "jddiuanjkanciuSFDSFAEEEADS;sdiojd"
                 },
                 success: function(res) {
-                    if (res.status === "success") {
+                    if (res.status === 200) {
                         window.location = `${baseUrl}dashboard`
                     } else {
                         alert(res)
