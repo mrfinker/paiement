@@ -1076,7 +1076,7 @@
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
-                                                        <a id="logout_btn" href="">
+                                                        <a id="logout_btn" href="" onclick="logout()">
                                                             <em class="icon ni ni-signout"></em>
                                                             <span>Deconnexion</span></a>
                                                     </li>
