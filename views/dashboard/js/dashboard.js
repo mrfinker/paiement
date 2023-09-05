@@ -9,6 +9,9 @@ $(document).ready(function () {
             success: function () {
                 
                 window.location.href = `${baseUrl}`;
+            },
+            error: function (error) {
+                console.error(error);
             }
         });
     });
