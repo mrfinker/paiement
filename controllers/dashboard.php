@@ -9,6 +9,7 @@ class Dashboard extends Controller{
     function index(){
         $this->view->render("dashboard/index", true);
     }
+    
 }
 
 ?>
