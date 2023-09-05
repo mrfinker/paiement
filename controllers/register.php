@@ -52,11 +52,7 @@ class Register extends Controller {
     }
 
     public function isUserExists($email) {
-        $checkUser = "SELECT email FROM users WHERE email = :email LIMIT 1";
-        $stmt = $this->conn->prepare($checkUser);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-
+        $stmt = $this->model->getUserbyEmail($email);
         if ($stmt->rowCount() > 0) {
             return true;
         } else {
