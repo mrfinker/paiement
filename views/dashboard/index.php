@@ -1,5 +1,5 @@
 <?php
-require_once("session.php"); // Inclure votre fichier de classe Session
+require_once("session.php");
 Session::init();
 
 Session::destroy();
