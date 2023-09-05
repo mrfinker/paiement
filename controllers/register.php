@@ -46,7 +46,7 @@ class Register extends Controller {
 
     public function isUserExists($email) {
         $stmt = $this->model->getUserbyEmail($email);
-        if ($stmt->rowCount() > 0) {
+        if (!empty($stmt)) {
             return true;
         } else {
             return false;
