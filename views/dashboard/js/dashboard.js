@@ -12,7 +12,7 @@ $(document).ready(function () {
         }
     });
     
-    $("#logoutButton").on("click", function () {
+    $("#logout_btn").on("click", function () {
         $.ajax({
             url: `${baseUrl}logout`, 
             type: "POST",
