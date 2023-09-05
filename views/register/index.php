@@ -49,7 +49,6 @@
                             </div>
                             <div class="card card-bordered">
                                 <div class="card-inner card-inner-lg">
-                                <?php include("message.php") ?>
                                     <div class="nk-block-head">
                                         <div class="nk-block-head-content">
                                             <h4 class="nk-block-title">Incription</h4>

@@ -1,7 +1,3 @@
-<?php 
-require_once('config.php');
-require_once('./models/authentication_code.php');
-?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
 

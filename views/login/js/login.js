@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  const baseUrl = "http://paiement.mr:81/dashboard";
+  const baseUrl = "http://paiement.mr:81/";
 
   $(document).on("submit", "#loginFormUser", function (e) {
     e.preventDefault();
