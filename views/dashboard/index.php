@@ -3,7 +3,7 @@ require_once("session.php"); // Inclure votre fichier de classe Session
 Session::init();
 
 Session::destroy();
-header("Location: login.php"); // Assurez-vous de spécifier le bon chemin vers votre page de connexion
+header("Location:".LOGIN); 
 exit;
 ?>
 
