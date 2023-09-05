@@ -27,7 +27,7 @@ $(document).ready(function () {
       success: function (res) {
         console.log(res);
         if (res === "success") {
-          window.location = `${baseUrl}register`;
+          window.location = `${baseUrl}login`;
         } else {
           alert(res);
         }
