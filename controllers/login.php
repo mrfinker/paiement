@@ -84,17 +84,16 @@ class Login extends Controller {
                         Session::set("users", $getUserByEmail[0]);
                         echo json_encode(array("status" => 200, "msg" => "success"));
                     } else {
-                        echo json_encode(array("status" => 200, "msg" => "success"));
-                        echo "Identifiant incorrect";
+                        echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
                     }
                 } else {
-                    echo "Identifiant incorrect";
+                    echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
                 }
             } else {
-                echo "Tous les champs sont obligatoires";
+                echo json_encode(array("status" => 400, "msg" => "Tous les champs sont obligatoires"));
             }
         } else {
-            echo "Pas d'autorisation";
+            echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
         }
     }
 
