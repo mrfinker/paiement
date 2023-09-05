@@ -8,7 +8,7 @@ $(document).ready(function () {
             type: "POST",
             success: function () {
                 
-                window.location = `${baseUrl}login`;
+                window.location = `${baseUrl}`;
             },
             error: function (error) {
                 console.error(error);
