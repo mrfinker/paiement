@@ -1047,8 +1047,8 @@ if(isset($_SESSION['users'])){
                                                         <span>AB</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                        <span class="sub-text">info@softnio.com</span>
+                                                        <span class="lead-text"><?= $user['name'] ?></span>
+                                                        <span class="sub-text"><?= $user['email'] ?></span>
                                                     </div>
                                                     <div class="user-action">
                                                         <a class="btn btn-icon me-n2" href="html/user-profile-setting.html">
@@ -1108,7 +1108,6 @@ if(isset($_SESSION['users'])){
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
-                                <p><?= $user['name'] ?>!</p>
                                 <p>Starter page for Demo6 layout.</p>
                             </div>
                         </div>
