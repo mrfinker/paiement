@@ -61,7 +61,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form action="dashboard.php" method="POST">
+                                    <form action="" method="POST">
                                         <div class="form-group">
                                             <div class="form-label-group">
                                                 <label class="form-label" for="email">Votre email</label>
