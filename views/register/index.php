@@ -49,7 +49,7 @@
                             </div>
                             <div class="card card-bordered">
                                 <div class="card-inner card-inner-lg">
-                                    <?php include('./controllers/message.php'); ?>
+                                  
                                     <div class="nk-block-head">
                                         <div class="nk-block-head-content">
                                             <h4 class="nk-block-title">Incription</h4>
@@ -59,7 +59,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form action="" method="POST">
+                                    <form id="registerFormUser" method="POST">
                                         <div class="form-group">
                                             <div class="form-label-group">
                                                 <label class="form-label" for="name">Votre noms</label>
