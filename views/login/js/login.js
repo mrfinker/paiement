@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    const baseUrl = "http://localhost/PaimentLinked/"
-    
+    const baseUrl = "http://paiement.mr:81/"
+
         $(document).on("submit", "#registerFormUser", function(e) {
             e.preventDefault();
             let name = $("#name").val()
