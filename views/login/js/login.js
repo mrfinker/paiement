@@ -8,6 +8,7 @@ $(document).ready(function () {
             $.ajax({
                 url: `${baseUrl}login/handleLogin`,
                 type: "POST",
+                dataType: "JSON",
                 data: {
                     email,
                     password,
