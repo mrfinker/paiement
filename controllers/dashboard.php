@@ -6,7 +6,7 @@ class Dashbord extends Controller{
     }
 
     function index(){
-        $this->view->render('dashbord/index', true);
+        $this->view->render('dashboard/index', true);
     }
 }
 
