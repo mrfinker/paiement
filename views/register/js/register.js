@@ -10,7 +10,6 @@ $(document).ready(function () {
     let address = $("#address").val();
     let password = $("#password").val();
     let confirmPassword = $("#confirmPassword").val();
-    
     $.ajax({
       url: `${baseUrl}register/handleRegister`,
       type: "POST",
@@ -26,32 +25,13 @@ $(document).ready(function () {
         action: "jddiuanjkanciuwenfas,mcn;sdiojd",
       },
       success: function (res) {
-        if (res === "success") {
-          Swal.fire({
-            icon: 'success',
-            title: 'Enregistrement réussi',
-            text: 'Vous êtes maintenant inscrit.',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location = `${baseUrl}chat`;
-            }
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erreur',
-            text: 'L\'enregistrement a échoué. Veuillez réessayer.',
-          });
-        }
-      },
-      error: function () {
-        // En cas d'erreur lors de l'appel AJAX
-        Swal.fire({
-          icon: 'error',
-          title: 'Erreur',
-          text: 'Une erreur s\'est produite. Veuillez réessayer plus tard.',
-        });
+        console.log(res);
+        // if (res === "success") {
+        //   window.location = `${baseUrl}chat`;
+        // } else {
+        //   alert(res);
+        // }
       },
     });
   });
-});
+})
