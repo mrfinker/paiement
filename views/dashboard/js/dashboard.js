@@ -5,13 +5,10 @@ $(document).ready(function () {
         e.preventDefault();
         $.ajax({
             url: `${baseUrl}session/destroy`,
-            type: "POST",
+            method: "POST",
             success: function () {
                 
-                window.location = `${baseUrl}`;
-            },
-            error: function (error) {
-                console.error(error);
+                window.location.href = `${baseUrl}`;
             }
         });
     });
