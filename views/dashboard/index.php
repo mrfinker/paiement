@@ -1,7 +1,6 @@
 <?php
 require_once("./libs/session.php");
 Session::init();
-
 Session::destroy();
 ?>
 <!DOCTYPE html>
