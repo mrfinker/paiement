@@ -4,6 +4,9 @@ Session::init();
 
 if(isset($_SESSION['users'])){
     $user = $_SESSION['users'];
+}else{
+    header("Location".LOGIN);
+    exit;
 }
 ?>
 <!DOCTYPE html>
