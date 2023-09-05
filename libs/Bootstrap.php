@@ -11,7 +11,7 @@ class Bootstrap
   private $_controllerPath = 'controllers/';
   private $_modelPath      = 'models/';
   private $_errorFile      = 'My_error.php';
-  private $_defaultFile    = 'login.php';
+  private $_defaultFile    = 'LoginController.php';
 
   function __construct()
   {
@@ -69,7 +69,7 @@ class Bootstrap
   {
     # code...
     require  $this->_controllerPath . $this->_defaultFile;
-    $this->controller = new Login();
+    $this->controller = new LoginController();
     $this->controller->index();
   }
 
@@ -128,7 +128,7 @@ class Bootstrap
   {
 
     require $this->_controllerPath . $this->_errorFile;
-    $this->controller = new My_error();
+    $this->controller = new MyErrorControllers();
     $this->controller->index();
     exit;
   }
