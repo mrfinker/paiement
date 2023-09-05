@@ -3,6 +3,8 @@ class Register extends Controller {
 
     public function __construct() {
 
+        $this->user;
+        $this->view->js = array("login/js/login.js");
     }
 
     public function handleRegister() {
