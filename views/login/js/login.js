@@ -17,7 +17,7 @@ $(document).ready(function () {
         if (res === "success") {
           window.location = `${baseUrl}dashboard`;
         } else {
-          alert(res);
+          console.log(res);
         }
       },
     });
