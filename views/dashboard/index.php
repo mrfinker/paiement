@@ -1,7 +1,6 @@
 <?php
 require_once("./libs/session.php");
 Session::init();
-Session::destroy();
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
@@ -1132,6 +1131,7 @@ Session::destroy();
 
         <script src="<?= URL ?>public/assets/js/bundle.js?ver=3.2.0"></script>
         <script src="<?= URL ?>public/assets/js/scripts.js?ver=3.2.0"></script>
+        <script src="<?= URL ?>views/dashboard/js/dashboard.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </body>
 
