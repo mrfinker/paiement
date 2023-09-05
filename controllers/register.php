@@ -1,10 +1,8 @@
 <?php
 class Register extends Controller {
 
-    private $conn;
+    public function __construct() {
 
-    public function __construct($db) {
-        $this->conn = $db;
     }
 
     public function registration($name, $username, $email, $phone, $address, $password) {
@@ -28,8 +26,7 @@ class Register extends Controller {
         $phone = str_replace(["'", "`"], '', $phone);
         $address = str_replace(["'", "`"], '', $address);
         
-        // Préparez la requête SQL pour l'insertion
-        $register_query = "INSERT INTO users (name, email, username, password, phone, address) VALUES (:name, :email, :username, :password, :phone, :address)";
+        // Préparez la requête SQL pour l'insertio
         $stmt = $this->conn->prepare($register_query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':email', $email);
