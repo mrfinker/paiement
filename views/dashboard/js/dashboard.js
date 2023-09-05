@@ -8,7 +8,7 @@ $(document).ready(function () {
             method: "POST",
             success: function () {
                 
-                window.location.href = `${baseUrl}`;
+                window.location = `${baseUrl}`;
             }
         });
     });
