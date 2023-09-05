@@ -101,7 +101,7 @@
                                         <div class="form-group">
                                             <button type="submit" name="login_btn" class="btn btn-lg btn-primary btn-block">Connexion</button>
                                         </div>
-                                        <a href="<?php echo base_url('register.php'); ?>">Enregistrer</a>
+                                        <a href="<?= URL ?>register">Enregistrer</a>
 
                                     </form>
                                 </div>
