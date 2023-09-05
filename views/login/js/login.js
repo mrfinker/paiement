@@ -17,29 +17,6 @@ $(document).ready(function () {
       success: function (res) {
         console.log(res);
         if (res.status === 200) {
-          let timerInterval;
-          Swal.fire({
-            icon: "success",
-            title: "Connexion réussie",
-            text: "Vous êtes maintenant connecté.",
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading();
-              const b = Swal.getHtmlContainer().querySelector("b");
-              timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft();
-              }, 100);
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            },
-          }).then((result) => {
-            /* Read more about handling dismissals below */
-            if (result.dismiss === Swal.DismissReason.timer) {
-              console.log("I was closed by the timer");
-            }
-          });
           // Connexion réussie, afficher une alerte SweetAlert de succès
           Swal.fire({
             icon: "success",
