@@ -51,7 +51,7 @@
                             </div>
                             <div class="card card-bordered">
                                 <div class="card-inner card-inner-lg">
-                                    <?php include('./controllers/message.php') ?>
+                                    <?php include("<?= URL ?>message.php") ?>
                                     <div class="nk-block-head">
                                         <div class="nk-block-head-content">
                                             <h4 class="nk-block-title">Connexion</h4>
