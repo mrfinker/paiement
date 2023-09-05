@@ -3,8 +3,8 @@ define('DB_TYPE', 'mysql');
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PORT', '');
-define('DB_PASSWORD', 'jenesaispas');
-define('DB_DATABASE', 'paiment');
+define('DB_PASS', 'jenesaispas');
+define('DB_NAME', 'paiment');
 
 define('LIBS', 'libs/');
 define('URL','http://paiement.mr:81/');
