@@ -25,16 +25,14 @@ class Register extends Controller {
         $username = str_replace(["'", "`"], '', $username);
         $phone = str_replace(["'", "`"], '', $phone);
         $address = str_replace(["'", "`"], '', $address);
-        
+        $data = array('name' => $name,
+        'email' => $email,
+        'username' => $username,
+        'password' => $hashedPassword,
+        'phone' => $phone,
+        'address' => $address);
         // Préparez la requête SQL pour l'insertio
-        $stmt = $this->conn->prepare($register_query);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $hashedPassword);
-        $stmt->bindParam(':phone', $phone);
-        $stmt->bindParam(':address', $address);
-
+        $stmt = $this->model->saveUser($data);
         if ($stmt->execute()) {
             return true;
         } else {
