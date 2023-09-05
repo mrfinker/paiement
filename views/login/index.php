@@ -20,6 +20,9 @@
             rel="stylesheet"
             href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
         <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.css">
+        <link
             id="skin-default"
             rel="stylesheet"
             href="<?= URL ?>public/assets/css/theme.css?ver=3.2.0">
