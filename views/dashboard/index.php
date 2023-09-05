@@ -1100,7 +1100,7 @@
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
-                                <p><?php echo $_SESSION['id'] ?>!</p>
+                                <p><?php echo $_SESSION['users'] ?>!</p>
                                 <p>Starter page for Demo6 layout.</p>
                             </div>
                         </div>
