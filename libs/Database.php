@@ -1,18 +1,18 @@
 <?php
 
+/**
+ * 
+ */
 class Database extends PDO
 {
 
-    public function __construct()
-    {
-      parent::__construct(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  public function __construct()
+  {
+    parent::__construct(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
-    }
-    public function getConnection() {
-        return $this->conn;
-    }
+  }
 
-    public function select($sql, $array = array(), $fetchMode = PDO::FETCH_ASSOC)
+  public function select($sql, $array = array(), $fetchMode = PDO::FETCH_ASSOC)
   {
     $query = $this->prepare($sql);
     foreach ($array as $key => $value) {
@@ -22,6 +22,11 @@ class Database extends PDO
     return $query->fetchAll();
   }
 
+  /**
+   * Insert
+   * @param string $table A name of table to Insert into
+   * @param array $data An associative array  
+   */
   public function insert($table, array $data)
   {
     $filedName = implode(',', array_keys($data)) . '';
@@ -33,7 +38,12 @@ class Database extends PDO
     }
     return $query->execute();
   }
-
+  /**
+   * update
+   * @param string $table A name of table to Insert into
+   * @param array $data An associative array  
+   * @param array $where the WHERE query part associative array  
+   */
   public function update($table, array $data, $where)
   {
     ksort($data);
@@ -57,6 +67,3 @@ class Database extends PDO
     // $query->execute();
   }
 }
-
-
-?>
