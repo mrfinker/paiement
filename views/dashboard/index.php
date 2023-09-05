@@ -6,7 +6,6 @@ Session::destroy();
 header("Location:".LOGIN); 
 exit;
 ?>
-
 <!DOCTYPE html>
 <html lang="zxx" class="js">
 
