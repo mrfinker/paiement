@@ -10,9 +10,9 @@ class Controller
 
 	public function __construct()
 	{
-		SESSION::init();
+		Session::init();
 		$this->view = new Views();
-		$this->user = SESSION::get("users");
+		$this->user = Session::get("users");
 	}
 
 	public function loadModel($name, $modelpath)
