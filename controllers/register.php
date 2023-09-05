@@ -18,37 +18,42 @@ class Register extends Controller {
    
         print_r($_POST);
         die;
-        if ($this->isUserExists($email)) {
-            return false; 
-        }
 
-        if (strlen($password) < 8 || strlen($password) > 20) {
-            return false;
-        }
-        
-        // Hash du mot de passe
-        $password = htmlspecialchars($password);
+        $name = htmlspecialchars($_POST["name"]);
+        $email = htmlspecialchars($_POST["email"]);
+        $username = htmlspecialchars($_POST["username"]);
+        $phone = htmlspecialchars($_POST["phone"]);
+        $address = htmlspecialchars($_POST["address"]);
+        $password = htmlspecialchars($_POST["password"]);
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        if (!$this->isUserExists($email)) {
+            if (strlen($password) >= 8) {
+                $data = array('name' => $name,
+                'email' => $email,
+                'username' => $username,
+                'password' => $hashedPassword,
+                'phone' => $phone,
+                'address' => $address);
+                $saveUser = $this->model->saveUser($data);
+                if ($saveUser) {
+                    echo json_encode(array("status" => 200, "msg" => "success"));
+                } else {
+                    echo json_encode(array("status" => 500, "msg" => "Une erreur se produite lors de l'enregistrement de l'utlisateur."));
+                }
+            }else {
+                echo json_encode(array("status" => 400, "msg" => "Le mot de passe doit avoir au moins 8 care"));
+            }
+        }else {
+            echo json_encode(array("status" => 409, "msg" => "L'email existe déjà."));
+        }
+
+       
+        
+
 
         
-        $name = htmlspecialchars($name);
-        $email = htmlspecialchars($email);
-        $username = htmlspecialchars($username);
-        $phone = htmlspecialchars($phone);
-        $address = htmlspecialchars($address);
-        $data = array('name' => $name,
-        'email' => $email,
-        'username' => $username,
-        'password' => $hashedPassword,
-        'phone' => $phone,
-        'address' => $address);
-        // Préparez la requête SQL pour l'insertio
-        $stmt = $this->model->saveUser($data);
-        if ($stmt) {
-            echo json_encode(array("status" => 200, "msg" => "success"));
-        } else {
-            return false;
-        }
+       
+        
     }
 
     public function isUserExists($email) {
