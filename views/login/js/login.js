@@ -15,7 +15,7 @@ $(document).ready(function () {
       },
       success: function (res) {
         if (res === "success") {
-          window.location = `${baseUrl}dashboard`;
+          window.location = `${baseUrl}`;
         } else {
           alert(res);
         }
