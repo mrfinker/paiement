@@ -1,5 +1,4 @@
 <?php
-require_once("./libs/session.php");
 Session::init();
 
 if(isset($_SESSION['users'])){
