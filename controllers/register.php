@@ -15,10 +15,6 @@ class Register extends Controller {
     }
 
     public function handleRegister() {
-   
-        print_r($_POST);
-        die;
-
         $name = htmlspecialchars($_POST["name"]);
         $email = htmlspecialchars($_POST["email"]);
         $username = htmlspecialchars($_POST["username"]);
@@ -41,19 +37,11 @@ class Register extends Controller {
                     echo json_encode(array("status" => 500, "msg" => "Une erreur se produite lors de l'enregistrement de l'utlisateur."));
                 }
             }else {
-                echo json_encode(array("status" => 400, "msg" => "Le mot de passe doit avoir au moins 8 care"));
+                echo json_encode(array("status" => 400, "msg" => "Le mot de passe doit avoir au moins 8 caractere"));
             }
         }else {
             echo json_encode(array("status" => 409, "msg" => "L'email existe déjà."));
         }
-
-       
-        
-
-
-        
-       
-        
     }
 
     public function isUserExists($email) {
