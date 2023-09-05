@@ -25,11 +25,12 @@ $(document).ready(function () {
         action: "jddiuanjkanciuwenfas,mcn;sdiojd",
       },
       success: function (res) {
-        if (res === "success") {
-          window.location = `${baseUrl}chat`;
-        } else {
-          alert(res);
-        }
+        console.log(res);
+        // if (res === "success") {
+        //   window.location = `${baseUrl}chat`;
+        // } else {
+        //   alert(res);
+        // }
       },
     });
   });
