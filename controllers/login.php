@@ -80,7 +80,7 @@ class Login extends Controller {
             if (!empty($email) && !empty($password)) {
                 $getUserByEmail = $this->model->getUserByEmail($email);
                 if (!empty($getUserByEmail)) {
-                    if ($getUserByEmail[0]["pwd"] == $password) {
+                    if ($getUserByEmail[0]["password"] == $password) {
                         Session::set("users", $getUserByEmail[0]);
                         echo json_encode(array("status" => 200, "msg" => "success"));
                     } else {
