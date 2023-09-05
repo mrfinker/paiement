@@ -10,7 +10,7 @@ class Bootstrap
 
   private $_controllerPath = 'controllers/';
   private $_modelPath      = 'models/';
-  private $_errorFile      = 'My_error.php';
+  private $_errorFile      = 'MyError.php';
   private $_defaultFile    = 'login.php';
 
   function __construct()
