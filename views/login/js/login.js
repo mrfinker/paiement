@@ -15,7 +15,7 @@ $(document).ready(function () {
       },
       success: function (res) {
         if (res === "success") {
-          window.location = `${baseUrl}chat`;
+          window.location = `${baseUrl}dashboard`;
         } else {
           alert(res);
         }
