@@ -18,7 +18,7 @@ class Login extends Controller {
     }
 
     function dashboard(){
-        $this->view->render('dashboard/dashboard', true);
+        $this->view->render('dashboard/index', true);
     }
 
     function handleRegister()
