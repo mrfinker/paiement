@@ -1104,7 +1104,7 @@ Session::init();
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
-                                <p><?php echo $_SESSION['users'] ?>!</p>
+                                <p><?= $_SESSION['users'] ?>!</p>
                                 <p>Starter page for Demo6 layout.</p>
                             </div>
                         </div>
