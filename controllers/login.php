@@ -96,8 +96,4 @@ class Login extends Controller {
             echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
         }
     }
-
-    function logout(){
-        Session::destroy();
-    }
 }

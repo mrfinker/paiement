@@ -4,7 +4,7 @@ $(document).ready(function () {
     $("#logout_btn").on("click", function (e) {
         e.preventDefault();
         $.ajax({
-            url: `${baseUrl}login/logout`,
+            url: `${baseUrl}session/destroy`,
             type: "POST",
             success: function () {
                 
