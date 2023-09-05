@@ -26,6 +26,7 @@ $(document).ready(function () {
       },
       success: function (res) {
         if (res.status === 200) {
+          window.location.reload();
           // Enregistrement réussi, afficher un SweetAlert de succès avec le message personnalisé
           Swal.fire({
             icon: 'success',
