@@ -1076,7 +1076,7 @@
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
-                                                        <a href="./app/models/logoutModels.php">
+                                                        <a id="logout_btn" href="">
                                                             <em class="icon ni ni-signout"></em>
                                                             <span>Deconnexion</span></a>
                                                     </li>
