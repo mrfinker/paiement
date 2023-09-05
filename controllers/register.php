@@ -44,8 +44,8 @@ class Register extends Controller {
         'address' => $address);
         // Préparez la requête SQL pour l'insertio
         $stmt = $this->model->saveUser($data);
-        if ($stmt->execute()) {
-            return true;
+        if ($stmt) {
+            echo json_encode(array("status" => 200, "msg" => "success"));
         } else {
             return false;
         }
