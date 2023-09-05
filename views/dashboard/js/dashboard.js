@@ -2,7 +2,7 @@ $(document).ready(function () {
     const baseUrl = "http://paiement.mr:81/";
 
     $.ajax({
-        url: `${baseUrl}dashboard`, 
+        url: `${baseUrl}dashboard/data`, 
         type: "GET",
         success: function (data) {
             console.log(data);
