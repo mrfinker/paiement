@@ -5,10 +5,10 @@ $(document).ready(function () {
         e.preventDefault();
         $.ajax({
             url: `${baseUrl}session/destroy`,
-            method: "POST",
+            type: "POST",
             success: function () {
                 
-                window.location.href = `${baseUrl}`;
+                window.location = `${baseUrl}`;
             },
             error: function (error) {
                 console.error(error);
