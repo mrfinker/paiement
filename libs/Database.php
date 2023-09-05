@@ -1,17 +1,13 @@
 <?php
 
-class Database {
-    private $conn;
+class Database extends PDO
+{
 
-    public function __construct($dbHost, $dbUser, $dbPassword, $dbName) {
-        try {
-            $this->conn = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser, $dbPassword);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            die("<h1>La connexion à la base de données a échoué : " . $e->getMessage() . "</h1>");
-        }
+    public function __construct()
+    {
+      parent::__construct(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+
     }
-
     public function getConnection() {
         return $this->conn;
     }
