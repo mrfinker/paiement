@@ -1007,7 +1007,7 @@
                                             <ul class="language-list">
                                                 <li>
                                                     <a href="#" class="language-item">
-                                                        <img src="/images/flags/english.png" alt="" class="language-flag">
+                                                        <img src="./images/flags/english.png" alt="" class="language-flag">
                                                         <span class="language-name">English</span>
                                                     </a>
                                                 </li>
