@@ -27,15 +27,15 @@ class Register extends Controller {
         }
         
         // Hash du mot de passe
-        $password = str_replace(["'", "`"], '', $password);
+        $password = htmlspecialchars($password);
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         
-        $name = str_replace(["'", "`"], '', $name);
-        $email = str_replace(["'", "`"], '', $email);
-        $username = str_replace(["'", "`"], '', $username);
-        $phone = str_replace(["'", "`"], '', $phone);
-        $address = str_replace(["'", "`"], '', $address);
+        $name = htmlspecialchars($name);
+        $email = htmlspecialchars($email);
+        $username = htmlspecialchars($username);
+        $phone = htmlspecialchars($phone);
+        $address = htmlspecialchars($address);
         $data = array('name' => $name,
         'email' => $email,
         'username' => $username,
