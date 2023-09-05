@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     $("#logout_btn").on("click", function () {
         $.ajax({
-            url: `${baseUrl}dashboard`, 
+            url: `${baseUrl}login`, 
             type: "POST",
             success: function () {
                 window.location = `${baseUrl}login`;
