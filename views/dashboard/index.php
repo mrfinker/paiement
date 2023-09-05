@@ -1087,7 +1087,7 @@ if(isset($_SESSION['users'])){
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
-                                                        <a id="logout_btn" href="" onclick="logout()">
+                                                        <a id="logout_btn" href="" onclick="logout(event)">
                                                             <em class="icon ni ni-signout"></em>
                                                             <span>Deconnexion</span></a>
                                                     </li>
