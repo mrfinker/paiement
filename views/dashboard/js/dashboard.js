@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function logout() {
     const baseUrl = "http://paiement.mr:81/";
 
     $("#logout_btn").on("click", function () {
