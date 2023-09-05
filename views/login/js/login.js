@@ -1,5 +1,6 @@
 $(document).ready(function () {
     const baseUrl = "http://localhost/PaimentLinked/"
+    
         $(document).on("submit", "#registerFormUser", function(e) {
             e.preventDefault();
             let name = $("#name").val()
@@ -53,4 +54,4 @@ $(document).ready(function () {
                 }
             })
         })
-    })
+})
