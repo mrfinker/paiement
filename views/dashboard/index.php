@@ -1047,7 +1047,7 @@ if(isset($_SESSION['users'])){
                                                         <span>AB</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text"><?= $user['name'] ?></span>
+                                                        <span class="lead-text"><?= $user['username'] ?></span>
                                                         <span class="sub-text"><?= $user['email'] ?></span>
                                                     </div>
                                                     <div class="user-action">
