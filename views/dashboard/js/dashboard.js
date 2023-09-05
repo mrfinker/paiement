@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     function logout() {
         $.ajax({
-            url: `${baseUrl}logout`, 
+            url: `${baseUrl}dashboard`, 
             type: "POST",
             dataType: "JSON",
             success: function () {
