@@ -25,9 +25,15 @@ class Session
 
   public static function destroy()
   {
-    session_unset();
-    session_destroy();
-    header("location:".LOGIN);
-    exit;
-  }
+    // session.php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+  session_start();
+  // Vous pouvez exécuter d'autres actions de nettoyage ici si nécessaire
+  session_unset();
+  session_destroy();
+  header("location:".LOGIN);
+  exit;
+}
+
+ }
 }
