@@ -25,13 +25,30 @@ $(document).ready(function () {
         action: "jddiuanjkanciuwenfas,mcn;sdiojd",
       },
       success: function (res) {
-        console.log(res);
-        // if (res === "success") {
-        //   window.location = `${baseUrl}chat`;
-        // } else {
-        //   alert(res);
-        // }
+        if (res.status === "success") {
+          // Enregistrement réussi, afficher un SweetAlert de succès avec le message personnalisé
+          Swal.fire({
+            icon: 'success',
+            title: 'Enregistrement réussi',
+            text: res.msg, // Utilisez le message personnalisé récupéré de la réponse
+          });
+        } else {
+          // Enregistrement échoué, afficher un SweetAlert d'erreur avec le message personnalisé
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: res.msg, // Utilisez le message personnalisé récupéré de la réponse
+          });
+        }
+      },
+      error: function () {
+        // En cas d'erreur lors de l'appel AJAX
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Une erreur s\'est produite. Veuillez réessayer plus tard.',
+        });
       },
     });
   });
-})
+});
