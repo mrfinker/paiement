@@ -82,8 +82,9 @@ class Login extends Controller {
                 if (!empty($getUserByEmail)) {
                     if ($getUserByEmail[0]["pwd"] == $password) {
                         Session::set("users", $getUserByEmail[0]);
-                        echo "success";
+                        echo json_encode(array("status" => 200, "msg" => "success"));
                     } else {
+                        echo json_encode(array("status" => 200, "msg" => "success"));
                         echo "Identifiant incorrect";
                     }
                 } else {
