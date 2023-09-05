@@ -195,46 +195,12 @@
             <script src="./public/assets/js/example-sweetalert.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script>
-                // Obtenez les valeurs du formulaire d'inscription
-                var name = $('#name').val();
-                var username = $('#username').val();
-                var email = $('#email').val();
-                var phone = $('#phone').val();
-                var address = $('#address').val();
-                var password = $('#password').val();
-
-                // Envoyez une requête Ajax au point de terminaison en utilisant les données du
-                // formulaire
-                $.ajax({
-                    url: 'register.php',
-                    type: 'POST',
-                    data: {
-                        name: name,
-                        username: username,
-                        email: email,
-                        phone: phone,
-                        address: address,
-                        password: password
-                    },
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.success) {
-                            // L'inscription a réussi
-                            console.log('Inscription réussie');
-                            // Effectuez ici les actions supplémentaires après l'inscription réussie
-                        } else {
-                            // L'inscription a échoué
-                            console.log('Échec de l\'inscription');
-                            // Effectuez ici les actions supplémentaires après l'échec de l'inscription
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        // Gérez les erreurs éventuelles lors de la requête Ajax
-                        console.log('Erreur Ajax:', error);
-                    }
-                });
-            </script>
         </body>
-
+        <?php
+if (isset($this->js)) {
+  foreach ($this->js as $js) {
+    echo '<script src="' . URL . 'views/' . $js . '"></script>';
+  }
+}
+?>
     </html>
