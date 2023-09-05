@@ -2,40 +2,24 @@
 /**
  * 
  */
-class Controller
+class Hash 
 {
-	public $view;
-	public $user;
-	public $model;
 
-	public function __construct()
+		/**
+ 		* 
+ 		* @param string $algo The algorithm (md5, sha1, whiripool, etc)
+ 		* @param string $data The data to encode
+ 		* @param string $salt The salt (This should be the same throughout the system probably)
+ 		* @param string The hashed/salted data
+ 		*/
+
+	
+	public static function create($algo, $data, $salt )
 	{
-		SESSION::init();
-		$this->view = new Views();
-		$this->user = SESSION::get("users");
+		$context= hash_init($algo, HASH_HMAC, $salt);
+		hash_update($context, $data);
+
+		return hash_final($context);
 	}
-
-	public function loadModel($name, $modelpath)
-	{
-
-		$path = $modelpath . $name . '_model.php';
-
-		if (file_exists($path)) {
-			require $modelpath . $name . '_model.php';
-			$modelName = $name . '_model';
-			$this->model = new $modelName();
-		}
-	}
-
-	public function str_random($length)
-	{
-		$alphabet = "0123456789azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN";
-		return substr(str_shuffle(str_repeat($alphabet, 120)), 0, $length);
-	}
-
-	public function date_time()
-	{
-		return  date('Y-m-d H:i:s');
-	}
-
+	
 }
