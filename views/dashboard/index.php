@@ -929,7 +929,7 @@
                                                         <a class="chat-link" href="html/apps-chats.html">
                                                             <div class="chat-media user-avatar user-avatar-multiple">
                                                                 <div class="user-avatar">
-                                                                    <img src="./images/avatar/c-sm.jpg" alt="">
+                                                                    <img src="<?= URl ?>images/avatar/c-sm.jpg" alt="">
                                                                 </div>
                                                                 <div class="user-avatar">
                                                                     <span>AB</span>
@@ -953,7 +953,7 @@
                                                     <li class="chat-item">
                                                         <a class="chat-link" href="html/apps-chats.html">
                                                             <div class="chat-media user-avatar">
-                                                                <img src="./images/avatar/a-sm.jpg" alt="">
+                                                                <img src="<?= URl ?>images/avatar/a-sm.jpg" alt="">
                                                                 <span class="status dot dot-lg dot-success"></span>
                                                             </div>
                                                             <div class="chat-info">
@@ -1000,7 +1000,7 @@
                                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                                             <div class="quick-icon border border-light">
-                                                <img class="icon" src="./images/flags/english-sq.png" alt="">
+                                                <img class="icon" src="<?= URl ?>images/flags/english-sq.png" alt="">
                                             </div>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
