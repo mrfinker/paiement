@@ -5,6 +5,7 @@ $(document).ready(function () {
         $.ajax({
             url: `${baseUrl}logout`, 
             type: "POST",
+            dataType: "JSON",
             success: function () {
                 window.location = `${baseUrl}login`;
             },
