@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    const baseUrl = "http://paiement.mr:81/";
-
-    $("#logout_btn").on("click", function () {
+    function logout() {
+        const baseUrl = "http://paiement.mr:81/";
         $.ajax({
-            url: `${baseUrl}dashboard`, 
+            url: `${baseUrl}logout`,
             type: "POST",
+            dataType: "JSON",
             success: function () {
                 window.location = `${baseUrl}login`;
             },
@@ -12,5 +12,5 @@ $(document).ready(function () {
                 console.error(error);
             }
         });
-    });
+    }    
 });
