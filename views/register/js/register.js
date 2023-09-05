@@ -10,6 +10,13 @@ $(document).ready(function () {
     let address = $("#address").val();
     let password = $("#password").val();
     let confirmPassword = $("#confirmPassword").val();
+    
+    // Vérifiez si les mots de passe correspondent côté client
+    if (password !== confirmPassword) {
+      alert("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
     $.ajax({
       url: `${baseUrl}register/handleRegister`,
       type: "POST",
@@ -22,16 +29,19 @@ $(document).ready(function () {
         address,
         password,
         confirmPassword,
-        action: "jddiuanjkanciuwenfas,mcn;sdiojd",
       },
       success: function (res) {
         console.log(res);
-        if (res === "success") {
+        if (res.status === 200) { // Vérifiez la propriété 'status' dans la réponse JSON
           window.location = `${baseUrl}login`;
         } else {
-          alert(res);
+          alert(res.msg);
         }
+      },
+      error: function (xhr, status, error) {
+        console.error(xhr.responseText);
+        alert("Une erreur s'est produite lors de l'envoi de la requête.");
       },
     });
   });
-})
+});
