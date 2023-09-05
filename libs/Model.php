@@ -18,6 +18,7 @@
 		// exemple
 		//return $this->db->select("SELECT * FROM name_table");
 	}
+	
     function get_total_all_records($query) {
         $sth = $this->db->prepare($query);
         $sth->execute();
