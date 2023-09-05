@@ -61,7 +61,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form id="loginFomrUser" method="POST">
+                                    <form id="loginFormUser" method="POST">
                                         <div class="form-group">
                                             <div class="form-label-group">
                                                 <label class="form-label" for="email">Votre email</label>
