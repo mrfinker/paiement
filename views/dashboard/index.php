@@ -1,11 +1,8 @@
 <?php
-session_start();
 require_once("./libs/session.php");
 Session::init();
 
 Session::destroy();
-header("Location:".LOGIN); 
-exit;
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
