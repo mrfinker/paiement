@@ -16,11 +16,16 @@
         <!-- Page Title -->
         <title>Enregistrement</title>
         <!-- StyleSheets -->
-        <link rel="stylesheet" href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
+        <link
+            rel="stylesheet"
+            href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
         <link
             id="skin-default"
             rel="stylesheet"
             href="<?= URL ?>public/assets/css/theme.css?ver=3.2.0">
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.css">
     </head>
 
     <body class="nk-body bg-white npc-general pg-auth">
@@ -193,6 +198,10 @@
             <script src="<?= URL ?>public/assets/js/scripts.js?ver=3.2.0"></script>
             <script src="<?= URL ?>public/assets/js/example-sweetalert.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <!-- Ajoutez ces liens dans la section <head> de votre HTML -->
+            <script
+                src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.js"></script>
+
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         </body>
         <?php
@@ -202,4 +211,4 @@ if (isset($this->js)) {
   }
 }
 ?>
-</html>
+    </html>
