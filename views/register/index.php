@@ -1,11 +1,3 @@
-<?php 
-require_once('./models/authentication_code.php');
-require_once('config.php');
-require_once('./controllers/RegisterController.php');
-$registerController = new RegisterController($dbConnection);
-
-?>
-
 <!DOCTYPE html>
 <html lang="zxx" class="js">
 

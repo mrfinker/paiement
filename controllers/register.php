@@ -5,8 +5,10 @@ class Register extends Controller {
 
     }
 
-    public function registration($name, $username, $email, $phone, $address, $password) {
+    public function handleRegister() {
    
+        print_r($_POST);
+        die;
         if ($this->isUserExists($email)) {
             return false; 
         }
