@@ -1000,33 +1000,21 @@
                                     <li class="dropdown language-dropdown d-none d-sm-block me-n1">
                                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                                             <div class="quick-icon border border-light">
-                                                <img class="icon" src="./images/flags/english-sq.png" alt="">
+                                                <img class="icon" src="<?= URl ?>images/flags/english-sq.png" alt="">
                                             </div>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
                                             <ul class="language-list">
                                                 <li>
                                                     <a href="#" class="language-item">
-                                                        <img src="./images/flags/english.png" alt="" class="language-flag">
+                                                        <img src="<?= URl ?>images/flags/english.png" alt="" class="language-flag">
                                                         <span class="language-name">English</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a href="#" class="language-item">
-                                                        <img src="./images/flags/spanish.png" alt="" class="language-flag">
-                                                        <span class="language-name">Español</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <img src="./images/flags/french.png" alt="" class="language-flag">
+                                                        <img src="<?= URl ?>images/flags/french.png" alt="" class="language-flag">
                                                         <span class="language-name">Français</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <img src="./images/flags/turkey.png" alt="" class="language-flag">
-                                                        <span class="language-name">Türkçe</span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -1058,19 +1046,6 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="dropdown-inner user-account-info">
-                                                <h6 class="overline-title-alt">Account Balance</h6>
-                                                <div class="user-balance">1,494.23
-                                                    <small class="currency currency-usd">USD</small>
-                                                </div>
-                                                <div class="user-balance-sub">Locked
-                                                    <span>15,495.39
-                                                        <span class="currency currency-usd">USD</span></span></div>
-                                                <a href="#" class="link">
-                                                    <span>Withdraw Balance</span>
-                                                    <em class="icon ni ni-wallet-out"></em>
-                                                </a>
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
