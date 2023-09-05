@@ -6,7 +6,6 @@ $(document).ready(function () {
         $.ajax({
             url: `${baseUrl}session/destroy`,
             type: "POST",
-            dataType:'JSON',
             success: function () {
                 
                 window.location = `${baseUrl}`;
