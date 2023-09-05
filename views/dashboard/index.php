@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("./libs/session.php");
 Session::init();
 
