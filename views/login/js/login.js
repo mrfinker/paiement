@@ -16,11 +16,11 @@ $(document).ready(function () {
                 },
                 success: function(res) {
                   console.log(res);
-                    // if (res.status === 200) {
-                    //     window.location = `${baseUrl}dashboard`
-                    // } else {
-                    //     alert(res)
-                    // }
+                    if (res.status === 200) {
+                        window.location = `${baseUrl}dashboard`
+                    } else {
+                        alert(res.msg)
+                    }
                 }
             })
         })
