@@ -25,7 +25,7 @@ $(document).ready(function () {
         action: "jddiuanjkanciuwenfas,mcn;sdiojd",
       },
       success: function (res) {
-        console.log(res);
+        alert(res);
         // if (res === "success") {
         //   window.location = `${baseUrl}chat`;
         // } else {
