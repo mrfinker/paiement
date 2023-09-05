@@ -14,11 +14,6 @@ define('LOGIN', 'http://paiement.mr:81/views/login.php');
 
 
 define ('HASH_PASSWORD_KEY', 'rouuge');
-// Utilisez la classe Database pour créer une connexion PDO
-$db = new Database(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 
-function base_url($slug){
-    echo URL.$slug;
-}
 
 ?>
