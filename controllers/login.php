@@ -1,6 +1,6 @@
 <?php
 
-class LoginController extends Controller {
+class Login extends Controller {
     function __construct(){
         parent::__construct();
         Session::init();
