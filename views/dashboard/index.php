@@ -1,6 +1,10 @@
 <?php
 require_once("./libs/session.php");
 Session::init();
+
+if(isset($_SESSION['users'])){
+    $user = $_SESSION['users'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
@@ -1104,7 +1108,7 @@ Session::init();
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
-                                <p><?= $_SESSION['users'] ?>!</p>
+                                <p><?= $user['name'] ?>!</p>
                                 <p>Starter page for Demo6 layout.</p>
                             </div>
                         </div>
