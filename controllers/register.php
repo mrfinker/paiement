@@ -9,6 +9,11 @@ class Register extends Controller {
         $this->view->js = array("register/js/register.js");
     }
 
+    function index()
+    {
+        $this->view->render('register/index', true);
+    }
+
     public function handleRegister() {
    
         print_r($_POST);
