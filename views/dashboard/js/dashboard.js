@@ -1,13 +1,13 @@
 $(document).ready(function () {
     const baseUrl = "http://paiement.mr:81/";
 
-    function logout(event) {
-        event.preventDefault();
+    function logout(res) {
+        res.preventDefault();
         $.ajax({
             url: `${baseUrl}session/destroy`,
             type: "POST",
             success: function () {
-                window.location = baseUrl; // Redirigez l'utilisateur après la déconnexion
+                window.location = baseUrl;
             },
             error: function (error) {
                 console.error(error);
