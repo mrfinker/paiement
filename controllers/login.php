@@ -101,7 +101,6 @@ class Login extends Controller {
     function handleLogin()
 {
     if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
-        // Vérifiez si les clés 'identifier' et 'password' existent dans le tableau $_POST
         if (isset($_POST["identifier"]) && isset($_POST["password"])) {
             $identifier = htmlspecialchars($_POST["identifier"]);
             $password = htmlspecialchars($_POST["password"]);
