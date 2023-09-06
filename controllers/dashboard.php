@@ -11,6 +11,10 @@ class Dashboard extends Controller{
         $this->view->render("dashboard/index", true);
     }
 
+    function profile(){
+        $this->view->render("dashboard/profile", true);
+    }
+
 }
 
 ?>
