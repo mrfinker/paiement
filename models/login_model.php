@@ -15,12 +15,11 @@ class Login_model extends Model{
     }
 
     function getUserByEmailOrUsernameWithRole(string $identifier) {
-        $sql = "SELECT u.*, r.role_type 
-                FROM users u
-                LEFT JOIN user_roles ur ON u.user_id = ur.user_id
-                LEFT JOIN roles r ON ur.role_id = r.role_id
-                WHERE u.email = :identifier OR u.username = :identifier
-                LIMIT 1";
+        $sql = "SELECT u.*, ut.user_type AS role_type 
+        FROM users u
+        LEFT JOIN user_types ut ON u.user_type_id = ut.id_type
+        WHERE u.email = :identifier OR u.username = :identifier
+        LIMIT 1";
         return $this->db->select($sql, array("identifier" => $identifier));
     }
     
