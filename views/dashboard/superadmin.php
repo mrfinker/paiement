@@ -7,6 +7,13 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     header("Location" . LOGIN);
     exit;
 }
+
+if ($_SESSION['userRole'] !== 'superadmin') {
+    // Rediriger l'utilisateur vers la page d'erreur
+    header("Location: ".ERROR);
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
