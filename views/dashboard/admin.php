@@ -10,7 +10,7 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     exit;
 }
 
-if (!isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "admin") {
+if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "admin") {
     header('Location: ' . ERROR);
     exit;
 }
