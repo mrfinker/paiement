@@ -73,12 +73,7 @@ class Login extends Controller {
                             echo json_encode(array("status" => 200, "msg" => "success", "redirect" => "dashboard/default"));
                             break;
                     }
-                } else {
-                    echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
-                }
-            } else {
-                echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
-            }
+                } }
     } else {
         echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
     }
