@@ -99,18 +99,15 @@ class Login extends Controller {
     }
 
     function handleLogin()
-{
-    if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
-        if (isset($_POST["identifier"]) && isset($_POST["password"])) {
-            $identifier = htmlspecialchars($_POST["identifier"]);
+    {
+        if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
+            $email = htmlspecialchars($_POST["email"]);
             $password = htmlspecialchars($_POST["password"]);
-            if (!empty($identifier) && !empty($password)) {
-                $userWithRole = $this->model->getUserByEmailOrUsernameWithRole($identifier);
-                if (!empty($userWithRole)) {
-                    if (password_verify($password, $userWithRole[0]["password"])) {
-                        $userRoleName = $userWithRole[0]["role_type"];
-                        Session::set("users", $userWithRole[0]);
-                        Session::set("userRoleName", $userRoleName);
+            if (!empty($email) && !empty($password)) {
+                $getUserByEmail = $this->model->getUserByEmail($email);
+                if (!empty($getUserByEmail)) {
+                    if (password_verify($password, $getUserByEmail[0]["password"])) {
+                        Session::set("users", $getUserByEmail[0]);
                         echo json_encode(array("status" => 200, "msg" => "success"));
                     } else {
                         echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
@@ -118,13 +115,13 @@ class Login extends Controller {
                 } else {
                     echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
                 }
-            } 
-            echo json_encode(array("status" => 400, "msg" => "Tous les champs sont obligatoires"));
+            } else {
+                echo json_encode(array("status" => 400, "msg" => "Tous les champs sont obligatoires"));
+            }
+        } else {
+            echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
         }
-    } else {
-        echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
     }
-}
 
 
 
