@@ -24,4 +24,8 @@ class Dashboard extends Controller
     {
         $this->view->render('dashboard/staff', true);
     }
+    public function profileuser()
+    {
+        $this->view->render('dashboard/profileuser', true);
+    }
 }
