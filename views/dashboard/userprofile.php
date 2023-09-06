@@ -1,3 +1,20 @@
+<?php
+Session::init();
+
+if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
+    $user = $_SESSION['users'];
+    $userType = $_SESSION['userType'];
+} else {
+    header("Location" . LOGIN);
+    exit;
+}
+
+if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
+    header('Location: ' . ERROR);
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="zxx" class="js">
 
