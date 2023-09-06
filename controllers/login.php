@@ -37,7 +37,7 @@ class Login extends Controller {
                     break;
                 default:
                     // Si le rôle n'est pas défini ou inconnu, redirigez l'utilisateur vers une page d'erreur ou le tableau de bord par défaut.
-                    $this->view->render('error/default', true);
+                    $this->view->render('error/index', true);
                     break;
             }
         } else {
