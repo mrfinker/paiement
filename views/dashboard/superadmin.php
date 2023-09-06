@@ -1,11 +1,10 @@
 <?php
-require_once("./libs/session.php");
-Session::init();
+require_once "./libs/session.php";
 
-if(isset($_SESSION['users'])){
+if (isset($_SESSION['users'])) {
     $user = $_SESSION['users'];
-}else{
-    header("Location".LOGIN);
+} else {
+    header("Location" . LOGIN);
     exit;
 }
 ?>
@@ -23,24 +22,24 @@ if(isset($_SESSION['users'])){
             name="description"
             content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
         <!-- Fav Icon -->
-        <link rel="shortcut icon" href="<?= URL ?>public/images/favicon.png">
+        <link rel="shortcut icon" href="<?=URL?>public/images/favicon.png">
         <!-- Page Title -->
-        <title>Blank - Layout | DashLite Admin Template</title>
+        <title>superadmin | dashboard</title>
         <!-- StyleSheets -->
         <link
             rel="stylesheet"
-            href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
+            href="<?=URL?>public/assets/css/dashlite.css?ver=3.2.0">
         <link
             id="skin-default"
             rel="stylesheet"
-            href="<?= URL ?>public/assets/css/theme.css?ver=3.2.0">
+            href="<?=URL?>public/assets/css/theme.css?ver=3.2.0">
     </head>
 
     <body class="nk-body bg-lighter ">
         <div class="nk-app-root">
-            <?php 
-        // include('./message.php') 
-        ?>
+            <?php
+// include('./message.php')
+?>
             <!-- wrap @s -->
             <div class="nk-wrap ">
                 <!-- main header @s -->
@@ -56,13 +55,13 @@ if(isset($_SESSION['users'])){
                                 <a href="html/index.html" class="logo-link">
                                     <img
                                         class="logo-light logo-img"
-                                        src="<?= URL ?>public/images/logo.png"
-                                        srcset="<?= URL ?>images/logo2x.png 2x"
+                                        src="<?=URL?>public/images/logo.png"
+                                        srcset="<?=URL?>images/logo2x.png 2x"
                                         alt="logo">
                                     <img
                                         class="logo-dark logo-img"
-                                        src="<?= URL ?>public/images/logo-dark.png"
-                                        srcset="<?= URL ?>images/logo-dark2x.png 2x"
+                                        src="<?=URL?>public/images/logo-dark.png"
+                                        srcset="<?=URL?>images/logo-dark2x.png 2x"
                                         alt="logo-dark">
                                 </a>
                             </div>
@@ -73,13 +72,13 @@ if(isset($_SESSION['users'])){
                                         <a href="html/index.html" class="logo-link">
                                             <img
                                                 class="logo-light logo-img"
-                                                src="<?= URL ?>images/logo.png"
-                                                srcset="<?= URL ?>images/logo2x.png 2x"
+                                                src="<?=URL?>images/logo.png"
+                                                srcset="<?=URL?>images/logo2x.png 2x"
                                                 alt="logo">
                                             <img
                                                 class="logo-dark logo-img"
-                                                src="<?= URL ?>images/logo-dark.png"
-                                                srcset="<?= URL ?>images/logo-dark2x.png 2x"
+                                                src="<?=URL?>images/logo-dark.png"
+                                                srcset="<?=URL?>images/logo-dark2x.png 2x"
                                                 alt="logo-dark">
                                         </a>
                                     </div>
@@ -1050,8 +1049,8 @@ if(isset($_SESSION['users'])){
                                                         <span>AB</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text"><?= $user['username'] ?></span>
-                                                        <span class="sub-text"><?= $user['email'] ?></span>
+                                                        <span class="lead-text"><?=$user['username']?></span>
+                                                        <span class="sub-text"><?=$user['email']?></span>
                                                     </div>
                                                     <div class="user-action">
                                                         <a class="btn btn-icon me-n2" href="html/user-profile-setting.html">
@@ -1087,7 +1086,7 @@ if(isset($_SESSION['users'])){
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
-                                                        <a id="logout_btn" href="<?= URL ?>login/logout">
+                                                        <a id="logout_btn" href="<?=URL?>login/logout">
                                                             <em class="icon ni ni-signout"></em>
                                                             <span>Deconnexion</span></a>
                                                     </li>
@@ -1111,7 +1110,7 @@ if(isset($_SESSION['users'])){
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
-                                <p>Bonjour <?= $userRoleName; ?></p>
+                                <p>Bonjour <?=$userRoleName;?></p>
                             </div>
                         </div>
                     </div>
@@ -1135,8 +1134,8 @@ if(isset($_SESSION['users'])){
         </div>
         <!-- app-root @e -->
 
-        <script src="<?= URL ?>public/assets/js/bundle.js?ver=3.2.0"></script>
-        <script src="<?= URL ?>public/assets/js/scripts.js?ver=3.2.0"></script>
+        <script src="<?=URL?>public/assets/js/bundle.js?ver=3.2.0"></script>
+        <script src="<?=URL?>public/assets/js/scripts.js?ver=3.2.0"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </body>
 

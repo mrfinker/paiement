@@ -8,4 +8,6 @@ class Dashboard extends Controller
         $this->view->js = array("dashboard/js/dashboard.js");
     }
 
+    
+
 }

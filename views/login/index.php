@@ -14,7 +14,7 @@
         <!-- Fav Icon -->
         <link rel="shortcut icon" href="<?= URL ?>public/images/favicon.png">
         <!-- Page Title -->
-        <title>Connexion</title>
+        <title>Connexion | LinkedSolution</title>
         <!-- StyleSheets -->
         <link
             rel="stylesheet"

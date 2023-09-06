@@ -1,20 +1,20 @@
 <?php
-declare(strict_types=1);
+declare (strict_types = 1);
 
-require_once('vendor/autoload.php');
+require_once 'vendor/autoload.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+class PhpJwt
+{
+    private $secretKey = SECRET_KEY_AT;
+    private $issuedAt;
+    private $expire;
+    private $serverName = URL;
 
-class PhpJwt {
-    private  $secretKey  = SECRET_KEY_AT;
-    private  $issuedAt;
-    private  $expire; 
-    private  $serverName = URL;
-    
     public function __construct()
     {
- 
+
     }
 
     public function guard()
@@ -26,18 +26,18 @@ class PhpJwt {
                 header('HTTP/1.1 400 Bad Request');
                 echo 'Token not found in request';
                 exit;
-            }else{
+            } else {
                 $jwt = $matches[1];
                 if (!$jwt) {
                     // No token was able to be extracted from the authorization header
                     header('HTTP/1.1 400 Bad Request');
                     echo 'Token not found in request';
                     exit;
-                }else{
+                } else {
                     return $this->validate($jwt);
                 }
             }
-        }else {
+        } else {
             # code...
             header('HTTP/1.1 400 Bad Request');
             echo 'Token not found in request';
@@ -51,15 +51,13 @@ class PhpJwt {
         # code...
         try {
             //code...
-            $token = JWT::decode($jwt,new Key($this->secretKey,'HS256'));
+            $token = JWT::decode($jwt, new Key($this->secretKey, 'HS256'));
             return $token;
         } catch (\Throwable $th) {
             //throw $th;
             return false;
         }
-       
-      
-        
+
     }
 
 }

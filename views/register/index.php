@@ -14,7 +14,7 @@
         <!-- Fav Icon -->
         <link rel="shortcut icon" href="<?= URL ?>public/images/favicon.png">
         <!-- Page Title -->
-        <title>Enregistrement</title>
+        <title>Enregistrement | LinkedSolution</title>
         <!-- StyleSheets -->
         <link
             rel="stylesheet"
