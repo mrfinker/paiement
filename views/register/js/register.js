@@ -33,6 +33,13 @@ $(document).ready(function () {
             title: 'Enregistrement réussi',
             text: res.msg, // Utilisez le message personnalisé récupéré de la réponse
           });
+          else if (res.status === 409) { // Ajout de cette condition
+            // En cas de conflit (code 409), afficher un SweetAlert d'erreur avec le message personnalisé
+            Swal.fire({
+              icon: 'error',
+              title: 'Erreur',
+              text: res.msg,
+            });
         } else {
           // Enregistrement échoué, afficher un SweetAlert d'erreur avec le message personnalisé
           Swal.fire({
