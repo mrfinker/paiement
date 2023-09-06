@@ -8,11 +8,11 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     exit;
 }
 
-if ($_SESSION['userType'] !== 1) {
-    // Rediriger l'utilisateur vers la page d'erreur
-    header("Location: ".ERROR);
-    exit;
-}
+// if ($_SESSION['TypeName'] !== 'superadmin') {
+//     // Rediriger l'utilisateur vers la page d'erreur
+//     header("Location: ".ERROR);
+//     exit;
+// }
 
 ?>
 <!DOCTYPE html>
