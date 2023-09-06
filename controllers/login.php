@@ -19,22 +19,6 @@ class Login extends Controller
         $this->view->render('register/index', true);
     }
 
-    public function superadmin()
-    {
-        $this->view->render('dashboard/superadmin', true);
-    }
-    public function admin()
-    {
-        $this->view->render('dashboard/admin', true);
-    }
-    public function company()
-    {
-        $this->view->render('dashboard/company', true);
-    }
-    public function staff()
-    {
-        $this->view->render('dashboard/staff', true);
-    }
 
     public function handleLogin()
     {
