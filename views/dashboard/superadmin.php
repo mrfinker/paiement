@@ -3,13 +3,13 @@
 if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     $user = $_SESSION['users'];
     $userType = $_SESSION['userType'];
-    if ($_SESSION['TypeName'] !== 'superadmin') {
-        // Rediriger l'utilisateur vers la page d'erreur
-        header("Location: ".ERROR);
-        exit;
-    }
 } else {
     header("Location" . LOGIN);
+    exit;
+}
+if ($_SESSION['TypeName'] !== 'superadmin') {
+    // Rediriger l'utilisateur vers la page d'erreur
+    header("Location: ".ERROR);
     exit;
 }
 
