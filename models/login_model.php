@@ -9,6 +9,10 @@ class Login_model extends Model{
     function getUserbyEmail(string $email){
         return $this->db->select("SELECT * FROM users WHERE email = :email LIMIT 1", array("email" => $email));
     }
+    
+    function getUserbyUsername(string $username){
+        return $this->db->select("SELECT * FROM users WHERE username = :username LIMIT 1", array("username" => $username));
+    }
 
     function saveUser(array $data) {
         return $this->db->insert("users", $data);
