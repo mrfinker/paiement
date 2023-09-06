@@ -52,9 +52,6 @@ class Login extends Controller {
         $emailOrUsername = htmlspecialchars($_POST["text"]);
         $password = htmlspecialchars($_POST["password"]);
         
-        if (!empty($emailOrUsername) && !empty($password)) {
-            $getUser = $this->model->getUserByEmailOrUsernameWithRole($emailOrUsername);
-            
             if (!empty($getUser)) {
                 if (password_verify($password, $getUser[0]["password"])) {
                     Session::set("users", $getUser[0]);
@@ -82,9 +79,6 @@ class Login extends Controller {
             } else {
                 echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
             }
-        } else {
-            echo json_encode(array("status" => 400, "msg" => "Tous les champs sont obligatoires"));
-        }
     } else {
         echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
     }
