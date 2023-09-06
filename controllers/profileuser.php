@@ -8,6 +8,9 @@ class Profileuser extends Controller
         $this->view->js = array("dashboard/js/profiles.js");
     }
 
-    
+    public function profileuser()
+    {
+        $this->view->render('dashboard/profileuser', true);
+    }
     
 }
