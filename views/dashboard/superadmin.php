@@ -90,123 +90,21 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
                                 </div>
                                 <ul class="nk-menu nk-menu-main ui-s2">
                                     <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <a href="#" class="nk-menu-link">
                                             <span class="nk-menu-text">Dashboards</span>
                                         </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item">
-                                                <a href="html/index.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Default Dashboard</span>
-                                                </a>
-                                            </li>
-                                            <!-- .nk-menu-item -->
-                                            <li class="nk-menu-item">
-                                                <a href="html/index-sales.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Sales Dashboard</span>
-                                                </a>
-                                            </li>
-                                            <!-- .nk-menu-item -->
-                                            <li class="nk-menu-item">
-                                                <a href="html/index-crypto.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Crypto Dashboard</span>
-                                                </a>
-                                            </li>
-                                            <!-- .nk-menu-item -->
-                                            <li class="nk-menu-item">
-                                                <a href="html/index-analytics.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Analytics Dashboard</span>
-                                                </a>
-                                            </li>
-                                            <!-- .nk-menu-item -->
-                                        </ul>
-                                        <!-- .nk-menu-sub -->
                                     </li>
                                     <!-- .nk-menu-item -->
                                     <li class="nk-menu-item has-sub">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <a href="#" class="nk-menu-link">
                                             <span class="nk-menu-text">Applications</span>
                                         </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item">
-                                                <a href="html/apps-messages.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Messages</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/apps-inbox.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Inbox / Mail</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/apps-file-manager.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">File Manager</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/apps-chats.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Chats / Messenger</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/apps-calendar.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Calendar</span></a>
-                                            </li>
-                                            <li class="nk-menu-item">
-                                                <a href="html/apps-kanban.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Kanban Board</span></a>
-                                            </li>
-                                        </ul>
-                                        <!-- .nk-menu-sub -->
                                     </li>
                                     <!-- .nk-menu-item -->
                                     <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-text">Pages</span>
                                         </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                    <span class="nk-menu-text">Projects</span>
-                                                </a>
-                                                <ul class="nk-menu-sub">
-                                                    <li class="nk-menu-item">
-                                                        <a href="html/project-card.html" class="nk-menu-link">
-                                                            <span class="nk-menu-text">Project Cards</span></a>
-                                                    </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="html/project-list.html" class="nk-menu-link">
-                                                            <span class="nk-menu-text">Project List</span></a>
-                                                    </li>
-                                                </ul>
-                                                <!-- .nk-menu-sub -->
-                                            </li>
-                                            <!-- .nk-menu-item -->
-                                            <li class="nk-menu-item has-sub">
-                                                <a href="#" class="nk-menu-link nk-menu-toggle">
-                                                    <span class="nk-menu-text">User Manage</span>
-                                                </a>
-                                                <ul class="nk-menu-sub">
-                                                    <li class="nk-menu-item">
-                                                        <a href="html/user-list-regular.html" class="nk-menu-link">
-                                                            <span class="nk-menu-text">User List - Regular</span></a>
-                                                    </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="html/user-list-compact.html" class="nk-menu-link">
-                                                            <span class="nk-menu-text">User List - Compact</span></a>
-                                                    </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="html/user-details-regular.html" class="nk-menu-link">
-                                                            <span class="nk-menu-text">User Details - Regular</span></a>
-                                                    </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="html/user-profile-regular.html" class="nk-menu-link">
-                                                            <span class="nk-menu-text">User Profile - Regular</span></a>
-                                                    </li>
-                                                    <li class="nk-menu-item">
-                                                        <a href="html/user-card.html" class="nk-menu-link">
-                                                            <span class="nk-menu-text">User Contact - Card</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <!-- .nk-menu-sub -->
-                                            </li>
-                                            <!-- .nk-menu-item -->
                                             <li class="nk-menu-item has-sub">
                                                 <a href="#" class="nk-menu-link nk-menu-toggle">
                                                     <span class="nk-menu-icon">
