@@ -11,7 +11,7 @@ class Register_model extends Model{
     }
     
     function getUserbyUsername(string $username){
-        return $this->db->select("SELECT * FROM users WHERE username = :username LIMIT 1", array("userame" => $userame));
+        return $this->db->select("SELECT * FROM users WHERE username = :username LIMIT 1", array("username" => $username));
     }
 
     function saveUser(array $data) {
