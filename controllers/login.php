@@ -19,6 +19,15 @@ class Login extends Controller
         $this->view->render('register/index', true);
     }
 
+    public function termes()
+    {
+        $this->view->render('pages/termes', true);
+    }
+    public function faq()
+    {
+        $this->view->render('pages/faq', true);
+    }
+
 
     public function handleLogin()
     {
