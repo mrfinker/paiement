@@ -27,25 +27,22 @@ $(document).ready(function () {
       success: function (res) {
         if (res.status === 200) {
           window.location.reload();
-          // Enregistrement réussi, afficher un SweetAlert de succès avec le message personnalisé
           Swal.fire({
             icon: 'success',
             title: 'Enregistrement réussi',
-            text: res.msg, // Utilisez le message personnalisé récupéré de la réponse
+            text: res.msg,
           });
-        } else if (res.status === 409) { // Ajout de cette condition
-            // En cas de conflit (code 409), afficher un SweetAlert d'erreur avec le message personnalisé
+        } else if (res.status === 409) {
             Swal.fire({
               icon: 'error',
-              title: 'Erreur lors de l\'ebregistrement',
+              title: 'Erreur lors de l\'enregistrement',
               text: res.msg,
             });
         } else {
-          // Enregistrement échoué, afficher un SweetAlert d'erreur avec le message personnalisé
           Swal.fire({
             icon: 'error',
             title: 'Erreur',
-            text: res.msg, // Utilisez le message personnalisé récupéré de la réponse
+            text: res.msg,
           });
         }
       },
