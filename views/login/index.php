@@ -87,9 +87,6 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="<?= URL ?>Politique">Politique de confidentialité</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="linked-solution.com">Aide</a>
-                                        </li>
                                     </ul>
                                 </div>
                                 <div class="col-lg-6">
