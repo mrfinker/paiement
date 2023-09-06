@@ -25,7 +25,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 switch (res.userRole) {
                     case 1:
-                        window.location = `${baseUrl}dashboarddashboard`;
+                        window.location = `${baseUrl}dashboard/superadmin`;
                         break;
                     case 2:
                         window.location = `${baseUrl}dashboard/admin`;
