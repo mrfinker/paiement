@@ -1,8 +1,9 @@
 <?php
 require_once "./libs/session.php";
 
-if (isset($_SESSION['users'])) {
+if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     $user = $_SESSION['users'];
+    $userType = $_SESSION['userType'];
 } else {
     header("Location" . LOGIN);
     exit;
