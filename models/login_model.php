@@ -20,11 +20,12 @@ class Login_model extends Model
 
     public function getUserByEmailOrUsernameWithRole(string $identifier)
     {
-        return $this->db->select("SELECT u.user_type_id
+        return $this->db->select("SELECT u.user_type_id, ut.name
         FROM users u
         INNER JOIN user_type ut ON u.user_type_id = ut.id_type
         WHERE u.email = :identifier OR u.username = :identifier
         LIMIT 1", array("identifier" => $identifier));
+
     }
 
 }
