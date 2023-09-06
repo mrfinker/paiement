@@ -10,7 +10,7 @@ class Dashboard extends Controller
 
     public function index()
     {
-        $this->view->render('dashboard/index', true);
+        $this->view->render('dashboard/superadmin', true);
     }
     public function admin()
     {
