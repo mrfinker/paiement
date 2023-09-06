@@ -47,7 +47,7 @@ class Login extends Controller
                         if (!empty($userType)) {
                             Session::set("users", $getUserByEmail[0]);
                             Session::set("userType", $userType[0]);
-                            echo json_encode(array("status" => 200, "msg" => "success"));
+                            echo json_encode(array("status" => 200, "msg" => "success", "userRole" => $userType[0]["user_type_id"], "TypeName" => $userType[0]["name"]));
                         } else {
                             echo json_encode(array("status" => 403, "msg" => "Erreur lors de la récupération du rôle"));
                         }
