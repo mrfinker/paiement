@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (isset($_SESSION['users']) && isset($_SESSION['userType'])!=='surperadmin') {
+if (isset($_SESSION['users']) && isset($_SESSION['TypeName'])!=='surperadmin') {
     $user = $_SESSION['users'];
     $userType = $_SESSION['userType'];
 } else {
