@@ -8,7 +8,7 @@ class Dashboard extends Controller
         $this->view->js = array("dashboard/js/dashboard.js");
     }
 
-    public function index()
+    public function superadmin()
     {
         $this->view->render('dashboard/superadmin', true);
     }
