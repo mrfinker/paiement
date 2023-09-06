@@ -1111,7 +1111,7 @@ if(isset($_SESSION['users'])){
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
-                                <p>Bonjour <?= $userRoleName; ?></p>
+                                <p>Bonjour <?= $user['user_type_id'] ?></p>
                             </div>
                         </div>
                     </div>
