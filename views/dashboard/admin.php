@@ -2,7 +2,7 @@
 require_once "./libs/session.php";
 Session::init();
 
-if (isset($_SESSION['users'])) {
+if (isset($_SESSION['users']) || isset($_SESSION[''])) {
     $user = $_SESSION['users'];
 } else {
     header("Location" . LOGIN);
