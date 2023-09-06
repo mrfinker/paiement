@@ -82,10 +82,10 @@
                             <div class="col-lg-6 order-lg-last">
                                     <ul class="nav nav-sm justify-content-center justify-content-lg-end">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="<?= URL ?>termes">Termes &amp; Condition</a>
+                                            <a class="nav-link" href="<?= URL ?>pages/termes">Termes &amp; Condition</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="<?= URL ?>faq">F.A.Q</a>
+                                            <a class="nav-link" href="<?= URL ?>pages/faq">F.A.Q</a>
                                         </li>
                                     </ul>
                                 </div>
