@@ -17,9 +17,37 @@ class Login extends Controller {
         $this->view->render('register/index', true);
     }
 
-    function dashboard(){
-        $this->view->render('dashboard/index', true);
+    function dashboard()
+    {
+        // Vérifiez si l'utilisateur est connecté
+        if (Session::get("users")) {
+            $userRole = Session::get("users")['role_type'];
+    
+            // Utilisez le rôle de l'utilisateur pour décider quel tableau de bord afficher
+            switch ($userRole) {
+                case 'superadmin':
+                    $this->view->render('dashboard/superadmin', true);
+                    break;
+                case 'admin':
+                    $this->view->render('dashboard/admin', true);
+                    break;
+                case 'company':
+                    $this->view->render('dashboard/company', true);
+                    break;
+                case 'staff':
+                    $this->view->render('dashboard/staff', true);
+                    break;
+                default:
+                    // Si le rôle n'est pas défini ou inconnu, redirigez l'utilisateur vers une page d'erreur ou le tableau de bord par défaut.
+                    $this->view->render('dashboard/default', true);
+                    break;
+            }
+        } else {
+            // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion.
+            $this->view->render('login/index', true);
+        }
     }
+    
 
     function handleRegister()
     {
