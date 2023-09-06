@@ -1,4 +1,5 @@
 <?php
+Session::init();
 
 if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     $user = $_SESSION['users'];

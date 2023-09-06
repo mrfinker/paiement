@@ -1,12 +1,17 @@
 <?php
-require_once "./libs/session.php";
+
 Session::init();
 
-if (isset($_SESSION['users']) || isset($_SESSION['userType'])) {
+if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     $user = $_SESSION['users'];
     $userType = $_SESSION['userType'];
 } else {
     header("Location" . LOGIN);
+    exit;
+}
+
+if (!isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "admin") {
+    header('Location: ' . ERROR);
     exit;
 }
 ?>
