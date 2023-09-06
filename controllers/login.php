@@ -19,11 +19,9 @@ class Login extends Controller {
 
     function dashboard()
     {
-        // Vérifiez si l'utilisateur est connecté
         if (Session::get("users")) {
             $userRole = Session::get("users")['role_type'];
     
-            // Utilisez le rôle de l'utilisateur pour décider quel tableau de bord afficher
             switch ($userRole) {
                 case 'superadmin':
                     $this->view->render('dashboard/superadmin', true);
@@ -39,7 +37,7 @@ class Login extends Controller {
                     break;
                 default:
                     // Si le rôle n'est pas défini ou inconnu, redirigez l'utilisateur vers une page d'erreur ou le tableau de bord par défaut.
-                    $this->view->render('dashboard/default', true);
+                    $this->view->render('error/default', true);
                     break;
             }
         } else {
