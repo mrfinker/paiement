@@ -16,6 +16,10 @@ class Dashboard extends Controller
     {
         $this->view->render('dashboard/admin', true);
     }
+    public function company()
+    {
+        $this->view->render('dashboard/company', true);
+    }
     public function staff()
     {
         $this->view->render('dashboard/staff', true);
