@@ -1,6 +1,5 @@
 <?php
 require_once("./libs/session.php");
-Session::init();
 
 if(isset($_SESSION['users'])){
     $user = $_SESSION['users'];
@@ -1137,7 +1136,6 @@ if(isset($_SESSION['users'])){
 
         <script src="<?= URL ?>public/assets/js/bundle.js?ver=3.2.0"></script>
         <script src="<?= URL ?>public/assets/js/scripts.js?ver=3.2.0"></script>
-        <script defer src="<?= URL ?>views/dashboard/js/dashboard.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </body>
 
