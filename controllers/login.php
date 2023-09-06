@@ -1,27 +1,29 @@
 <?php
 
-class Login extends Controller {
-    function __construct(){
+class Login extends Controller
+{
+    public function __construct()
+    {
         parent::__construct();
         Session::init();
         $this->view->js = array("login/js/login.js");
     }
 
-    function index()
+    public function index()
     {
         $this->view->render('login/index', true);
     }
 
-    function register()
+    public function register()
     {
         $this->view->render('register/index', true);
     }
 
-    function dashboard()
+    public function dashboard()
     {
         if (Session::get("users")) {
             $userRole = Session::get("users")['role_type'];
-    
+
             switch ($userRole) {
                 case 'superadmin':
                     $this->view->render('dashboard/superadmin', true);
@@ -46,16 +48,16 @@ class Login extends Controller {
         }
     }
 
-    function handleLogin()
-{
-    if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
-        $emailOrUsername = htmlspecialchars($_POST["email"]);
-        $password = htmlspecialchars($_POST["password"]);
-        
+    public function handleLogin()
+    {
+        if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
+            $emailOrUsername = htmlspecialchars($_POST["email"]);
+            $password = htmlspecialchars($_POST["password"]);
+
             if (!empty($getUser)) {
                 if (password_verify($password, $getUser[0]["password"])) {
                     Session::set("users", $getUser[0]);
-                    
+
                     switch ($getUser[0]["role_type"]) {
                         case 'superadmin':
                             echo json_encode(array("status" => 200, "msg" => "success", "redirect" => "dashboard/superadmin"));
@@ -73,16 +75,14 @@ class Login extends Controller {
                             echo json_encode(array("status" => 200, "msg" => "success", "redirect" => "dashboard/default"));
                             break;
                     }
-                } }
-    } else {
-        echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
+                }}
+        } else {
+            echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
+        }
     }
-}
 
-
-
-
-    function logout(){
+    public function logout()
+    {
         Session::destroy();
     }
 }
