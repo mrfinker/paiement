@@ -47,29 +47,52 @@ class Login extends Controller {
     }
 
     function handleLogin()
-    {
-        if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
-            $email = htmlspecialchars($_POST["email"]);
-            $password = htmlspecialchars($_POST["password"]);
-            if (!empty($email) && !empty($password)) {
-                $getUserByEmail = $this->model->getUserByEmail($email);
-                if (!empty($getUserByEmail)) {
-                    if (password_verify($password, $getUserByEmail[0]["password"])) {
-                        Session::set("users", $getUserByEmail[0]);
-                        echo json_encode(array("status" => 200, "msg" => "success"));
-                    } else {
-                        echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
+{
+    if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
+        $emailOrUsername = htmlspecialchars($_POST["email"]);
+        $password = htmlspecialchars($_POST["password"]);
+        
+        if (!empty($emailOrUsername) && !empty($password)) {
+            // Utilisez la fonction getUserByEmailOrUsernameWithRole pour obtenir l'utilisateur par son e-mail ou nom d'utilisateur.
+            $getUser = $this->model->getUserByEmailOrUsernameWithRole($emailOrUsername);
+            
+            if (!empty($getUser)) {
+                // Vérifiez le mot de passe.
+                if (password_verify($password, $getUser[0]["password"])) {
+                    // La connexion réussit, redirigez l'utilisateur en fonction de son rôle.
+                    Session::set("users", $getUser[0]);
+                    
+                    switch ($getUser[0]["role_type"]) {
+                        case 'superadmin':
+                            echo json_encode(array("status" => 200, "msg" => "success", "redirect" => "dashboard/superadmin"));
+                            break;
+                        case 'admin':
+                            echo json_encode(array("status" => 200, "msg" => "success", "redirect" => "dashboard/admin"));
+                            break;
+                        case 'company':
+                            echo json_encode(array("status" => 200, "msg" => "success", "redirect" => "dashboard/company"));
+                            break;
+                        case 'staff':
+                            echo json_encode(array("status" => 200, "msg" => "success", "redirect" => "dashboard/staff"));
+                            break;
+                        default:
+                            echo json_encode(array("status" => 200, "msg" => "success", "redirect" => "dashboard/default"));
+                            break;
                     }
                 } else {
                     echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
                 }
             } else {
-                echo json_encode(array("status" => 400, "msg" => "Tous les champs sont obligatoires"));
+                echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
             }
         } else {
-            echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
+            echo json_encode(array("status" => 400, "msg" => "Tous les champs sont obligatoires"));
         }
+    } else {
+        echo json_encode(array("status" => 401, "msg" => "Pas d'autorisation"));
     }
+}
+
 
 
 
