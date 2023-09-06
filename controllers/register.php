@@ -22,7 +22,7 @@ class Register extends Controller {
         $address = htmlspecialchars($_POST["address"]);
         $password = htmlspecialchars($_POST["password"]);
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        if (!$this->isUserExists($email)) {
+        if (!$this->isUserExists($email) && !$this->isUsernameTaken($username)) {
             if (strlen($password) >= 8) {
                 $data = array('name' => $name,
                 'email' => $email,
