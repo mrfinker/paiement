@@ -22,7 +22,7 @@ class Register extends Controller {
         $address = htmlspecialchars($_POST["address"]);
         $password = htmlspecialchars($_POST["password"]);
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        if (!$this->isUserExists($email) && !$this->isUsernameTaken($username)) {
+        if (!$this->isUserEmailExists($email) && !$this->isUsernameExists($username)) {
             if (strlen($password) >= 8) {
                 $data = array('name' => $name,
                 'email' => $email,
@@ -44,8 +44,17 @@ class Register extends Controller {
         }
     }
 
-    public function isUserExists($email) {
+    public function isUserEmailExists($email) {
         $stmt = $this->model->getUserbyEmail($email);
+        if (!empty($stmt)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function isUsernameExists($username) {
+        $stmt = $this->model->getUserbyUsername($username);
         if (!empty($stmt)) {
             return true;
         } else {
