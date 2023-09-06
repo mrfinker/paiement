@@ -85,7 +85,7 @@
                                             <a class="nav-link" href="<?= URL ?>termes">Termes &amp; Condition</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="<?= URL ?>Politique">Politique de confidentialité</a>
+                                            <a class="nav-link" href="<?= URL ?>faq">F.A.Q</a>
                                         </li>
                                     </ul>
                                 </div>
