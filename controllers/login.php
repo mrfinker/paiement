@@ -53,13 +53,10 @@ class Login extends Controller {
         $password = htmlspecialchars($_POST["password"]);
         
         if (!empty($emailOrUsername) && !empty($password)) {
-            // Utilisez la fonction getUserByEmailOrUsernameWithRole pour obtenir l'utilisateur par son e-mail ou nom d'utilisateur.
             $getUser = $this->model->getUserByEmailOrUsernameWithRole($emailOrUsername);
             
             if (!empty($getUser)) {
-                // Vérifiez le mot de passe.
                 if (password_verify($password, $getUser[0]["password"])) {
-                    // La connexion réussit, redirigez l'utilisateur en fonction de son rôle.
                     Session::set("users", $getUser[0]);
                     
                     switch ($getUser[0]["role_type"]) {
