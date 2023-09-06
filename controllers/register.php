@@ -1,7 +1,9 @@
 <?php
-class Register extends Controller {
+class Register extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         // if (!isset($this->user["privilege"]) || $this->user["privilege"] !== "admin" ) {
         //     header("location:".LOGIN);
@@ -9,12 +11,13 @@ class Register extends Controller {
         $this->view->js = array("register/js/register.js");
     }
 
-    function index()
+    public function index()
     {
         $this->view->render('register/index', true);
     }
 
-    public function handleRegister() {
+    public function handleRegister()
+    {
         $name = htmlspecialchars($_POST["name"]);
         $email = htmlspecialchars($_POST["email"]);
         $username = htmlspecialchars($_POST["username"]);
@@ -25,26 +28,27 @@ class Register extends Controller {
         if (!$this->isUserEmailExists($email) && !$this->isUsernameExists($username)) {
             if (strlen($password) >= 8) {
                 $data = array('name' => $name,
-                'email' => $email,
-                'username' => $username,
-                'password' => $hashedPassword,
-                'phone' => $phone,
-                'address' => $address);
+                    'email' => $email,
+                    'username' => $username,
+                    'password' => $hashedPassword,
+                    'phone' => $phone,
+                    'address' => $address);
                 $saveUser = $this->model->saveUser($data);
                 if ($saveUser) {
                     echo json_encode(array("status" => 200, "msg" => "success"));
                 } else {
                     echo json_encode(array("status" => 500, "msg" => "Une erreur se produite lors de l'enregistrement de l'utlisateur."));
                 }
-            }else {
+            } else {
                 echo json_encode(array("status" => 400, "msg" => "Le mot de passe doit avoir au moins 8 caractere"));
             }
-        }else {
+        } else {
             echo json_encode(array("status" => 409, "msg" => "L'email ou le username existe déjà."));
         }
     }
 
-    public function isUserEmailExists($email) {
+    public function isUserEmailExists($email)
+    {
         $stmt = $this->model->getUserbyEmail($email);
         if (!empty($stmt)) {
             return true;
@@ -52,8 +56,9 @@ class Register extends Controller {
             return false;
         }
     }
-    
-    public function isUsernameExists($username) {
+
+    public function isUsernameExists($username)
+    {
         $stmt = $this->model->getUserbyUsername($username);
         if (!empty($stmt)) {
             return true;
@@ -62,8 +67,8 @@ class Register extends Controller {
         }
     }
 
-    public function confirm_password($password, $c_password) {
+    public function confirm_password($password, $c_password)
+    {
         return $password === $c_password;
     }
 }
-?>

@@ -1,11 +1,11 @@
 <?php
 
-class Dashboard extends Controller{
-    function __construct(){
+class Dashboard extends Controller
+{
+    public function __construct()
+    {
         parent::__construct();
         $this->view->js = array("dashboard/js/dashboard.js");
     }
 
 }
-
-?>
