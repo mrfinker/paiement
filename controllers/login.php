@@ -102,6 +102,8 @@ class Login extends Controller {
 {
     if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
         if (isset($_POST["identifier"]) && isset($_POST["password"])) {
+            print_r($_POST["identifier"]);
+            die;
             $identifier = htmlspecialchars($_POST["identifier"]);
             $password = htmlspecialchars($_POST["password"]);
             if (!empty($identifier) && !empty($password)) {
