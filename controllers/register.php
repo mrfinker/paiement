@@ -40,7 +40,7 @@ class Register extends Controller {
                 echo json_encode(array("status" => 400, "msg" => "Le mot de passe doit avoir au moins 8 caractere"));
             }
         }else {
-            echo json_encode(array("status" => 409, "msg" => "L'email existe déjà."));
+            echo json_encode(array("status" => 409, "msg" => "L'email ou le username existe déjà."));
         }
     }
 
