@@ -22,9 +22,8 @@ if ($userType['name'] === "superadmin") {
     exit;
 }
 
-// Dans votre contrôleur ou vue appropriée
-$userData = $registerModel->getUserbyEmail($email); // Récupérez les données de l'utilisateur depuis la table "users"
 
+$userData = $registerModel->getUserbyEmail($email);
 if ($userData) {
     $companyData = $registerModel->getCompanyByCompanyId($userData['company_id']); // Récupérez le nom de la société
     $countryData = $registerModel->getCountryByCountryId($userData['country_id']); // Récupérez le nom du pays
