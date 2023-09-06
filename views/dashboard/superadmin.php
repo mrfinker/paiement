@@ -8,7 +8,7 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     exit;
 }
 
-if ($_SESSION['userRole'] !== 'superadmin') {
+if ($_SESSION['userType'] !== 1) {
     // Rediriger l'utilisateur vers la page d'erreur
     header("Location: ".ERROR);
     exit;
