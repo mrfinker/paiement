@@ -1,3 +1,14 @@
+<?php
+require_once("./libs/session.php");
+Session::init();
+
+if(isset($_SESSION['users'])){
+    $user = $_SESSION['users'];
+}else{
+    header("Location".LOGIN);
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
 
