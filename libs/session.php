@@ -25,7 +25,6 @@ class Session
 
   public static function destroy()
   {
-    session_start();
     session_unset();
     session_destroy();
     header("location:".LOGIN);
