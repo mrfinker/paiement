@@ -49,7 +49,7 @@ class Login extends Controller {
     function handleLogin()
 {
     if (isset($_POST["action"]) && $_POST['action'] == "jddiuanjkanciuSFDSFAEEEADS;sdiojd") {
-        $emailOrUsername = htmlspecialchars($_POST["email"]);
+        $emailOrUsername = htmlspecialchars($_POST["text"]);
         $password = htmlspecialchars($_POST["password"]);
         
         if (!empty($emailOrUsername) && !empty($password)) {
