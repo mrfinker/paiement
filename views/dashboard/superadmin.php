@@ -1110,7 +1110,7 @@ if (isset($_SESSION['users'])) {
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
-                                <p>Bonjour <?=$userType?></p>
+                                <p>Bonjour <?= $userType['name'] ?></p>
                             </div>
                         </div>
                     </div>
