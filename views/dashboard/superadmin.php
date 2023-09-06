@@ -1110,7 +1110,7 @@ if (isset($_SESSION['users'])) {
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
-                                <p>Bonjour <?=$userRoleName;?></p>
+                                <p>Bonjour <?=$userRoleName?></p>
                             </div>
                         </div>
                     </div>
