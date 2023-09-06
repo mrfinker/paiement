@@ -145,7 +145,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
-                                                        <a href="html/user-profile-regular.html">
+                                                        <a href="<?=URL?>dashboard/profileuser">
                                                             <em class="icon ni ni-user-alt"></em>
                                                             <span>View Profile</span></a>
                                                     </li>
