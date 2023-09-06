@@ -119,10 +119,7 @@ class Login extends Controller {
                 } else {
                     echo json_encode(array("status" => 403, "msg" => "Identifiant incorrect"));
                 }
-            } else {
-                echo json_encode(array("status" => 400, "msg" => "Tous les champs sont obligatoires"));
-            }
-        } else {
+            } 
             echo json_encode(array("status" => 400, "msg" => "Tous les champs sont obligatoires"));
         }
     } else {
