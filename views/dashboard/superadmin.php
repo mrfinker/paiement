@@ -1,16 +1,10 @@
 <?php
 
-session_start();
-if (isset($_SESSION['users']) && isset($_SESSION['TypeName'])!=='surperadmin') {
+if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     $user = $_SESSION['users'];
     $userType = $_SESSION['userType'];
 } else {
     header("Location" . LOGIN);
-    exit;
-}
-if ($_SESSION['TypeName'] !== 'superadmin') {
-    // Rediriger l'utilisateur vers la page d'erreur
-    header("Location: ".ERROR);
     exit;
 }
 
