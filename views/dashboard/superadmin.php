@@ -4,12 +4,28 @@ Session::init();
 if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     $user = $_SESSION['users'];
     $userType = $_SESSION['userType'];
-} else {
-    header("Location" . LOGIN);
+
+    // Si l'utilisateur est déjà connecté, redirigez-le vers le tableau de bord approprié
+    switch ($userType['name']) {
+        case 'superadmin':
+            header('Location: ' . SUPERADMIN_DASHBOARD);
+            exit;
+        case 'admin':
+            header('Location: ' . ADMIN_DASHBOARD);
+            exit;
+        // Ajoutez d'autres cas pour les types d'utilisateurs supplémentaires si nécessaire
+
+        default:
+            break;
+    }
+} elseif (!isset($_SESSION['users'])) {
+    // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
+    header('Location: ' . LOGIN);
     exit;
 }
 
-if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmin") {
+// Le reste de votre code (par exemple, vérification des droits pour l'accès à certaines pages)
+if ($_SESSION['userType']['name'] !== "admin") {
     header('Location: ' . ERROR);
     exit;
 }
