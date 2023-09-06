@@ -25,10 +25,9 @@ if ($userType['name'] === "superadmin") {
 
 $userData = $registerModel->getUserbyEmail($email);
 if ($userData) {
-    $companyData = $registerModel->getCompanyByCompanyId($userData['company_id']); // Récupérez le nom de la société
-    $countryData = $registerModel->getCountryByCountryId($userData['country_id']); // Récupérez le nom du pays
+    $companyData = $registerModel->getCompanyByCompanyId($userData['company_id']);
+    $countryData = $registerModel->getCountryByCountryId($userData['country_id']);
 
-    // Affichez les informations de l'utilisateur
     echo "Nom de l'utilisateur : " . $userData['name'] . "<br>";
     echo "Email : " . $userData['email'] . "<br>";
     echo "Nom de la société : " . $companyData['name'] . "<br>";
@@ -38,9 +37,7 @@ if ($userData) {
     echo "Adresse : " . $userData['address'] . "<br>";
     echo "Image : " . $userData['image'] . "<br>";
 
-    // Continuez à afficher d'autres informations si nécessaire
 } else {
-    // Gérez le cas où l'utilisateur n'a pas été trouvé
     echo "L'utilisateur n'a pas été trouvé.";
 }
 
