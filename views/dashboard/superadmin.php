@@ -1052,11 +1052,6 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
                                                         <span class="lead-text"><?=$user['username']?></span>
                                                         <span class="sub-text"><?=$user['email']?></span>
                                                     </div>
-                                                    <div class="user-action">
-                                                        <a class="btn btn-icon me-n2" href="html/user-profile-setting.html">
-                                                            <em class="icon ni ni-setting"></em>
-                                                        </a>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="dropdown-inner">
@@ -1070,16 +1065,6 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
                                                         <a href="html/user-profile-setting.html">
                                                             <em class="icon ni ni-setting-alt"></em>
                                                             <span>Account Setting</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="html/user-profile-activity.html">
-                                                            <em class="icon ni ni-activity-alt"></em>
-                                                            <span>Login Activity</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dark-mode-switch" href="#">
-                                                            <em class="icon ni ni-moon"></em>
-                                                            <span>Dark Mode</span></a>
                                                     </li>
                                                 </ul>
                                             </div>
