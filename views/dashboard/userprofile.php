@@ -1,18 +1,26 @@
 <?php
 Session::init();
-
-if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
-    $user = $_SESSION['users'];
-    $userType = $_SESSION['userType'];
-} else {
-    header("Location" . LOGIN);
-    exit;
-}
-
-if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
-    header('Location: ' . ERROR);
-    exit;
-}
+    
+    if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
+        $user = Session::get('users');
+        $userType = Session::get('userType');
+    } else {
+        header("Location: " . LOGIN);
+        exit;
+    }
+    
+    if ($userType['name'] === "superadmin") {
+        include('superadmin.php');
+    } elseif ($userType['name'] === "admin") {
+        include('admin.php');
+    } elseif ($userType['name'] === "staff") {
+        include('staff.php');
+    } elseif ($userType['name'] === "company") {
+        include('company.php');
+    } else {
+        header('Location: ' . ERROR);
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
