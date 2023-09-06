@@ -22,7 +22,6 @@ if ($userType['name'] === "superadmin") {
     exit;
 }
 
-
 $userData = $registerModel->getUserbyEmail($email);
 if ($userData) {
     $companyData = $registerModel->getCompanyByCompanyId($userData['company_id']);
