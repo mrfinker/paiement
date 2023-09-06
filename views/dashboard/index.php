@@ -1111,7 +1111,7 @@ if(isset($_SESSION['users'])){
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
-                                <p>Starter page for Demo6 layout.</p>
+                                <p>Bonjour <?= $userRoleName; ?></p>
                             </div>
                         </div>
                     </div>
