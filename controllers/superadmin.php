@@ -12,16 +12,12 @@ class Superadmin extends Controller
     {
         $this->view->render('superadmin/dashboard/index', true);
     }
-    public function admin()
+    public function category()
     {
         $this->view->render('superadmin/category/index', true);
     }
-    public function company()
+    public function settings()
     {
         $this->view->render('superadmin/settings/index', true);
-    }
-    public function staff()
-    {
-        $this->view->render('superadmin/staff/index', true);
     }
 }
