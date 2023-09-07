@@ -1,6 +1,6 @@
 <?php
 
-class Profileuser extends Controller
+class Profile extends Controller
 {
     public function __construct()
     {
@@ -8,8 +8,9 @@ class Profileuser extends Controller
         $this->view->js = array("dashboard/js/dashboard.js");
     }
 
-    public function profileuser()
+    public function profile($role)
     {
+        if($role === 'superadmin')
         $this->view->render('dashboard/profileuser', true);
     }
     
