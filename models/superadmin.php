@@ -1,6 +1,6 @@
 <?php
 
-class Register_model extends Model
+class Superadmin_model extends Model
 {
 
     public function __construct()
