@@ -833,18 +833,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                     </div>
                 </div>
                 <!-- JavaScript -->
-                <!-- footer @s -->
-                <div class="nk-footer bg-white">
-                    <div class="container-fluid">
-                        <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright">
-                                &copy; 2023
-                                <a href="" target="_blank">linked-solution</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- footer @e -->
             </div>
             <!-- wrap @e -->
         </div>
