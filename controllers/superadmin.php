@@ -13,4 +13,8 @@ class Superadmin extends Controller
     {
         $this->view->render('dashboard/superadmin/profile', true);
     }
+
+    public function affichage(){
+        
+    }
 }
