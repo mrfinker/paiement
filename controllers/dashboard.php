@@ -10,15 +10,15 @@ class Dashboard extends Controller
 
     public function superadmin()
     {
-        $this->view->render('dashboard/superadmin', true);
+        $this->view->render('superadmin/', true);
     }
     public function admin()
     {
-        $this->view->render('dashboard/admin', true);
+        $this->view->render('dashboard/admin/', true);
     }
     public function company()
     {
-        $this->view->render('dashboard/company', true);
+        $this->view->render('dashboard/company/', true);
     }
     public function staff()
     {
