@@ -260,8 +260,8 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                         class="card-hint icon ni ni-help-fill"
                                                                         data-bs-toggle="tooltip"
                                                                         data-bs-placement="left"
-                                                                        aria-label="Revenue from subscription"
-                                                                        data-bs-original-title="Revenue from subscription"></em>
+                                                                        aria-label="Revenue des abonnements"
+                                                                        data-bs-original-title="Revenue des abonnements"></em>
                                                                 </div>
                                                             </div>
                                                             <div
@@ -308,23 +308,23 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                 <div class="card-inner">
                                                                     <div class="card-title-group align-start mb-2">
                                                                         <div class="card-title">
-                                                                            <h6 class="title">Active Subscriptions</h6>
+                                                                            <h6 class="title">Nombre total d'abonnements</h6>
                                                                         </div>
                                                                         <div class="card-tools">
                                                                             <em
                                                                                 class="card-hint icon ni ni-help-fill"
                                                                                 data-bs-toggle="tooltip"
                                                                                 data-bs-placement="left"
-                                                                                aria-label="Total active subscription"
-                                                                                data-bs-original-title="Total active subscription"></em>
+                                                                                aria-label="Total abonnements"
+                                                                                data-bs-original-title="Total abonnements"></em>
                                                                         </div>
                                                                     </div>
                                                                     <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                                         <div class="nk-sale-data">
-                                                                            <span class="amount">9.69K</span>
+                                                                            <span class="amount">945</span>
                                                                             <span class="sub-title">
                                                                                 <span class="change down text-danger">
-                                                                                    <em class="icon ni ni-arrow-long-down"></em>1.93%</span>since last month</span>
+                                                                                    <em class="icon ni ni-arrow-long-down"></em>1.93%</span>par raport au mois passés</span>
                                                                         </div>
                                                                         <div class="nk-sales-ck">
                                                                             <div class="chartjs-size-monitor">
@@ -353,23 +353,23 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                 <div class="card-inner">
                                                                     <div class="card-title-group align-start mb-2">
                                                                         <div class="card-title">
-                                                                            <h6 class="title">Avg Subscriptions</h6>
+                                                                            <h6 class="title">Moyenne d'abonnements</h6>
                                                                         </div>
                                                                         <div class="card-tools">
                                                                             <em
                                                                                 class="card-hint icon ni ni-help-fill"
                                                                                 data-bs-toggle="tooltip"
                                                                                 data-bs-placement="left"
-                                                                                aria-label="Daily Avg. subscription"
-                                                                                data-bs-original-title="Daily Avg. subscription"></em>
+                                                                                aria-label="Abonnements moyenn par semaine"
+                                                                                data-bs-original-title="Abonnements moyenne par semaine"></em>
                                                                         </div>
                                                                     </div>
                                                                     <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                                         <div class="nk-sale-data">
-                                                                            <span class="amount">346.2</span>
+                                                                            <span class="amount">346</span>
                                                                             <span class="sub-title">
                                                                                 <span class="change up text-success">
-                                                                                    <em class="icon ni ni-arrow-long-up"></em>2.45%</span>since last week</span>
+                                                                                    <em class="icon ni ni-arrow-long-up"></em>2.45%</span>debut de cette semaine</span>
                                                                         </div>
                                                                         <div class="nk-sales-ck">
                                                                             <div class="chartjs-size-monitor">
