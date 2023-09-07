@@ -9,8 +9,8 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     exit;
 }
 
-if ($userType['name'] === "superadmin") {
-    include 'profilesuperadmin.php';
+if ($user['name'] === "superadmin") {
+    include 'superadmin.php';
 } elseif ($userType['name'] === "admin") {
     include 'admin.php';
 } elseif ($userType['name'] === "staff") {
