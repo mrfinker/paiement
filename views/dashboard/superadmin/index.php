@@ -669,21 +669,21 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                     <div class="card-inner">
                                                         <div class="card-title-group">
                                                             <div class="card-title">
-                                                                <h6 class="title">New Users</h6>
+                                                                <h6 class="title">Nouvelles utiliseurs</h6>
                                                             </div>
                                                             <div class="card-tools">
-                                                                <a href="html/user-list-regular.html" class="link">View All</a>
+                                                                <a href="html/user-list-regular.html" class="link">Tout voir</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="card-inner card-inner-md">
                                                         <div class="user-card">
                                                             <div class="user-avatar bg-primary-dim">
-                                                                <span>AB</span>
+                                                                <span>EB</span>
                                                             </div>
                                                             <div class="user-info">
-                                                                <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                                <span class="sub-text">info@softnio.com</span>
+                                                                <span class="lead-text">ECOBANK</span>
+                                                                <span class="sub-text">info@ecobank.com</span>
                                                             </div>
                                                             <div class="user-action">
                                                                 <div class="drodown">
@@ -699,12 +699,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                             <li>
                                                                                 <a href="#">
                                                                                     <em class="icon ni ni-setting"></em>
-                                                                                    <span>Action Settings</span></a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <em class="icon ni ni-notify"></em>
-                                                                                    <span>Push Notification</span></a>
+                                                                                    <span>voir le profile</span></a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -715,11 +710,11 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                     <div class="card-inner card-inner-md">
                                                         <div class="user-card">
                                                             <div class="user-avatar bg-pink-dim">
-                                                                <span>SW</span>
+                                                                <span>FB</span>
                                                             </div>
                                                             <div class="user-info">
-                                                                <span class="lead-text">Sharon Walker</span>
-                                                                <span class="sub-text">sharon-90@example.com</span>
+                                                                <span class="lead-text">FBNBANK</span>
+                                                                <span class="sub-text">info@fbnbank.com</span>
                                                             </div>
                                                             <div class="user-action">
                                                                 <div class="drodown">
@@ -735,12 +730,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                             <li>
                                                                                 <a href="#">
                                                                                     <em class="icon ni ni-setting"></em>
-                                                                                    <span>Action Settings</span></a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <em class="icon ni ni-notify"></em>
-                                                                                    <span>Push Notification</span></a>
+                                                                                    <span>Voir le profile</span></a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -751,11 +741,11 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                     <div class="card-inner card-inner-md">
                                                         <div class="user-card">
                                                             <div class="user-avatar bg-warning-dim">
-                                                                <span>GO</span>
+                                                                <span>LS</span>
                                                             </div>
                                                             <div class="user-info">
-                                                                <span class="lead-text">Gloria Oliver</span>
-                                                                <span class="sub-text">gloria_72@example.com</span>
+                                                                <span class="lead-text">LINKED-SOLUTION</span>
+                                                                <span class="sub-text">info@linked-solution.com</span>
                                                             </div>
                                                             <div class="user-action">
                                                                 <div class="drodown">
@@ -771,48 +761,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                             <li>
                                                                                 <a href="#">
                                                                                     <em class="icon ni ni-setting"></em>
-                                                                                    <span>Action Settings</span></a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <em class="icon ni ni-notify"></em>
-                                                                                    <span>Push Notification</span></a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-inner card-inner-md">
-                                                        <div class="user-card">
-                                                            <div class="user-avatar bg-success-dim">
-                                                                <span>PS</span>
-                                                            </div>
-                                                            <div class="user-info">
-                                                                <span class="lead-text">Phillip Sullivan</span>
-                                                                <span class="sub-text">phillip-85@example.com</span>
-                                                            </div>
-                                                            <div class="user-action">
-                                                                <div class="drodown">
-                                                                    <a
-                                                                        href="#"
-                                                                        class="dropdown-toggle btn btn-icon btn-trigger me-n1"
-                                                                        data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        <em class="icon ni ni-more-h"></em>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                                        <ul class="link-list-opt no-bdr">
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <em class="icon ni ni-setting"></em>
-                                                                                    <span>Action Settings</span></a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <em class="icon ni ni-notify"></em>
-                                                                                    <span>Push Notification</span></a>
+                                                                                    <span>Voir le profil</span></a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
