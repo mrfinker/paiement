@@ -8,7 +8,7 @@ class Superadmin_model extends Model
         parent::__construct();
     }
 
-    public function threeLast(string $id)
+    public function threeLast(int $id)
     {
         return $this->db->select("SELECT * FROM users ORDER BY id DESC LIMIT 3", array("id" => $id));
     }
