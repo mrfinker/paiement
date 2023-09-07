@@ -60,7 +60,7 @@
                                             <h4 class="nk-block-title">Connexion</h4>
                                             <div class="nk-block-des">
                                                 <p>Veuiller entrer vos coordonnées pour acceder a votre gestionnaire des données
-                                                    le plus complet.</p>
+                                                    .</p>
                                             </div>
                                         </div>
                                     </div>
