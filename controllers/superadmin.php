@@ -10,7 +10,7 @@ class Superadmin extends Controller
 
     public function superadmin()
     {
-        $this->view->render('superadmin/superadmin/index', true);
+        $this->view->render('superadmin/dashboard/index', true);
     }
     public function admin()
     {
