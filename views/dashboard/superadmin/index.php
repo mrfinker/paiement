@@ -423,18 +423,13 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span>Download Mini Version</span></a>
+                                                                                <span>Version PDF</span></a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span>Download Full Version</span></a>
+                                                                                <span>Version EXCEL</span></a>
                                                                         </li>
                                                                         <li class="divider"></li>
-                                                                        <li>
-                                                                            <a href="#">
-                                                                                <em class="icon ni ni-opt-alt"></em>
-                                                                                <span>More Options</span></a>
-                                                                        </li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -445,8 +440,8 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                             <span class="amount">$82,944.60</span>
                                                         </div>
                                                         <div class="nk-sale-data">
-                                                            <span class="amount sm">1,937
-                                                                <small>Subscribers</small>
+                                                            <span class="amount sm">9852
+                                                                <small>personnes dans la platforme</small>
                                                             </span>
                                                         </div>
                                                     </div>
