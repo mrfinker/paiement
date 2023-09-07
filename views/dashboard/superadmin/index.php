@@ -658,9 +658,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="card-inner-sm border-top text-center d-sm-none">
-                                                    <a href="#" class="btn btn-link btn-block">See History</a>
-                                                </div>
                                             </div>
                                             <!-- .card -->
                                         </div>
