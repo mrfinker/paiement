@@ -472,23 +472,14 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                     <div class="card-title-group">
                                                         <div class="card-title">
                                                             <h6 class="title">
-                                                                <span class="me-2">Transaction</span>
-                                                                <a href="#" class="link d-none d-sm-inline">See History</a>
+                                                                <span class="me-2">Paiment</span>
                                                             </h6>
                                                         </div>
                                                         <div class="card-tools">
                                                             <ul class="card-tools-nav">
-                                                                <li>
-                                                                    <a href="#">
-                                                                        <span>Paid</span></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="#">
-                                                                        <span>Pending</span></a>
-                                                                </li>
                                                                 <li class="active">
                                                                     <a href="#">
-                                                                        <span>All</span></a>
+                                                                        <span>Tout</span></a>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -498,15 +489,15 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                     <div class="nk-tb-list nk-tb-orders">
                                                         <div class="nk-tb-item nk-tb-head">
                                                             <div class="nk-tb-col">
-                                                                <span>Order No.</span></div>
+                                                                <span>No.</span></div>
                                                             <div class="nk-tb-col tb-col-sm">
-                                                                <span>Customer</span></div>
+                                                                <span>Compagnie</span></div>
                                                             <div class="nk-tb-col tb-col-md">
                                                                 <span>Date</span></div>
                                                             <div class="nk-tb-col tb-col-lg">
-                                                                <span>Ref</span></div>
+                                                                <span>Reference</span></div>
                                                             <div class="nk-tb-col">
-                                                                <span>Amount</span></div>
+                                                                <span>Montant</span></div>
                                                             <div class="nk-tb-col">
                                                                 <span class="d-none d-sm-inline">Status</span></div>
                                                             <div class="nk-tb-col">
@@ -524,18 +515,18 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                         <span>AB</span>
                                                                     </div>
                                                                     <div class="user-name">
-                                                                        <span class="tb-lead">Abu Bin Ishtiyak</span>
+                                                                        <span class="tb-lead">ECOBANK</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-md">
-                                                                <span class="tb-sub">02/11/2020</span>
+                                                                <span class="tb-sub">02/11/2023</span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-lg">
                                                                 <span class="tb-sub text-primary">SUB-2309232</span>
                                                             </div>
                                                             <div class="nk-tb-col">
-                                                                <span class="tb-sub tb-amount">4,596.75
+                                                                <span class="tb-sub tb-amount">496.75
                                                                     <span>USD</span></span>
                                                             </div>
                                                             <div class="nk-tb-col">
@@ -551,13 +542,13 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
                                                                         <ul class="link-list-plain">
                                                                             <li>
-                                                                                <a href="#">View</a>
+                                                                                <a href="#">Voir</a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="#">Invoice</a>
+                                                                                <a href="#">Facture</a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="#">Print</a>
+                                                                                <a href="#">Imprimer</a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -576,12 +567,12 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                         <span>DE</span>
                                                                     </div>
                                                                     <div class="user-name">
-                                                                        <span class="tb-lead">Desiree Edwards</span>
+                                                                        <span class="tb-lead">FBNBANK</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-md">
-                                                                <span class="tb-sub">02/02/2020</span>
+                                                                <span class="tb-sub">02/02/2023</span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-lg">
                                                                 <span class="tb-sub text-primary">SUB-2309154</span>
@@ -591,7 +582,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                     <span>USD</span></span>
                                                             </div>
                                                             <div class="nk-tb-col">
-                                                                <span class="badge badge-dot badge-dot-xs bg-danger">Canceled</span>
+                                                                <span class="badge badge-dot badge-dot-xs bg-danger">Annuler</span>
                                                             </div>
                                                             <div class="nk-tb-col nk-tb-col-action">
                                                                 <div class="dropdown">
@@ -603,10 +594,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
                                                                         <ul class="link-list-plain">
                                                                             <li>
-                                                                                <a href="#">View</a>
+                                                                                <a href="#">Voir</a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="#">Remove</a>
+                                                                                <a href="#">Supprimer</a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -625,12 +616,12 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                         <img src="./images/avatar/b-sm.jpg" alt="">
                                                                     </div>
                                                                     <div class="user-name">
-                                                                        <span class="tb-lead">Blanca Schultz</span>
+                                                                        <span class="tb-lead">LINKED-SOLUTION</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-md">
-                                                                <span class="tb-sub">02/01/2020</span>
+                                                                <span class="tb-sub">02/01/2023</span>
                                                             </div>
                                                             <div class="nk-tb-col tb-col-lg">
                                                                 <span class="tb-sub text-primary">SUB-2309143</span>
@@ -640,7 +631,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                     <span>USD</span></span>
                                                             </div>
                                                             <div class="nk-tb-col">
-                                                                <span class="badge badge-dot badge-dot-xs bg-success">Paid</span>
+                                                                <span class="badge badge-dot badge-dot-xs bg-success">Payé</span>
                                                             </div>
                                                             <div class="nk-tb-col nk-tb-col-action">
                                                                 <div class="dropdown">
@@ -652,13 +643,13 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
                                                                         <ul class="link-list-plain">
                                                                             <li>
-                                                                                <a href="#">View</a>
+                                                                                <a href="#">Voir</a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="#">Invoice</a>
+                                                                                <a href="#">Facture</a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="#">Print</a>
+                                                                                <a href="#">Imprimer</a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
