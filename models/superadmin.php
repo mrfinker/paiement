@@ -8,9 +8,9 @@ class Register_model extends Model
         parent::__construct();
     }
 
-    public function threeLast(string $email)
+    public function threeLast(string $id)
     {
-        return $this->db->select("SELECT * FROM users ORDER BY id DESC LIMIT 3 WHERE email = :email LIMIT 1", array("email" => $email));
+        return $this->db->select("SELECT * FROM users ORDER BY id DESC LIMIT 3", array("id" => $id));
     }
 
 }
