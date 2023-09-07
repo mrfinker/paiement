@@ -14,8 +14,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
     exit;
 }
 
-
-
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
@@ -188,8 +186,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                             <h3 class="nk-block-title page-title">Dashboard</h3>
                                             <div class="nk-block-des text-soft">
                                                 <p>Bonjour
-                                                    <?= $userType['name'] ?></p>
-                                                <p>Analyse de votre systeme</p>
+                                                    <?=$userType['name']?></p>
                                             </div>
                                         </div>
                                         <!-- .nk-block-head-content -->
@@ -210,23 +207,23 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                     class="dropdown-toggle btn btn-white btn-dim btn-outline-light"
                                                                     data-bs-toggle="dropdown"
                                                                     aria-expanded="false">
-                                                                    <em class="d-none d-sm-inline icon ni ni-calender-date"></em><span><span class="d-none d-md-inline">Last</span>
-                                                                        30 Days</span>
+                                                                    <em class="d-none d-sm-inline icon ni ni-calender-date"></em><span><span class="d-none d-md-inline">Derniers</span>
+                                                                        30 Jours</span>
                                                                     <em class="dd-indc icon ni ni-chevron-right"></em>
                                                                 </a>
-                                                                <div class="dropdown-menu dropdown-menu-end" style="">
+                                                                <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span>Last 30 Days</span></a>
+                                                                                <span> 30 jours</span></a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span>Last 6 Months</span></a>
+                                                                                <span> 6 Mois</span></a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span>Last 1 Years</span></a>
+                                                                                <span> 1 Année</span></a>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -235,7 +232,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                         <li class="nk-block-tools-opt">
                                                             <a href="#" class="btn btn-primary">
                                                                 <em class="icon ni ni-reports"></em>
-                                                                <span>Reports</span></a>
+                                                                <span>Rapports</span></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -255,8 +252,8 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                         <div class="card-inner">
                                                             <div class="card-title-group align-start mb-2">
                                                                 <div class="card-title">
-                                                                    <h6 class="title">Sales Revenue</h6>
-                                                                    <p>In last 30 days revenue from subscription.</p>
+                                                                    <h6 class="title">Les abonnements</h6>
+                                                                    <p>Revenue de 30 derniers jours.</p>
                                                                 </div>
                                                                 <div class="card-tools">
                                                                     <em
@@ -274,13 +271,13 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                         <span class="amount">59
                                                                             <span class="change down text-danger">
                                                                                 <em class="icon ni ni-arrow-long-down"></em>16.93%</span></span>
-                                                                        <span class="sub-title">This Month</span>
+                                                                        <span class="sub-title">Ce mois</span>
                                                                     </div>
                                                                     <div class="nk-sale-data">
                                                                         <span class="amount">29
                                                                             <span class="change up text-success">
                                                                                 <em class="icon ni ni-arrow-long-up"></em>4.26%</span></span>
-                                                                        <span class="sub-title">This Week</span>
+                                                                        <span class="sub-title">Cette semaine</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="nk-sales-ck sales-revenue">
