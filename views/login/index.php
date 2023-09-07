@@ -43,12 +43,10 @@
                                     <img
                                         class="logo-light logo-img logo-img-lg"
                                         src="public/images/logo.png"
-                                        srcset="public/images/logo2x.png 2x"
                                         alt="logo">
                                     <img
                                         class="logo-dark logo-img logo-img-lg"
                                         src="public/images/logo-dark.png"
-                                        srcset="public/images/logo-dark2x.png 2x"
                                         alt="logo-dark">
                                 </a>
                             </div>
