@@ -102,13 +102,20 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                     <!-- .nk-menu-item -->
                                     <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-text">Gestion des utilisateurs</span>
+                                            <span class="nk-menu-text">utilisateurs</span>
                                         </a>
                                         <ul class="nk-menu-sub">
                                             <li class="nk-menu-item">
                                                 <a href="html/index.html" class="nk-menu-link">
                                                     <span class="nk-menu-text">Affectations des privileges</span>
                                                 </a>
+                                            </li><!-- .nk-menu-item -->
+                                            <li class="nk-menu-item">
+                                                <a href="html/index-sales.html" class="nk-menu-link">
+                                                    <span class="nk-menu-text">administrateur</span>
+                                                </a>
+                                            </li>
+                                            <!-- .nk-menu-item -->
                                             </li><!-- .nk-menu-item -->
                                             <li class="nk-menu-item">
                                                 <a href="html/index-sales.html" class="nk-menu-link">
