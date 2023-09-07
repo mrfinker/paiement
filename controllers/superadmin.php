@@ -5,16 +5,23 @@ class Superadmin extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->view->js = array("dashboard/js/dashboard.js");
+        $this->view->js = array("superadmin/js/superadmin.js");
     }
 
-    
-    public function profile()
+    public function index()
     {
-        $this->view->render('dashboard/superadmin/profile', true);
+        $this->view->render('superadmin/dashboard/index', true);
     }
-
-    public function affichage(){
-        
+    public function admin()
+    {
+        $this->view->render('superadmin/category/index', true);
+    }
+    public function company()
+    {
+        $this->view->render('superadmin/settings/index', true);
+    }
+    public function staff()
+    {
+        $this->view->render('superadmin/staff/index', true);
     }
 }
