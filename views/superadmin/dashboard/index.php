@@ -804,4 +804,12 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </body>
 
+    <?php
+        if (isset($this->js)) {
+            foreach ($this->js as $js) {
+                echo '<script src="' . URL . 'views/' . $js . '"></script>';
+            }
+        }
+    ?>
+
 </html>
