@@ -10,14 +10,14 @@ class Superadmin extends Controller
 
     public function index()
     {
-        $this->view->render('superadmin/dashboard/index', true);
+        $this->view->render('dashboard/index', true);
     }
     public function category()
     {
-        $this->view->render('superadmin/category/index', true);
+        $this->view->render('category/index', true);
     }
     public function settings()
     {
-        $this->view->render('superadmin/settings/index', true);
+        $this->view->render('settings/index', true);
     }
 }
