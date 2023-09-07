@@ -25,16 +25,16 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 switch (res.userRole) {
                     case 1:
-                        window.location = `${baseUrl}superadmin/dashboard`;
+                        window.location = `${baseUrl}dashboard/superadmin`;
                         break;
                     case 2:
-                        window.location = `${baseUrl}admin/dashboard`;
+                        window.location = `${baseUrl}dashboard/admin`;
                         break;
                     case 3:
-                        window.location = `${baseUrl}company/dashboard`;
+                        window.location = `${baseUrl}dashboard/company`;
                         break;
                     case 4:
-                        window.location = `${baseUrl}staff/dashboard`;
+                        window.location = `${baseUrl}dashboard/staff`;
                         break;
                     default:
                         window.location = `${baseUrl}error/index`;
