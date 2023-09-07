@@ -7,5 +7,9 @@ class Profile extends Controller
         parent::__construct();
         $this->view->js = array("dashboard/js/dashboard.js");
     }
+
+    public function noir(){
+        
+    }
     
 }
