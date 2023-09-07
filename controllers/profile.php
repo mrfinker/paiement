@@ -10,8 +10,9 @@ class Profile extends Controller
 
     public function profile($role)
     {
-        if($role === 'superadmin')
-        $this->view->render('dashboard/profileuser', true);
+        if($role === 'superadmin'){
+            $this->view->render('dashboard/profileuser', true);
+        }
     }
     
 }
