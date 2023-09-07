@@ -229,11 +229,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <li class="nk-block-tools-opt">
-                                                            <a href="#" class="btn btn-primary">
-                                                                <em class="icon ni ni-reports"></em>
-                                                                <span>Rapports</span></a>
-                                                        </li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -406,9 +401,8 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                 <div class="card-inner">
                                                     <div class="card-title-group align-start gx-3 mb-3">
                                                         <div class="card-title">
-                                                            <h6 class="title">Sales Overview</h6>
-                                                            <p>In 30 days sales of product subscription.
-                                                                <a href="#">See Details</a>
+                                                            <h6 class="title">Vue d'ensemble</h6>
+                                                            <p>Abonnements des 30 derniers jours
                                                             </p>
                                                         </div>
                                                         <div class="card-tools">
@@ -417,8 +411,8 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                     href="#"
                                                                     class="btn btn-primary btn-dim d-none d-sm-inline-flex"
                                                                     data-bs-toggle="dropdown">
-                                                                    <em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span>
-                                                                        Report</span></a>
+                                                                    <em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Telecharger</span>
+                                                                        le rapport</span></a>
                                                                 <a
                                                                     href="#"
                                                                     class="btn btn-icon btn-primary btn-dim d-sm-none"
