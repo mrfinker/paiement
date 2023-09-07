@@ -145,7 +145,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
-                                                        <a href="<?=URL?>dashboard/profile">
+                                                        <a href="<?=URL?>dashboard/superadmin/profile">
                                                             <em class="icon ni ni-user-alt"></em>
                                                             <span>View Profile</span></a>
                                                     </li>
@@ -196,7 +196,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                         <div class="nk-footer-wrap">
                             <div class="nk-footer-copyright">
                                 &copy; 2023
-                                <a href="https://linked-solution" target="_blank">linked-solution</a>
+                                <a href="" target="_blank">linked-solution</a>
                             </div>
                         </div>
                     </div>
