@@ -8,16 +8,20 @@ class Dashboard extends Controller
         $this->view->js = array("dashboard/js/dashboard.js");
     }
 
-    public function index()
+    public function superadmin()
     {
-        $this->view->render('superadmin/dashboard/index', true);
+        $this->view->render('dashboard/superadmin/index', true);
     }
-    public function category()
+    public function admin()
     {
-        $this->view->render('superadmin/category/index', true);
+        $this->view->render('dashboard/admin/index', true);
     }
-    public function settings()
+    public function company()
     {
-        $this->view->render('superadmin/settings/index', true);
+        $this->view->render('dashboard/company/index', true);
+    }
+    public function staff()
+    {
+        $this->view->render('dashboard/staff/index', true);
     }
 }
