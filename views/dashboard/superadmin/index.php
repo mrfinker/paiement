@@ -664,62 +664,162 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                         <!-- .col -->
                                         <div class="col-md-6 col-xxl-4">
                                             <div class="card card-bordered card-full">
-                                                <div class="card-inner border-bottom">
-                                                    <div class="card-title-group">
-                                                        <div class="card-title">
-                                                            <h6 class="title">Recent Activities</h6>
+                                                <div class="card-inner-group">
+                                                    <div class="card-inner">
+                                                        <div class="card-title-group">
+                                                            <div class="card-title">
+                                                                <h6 class="title">New Users</h6>
+                                                            </div>
+                                                            <div class="card-tools">
+                                                                <a href="html/user-list-regular.html" class="link">View All</a>
+                                                            </div>
                                                         </div>
-                                                        <div class="card-tools">
-                                                            <ul class="card-tools-nav">
-                                                                <li>
-                                                                    <a href="#">
-                                                                        <span>Cancel</span></a>
-                                                                </li>
-                                                                <li class="active">
-                                                                    <a href="#">
-                                                                        <span>All</span></a>
-                                                                </li>
-                                                            </ul>
+                                                    </div>
+                                                    <div class="card-inner card-inner-md">
+                                                        <div class="user-card">
+                                                            <div class="user-avatar bg-primary-dim">
+                                                                <span>AB</span>
+                                                            </div>
+                                                            <div class="user-info">
+                                                                <span class="lead-text">Abu Bin Ishtiyak</span>
+                                                                <span class="sub-text">info@softnio.com</span>
+                                                            </div>
+                                                            <div class="user-action">
+                                                                <div class="drodown">
+                                                                    <a
+                                                                        href="#"
+                                                                        class="dropdown-toggle btn btn-icon btn-trigger me-n1"
+                                                                        data-bs-toggle="dropdown"
+                                                                        aria-expanded="false">
+                                                                        <em class="icon ni ni-more-h"></em>
+                                                                    </a>
+                                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                                        <ul class="link-list-opt no-bdr">
+                                                                            <li>
+                                                                                <a href="#">
+                                                                                    <em class="icon ni ni-setting"></em>
+                                                                                    <span>Action Settings</span></a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="#">
+                                                                                    <em class="icon ni ni-notify"></em>
+                                                                                    <span>Push Notification</span></a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-inner card-inner-md">
+                                                        <div class="user-card">
+                                                            <div class="user-avatar bg-pink-dim">
+                                                                <span>SW</span>
+                                                            </div>
+                                                            <div class="user-info">
+                                                                <span class="lead-text">Sharon Walker</span>
+                                                                <span class="sub-text">sharon-90@example.com</span>
+                                                            </div>
+                                                            <div class="user-action">
+                                                                <div class="drodown">
+                                                                    <a
+                                                                        href="#"
+                                                                        class="dropdown-toggle btn btn-icon btn-trigger me-n1"
+                                                                        data-bs-toggle="dropdown"
+                                                                        aria-expanded="false">
+                                                                        <em class="icon ni ni-more-h"></em>
+                                                                    </a>
+                                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                                        <ul class="link-list-opt no-bdr">
+                                                                            <li>
+                                                                                <a href="#">
+                                                                                    <em class="icon ni ni-setting"></em>
+                                                                                    <span>Action Settings</span></a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="#">
+                                                                                    <em class="icon ni ni-notify"></em>
+                                                                                    <span>Push Notification</span></a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-inner card-inner-md">
+                                                        <div class="user-card">
+                                                            <div class="user-avatar bg-warning-dim">
+                                                                <span>GO</span>
+                                                            </div>
+                                                            <div class="user-info">
+                                                                <span class="lead-text">Gloria Oliver</span>
+                                                                <span class="sub-text">gloria_72@example.com</span>
+                                                            </div>
+                                                            <div class="user-action">
+                                                                <div class="drodown">
+                                                                    <a
+                                                                        href="#"
+                                                                        class="dropdown-toggle btn btn-icon btn-trigger me-n1"
+                                                                        data-bs-toggle="dropdown"
+                                                                        aria-expanded="false">
+                                                                        <em class="icon ni ni-more-h"></em>
+                                                                    </a>
+                                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                                        <ul class="link-list-opt no-bdr">
+                                                                            <li>
+                                                                                <a href="#">
+                                                                                    <em class="icon ni ni-setting"></em>
+                                                                                    <span>Action Settings</span></a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="#">
+                                                                                    <em class="icon ni ni-notify"></em>
+                                                                                    <span>Push Notification</span></a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-inner card-inner-md">
+                                                        <div class="user-card">
+                                                            <div class="user-avatar bg-success-dim">
+                                                                <span>PS</span>
+                                                            </div>
+                                                            <div class="user-info">
+                                                                <span class="lead-text">Phillip Sullivan</span>
+                                                                <span class="sub-text">phillip-85@example.com</span>
+                                                            </div>
+                                                            <div class="user-action">
+                                                                <div class="drodown">
+                                                                    <a
+                                                                        href="#"
+                                                                        class="dropdown-toggle btn btn-icon btn-trigger me-n1"
+                                                                        data-bs-toggle="dropdown"
+                                                                        aria-expanded="false">
+                                                                        <em class="icon ni ni-more-h"></em>
+                                                                    </a>
+                                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                                        <ul class="link-list-opt no-bdr">
+                                                                            <li>
+                                                                                <a href="#">
+                                                                                    <em class="icon ni ni-setting"></em>
+                                                                                    <span>Action Settings</span></a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="#">
+                                                                                    <em class="icon ni ni-notify"></em>
+                                                                                    <span>Push Notification</span></a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <ul class="nk-activity">
-                                                    <li class="nk-activity-item">
-                                                        <div class="nk-activity-media user-avatar bg-success"><img src="./images/avatar/c-sm.jpg" alt=""></div>
-                                                        <div class="nk-activity-data">
-                                                            <div class="label">Keith Jensen requested to Widthdrawl.</div>
-                                                            <span class="time">2 hours ago</span>
-                                                        </div>
-                                                    </li>
-                                                    <li class="nk-activity-item">
-                                                        <div class="nk-activity-media user-avatar bg-warning">HS</div>
-                                                        <div class="nk-activity-data">
-                                                            <div class="label">Harry Simpson placed a Order.</div>
-                                                            <span class="time">2 hours ago</span>
-                                                        </div>
-                                                    </li>
-                                                    <li class="nk-activity-item">
-                                                        <div class="nk-activity-media user-avatar bg-azure">SM</div>
-                                                        <div class="nk-activity-data">
-                                                            <div class="label">Stephanie Marshall got a huge bonus.</div>
-                                                            <span class="time">2 hours ago</span>
-                                                        </div>
-                                                    </li>
-                                                    <li class="nk-activity-item">
-                                                        <div class="nk-activity-media user-avatar bg-purple"><img src="./images/avatar/d-sm.jpg" alt=""></div>
-                                                        <div class="nk-activity-data">
-                                                            <div class="label">Nicholas Carr deposited funds.</div>
-                                                            <span class="time">2 hours ago</span>
-                                                        </div>
-                                                    </li>
-                                                    <li class="nk-activity-item">
-                                                        <div class="nk-activity-media user-avatar bg-pink">TM</div>
-                                                        <div class="nk-activity-data">
-                                                            <div class="label">Timothy Moreno placed a Order.</div>
-                                                            <span class="time">2 hours ago</span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
                                             </div>
                                             <!-- .card -->
                                         </div>
