@@ -656,58 +656,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="nk-tb-item">
-                                                            <div class="nk-tb-col">
-                                                                <span class="tb-lead">
-                                                                    <a href="#">#95135</a>
-                                                                </span>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-sm">
-                                                                <div class="user-card">
-                                                                    <div class="user-avatar user-avatar-sm bg-success">
-                                                                        <span>CH</span>
-                                                                    </div>
-                                                                    <div class="user-name">
-                                                                        <span class="tb-lead">Cassandra Hogan</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-md">
-                                                                <span class="tb-sub">01/29/2020</span>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-lg">
-                                                                <span class="tb-sub text-primary">SUB-2305564</span>
-                                                            </div>
-                                                            <div class="nk-tb-col">
-                                                                <span class="tb-sub tb-amount">1099.99
-                                                                    <span>USD</span></span>
-                                                            </div>
-                                                            <div class="nk-tb-col">
-                                                                <span class="badge badge-dot badge-dot-xs bg-warning">Due</span>
-                                                            </div>
-                                                            <div class="nk-tb-col nk-tb-col-action">
-                                                                <div class="dropdown">
-                                                                    <a
-                                                                        class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                                                        data-bs-toggle="dropdown">
-                                                                        <em class="icon ni ni-more-h"></em>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                                        <ul class="link-list-plain">
-                                                                            <li>
-                                                                                <a href="#">View</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">Invoice</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">Notify</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="card-inner-sm border-top text-center d-sm-none">
