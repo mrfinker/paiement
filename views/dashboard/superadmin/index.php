@@ -671,9 +671,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                             <div class="card-title">
                                                                 <h6 class="title">Nouvelles utiliseurs</h6>
                                                             </div>
-                                                            <div class="card-tools">
-                                                                <a href="html/user-list-regular.html" class="link">Tout voir</a>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="card-inner card-inner-md">
