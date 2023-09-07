@@ -108,7 +108,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                     <!-- .nk-menu-item -->
                                     <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link">
-                                            <span class="nk-menu-text">Pages</span>
+                                            <span class="nk-menu-text">Gestions utilisateurs</span>
                                         </a>
                                     </li>
                                 </ul>
