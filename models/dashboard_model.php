@@ -8,7 +8,7 @@ class Dashboard_model extends Model
         parent::__construct();
     }
 
-    public function threeLast()
+    public function threeLast(int $id)
     {
         return $this->db->select("SELECT * FROM users ORDER BY id DESC LIMIT 3");
     }

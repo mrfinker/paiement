@@ -22,4 +22,15 @@ class Register_model extends Model
     {
         return $this->db->insert("users", $data);
     }
+
+    public function getCompanyByCompanyId(int $companyId)
+    {
+        return $this->db->select("SELECT name FROM company WHERE id = :companyId LIMIT 1", array("companyId" => $companyId));
+    }
+
+    public function getCountryByCountryId(int $countryId)
+    {
+        return $this->db->select("SELECT name FROM country WHERE id = :countryId LIMIT 1", array("countryId" => $countryId));
+    }
+
 }

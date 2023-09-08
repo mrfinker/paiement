@@ -14,7 +14,8 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
     exit;
 }
 
-
+$dashboardModel = new Dashboard_model();
+$users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
 
 ?>
 <!DOCTYPE html>
