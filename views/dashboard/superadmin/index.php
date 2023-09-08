@@ -14,6 +14,8 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
     exit;
 }
 
+
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="js">
@@ -95,14 +97,14 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                 </div>
                                 <ul class="nk-menu nk-menu-main ui-s2">
                                     <li class="nk-menu-item has-sub">
-                                        <a href="<?= URL ?>dashboard/superadmin" class="nk-menu-link">
+                                        <a href="<?=URL?>dashboard/superadmin" class="nk-menu-link">
                                             <span class="nk-menu-text">Dashboards</span>
                                         </a>
                                     </li>
                                     <!-- .nk-menu-item -->
                                     <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
-                                            <span class="nk-menu-text">utilisateurs</span>
+                                            <span class="nk-menu-text">Utilisateurs</span>
                                         </a>
                                         <ul class="nk-menu-sub">
                                             <li class="nk-menu-item">
@@ -112,14 +114,14 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                             </li><!-- .nk-menu-item -->
                                             <li class="nk-menu-item">
                                                 <a href="html/index-sales.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">administrateur</span>
+                                                    <span class="nk-menu-text">Administrations</span>
                                                 </a>
                                             </li>
                                             <!-- .nk-menu-item -->
                                             </li><!-- .nk-menu-item -->
                                             <li class="nk-menu-item">
                                                 <a href="html/index-sales.html" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Enregistrements compagnie</span>
+                                                    <span class="nk-menu-text">Compagnies</span>
                                                 </a>
                                             </li>
                                             <!-- .nk-menu-item -->
@@ -155,14 +157,9 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
-                                                        <a href="<?=URL?>dashboard/superadmin/profile">
+                                                        <a href="<?=URL?>profile/superadmin">
                                                             <em class="icon ni ni-user-alt"></em>
                                                             <span>View Profile</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="html/user-profile-setting.html">
-                                                            <em class="icon ni ni-setting-alt"></em>
-                                                            <span>Account Setting</span></a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -200,7 +197,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                             <h3 class="nk-block-title page-title">Dashboard</h3>
                                             <div class="nk-block-des text-soft">
                                                 <p>Bonjour
-                                                    <?=$userType['name']?></p>
+                                                    <?=$user['name']?></p>
                                             </div>
                                         </div>
                                         <!-- .nk-block-head-content -->
@@ -517,159 +514,57 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                             <div class="nk-tb-col">
                                                                 <span>&nbsp;</span></div>
                                                         </div>
-                                                        <div class="nk-tb-item">
-                                                            <div class="nk-tb-col">
-                                                                <span class="tb-lead">
-                                                                    <a href="#">#95954</a>
-                                                                </span>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-sm">
-                                                                <div class="user-card">
-                                                                    <div class="user-avatar user-avatar-sm bg-purple">
-                                                                        <span>AB</span>
-                                                                    </div>
-                                                                    <div class="user-name">
-                                                                        <span class="tb-lead">ECOBANK</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-md">
-                                                                <span class="tb-sub">02/11/2023</span>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-lg">
-                                                                <span class="tb-sub text-primary">SUB-2309232</span>
-                                                            </div>
-                                                            <div class="nk-tb-col">
-                                                                <span class="tb-sub tb-amount">496.75
-                                                                    <span>USD</span></span>
-                                                            </div>
-                                                            <div class="nk-tb-col">
-                                                                <span class="badge badge-dot badge-dot-xs bg-success">Paid</span>
-                                                            </div>
-                                                            <div class="nk-tb-col nk-tb-col-action">
-                                                                <div class="dropdown">
-                                                                    <a
-                                                                        class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                                                        data-bs-toggle="dropdown">
-                                                                        <em class="icon ni ni-more-h"></em>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                                        <ul class="link-list-plain">
-                                                                            <li>
-                                                                                <a href="#">Voir</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">Facture</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">Imprimer</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="nk-tb-item">
-                                                            <div class="nk-tb-col">
-                                                                <span class="tb-lead">
-                                                                    <a href="#">#95850</a>
-                                                                </span>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-sm">
-                                                                <div class="user-card">
-                                                                    <div class="user-avatar user-avatar-sm bg-azure">
-                                                                        <span>DE</span>
-                                                                    </div>
-                                                                    <div class="user-name">
-                                                                        <span class="tb-lead">FBNBANK</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-md">
-                                                                <span class="tb-sub">02/02/2023</span>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-lg">
-                                                                <span class="tb-sub text-primary">SUB-2309154</span>
-                                                            </div>
-                                                            <div class="nk-tb-col">
-                                                                <span class="tb-sub tb-amount">596.75
-                                                                    <span>USD</span></span>
-                                                            </div>
-                                                            <div class="nk-tb-col">
-                                                                <span class="badge badge-dot badge-dot-xs bg-danger">Annuler</span>
-                                                            </div>
-                                                            <div class="nk-tb-col nk-tb-col-action">
-                                                                <div class="dropdown">
-                                                                    <a
-                                                                        class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                                                        data-bs-toggle="dropdown">
-                                                                        <em class="icon ni ni-more-h"></em>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                                        <ul class="link-list-plain">
-                                                                            <li>
-                                                                                <a href="#">Voir</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">Supprimer</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="nk-tb-item">
-                                                            <div class="nk-tb-col">
-                                                                <span class="tb-lead">
-                                                                    <a href="#">#95812</a>
-                                                                </span>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-sm">
-                                                                <div class="user-card">
-                                                                    <div class="user-avatar user-avatar-sm bg-warning">
-                                                                        <img src="./images/avatar/b-sm.jpg" alt="">
-                                                                    </div>
-                                                                    <div class="user-name">
-                                                                        <span class="tb-lead">LINKED-SOLUTION</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-md">
-                                                                <span class="tb-sub">02/01/2023</span>
-                                                            </div>
-                                                            <div class="nk-tb-col tb-col-lg">
-                                                                <span class="tb-sub text-primary">SUB-2309143</span>
-                                                            </div>
-                                                            <div class="nk-tb-col">
-                                                                <span class="tb-sub tb-amount">199.99
-                                                                    <span>USD</span></span>
-                                                            </div>
-                                                            <div class="nk-tb-col">
-                                                                <span class="badge badge-dot badge-dot-xs bg-success">Payé</span>
-                                                            </div>
-                                                            <div class="nk-tb-col nk-tb-col-action">
-                                                                <div class="dropdown">
-                                                                    <a
-                                                                        class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                                                        data-bs-toggle="dropdown">
-                                                                        <em class="icon ni ni-more-h"></em>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                                        <ul class="link-list-plain">
-                                                                            <li>
-                                                                                <a href="#">Voir</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">Facture</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">Imprimer</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <?php foreach ($users as $user): ?>
+    <div class="nk-tb-item">
+        <div class="nk-tb-col">
+            <span class="tb-lead">
+                <a href="#">#<?= $user['id'] ?></a>
+            </span>
+        </div>
+        <div class="nk-tb-col tb-col-sm">
+            <div class="user-card">
+                <div class="user-avatar user-avatar-sm bg-azure">
+                    <span>DE</span>
+                </div>
+                <div class="user-name">
+                    <span class="tb-lead"><?= $user['username'] ?></span>
+                </div>
+            </div>
+        </div>
+        <div class="nk-tb-col tb-col-md">
+            <span class="tb-sub"><?= $user['created_at'] ?></span>
+        </div>
+        <div class="nk-tb-col tb-col-lg">
+            <span class="tb-sub text-primary">SUB-2309154</span>
+        </div>
+        <div class="nk-tb-col">
+            <span class="tb-sub tb-amount">596.75
+                <span>USD</span>
+            </span>
+        </div>
+        <div class="nk-tb-col">
+            <span class="badge badge-dot badge-dot-xs bg-danger">Annuler</span>
+        </div>
+        <div class="nk-tb-col nk-tb-col-action">
+            <div class="dropdown">
+                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
+                    <em class="icon ni ni-more-h"></em>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+                    <ul class="link-list-plain">
+                        <li>
+                            <a href="#">Voir</a>
+                        </li>
+                        <li>
+                            <a href="#">Supprimer</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endforeach;?>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -805,11 +700,11 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
     </body>
 
     <?php
-        if (isset($this->js)) {
-            foreach ($this->js as $js) {
-                echo '<script src="' . URL . 'views/' . $js . '"></script>';
-            }
-        }
-    ?>
+if (isset($this->js)) {
+    foreach ($this->js as $js) {
+        echo '<script src="' . URL . 'views/' . $js . '"></script>';
+    }
+}
+?>
 
 </html>

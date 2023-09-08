@@ -1,5 +1,4 @@
 <?php
-//Config
 require 'config.php';
 
 require LIBS . 'Bootstrap.php';

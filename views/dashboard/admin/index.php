@@ -6,12 +6,12 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     $user = $_SESSION['users'];
     $userType = $_SESSION['userType'];
 } else {
-    header("Location" . LOGIN);
+    header("Location:" . LOGIN);
     exit;
 }
 
 if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "admin") {
-    header('Location: ' . ERROR);
+    header('Location:' . ERROR);
     exit;
 }
 ?>
@@ -1069,24 +1069,9 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "admin") {
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
-                                                        <a href="html/user-profile-regular.html">
+                                                        <a href="<?=URL?>profile/admin">
                                                             <em class="icon ni ni-user-alt"></em>
                                                             <span>View Profile</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="html/user-profile-setting.html">
-                                                            <em class="icon ni ni-setting-alt"></em>
-                                                            <span>Account Setting</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="html/user-profile-activity.html">
-                                                            <em class="icon ni ni-activity-alt"></em>
-                                                            <span>Login Activity</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dark-mode-switch" href="#">
-                                                            <em class="icon ni ni-moon"></em>
-                                                            <span>Dark Mode</span></a>
                                                     </li>
                                                 </ul>
                                             </div>
