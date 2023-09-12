@@ -46,6 +46,7 @@ $(document).ready(function () {
     });
   });
 
+  
 $(document).ready(function () {
     const baseUrl = "http://paiement.mr:81/";
     $(document).on("click", ".delete-button", function (e) {
