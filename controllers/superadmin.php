@@ -1,20 +1,31 @@
 <?php
-class Register extends Controller
-{
 
+class Superadmin extends Controller
+{
     public function __construct()
     {
         parent::__construct();
-        // if (!isset($this->user["privilege"]) || $this->user["privilege"] !== "admin" ) {
-        //     header("location:".LOGIN);
-        // }
-        $this->view->js = array("register/js/register.js");
+        $this->view->js = array("superadmin/js/superadmin.js");
     }
 
-    public function index()
+    public function create_company()
     {
-        $this->view->render('register/index', true);
+        $this->view->render('superadmin/create_company', true);
     }
+    public function privilege()
+    {
+        $this->view->render('superadmin/privilege', true);
+    }
+    public function user_affectation()
+    {
+        $this->view->render('superadmin/user_affectation', true);
+    }
+    public function user_creation()
+    {
+        $this->view->render('superadmin/user_creation', true);
+    }
+
+    // enregistrements utilisateurs
 
     public function handleRegister()
     {
@@ -71,4 +82,37 @@ class Register extends Controller
     {
         return $password === $c_password;
     }
+
+
+
+    public function handleDeleteRole()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id_role'];
+        $result = $this->model->deleteUserRole($id);
+
+        if ($result) {
+            echo json_encode(array("status" => 200, "msg" => "L'élément a été supprimé avec succès."));
+        } else {
+            echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
+        }
+    }
+}
+
+public function handleAddRole()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = $_POST['name'];
+        $result = $this->model->addUserRole($name);
+        if ($result) {
+            echo json_encode(array("status" => 200, "msg" => "Le rôle a été ajouté avec succès."));
+        } else {
+            echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du rôle."));
+        }
+    }
+}
+
+
+
+
 }

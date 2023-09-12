@@ -1,6 +1,6 @@
 <?php
 
-class Register_model extends Model
+class superadmin_model extends Model
 {
 
     public function __construct()
@@ -8,7 +8,38 @@ class Register_model extends Model
         parent::__construct();
     }
 
-    public function getUserbyEmail(string $email)
+    public function getAllUserRoles()
+{
+    return $this->db->select("SELECT * FROM users_role");
+}
+
+public function deleteUserRole($id)
+{
+    $query = "DELETE FROM users_role WHERE id_role = :id";
+    $bindings = array(':id' => $id);
+    return $this->db->delete($query, $bindings);
+}
+
+public function addUserRole($name)
+{
+    $query = "INSERT INTO users_role (nom) VALUES (:name)";
+    $bindings = array(':name' => $name);
+    return $this->db->insert($query, $bindings);
+}
+
+public function updateRoleName($id, $newName)
+{
+    $table = "users_role";
+    $data = array('nom' => $newName);
+    $where = "id_role = :id";
+    $bindings = array(':id' => $id);
+
+    return $this->db->update($table, $data, $where, $bindings);
+}
+
+// Enregistrements utilisateurs
+
+public function getUserbyEmail(string $email)
     {
         return $this->db->select("SELECT * FROM users WHERE email = :email LIMIT 1", array("email" => $email));
     }
@@ -32,5 +63,6 @@ class Register_model extends Model
     {
         return $this->db->select("SELECT name FROM country WHERE id = :countryId LIMIT 1", array("countryId" => $countryId));
     }
+
 
 }

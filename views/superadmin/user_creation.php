@@ -13,40 +13,13 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
     header('Location: ' . ERROR);
     exit;
 }
+
 ?>
-<!DOCTYPE html>
-<html lang="zxx" class="js">
 
-    <head>
-        <base href="../../../">
-        <meta charset="utf-8">
-        <meta name="author" content="Softnio">
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta
-            name="description"
-            content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
-        <!-- Fav Icon -->
-        <link rel="shortcut icon" href="<?= URL ?>public/images/favicon.png">
-        <!-- Page Title -->
-        <title>Enregistrement | LinkedSolution</title>
-        <!-- StyleSheets -->
-        <link
-            rel="stylesheet"
-            href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
-        <link
-            id="skin-default"
-            rel="stylesheet"
-            href="<?= URL ?>public/assets/css/theme.css?ver=3.2.0">
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.css">
-    </head>
 
-    <body class="nk-body bg-white npc-general pg-auth">
+<?= include_once("./views/include/header.php") ?>
 
-        <div class="nk-app-root">
+<div class="nk-app-root">
             <!-- main @s -->
             <div class="nk-main ">
                 <!-- wrap @s -->
@@ -210,22 +183,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
             </div>
             </div>
             <!-- app-root @e -->
-            <!-- JavaScript -->
-            <script src="<?= URL ?>public/assets/js/bundle.js?ver=3.2.0"></script>
-            <script src="<?= URL ?>public/assets/js/scripts.js?ver=3.2.0"></script>
-            <script src="<?= URL ?>public/assets/js/example-sweetalert.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-            <!-- Ajoutez ces liens dans la section <head> de votre HTML -->
-            <script
-                src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.js"></script>
 
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        </body>
-        <?php
-if (isset($this->js)) {
-  foreach ($this->js as $js) {
-    echo '<script src="' . URL . 'views/' . $js . '"></script>';
-  }
-}
-?>
-    </html>
+            </div>
+            <!-- wrap @e -->
+        </div>
+        <!-- app-root @e -->
+
+<?= include_once("./views/include/footer.php") ?>

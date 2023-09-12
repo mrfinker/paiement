@@ -57,7 +57,7 @@
                                         <div class="nk-block-head-content">
                                             <h4 class="nk-block-title">Connexion</h4>
                                             <div class="nk-block-des">
-                                                <p>Veuiller entrer vos coordonnées pour acceder a votre gestionnaire des données
+                                                <p>Veuiller entrer vos données.
                                                     .</p>
                                             </div>
                                         </div>
@@ -102,7 +102,6 @@
                                         <div class="form-group">
                                             <button type="submit" name="login_btn" class="btn btn-lg btn-primary btn-block">Connexion</button>
                                         </div>
-                                        <a href="<?= URL ?>register">Enregistrer</a>
 
                                     </form>
                                 </div>

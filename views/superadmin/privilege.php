@@ -14,6 +14,9 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
     exit;
 }
 
+$superadminModel = new superadmin_model();
+$userRoles = $superadminModel->getAllUserRoles();
+
 ?>
 
 
@@ -23,7 +26,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                 <div class="container-fluid">
                     <div class="nk-content-inner">
                         <div class="nk-content-body">
-                            <div class="components-preview wide-xxl mx-auto">
+                            <div class="components-preview wide-lg mx-auto">
                                 <div class="nk-block-head nk-block-head-lg wide-sm">
                                     <div class="nk-block-head-content">
                                         <div class="nk-block-head-sub"><a class="back-to" href="<?=URL?>dashboard/superadmin"><em class="icon ni ni-arrow-left"></em><span>Retour</span></a></div>
@@ -33,7 +36,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                 <div class="nk-block nk-block-lg">
                                     <div class="nk-block-head">
                                         <div class="nk-block-head-content">
-                                            <h4 class="nk-block-title">Liste des compagnies</h4>
+                                            <h4 class="nk-block-title">Liste des roles</h4>
                                             
                                             <button href="#" class="btn btn-primary mt-2" type="button" data-bs-toggle="modal" data-bs-target="#modalFormPrivilege">
                                                 Ajouter<em class="icon ni ni-plus p-1"></em>
@@ -51,28 +54,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                             <span class="sub-text">#</span>
                                                         </th>
                                                         <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
-                                                            <span class="sub-text">id unique</span>
-                                                        </th>
-                                                        <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
                                                             <span class="sub-text">Nom</span>
-                                                        </th>
-                                                        <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
-                                                            <span class="sub-text">Pays</span>
-                                                        </th>
-                                                        <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
-                                                            <span class="sub-text">Adresse</span>
-                                                        </th>
-                                                        <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
-                                                            <span class="sub-text">Email</span>
-                                                        </th>
-                                                        <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
-                                                            <span class="sub-text">Categorie</span>
-                                                        </th>
-                                                        <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
-                                                            <span class="sub-text">phone</span>
-                                                        </th>
-                                                        <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
-                                                            <span class="sub-text">Status</span>
                                                         </th>
                                                         <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                             <span class="sub-text">Date d'ajout</span>
@@ -112,24 +94,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                                         </td>
                                                         <td class="nk-tb-col tb-col-mb">
                                                             <span class="tb-amount"><?= $userRole['nom'] ?></span>
-                                                        </td>
-                                                        <td class="nk-tb-col tb-col-md">
-                                                            <span><?= $userRole['created_at'] ?></span>
-                                                        </td>
-                                                        <td class="nk-tb-col tb-col-md">
-                                                            <span><?= $userRole['created_at'] ?></span>
-                                                        </td>
-                                                        <td class="nk-tb-col tb-col-md">
-                                                            <span><?= $userRole['created_at'] ?></span>
-                                                        </td>
-                                                        <td class="nk-tb-col tb-col-md">
-                                                            <span><?= $userRole['created_at'] ?></span>
-                                                        </td>
-                                                        <td class="nk-tb-col tb-col-md">
-                                                            <span><?= $userRole['created_at'] ?></span>
-                                                        </td>
-                                                        <td class="nk-tb-col tb-col-md">
-                                                            <span><?= $userRole['created_at'] ?></span>
                                                         </td>
                                                         <td class="nk-tb-col tb-col-md">
                                                             <span><?= $userRole['created_at'] ?></span>
@@ -203,10 +167,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                 </div>
 
                 <div class="modal fade" id="modalFormPrivilege" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Ajouter une compagnie</h5>
+                    <h5 class="modal-title">Ajouter un privilege</h5>
                     <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <em class="icon ni ni-cross"></em>
                     </a>
@@ -214,44 +178,9 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                 <div class="modal-body">
                     <form action="#" class="form-validate is-alter" id="PrivilegeForm" novalidate="novalidate">
                         <div class="form-group">
-                            <div class="row gy-4">
-                                <div class="col-sm-6">
-                                    <label class="form-label" for="full-name">Nom</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="full-name" required="">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label" for="full-name">Nom</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="full-name" required="">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label" for="full-name">Nom</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="full-name" required="">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label" for="full-name">Nom</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="full-name" required="">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label" for="full-name">Nom</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="full-name" required="">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label" for="full-name">Nom</label>
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="full-name" required="">
-                                    </div>
-                                </div>
-                                
+                            <label class="form-label" for="full-name">Nom</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="full-name" required="">
                             </div>
                         <!-- </div>
                         <div class="form-group">

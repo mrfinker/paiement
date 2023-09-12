@@ -9,14 +9,13 @@ $(document).ready(function () {
             let birthday = $("#birthday").val();
       $.ajax({
         url: `${baseUrl}profile/handleUpdateProfile`,
-        type: "POST",
+        method: "POST",
         dataType: "JSON",
         data: {
             name: name,
             username: username,
             phone: phone,
-            birthday: birthday,
-          action: "jddiuanjkanciuwenfas,mcn;sdiojd",
+            birthday: birthday
         },
         success: function (res) {
           if (res.status === 200) {

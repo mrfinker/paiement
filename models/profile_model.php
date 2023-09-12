@@ -18,6 +18,29 @@ class Profile_model extends Model
         return $this->db->select("SELECT name FROM country WHERE id = :countryId LIMIT 1", array("countryId" => $countryId));
     }
 
+    public function getUserProfile()
+{
+    $userId = $_SESSION['users']['id'];
+
+    $query = "SELECT * FROM users WHERE id = :userId";
+    $stmt = $this->db->prepare($query);
+    $stmt->bindParam(":userId", $userId);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        $profile = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $profile;
+    } else {
+        return null;
+    }
+}
+
+public function saveUser(array $data)
+    {
+        return $this->db->insert("users", $data);
+    }
+
+
     public function updateUserProfile(int $id, string $name, string $username, string $phone, string $birthday)
 {
     $query = "UPDATE users SET name = :name, username = :username, phone = :phone, birthday = :birthday WHERE id = :id";
