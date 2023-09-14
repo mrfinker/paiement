@@ -88,13 +88,6 @@
                                             <span class="nk-menu-text">Users Manage</span>
                                         </a>
                                         <ul class="nk-menu-sub">
-                                            <!-- .nk-menu-item -->
-                                            </li><!-- .nk-menu-item -->
-                                            <li class="nk-menu-item">
-                                                <a href="<?=URL?>superadmin/user_creation" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Ajouter users</span>
-                                                </a>
-                                            </li>
                                             <li class="nk-menu-item">
                                                 <a href="<?=URL?>superadmin/all_user" class="nk-menu-link">
                                                     <span class="nk-menu-text">Tout les utilisateurs</span>
@@ -111,11 +104,6 @@
                                             <!-- .nk-menu-item -->
                                             </li><!-- .nk-menu-item -->
                                             <li class="nk-menu-item">
-                                                <a href="<?=URL?>superadmin/create_company" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Ajouter company</span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item">
                                                 <a href="<?=URL?>superadmin/all_company" class="nk-menu-link">
                                                     <span class="nk-menu-text">Toutes les company</span>
                                                 </a>
@@ -131,13 +119,6 @@
                                             <li class="nk-menu-item">
                                                 <a href="superadmin/all_admin" class="nk-menu-link">
                                                     <span class="nk-menu-text">Tout les admins</span>
-                                                </a>
-                                            </li>
-                                            <!-- .nk-menu-item -->
-                                            </li><!-- .nk-menu-item -->
-                                            <li class="nk-menu-item">
-                                                <a href="<?=URL?>superadmin/create_admin" class="nk-menu-link">
-                                                    <span class="nk-menu-text">Ajouter admin</span>
                                                 </a>
                                             </li>
                                             <li class="nk-menu-item">

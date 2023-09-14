@@ -12,10 +12,10 @@ $(document).ready(function () {
         method: "POST",
         dataType: "JSON",
         data: {
-            name: name,
-            username: username,
-            phone: phone,
-            birthday: birthday
+            name,
+            username,
+            phone,
+            birthday,
         },
         success: function (res) {
           if (res.status === 200) {

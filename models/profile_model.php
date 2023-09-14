@@ -41,20 +41,17 @@ public function saveUser(array $data)
     }
 
 
-    public function updateUserProfile(int $id, string $name, string $username, string $phone, string $birthday)
+    public function updateUserProfile($id, $name, $username, $phone, $birthday)
 {
-    $query = "UPDATE users SET name = :name, username = :username, phone = :phone, birthday = :birthday WHERE id = :id";
-    $values = array(
+    return $this->db->update("users", 
+    array(
         "id" => $id,
         "name" => $name,
         "username" => $username,
         "phone" => $phone,
-        "birthday" => $birthday
-    );
-
-    $options = array();
-
-    return $this->db->insert($query, $values, $options);
+        "birthday" => $birthday,
+    ), 
+    "id = $id");
 }
 
 

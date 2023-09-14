@@ -8,10 +8,6 @@ class Superadmin extends Controller
         $this->view->js = array("superadmin/js/superadmin.js");
     }
 
-    public function create_company()
-    {
-        $this->view->render('superadmin/create_company', true);
-    }
     public function privilege()
     {
         $this->view->render('superadmin/privilege', true);
@@ -20,12 +16,21 @@ class Superadmin extends Controller
     {
         $this->view->render('superadmin/user_affectation', true);
     }
-    public function user_creation()
+
+    public function all_user()
     {
-        $this->view->render('superadmin/user_creation', true);
+        $this->view->render('superadmin/all_user', true);
+    }
+    public function all_company()
+    {
+        $this->view->render('superadmin/all_company', true);
+    }
+    public function all_admin()
+    {
+        $this->view->render('superadmin/all_admin', true);
     }
 
-    // enregistrements utilisateurs
+    // utilisateurs
 
     public function handleRegister()
     {
@@ -83,36 +88,100 @@ class Superadmin extends Controller
         return $password === $c_password;
     }
 
+    public function handleDeleteUsers()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $result = $this->model->deleteUser($id);
 
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "L'élément a été supprimé avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
+            }
+        }
+    }
 
+    // Role
     public function handleDeleteRole()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = $_POST['id_role'];
-        $result = $this->model->deleteUserRole($id);
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id_role'];
+            $result = $this->model->deleteUserRole($id);
 
-        if ($result) {
-            echo json_encode(array("status" => 200, "msg" => "L'élément a été supprimé avec succès."));
-        } else {
-            echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "L'élément a été supprimé avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
+            }
         }
     }
-}
 
-public function handleAddRole()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $name = $_POST['name'];
-        $result = $this->model->addUserRole($name);
-        if ($result) {
-            echo json_encode(array("status" => 200, "msg" => "Le rôle a été ajouté avec succès."));
-        } else {
-            echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du rôle."));
+    public function handleAddRole()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['nom'];
+            // $permissions = json_decode($_POST['permissions'], true); // Décodage de la chaîne JSON en tableau associatif
+
+            $data = array(
+                'nom' => $name,
+                // 'permissions' => json_encode($permissions), // Stockez les permissions sous forme de chaîne JSON
+            );
+
+            $result = $this->model->addUserRole($data);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "Le privilège a été ajouté avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du privilège."));
+            }
         }
     }
-}
 
+    public function updateRole()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['id_role']);
+            $newName = $_POST['newName'];
 
+            $result = $this->model->updateRoleName($id, $newName);
 
+            if (empty($newName)) {
+                $response = [
+                    'status' => 400,
+                    'msg' => 'Données invalides',
+                ];
+            } elseif ($result) {
+                $response = [
+                    'status' => 200,
+                    'msg' => 'Mise à jour réussie',
+                ];
+            } else {
+                $response = [
+                    'status' => 409,
+                    'msg' => 'Erreur lors de la mise à jour',
+                ];
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+    }
+
+    // Company
+    public function handleDeleteCompany()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $result = $this->model->deleteCompany($id);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "L'élément a été supprimé avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
+            }
+        }
+    }
 
 }

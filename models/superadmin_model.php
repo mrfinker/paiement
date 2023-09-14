@@ -8,38 +8,39 @@ class superadmin_model extends Model
         parent::__construct();
     }
 
+    // Roles
     public function getAllUserRoles()
-{
-    return $this->db->select("SELECT * FROM users_role");
-}
+    {
+        return $this->db->select("SELECT * FROM users_role");
+    }
 
-public function deleteUserRole($id)
-{
-    $query = "DELETE FROM users_role WHERE id_role = :id";
-    $bindings = array(':id' => $id);
-    return $this->db->delete($query, $bindings);
-}
+    public function deleteUserRole($id)
+    {
+        return $this->db->delete("users_role", "id_role =$id");
+    }
 
-public function addUserRole($name)
-{
-    $query = "INSERT INTO users_role (nom) VALUES (:name)";
-    $bindings = array(':name' => $name);
-    return $this->db->insert($query, $bindings);
-}
+    public function addUserRole($data)
+    {
+        return $this->db->insert("users_role", $data);
+    }
 
-public function updateRoleName($id, $newName)
-{
-    $table = "users_role";
-    $data = array('nom' => $newName);
-    $where = "id_role = :id";
-    $bindings = array(':id' => $id);
+    public function updateRoleName($id, $newName)
+    {
+        return $this->db->update("users_role", array('nom' => $newName), "id_role = $id");
+    }
 
-    return $this->db->update($table, $data, $where, $bindings);
-}
+    // utilisateurs
+    public function getAllUsers()
+    {
+        return $this->db->select("SELECT * FROM users");
+    }
 
-// Enregistrements utilisateurs
+    public function deleteUser($id)
+    {
+        return $this->db->delete("users", "id =$id");
+    }
 
-public function getUserbyEmail(string $email)
+    public function getUserbyEmail(string $email)
     {
         return $this->db->select("SELECT * FROM users WHERE email = :email LIMIT 1", array("email" => $email));
     }
@@ -64,5 +65,15 @@ public function getUserbyEmail(string $email)
         return $this->db->select("SELECT name FROM country WHERE id = :countryId LIMIT 1", array("countryId" => $countryId));
     }
 
+    // Company
+    public function getAllcompany()
+    {
+        return $this->db->select("SELECT * FROM company");
+    }
+
+    public function deleteCompany($id)
+    {
+        return $this->db->delete("company", "id =$id");
+    }
 
 }

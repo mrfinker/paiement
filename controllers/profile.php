@@ -28,10 +28,10 @@ class Profile extends Controller
     public function handleUpdateProfile()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $fullName = htmlspecialchars($_POST["name"]);
-            $userName = htmlspecialchars($_POST["username"]);
-            $phoneNumber = htmlspecialchars($_POST["phone"]);
-            $birthday = htmlspecialchars($_POST["birthday"]);
+            $fullName = ($_POST["name"]);
+            $userName = ($_POST["username"]);
+            $phoneNumber = ($_POST["phone"]);
+            $birthday = ($_POST["birthday"]);
 
             $userId = $_SESSION['users']['id'];
             
