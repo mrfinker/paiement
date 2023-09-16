@@ -11,7 +11,18 @@ class superadmin_model extends Model
     // Roles
     public function getAllUserRoles()
     {
-        return $this->db->select("SELECT * FROM users_role");
+        $userRoles = $this->db->select("SELECT * FROM users_role");
+    
+    if ($userRoles) {
+        $count = 1;
+
+        foreach ($userRoles as &$userRole) {
+            $userRole['num'] = $count;
+            $count++;
+        }
+    }
+
+    return $userRoles;
     }
 
     public function deleteUserRole($id)
@@ -24,15 +35,23 @@ class superadmin_model extends Model
         return $this->db->insert("users_role", $data);
     }
 
-    public function updateRoleName($id, $newName)
+    public function updateRoleName($id, $newName, $permissions)
     {
-        return $this->db->update("users_role", array('nom' => $newName), "id_role = $id");
+        return $this->db->update("users_role", array('nom' => $newName, 'permissions' => $permissions), "id_role = $id");
     }
+
+
+
 
     // utilisateurs
     public function getAllUsers()
     {
         return $this->db->select("SELECT * FROM users");
+    }
+
+    public function updateUser($id, $nameupdate, $usernameupdate, $emailupdate, $phoneupdate, $addressupdate, $birthdayupdate)
+    {
+        return $this->db->update("users", array('name' => $nameupdate, 'username' => $usernameupdate, 'email' => $emailupdate, 'phone' => $phoneupdate, 'address' => $addressupdate, 'birthday' => $birthdayupdate), "id = $id");
     }
 
     public function deleteUser($id)
@@ -50,9 +69,25 @@ class superadmin_model extends Model
         return $this->db->select("SELECT * FROM users WHERE username = :username LIMIT 1", array("username" => $username));
     }
 
-    public function saveUser(array $data)
+    public function insertUser(array $data)
     {
         return $this->db->insert("users", $data);
+    }
+
+
+    // Company
+    public function getAllcompany()
+    {
+        return $this->db->select("SELECT * FROM company");
+    }
+
+    public function insertCompany($data) {
+        return $this->db->insert("company", $data);
+    }
+
+    public function deleteCompany($id)
+    {
+        return $this->db->delete("company", "id =$id");
     }
 
     public function getCompanyByCompanyId(int $companyId)
@@ -65,15 +100,12 @@ class superadmin_model extends Model
         return $this->db->select("SELECT name FROM country WHERE id = :countryId LIMIT 1", array("countryId" => $countryId));
     }
 
-    // Company
-    public function getAllcompany()
+    public function updateCompany($id, $nameupdate, $emailupdate, $phoneupdate, $addressupdate)
     {
-        return $this->db->select("SELECT * FROM company");
+        return $this->db->update("users", array('name' => $nameupdate, 'email' => $emailupdate, 'phone' => $phoneupdate, 'address' => $addressupdate), "id = $id");
     }
 
-    public function deleteCompany($id)
-    {
-        return $this->db->delete("company", "id =$id");
-    }
+    // Admin
+
 
 }

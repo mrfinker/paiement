@@ -25,28 +25,43 @@ class Profile extends Controller
         $this->view->render('profile/staff/index', true);
     }
 
-    public function handleUpdateProfile()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $fullName = ($_POST["name"]);
-            $userName = ($_POST["username"]);
-            $phoneNumber = ($_POST["phone"]);
-            $birthday = ($_POST["birthday"]);
-
-            $userId = $_SESSION['users']['id'];
-            
-            $profileModel = new Profile_model();
-            $result = $profileModel->updateUserProfile($userId, $fullName, $userName, $phoneNumber, $birthday);
-            
-            if ($result) {
-                echo json_encode(array("status" => 200, "msg" => "Mise à jour du profil réussie."));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la mise à jour du profil."));
-            }
-        } else {
-            echo json_encode(array("status" => 400, "msg" => "Aucune donnée de mise à jour du profil n'a été soumise."));
+    public function handleUpdateProfile() {
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $id = intval($_POST['userId']);;
+            $name = $_POST['name']; 
+            $username = $_POST['username']; 
+            $phone = $_POST['phone']; 
+            $birthday = $_POST['birthday'];
+        
+            $result = $this->model->updateUserProfile($id, $name, $username, $phone, $birthday);
+    
+                    if ($result) {
+                        $response = [
+                            'status' => 200,
+                            'msg' => 'Mise à jour réussie',
+                            
+                        ];
+                        $userIDInSession = $_SESSION['users']['id'];
+                        $idToUpdate = intval($_POST['userId']);
+                        
+                        if ($userIDInSession === $idToUpdate) {
+                            $_SESSION['user']['name'] = $name;
+                            $_SESSION['user']['username'] = $username;
+                            $_SESSION['user']['phone'] = $phone;
+                            $_SESSION['user']['birthday'] = $birthday;
+                        }
+                    } else {
+                        $response = [
+                            'status' => 409,
+                            'msg' => 'Erreur lors de la mise à jour',
+                        ];
+                    }
+            echo json_encode($response);
+            exit;
         }
-    }
+
+        }
+    
 
 
 }

@@ -41,18 +41,20 @@ public function saveUser(array $data)
     }
 
 
-    public function updateUserProfile($id, $name, $username, $phone, $birthday)
-{
-    return $this->db->update("users", 
-    array(
-        "id" => $id,
-        "name" => $name,
-        "username" => $username,
-        "phone" => $phone,
-        "birthday" => $birthday,
-    ), 
-    "id = $id");
-}
+    public function updateUserProfile($id, $name, $username, $phone, $birthday) {
+        $data = [
+            'id' => $id,
+            'name' => $name,
+            'username' => $username,
+            'phone' => $phone,
+            'birthday' => $birthday,
+        ];
+        $where = "id = $id";
+        return $this->db->update('users', $data, $where);
+    }
+
+
+
 
 
 

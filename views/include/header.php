@@ -122,7 +122,7 @@
                                                 </a>
                                             </li>
                                             <li class="nk-menu-item">
-                                                <a href="superadmin/privilege" class="nk-menu-link">
+                                                <a href="superadmin/roles" class="nk-menu-link">
                                                     <span class="nk-menu-text">Tout les roles admin</span>
                                                 </a>
                                             </li>
@@ -151,8 +151,9 @@
                                                         <span>AB</span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text"><?=$user['username']?></span>
-                                                        <span class="sub-text"><?=$user['email']?></span>
+                                                        <span class="lead-text"><?= isset($user['username']) ? $user['username'] : '' ?></span>
+                                                        <span class="sub-text"><?= isset($user['email']) ? $user['email'] : '' ?></span>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -186,5 +187,3 @@
                     </div>
                     <!-- .container-fliud -->
                 </div>
-                <!-- main header @e -->
-                <!-- content @s -->

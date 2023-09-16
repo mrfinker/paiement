@@ -8,10 +8,11 @@ class Superadmin extends Controller
         $this->view->js = array("superadmin/js/superadmin.js");
     }
 
-    public function privilege()
+    public function roles()
     {
-        $this->view->render('superadmin/privilege', true);
+        $this->view->render('superadmin/roles', true);
     }
+
     public function user_affectation()
     {
         $this->view->render('superadmin/user_affectation', true);
@@ -25,41 +26,146 @@ class Superadmin extends Controller
     {
         $this->view->render('superadmin/all_company', true);
     }
+
     public function all_admin()
     {
         $this->view->render('superadmin/all_admin', true);
     }
 
     // utilisateurs
-
-    public function handleRegister()
+    public function handleRegisterUsers()
     {
-        $name = htmlspecialchars($_POST["name"]);
-        $email = htmlspecialchars($_POST["email"]);
-        $username = htmlspecialchars($_POST["username"]);
-        $phone = htmlspecialchars($_POST["phone"]);
-        $address = htmlspecialchars($_POST["address"]);
-        $password = htmlspecialchars($_POST["password"]);
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        if (!$this->isUserEmailExists($email) && !$this->isUsernameExists($username)) {
-            if (strlen($password) >= 8) {
-                $data = array('name' => $name,
-                    'email' => $email,
-                    'username' => $username,
-                    'password' => $hashedPassword,
-                    'phone' => $phone,
-                    'address' => $address);
-                $saveUser = $this->model->saveUser($data);
-                if ($saveUser) {
-                    echo json_encode(array("status" => 200, "msg" => "success"));
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $name = $_POST["name"];
+            $username = $_POST["username"];
+            $email = $_POST["email"];
+            $phone = $_POST["phone"];
+            $address = $_POST["address"];
+            $password = $_POST["password"];
+            $confirm_password = $_POST["confirm_password"];
+            if ($password !== $confirm_password) {
+                $response = ["status" => 400, "msg" => "Les mots de passe ne correspondent pas"];
+                echo json_encode($response);
+                return;
+            }
+
+            $existingEmailUser = $this->model->getUserbyEmail($email);
+            if (!empty($existingEmailUser)) {
+                $response = ["status" => 400, "msg" => "L'e-mail existe déjà"];
+                echo json_encode($response);
+                return;
+            }
+
+            $existingUsernameUser = $this->model->getUserbyUsername($username);
+            if (!empty($existingUsernameUser)) {
+                $response = ["status" => 400, "msg" => "Le nom d'utilisateur existe déjà"];
+                echo json_encode($response);
+                return;
+            }
+
+            if (isset($_FILES["imageFile"]) && $_FILES["imageFile"]["error"] === UPLOAD_ERR_OK) {
+                $image = $_FILES["imageFile"]["name"];
+                $target_directory = "upload/";
+                if (!file_exists($target_directory)) {
+                    mkdir($target_directory, 0777, true);
+                }
+                $target_file = $target_directory . basename($image);
+
+                if (move_uploaded_file($_FILES["imageFile"]["tmp_name"], $target_file)) {
                 } else {
-                    echo json_encode(array("status" => 500, "msg" => "Une erreur se produite lors de l'enregistrement de l'utlisateur."));
+                    $response = ["status" => 400, "msg" => "Erreur lors de l'enregistrement de l'image"];
+                    echo json_encode($response);
+                    return;
                 }
             } else {
-                echo json_encode(array("status" => 400, "msg" => "Le mot de passe doit avoir au moins 8 caractere"));
+                $image = "";
+            }
+
+            $data = [
+                "name" => $name,
+                "username" => $username,
+                "email" => $email,
+                "phone" => $phone,
+                "address" => $address,
+                "password" => password_hash($password, PASSWORD_DEFAULT),
+                "image" => $image,
+            ];
+            $result = $this->model->insertUser($data);
+
+            if ($result) {
+                $response = ["status" => 200, "msg" => "Enregistrement réussi"];
+                echo json_encode($response);
+            } else {
+                $response = ["status" => 500, "msg" => "Erreur lors de l'enregistrement"];
+                echo json_encode($response);
             }
         } else {
-            echo json_encode(array("status" => 409, "msg" => "L'email ou le username existe déjà."));
+            $response = ["status" => 500, "msg" => "Méthode non autorisée"];
+            echo json_encode($response);
+        }
+    }
+
+    public function updateUsers()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['id']);
+            $nameupdate = $_POST['nameupdate'];
+            $usernameupdate = $_POST['usernameupdate'];
+            $emailupdate = $_POST['emailupdate'];
+            $phoneupdate = $_POST['phoneupdate'];
+            $addressupdate = $_POST['addressupdate'];
+            $birthdayupdate = $_POST['birthdayupdate'];
+
+            if (empty($nameupdate) || empty($usernameupdate) || empty($emailupdate) || empty($phoneupdate) || empty($addressupdate) || empty($birthdayupdate)) {
+                $response = [
+                    'status' => 400,
+                    'msg' => 'Données vides, veuillez les remplir',
+                ];
+            } else {
+                $result = $this->model->updateUser($id, $nameupdate, $usernameupdate, $emailupdate, $phoneupdate, $addressupdate, $birthdayupdate);
+
+                if ($result) {
+                    $response = [
+                        'status' => 200,
+                        'msg' => 'Mise à jour réussie',
+
+                    ];
+                    $userIDInSession = $_SESSION['users']['id'];
+                    $idToUpdate = intval($_POST['id']);
+
+                    if ($userIDInSession === $idToUpdate) {
+                        $_SESSION['users']['name'] = $nameupdate;
+                        $_SESSION['users']['username'] = $usernameupdate;
+                        $_SESSION['users']['email'] = $emailupdate;
+                        $_SESSION['users']['phone'] = $phoneupdate;
+                        $_SESSION['users']['address'] = $addressupdate;
+                        $_SESSION['users']['birthday'] = $birthdayupdate;
+                    }
+                } else {
+                    $response = [
+                        'status' => 409,
+                        'msg' => 'Erreur lors de la mise à jour',
+                    ];
+                }
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+    }
+
+    public function handleDeleteUsers()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $result = $this->model->deleteUser($id);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "L'élément a été supprimé avec succès."));
+            } else {
+                echo json_encode(array("status" => 409, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
+            }
         }
     }
 
@@ -88,20 +194,6 @@ class Superadmin extends Controller
         return $password === $c_password;
     }
 
-    public function handleDeleteUsers()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'];
-            $result = $this->model->deleteUser($id);
-
-            if ($result) {
-                echo json_encode(array("status" => 200, "msg" => "L'élément a été supprimé avec succès."));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
-            }
-        }
-    }
-
     // Role
     public function handleDeleteRole()
     {
@@ -112,7 +204,7 @@ class Superadmin extends Controller
             if ($result) {
                 echo json_encode(array("status" => 200, "msg" => "L'élément a été supprimé avec succès."));
             } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
+                echo json_encode(array("status" => 409, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
             }
         }
     }
@@ -121,12 +213,18 @@ class Superadmin extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['nom'];
-            // $permissions = json_decode($_POST['permissions'], true); // Décodage de la chaîne JSON en tableau associatif
+            $permissionsAdmin = isset($_POST['admin']) ? $_POST['admin'] : [];
+            $permissionsCompany = isset($_POST['company']) ? $_POST['company'] : [];
+            $permissionsPrivilege = isset($_POST['privilege']) ? $_POST['privilege'] : [];
 
-            $data = array(
+            $permissions = array_merge($permissionsAdmin, $permissionsCompany, $permissionsPrivilege);
+
+            $permissionsString = implode(', ', $permissions);
+
+            $data = [
                 'nom' => $name,
-                // 'permissions' => json_encode($permissions), // Stockez les permissions sous forme de chaîne JSON
-            );
+                'permissions' => $permissionsString,
+            ];
 
             $result = $this->model->addUserRole($data);
 
@@ -143,8 +241,14 @@ class Superadmin extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = intval($_POST['id_role']);
             $newName = $_POST['newName'];
+            $permissionsAdmin = isset($_POST['admin']) ? $_POST['admin'] : [];
+        $permissionsCompany = isset($_POST['company']) ? $_POST['company'] : [];
+        $permissionsPrivilege = isset($_POST['privilege']) ? $_POST['privilege'] : [];
 
-            $result = $this->model->updateRoleName($id, $newName);
+        $permissions = array_merge($permissionsAdmin, $permissionsCompany, $permissionsPrivilege);
+        $permissionsString = implode(', ', $permissions);
+
+            $result = $this->model->updateRoleName($id, $newName, $permissionsString);
 
             if (empty($newName)) {
                 $response = [
@@ -183,5 +287,94 @@ class Superadmin extends Controller
             }
         }
     }
+
+    public function handleInsertCompany()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $name = $_POST["name"];
+            $address = $_POST["address"];
+            $email = $_POST["email"];
+            $phone = $_POST["phone"];
+            $country_id = $_POST["country_id"];
+            $category_id = $_POST["category_id"];
+
+            $uniqueid = "LKD" . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+
+            // Créez un tableau de données pour la compagnie
+            $data = [
+                "unique_id" => $uniqueid,
+                "name" => $name,
+                "country_id" => $country_id,
+                "address" => $address,
+                "email" => $email,
+                "category_id" => $category_id,
+                "phone" => $phone,
+            ];
+
+            $result = $this->model->insertCompany($data);
+
+            if ($result) {
+                $response = ["status" => 200, "msg" => "Enregistrement de la compagnie réussi"];
+                echo json_encode($response);
+            } else {
+                $response = ["status" => 400, "msg" => "Erreur lors de l'enregistrement de la compagnie"];
+                echo json_encode($response);
+            }
+        } else {
+            $response = ["status" => 400, "msg" => "Méthode non autorisée"];
+            echo json_encode($response);
+        }
+    }
+
+    public function updateCompany()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['id']);
+            $nameupdate = $_POST['nameupdate'];
+            $emailupdate = $_POST['emailupdate'];
+            $phoneupdate = $_POST['phoneupdate'];
+            $addressupdate = $_POST['addressupdate'];
+
+            // Vérifiez si les données obligatoires ne sont pas vides
+            if (empty($nameupdate) || empty($emailupdate) || empty($phoneupdate) || empty($addressupdate)) {
+                $response = [
+                    'status' => 400,
+                    'msg' => 'Données vides, veuillez les remplir',
+                ];
+            } else {
+                // Appelez la méthode de mise à jour de l'utilisateur dans votre modèle ici
+                // Assurez-vous que cette méthode effectue la mise à jour dans la base de données
+                $result = $this->model->updateCompany($id, $nameupdate, $emailupdate, $phoneupdate, $addressupdate);
+
+                if ($result) {
+                    $response = [
+                        'status' => 200,
+                        'msg' => 'Mise à jour réussie',
+
+                    ];
+                    $userIDInSession = $_SESSION['users']['id'];
+                    $idToUpdate = intval($_POST['id']);
+
+                    if ($userIDInSession === $idToUpdate) {
+                        $_SESSION['company']['name'] = $nameupdate;
+                        $_SESSION['company']['email'] = $emailupdate;
+                        $_SESSION['company']['phone'] = $phoneupdate;
+                        $_SESSION['company']['address'] = $addressupdate;
+                    }
+                } else {
+                    $response = [
+                        'status' => 409,
+                        'msg' => 'Erreur lors de la mise à jour',
+                    ];
+                }
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+    }
+
+    //
 
 }
