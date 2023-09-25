@@ -1361,7 +1361,7 @@ $toast-padding-y:                   .25rem;
 // $toast-color:                       null !default;
 // $toast-background-color:            rgba($white, .85) !default;
 // $toast-border-width:                1px !default;
-// $toast-border-color:                rgba(0, 0, 0, .1) !default;
+$toast-border-color:                transparent;
 // $toast-border-radius:               $border-radius !default;
 // $toast-box-shadow:                  $box-shadow !default;
 // $toast-spacing:                     $container-padding-x !default;
@@ -1648,8 +1648,3 @@ $offcanvas-box-shadow:              $modal-content-box-shadow-xs !default;
 // $kbd-bg:                            $gray-900 !default;
 
 // $pre-color:                         null !default;
-
-
-
-
-

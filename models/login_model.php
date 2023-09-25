@@ -28,4 +28,34 @@ class Login_model extends Model
 
     }
 
+    public function updateUserLoggedInStatus(string $email, int $status)
+    {
+        return $this->db->update("users", array("is_logged_in" => $status, "email" => $email), "email = :email");
+    }
+
+    public function updateUserLastLogin(string $email, string $ip_address)
+{
+    $dateTimeNow = date('Y-m-d H:i:s');
+    return $this->db->update(
+        "users",
+        array("last_login" => $dateTimeNow, "last_login_ip" => $ip_address, "email" => $email),
+        "email = :email"
+    );
+}
+
+public function updateUserLastLogout(string $email)
+{
+    $dateTimeNow = date('Y-m-d H:i:s');
+    return $this->db->update(
+        "users",
+        array("last_logout" => $dateTimeNow, "email" => $email),
+        "email = :email"
+    );
+}
+
+
+
+
+
+
 }

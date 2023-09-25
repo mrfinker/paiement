@@ -80,6 +80,10 @@
             background: lighten($lighter, 1%);
             box-shadow: 0 0 10px -4px rgba($base-color, 0.2);
         }
+        .nk-tb-flush & {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
     }
     &-col{
         position: relative;
@@ -88,9 +92,15 @@
         padding: 1rem .5rem;
         &:first-child{
             padding-left: 1.25rem;
+            .nk-tb-flush &{
+                padding-left: 0 !important;
+            }
         }
         &:last-child{
             padding-right: 1.25rem;
+            .nk-tb-flush &{
+                padding-right: 0 !important;
+            }
         }
         &-tools{
             max-width: 1.25rem + .5rem + 2rem;
@@ -101,15 +111,18 @@
                 vertical-align: middle;
             }
         }
-        .nk-tb-item:not(:last-child) &{
+        .nk-tb-item:not(:last-child):not(.nk-tb-head) &{
             border-bottom: 1px solid $border-color;
+            .nk-tb-dashed & {
+                border-bottom-style: dashed;
+            }
         }
         .nk-tb-head &{
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
             color: $base-light;
             font-size: .9em;
-            border-bottom: 1px solid $border-color;
+            border-bottom: 1px solid $border-color; 
         }
         &-action {
             text-align: right;

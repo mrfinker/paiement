@@ -64,23 +64,23 @@
             }
         }
     }
-     //@e-290
-     &-rating{
-        display: flex;
-        align-items: center;
-        &-title{
-            width: 48px;
-            flex-grow: 0;
-            line-height: 1.25rem;
+        //@e-290
+        &-rating{
+            display: flex;
+            align-items: center;
+            &-title{
+                width: 48px;
+                flex-grow: 0;
+                line-height: 1.25rem;
+            }
+            &-percent{
+                width: 40px;
+                // flex-grow: 0;
+                line-height: 1.25rem;
+                text-align: right;
+            }
+            .progress{
+                flex-grow: 1;
+            }
         }
-        &-percent{
-            width: 40px;
-            // flex-grow: 0;
-            line-height: 1.25rem;
-            text-align: right;
-        }
-        .progress{
-            flex-grow: 1;
-        }
-    }
 }

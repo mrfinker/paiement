@@ -1,7 +1,6 @@
 <?php
 Session::init();
 
-
 if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     $user = $_SESSION['users'];
     $userType = $_SESSION['userType'];
@@ -17,26 +16,18 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
 
 $superadminModel = new superadmin_model();
 $Alluser = $superadminModel->getAllUsers();
+$Allcountry = $superadminModel->getAllCountry();
 
 ?>
 
-<?= include_once "./views/include/header.php"?>
+<?php include_once "./views/include/header.php"?>
 
 <div class="nk-content ">
     <div class="container-fluid">
         <div class="nk-content-inner">
             <div class="nk-content-body">
-                <div class="components-preview wide-lg mx-auto">
-                    <div class="nk-block-head nk-block-head-lg wide-sm">
-                        <div class="nk-block-head-content">
-                            <div class="nk-block-head-sub">
-                                <a class="back-to" href="<?=URL?>dashboard/superadmin">
-                                    <em class="icon ni ni-arrow-left"></em>
-                                    <span>Retour</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- .nk-block-head -->
+                <div class="components-preview wide-xxl mx-auto">
+                    
 
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
@@ -75,6 +66,15 @@ $Alluser = $superadminModel->getAllUsers();
                                                     <span class="sub-text">#</span>
                                                 </th>
                                                 <th
+                                                    class="nk-tb-col tb-col-md sorting"
+                                                    tabindex="0"
+                                                    aria-controls="DataTables_Table_1"
+                                                    rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Phone: activate to sort column ascending">
+                                                    <span class="sub-text">Image</span>
+                                                </th>
+                                                <th
                                                     class="nk-tb-col tb-col-mb sorting"
                                                     tabindex="0"
                                                     aria-controls="DataTables_Table_1"
@@ -91,15 +91,6 @@ $Alluser = $superadminModel->getAllUsers();
                                                     colspan="1"
                                                     aria-label="Balance: activate to sort column ascending">
                                                     <span class="sub-text">email</span>
-                                                </th>
-                                                <th
-                                                    class="nk-tb-col tb-col-md sorting"
-                                                    tabindex="0"
-                                                    aria-controls="DataTables_Table_1"
-                                                    rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Phone: activate to sort column ascending">
-                                                    <span class="sub-text">username</span>
                                                 </th>
                                                 <th
                                                     class="nk-tb-col tb-col-md sorting"
@@ -135,9 +126,8 @@ $Alluser = $superadminModel->getAllUsers();
                                                     rowspan="1"
                                                     colspan="1"
                                                     aria-label="Phone: activate to sort column ascending">
-                                                    <span class="sub-text">date de creation</span>
+                                                    <span class="sub-text">statut</span>
                                                 </th>
-
                                                 <th
                                                     class="nk-tb-col nk-tb-col-tools text-end sorting"
                                                     tabindex="0"
@@ -150,8 +140,8 @@ $Alluser = $superadminModel->getAllUsers();
                                         </thead>
                                         <tbody>
                                             <?php
-                                                    foreach ($Alluser as $users) {
-                                                    ?>
+foreach ($Alluser as $users) {
+    ?>
                                             <!-- .nk-tb-item -->
                                             <!-- .nk-tb-item -->
                                             <!-- .nk-tb-item -->
@@ -171,32 +161,50 @@ $Alluser = $superadminModel->getAllUsers();
                                                     <div class="user-card">
                                                         <div class="user-info">
                                                             <span class="tb-lead">
-                                                                <?= $users['id'] ?>
+                                                                <?=$users['num']?>
                                                                 <span class=" d-md-none ms-1"></span></span>
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <div class="user-toggle">
+                                                        <div class="user-avatar sm">
+                                                            <?php if (isset($users['image']) && !empty($users['image'])): ?>
+                                                            <img src="<?=$users['image']?>" alt="User Avatar">
+                                                            <?php if($users['is_logged_in'] == 1): ?>
+                                                            <div class="status dot dot-lg dot-success"></div>
+                                                        <?php else: ?>
+                                                            <div class="status dot dot-lg dot-danger"></div>
+                                                            <?php endif; ?>
+                                                        <?php else: ?>
+                                                            <em class="icon ni ni-user-alt"></em>
+                                                            <?php endif;?>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td class="nk-tb-col tb-col-mb">
-                                                    <span class="tb-amount"><?= $users['name'] ?></span>
+                                                    <span class="tb-amount"><?=$users['name']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?= $users['email'] ?></span>
+                                                    <span><?=$users['email']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?= $users['username'] ?></span>
+                                                    <span><?=$users['birthday']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?= $users['birthday'] ?></span>
+                                                    <span><?=$users['phone']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?= $users['phone'] ?></span>
+                                                    <span><?=$users['address']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?= $users['address'] ?></span>
+                                                    <?php if($users['is_active'] == 1): ?>
+                                                    <span class="badge badge-dim bg-success">Actif</span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-dim bg-danger">Désactivé</span>
+                                                    <?php endif; ?>
                                                 </td>
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?= $users['created_at'] ?></span>
-                                                </td>
+
                                                 <td class="nk-tb-col nk-tb-col-tools">
                                                     <ul class="nk-tb-actions gx-1">
                                                         <!-- <li class="nk-tb-action-hidden"> <a href="#" class="btn btn-trigger
@@ -220,41 +228,45 @@ $Alluser = $superadminModel->getAllUsers();
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a href="#" class="delete-button-users" data-id="<?= $users['id']; ?>">
+                                                                            <a href="#" class="delete-button-users" data-id="<?=$users['id'];?>">
                                                                                 <em class="icon ni ni-trash"></em>
                                                                                 <span>Supprimer</span></a>
-                                                                        </li>
-                                                                        <li class="divider"></li>
-                                                                        <li>
                                                                             <a
                                                                                 href="#"
                                                                                 class="update_button_profile"
-                                                                                data-id="<?= $users['id']; ?>"
-                                                                                data-userprofile-name="<?= $users['name']; ?>"
-                                                                                data-userprofile-username="<?= $users['username']; ?>"
-                                                                                data-userprofile-email="<?= $users['email']; ?>"
-                                                                                data-userprofile-phone="<?= $users['phone']; ?>"
-                                                                                data-userprofile-address="<?= $users['address']; ?>"
-                                                                                data-userprofile-birthday="<?= $users['birthday']; ?>">
+                                                                                data-id="<?=$users['id'];?>"
+                                                                                data-userprofile-name="<?=$users['name'];?>"
+                                                                                data-userprofile-username="<?=$users['username'];?>"
+                                                                                data-userprofile-email="<?=$users['email'];?>"
+                                                                                data-userprofile-phone="<?=$users['phone'];?>"
+                                                                                data-userprofile-address="<?=$users['address'];?>"
+                                                                                data-userprofile-birthday="<?=$users['birthday'];?>">
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
-                                                                                </a>
-                                                                        </li>
-                                                                        <li class="divider"></li>
-                                                                        <li>
+                                                                            </a>
                                                                             <a
                                                                                 href="#"
                                                                                 class="voir_button_profile"
-                                                                                data-id="<?= $users['id']; ?>"
-                                                                                data-view-name="<?= $users['name']; ?>"
-                                                                                data-view-username="<?= $users['username']; ?>"
-                                                                                data-view-email="<?= $users['email']; ?>"
-                                                                                data-view-phone="<?= $users['phone']; ?>"
-                                                                                data-view-address="<?= $users['address']; ?>"
-                                                                                data-view-birthday="<?= $users['birthday']; ?>">
+                                                                                data-id="<?=$users['id'];?>"
+                                                                                data-view-name="<?=$users['name'];?>"
+                                                                                data-view-username="<?=$users['username'];?>"
+                                                                                data-view-email="<?=$users['email'];?>"
+                                                                                data-view-phone="<?=$users['phone'];?>"
+                                                                                data-view-address="<?=$users['address'];?>"
+                                                                                data-view-birthday="<?=$users['birthday'];?>"
+                                                                                data-view-image="<?=$users['image'];?>">
                                                                                 <em class="icon ni ni-eye"></em>
                                                                                 <span>Voir</span>
-                                                                                </a>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li class="divider"></li>
+                                                                        <li>
+                                                                            <button type="button" class="btn active_desactive" data-id="<?=$users['id'];?>">
+                                                                                <em class="icon ni ni-spark-off-fill"></em>
+                                                                                <span>
+                                                                                    <?php echo $users['is_active'] ? 'Désactiver' : 'Activer'; ?>
+                                                                                </span>
+                                                                            </button>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -264,9 +276,9 @@ $Alluser = $superadminModel->getAllUsers();
                                                 </td>
                                             </tr>
                                             <?php
-                                                    }
-                                                    ?>
-                                            </tbody>
+}
+?>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <div class="row align-items-center">
@@ -447,12 +459,17 @@ $Alluser = $superadminModel->getAllUsers();
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label">Veuillez inserer une image</label>
+                                    <label class="form-label" for="imageFile">Veuillez inserer une image</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <div class="form-file">
-                                        <input type="file" class="form-file-input" name="imageFile" id="imageFile">
-                                        <label class="form-file-label" for="imageFile">Choisir fichier</label>
+                                        <input
+                                            type="file"
+                                            required="required"
+                                            class="form-file-input"
+                                            name="image"
+                                            id="image">
+                                        <label class="form-file-label" for="image">Choisir fichier</label>
                                     </div>
                                 </div>
                             </div>
@@ -474,7 +491,11 @@ $Alluser = $superadminModel->getAllUsers();
 </div>
 
 <!-- update users -->
-<div class="modal fade" id="UpdateModalProfile" style="display: none;" aria-hidden="true">
+<div
+    class="modal fade"
+    id="UpdateModalProfile"
+    style="display: none;"
+    aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -484,7 +505,7 @@ $Alluser = $superadminModel->getAllUsers();
                 </a>
             </div>
             <div class="modal-body">
-            <form id="updateFormUser" method="POST" enctype="multipart/form-data">
+                <form id="updateFormUser" method="POST" enctype="multipart/form-data">
                     <div class="row gy-4">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -495,7 +516,7 @@ $Alluser = $superadminModel->getAllUsers();
                                     <input
                                         required="required"
                                         type="text"
-                                        name="name"
+                                        name="nameupdate"
                                         class="form-control form-control-lg"
                                         id="nameupdate"
                                         placeholder="Entrer votre noms">
@@ -511,7 +532,7 @@ $Alluser = $superadminModel->getAllUsers();
                                     <input
                                         required="required"
                                         type="text"
-                                        name="username"
+                                        name="usernameupdate"
                                         class="form-control form-control-lg"
                                         id="usernameupdate"
                                         placeholder="Entrer votre username">
@@ -527,7 +548,7 @@ $Alluser = $superadminModel->getAllUsers();
                                     <input
                                         required="required"
                                         type="email"
-                                        name="email"
+                                        name="emailupdate"
                                         class="form-control form-control-lg"
                                         id="emailupdate"
                                         placeholder="Entrer votre email">
@@ -543,7 +564,7 @@ $Alluser = $superadminModel->getAllUsers();
                                     <input
                                         required="required"
                                         type="number"
-                                        name="phone"
+                                        name="phoneupdate"
                                         class="form-control form-control-lg"
                                         id="phoneupdate"
                                         placeholder="Entrer votre numero de telephone">
@@ -559,7 +580,7 @@ $Alluser = $superadminModel->getAllUsers();
                                     <input
                                         required="required"
                                         type="text"
-                                        name="address"
+                                        name="addressupdate"
                                         class="form-control form-control-lg"
                                         id="addressupdate"
                                         placeholder="Entrer votre adresse">
@@ -567,22 +588,35 @@ $Alluser = $superadminModel->getAllUsers();
                             </div>
                         </div>
                         <div class="col-sm-6">
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label class="form-label" for="birthdayupdate">Date d'anniversaire</label>
                                 <input
                                     type="text"
                                     class="form-control form-control-lg date-picker"
-                                    name="birthday"
+                                    name="birthdayupdate"
                                     id="birthdayupdate">
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="imageFile">Veuillez inserer une image</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <div class="form-file">
+                                        <input type="file" class="form-file-input" name="image" id="imageupdate">
+                                        <label class="form-file-label" for="imageupdate">Choisir fichier</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <input type="hidden" class="id_users">
+                    <input type="hidden" class="id_users" name="id">
                     <div class="form-group mt-2">
                         <button
                             type="submit"
-                            id="register_btn"
-                            name="register_btn"
+                            id="update_btn"
+                            name="update_btn"
                             class="btn btn-lg btn-primary btn-block">Modifier utilisateur</button>
                     </div>
                 </form>
@@ -593,7 +627,11 @@ $Alluser = $superadminModel->getAllUsers();
 </div>
 
 <!-- voir users -->
-<div class="modal fade" id="viewModalProfile" style="display: none;" aria-hidden="true">
+<div
+    class="modal fade"
+    id="viewModalProfile"
+    style="display: none;"
+    aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -602,8 +640,16 @@ $Alluser = $superadminModel->getAllUsers();
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
+
             <div class="modal-body">
-            <form id="updateFormUser" method="POST" enctype="multipart/form-data">
+                <form id="viewFormUser" method="POST" enctype="multipart/form-data">
+                    <div class="user-avatar sq xl mb-2">
+                        <?php if (isset($user['image']) && !empty($user['image'])): ?>
+                        <img src="" id="viewimage" alt="User Avatar">
+                        <?php else: ?>
+                        <em class="icon ni ni-user-alt"></em>
+                        <?php endif; ?>
+                    </div>
                     <div class="row gy-4">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -617,7 +663,7 @@ $Alluser = $superadminModel->getAllUsers();
                                         name="name"
                                         class="form-control form-control-lg"
                                         id="viewname"
-                                        disabled
+                                        disabled="disabled"
                                         placeholder="Entrer votre noms">
                                 </div>
                             </div>
@@ -634,7 +680,7 @@ $Alluser = $superadminModel->getAllUsers();
                                         name="username"
                                         class="form-control form-control-lg"
                                         id="viewusername"
-                                        disabled
+                                        disabled="disabled"
                                         placeholder="Entrer votre username">
                                 </div>
                             </div>
@@ -651,7 +697,7 @@ $Alluser = $superadminModel->getAllUsers();
                                         name="email"
                                         class="form-control form-control-lg"
                                         id="viewemail"
-                                        disabled
+                                        disabled="disabled"
                                         placeholder="Entrer votre email">
                                 </div>
                             </div>
@@ -668,7 +714,7 @@ $Alluser = $superadminModel->getAllUsers();
                                         name="phone"
                                         class="form-control form-control-lg"
                                         id="viewphone"
-                                        disabled
+                                        disabled="disabled"
                                         placeholder="Entrer votre numero de telephone">
                                 </div>
                             </div>
@@ -685,19 +731,19 @@ $Alluser = $superadminModel->getAllUsers();
                                         name="address"
                                         class="form-control form-control-lg"
                                         id="viewaddress"
-                                        disabled
+                                        disabled="disabled"
                                         placeholder="Entrer votre adresse">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label class="form-label" for="viewbirthday">Date d'anniversaire</label>
                                 <input
                                     type="text"
                                     class="form-control form-control-lg date-picker"
                                     name="birthday"
-                                    disabled
+                                    disabled="disabled"
                                     id="viewbirthday">
                             </div>
                         </div>
@@ -707,12 +753,7 @@ $Alluser = $superadminModel->getAllUsers();
             </div>
         </div>
     </div>
-
 </div>
 
-</div>
-<!-- wrap @e -->
-</div>
-<!-- app-root @e -->
 
-<?=include_once "./views/include/footer.php"?>
+<?php include_once "./views/include/footer.php"?>

@@ -15,7 +15,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
     exit;
 }
 ?>
-<?= include_once("./views/include/header.php") ?>
+<?php include_once ("./views/include/header.php") ?>
                 <!-- content @s -->
             <div class="nk-content ">
                 <div class="container-fluid">
@@ -261,4 +261,4 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
             </div><!-- .modal-content -->
         </div><!-- .modal-dialog -->
     </div><!-- .modal -->
-    <?= include_once("./views/include/footer.php") ?>
+    <?php include_once ("./views/include/footer.php") ?>

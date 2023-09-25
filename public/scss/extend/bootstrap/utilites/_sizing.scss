@@ -67,7 +67,7 @@ $wide-sizes:
 }
 
 
-$fixed-heights: 1rem, 2rem, 100px, 150px, 175px, 200px, 225px, 250px, 275px, 300px, 325px, 350px, 375px, 400px, 425px, 450px, 475px, 500px;
+$fixed-heights: 1rem, 2rem, 1rem, 2rem, 100px, 150px, 175px, 200px, 225px, 250px, 275px, 300px, 325px, 350px, 375px, 400px, 425px, 450px, 475px, 500px;
 
 @each $size in $fixed-heights {
   .h-#{$size} {

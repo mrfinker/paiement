@@ -7,7 +7,7 @@
         font-weight: $fw-bold;
         text-transform: uppercase;
         letter-spacing: 0.12em;
-        background: $lighter;
+        background: $light;
         td, th {
             color: $base-light;
             padding: 0.625rem .25rem;
@@ -19,6 +19,14 @@
             }
             &:last-child {
                 border-top-right-radius: 4px;
+            }
+            .card & {
+                &:first-child {
+                    border-top-left-radius: 0;
+                }
+                &:last-child {
+                    border-top-right-radius: 0;
+                }
             }
         }
     }
@@ -70,7 +78,7 @@
         }
     }
     &-btns {
-    	.btn + .btn {
+        .btn + .btn {
             margin-left: .5rem;
     	}
     	& + .dropdown {

@@ -15,6 +15,11 @@
   .text-#{$name} {color: $color !important;}
 }
 
+@each $name, $color in $brand-colors{
+  .bg-#{$name} {background-color: $color !important;}
+  .text-#{$name} {color: $color !important;}
+}
+
 @each $color, $value in $grays {
   .bg-gray-#{$color} {
     background-color: $value !important;

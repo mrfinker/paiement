@@ -1,5 +1,7 @@
 @use "sass:math";
+
 .tagify{
+
     // SCSS "default" allows overriding variables BEFORE they are set in the below lines of code
     $self: &;
     $tags-border-color       : $border-light !default;
@@ -175,7 +177,7 @@
         &:hover:not([readonly]){
             div{ 
                 &::before{
-                    $size: math.div(-$tagMargin , 2);
+                    $size: math.div(-$tagMargin,2);
                     $size: 0;
                     top:$size; 
                     right:$size; 
@@ -273,7 +275,6 @@
             content: $ni-cross;
             top:0;
         }
-
 
         &:hover{
             color:white;
@@ -407,8 +408,8 @@
             right: 0;
             bottom: 0;
             font: $size monospace;
-            line-height: math.div($size , 2);
-            height: math.div($size , 2);
+            line-height: math.div($size,2);
+            height: math.div($size,2);
             pointer-events: none;
             transform: translate(-150%, -50%) scaleX(1.2) rotate(90deg);
             transition: .2s ease-in-out;

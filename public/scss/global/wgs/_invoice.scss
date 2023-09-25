@@ -8,7 +8,6 @@ $invoice-margin-bottom: 1.5rem !default;
     position: relative;
     &-wrap {
         padding: $invoice-wrap-xy;
-        border: 1px solid $border-color;
         border-radius: $border-radius;
         background: $white
     }
@@ -16,6 +15,7 @@ $invoice-margin-bottom: 1.5rem !default;
         position: absolute;
 		right: 1.25rem;
         top: 1.25rem;
+		z-index: 1;
     }
     &-brand {
         padding-bottom: $invoice-margin-bottom;

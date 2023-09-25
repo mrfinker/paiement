@@ -1,4 +1,5 @@
 @use "sass:math";
+
 .form{
     &-icon{
         position: absolute;
@@ -68,9 +69,9 @@
         &-outlined{
             position: absolute;
             top: $input-padding-y;
-            left: math.div($input-padding-x , 1.5);
+            left: math.div($input-padding-x,1.5);
             transform-origin: left;
-            padding: 0 math.div($input-padding-x , 2.5);
+            padding: 0 math.div($input-padding-x,2.5);
             font-weight: $input-font-weight;
             line-height: $input-line-height;
             color: $input-color;
@@ -81,13 +82,13 @@
             @include font-size($input-font-size);
             .form-control-lg ~ &{
                 top: $input-padding-y-lg;
-                padding: 0 math.div($input-padding-x , 2.65);
+                padding: 0 math.div($input-padding-x,2.65);
                 @include font-size($input-font-size-lg);
             }
             .form-control-sm ~ &{
                 @include font-size($input-font-size-sm);
                 top: $input-padding-y-sm;
-                left: math.div($input-padding-x , 2.5);
+                left: math.div($input-padding-x,2.5);
             }
             .focused .form-control-sm ~ &,
             .js-select2.form-control-sm ~ &{
@@ -101,8 +102,8 @@
                 @include font-size($input-font-size-xl);
                 line-height: $input-line-height-xl;
                 top: $input-padding-y-xl;
-                padding: 0 math.div($input-padding-x-xl , 2.5);
-                left: math.div($input-padding-x-xl , 1.5);
+                padding: 0 math.div($input-padding-x-xl,2.5);
+                left: math.div($input-padding-x-xl,1.5);
             }
             .focused .form-control-xl ~ &,
             .js-select2.form-control-xl ~ &{
@@ -266,7 +267,7 @@
         -webkit-appearance: none;
     }
     &-multiple{
-        .js-select2{
+        .form-select{
             padding-top: 0.375rem;
             padding-bottom: 0.875rem;
             option{
@@ -326,7 +327,6 @@ textarea{
     }
 }
 
-
 .custom-btn{
     &-check{
         position: relative;
@@ -375,9 +375,6 @@ textarea{
             background-color: transparent;
         }
     }
-}
-.form-select[multiple], .form-select[size]:not([size="1"]){
-    height: 122px;
 }
 .form-inline {
     display: flex;

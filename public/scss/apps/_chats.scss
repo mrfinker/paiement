@@ -336,11 +336,11 @@ $chat-meta-sap: $ni-dot !default;
                 content:$chat-meta-sap;
                 font-family: $nk-dashlite-font;
                 position: absolute;
-                left: 0;
                 top: 50%;
+                left: 0;
+                transform: translate(-50%,-50%);
                 font-size: 11px;
                 line-height: 10px;
-                transform: translate(-50%,-50%);
                 opacity: .8;
             }
         }
@@ -613,8 +613,9 @@ $chat-meta-sap: $ni-dot !default;
     position: relative;
     display: flex;
     overflow: hidden;
-    min-height: calc(100vh - (#{$header-height} + 64px));
-    max-height: calc(100vh - (#{$header-height} + 64px));
+    border-radius: $border-radius;
+    min-height: calc(100vh - (#{$header-height} + 78px + #{$body-offset*2}));
+    max-height: calc(100vh - (#{$header-height} + 78px + #{$body-offset*2}));
     background: $white;
     &-blank{
         display: flex;
@@ -626,6 +627,12 @@ $chat-meta-sap: $ni-dot !default;
         &-icon{
             margin-bottom: 1.5rem;
         }
+    }
+    &-boxed{
+        border:1px solid $border-color;
+        border-radius: $border-radius;
+        min-height: calc(100vh - (#{$header-height} + 64px + 64px));
+        max-height: calc(100vh - (#{$header-height} + 64px + 64px));
     }
     &-aside{
         background: $white;
@@ -837,14 +844,23 @@ $chat-meta-sap: $ni-dot !default;
         }
     }
 }
+@include media-breakpoint-down(xl){
+    .nk-chat{
+        min-height: calc(100vh - (#{$header-height} + 78px + #{$body-offset}));
+        max-height: calc(100vh - (#{$header-height} + 78px + #{$body-offset}));
+    }
+}
 
-
-@include media-breakpoint-down(md){
+@include media-breakpoint-down(sm){
     .nk-chat{
         border: none;
-        border-radius: $border-radius;
-        min-height: calc(100vh - (#{$header-height} + 85px));
-        max-height: calc(100vh - (#{$header-height} + 85px));
+        border-radius: 0;
+        min-height: calc(100vh - (#{$header-height} + 116px + #{$body-offset}));
+        max-height: calc(100vh - (#{$header-height} + 116px + #{$body-offset}));
+        &-boxed{
+            border:1px solid $border-color;
+            border-radius: $border-radius;
+        }
         &-head{
             padding: 0.75rem 1.25rem;
             &-user{
@@ -966,6 +982,15 @@ $chat-meta-sap: $ni-dot !default;
 }
 @include media-breakpoint-up(xxl){
     .nk-chat{
+        &-boxed{
+            min-height: calc(100vh - (#{$header-height} + 64px + 112px));
+            max-height: calc(100vh - (#{$header-height} + 64px + 112px));
+            .nk-chat-body{
+                &.profile-shown{
+                    padding-right: 0;
+                }
+            }
+        }
         &-aside{
             width: $chat-aside-width-xl;
         }

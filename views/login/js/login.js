@@ -3,6 +3,7 @@ $(document).ready(function () {
 
     $(document).on("submit", "#loginFormUser", function (e) {
         e.preventDefault();
+        
         let email = $("#email").val();
         let password = $("#password").val();
         $.ajax({

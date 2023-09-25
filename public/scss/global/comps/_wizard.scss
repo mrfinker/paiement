@@ -28,8 +28,9 @@
                 transition: all .4s ease;
                 border-color: $accent-color;
                 background: $accent-color;
-                @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-border-radius);
                 line-height: $btn-line-height;
+                @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-border-radius);
+                @extend .btn;
             }
             &.disabled{
                 display: none;

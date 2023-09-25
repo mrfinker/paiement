@@ -45,10 +45,10 @@ class Profile extends Controller
                         $idToUpdate = intval($_POST['userId']);
                         
                         if ($userIDInSession === $idToUpdate) {
-                            $_SESSION['user']['name'] = $name;
-                            $_SESSION['user']['username'] = $username;
-                            $_SESSION['user']['phone'] = $phone;
-                            $_SESSION['user']['birthday'] = $birthday;
+                            $_SESSION['users']['name'] = $name;
+                            $_SESSION['users']['username'] = $username;
+                            $_SESSION['users']['phone'] = $phone;
+                            $_SESSION['users']['birthday'] = $birthday;
                         }
                     } else {
                         $response = [
@@ -61,6 +61,8 @@ class Profile extends Controller
         }
 
         }
+
+        
     
 
 

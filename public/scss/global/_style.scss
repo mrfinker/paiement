@@ -11,6 +11,8 @@
 @import "tables/base";
 @import "tables/tranx";
 
+@import "wgs/wg1";
+
 @import "wgs/kyc-form";
 @import "wgs/referral";
 @import "wgs/timeline";
@@ -19,6 +21,7 @@
 @import "wgs/pricing";
 @import "wgs/products";
 @import "wgs/gallery";
+@import "wgs/campaign";
 @import "wgs/misc";
 
 // Load with condition

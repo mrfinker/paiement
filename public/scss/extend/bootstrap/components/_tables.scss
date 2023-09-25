@@ -22,7 +22,7 @@
             border-bottom: $table-border-width solid $table-border-color;
         }
     }
-    &-dark thead tr:last-child th, thead.thead-dark tr:last-child th {
+    &-dark thead tr:last-child th, thead.table-dark tr:last-child th {
         border-color: $table-dark-border-color;
     }
     td,th{

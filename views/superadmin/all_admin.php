@@ -19,28 +19,17 @@ $company = $superadminModel->getAllcompany();
 
 ?>
 
-<?=include_once "./views/include/header.php"?>
+<?php include_once  "./views/include/header.php"?>
 
 <div class="nk-content ">
     <div class="container-fluid">
         <div class="nk-content-inner">
             <div class="nk-content-body">
-                <div class="components-preview wide-xl mx-auto">
-                    <div class="nk-block-head nk-block-head-lg wide-sm">
-                        <div class="nk-block-head-content">
-                            <div class="nk-block-head-sub">
-                                <a class="back-to" href="<?=URL?>dashboard/superadmin">
-                                    <em class="icon ni ni-arrow-left"></em>
-                                    <span>Retour</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- .nk-block-head -->
-
+                <div class="components-preview wide-xxl mx-auto">
+                    
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h4 class="nk-block-title">Liste de toutes les admins</h4>
                                 <button
                                     href="#"
                                     class="btn btn-primary mt-2"
@@ -349,9 +338,4 @@ $company = $superadminModel->getAllcompany();
 
     </div>
 
-</div>
-<!-- wrap @e -->
-</div>
-<!-- app-root @e -->
-
-<?=include_once "./views/include/footer.php"?>
+<?php include_once  "./views/include/footer.php"?>

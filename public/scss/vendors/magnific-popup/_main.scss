@@ -253,7 +253,6 @@ button {
   top: 0;
   text-decoration: none;
   text-align: center;
-  // opacity: $mfp-controls-opacity;
   transform: translate(50%,-50%);
   color: $mfp-controls-color;
 
@@ -331,6 +330,7 @@ button {
       top: 0;
       margin-top: 35px;
       margin-left: 35px;
+      margin-right: 35px;
       border: medium inset transparent;
     }
 

@@ -6,6 +6,8 @@
                 border-top: none;
             }
         }
+    }
+    > .table {
         tr {
             &:last-child {
                 td:first-child {
@@ -97,8 +99,7 @@
 @include media-breakpoint-down(md){
     .toggle-break-md.card-aside{
         .card-inner-group{
-            max-height: calc(100vh - #{$header-height});
-            margin-top:$header-height;
+            max-height: 100vh;
         }
     }
 }
@@ -106,8 +107,7 @@
 @include media-breakpoint-down(lg){
     .toggle-break-lg.card-aside{
         .card-inner-group{
-            max-height: calc(100vh - #{$header-height});
-            margin-top:$header-height;
+            max-height: 100vh;
         }
     }
 }
@@ -115,8 +115,7 @@
 @include media-breakpoint-down(xl){
     .toggle-break-xl.card-aside{
         .card-inner-group{
-            max-height: calc(100vh - #{$header-height});
-            margin-top:$header-height;
+            max-height: 100vh;
         }
     }
 }
@@ -124,8 +123,7 @@
 @include media-breakpoint-down(xxl){
     .toggle-break-xxl.card-aside{
         .card-inner-group{
-            max-height: calc(100vh - #{$header-height});
-            margin-top:$header-height;
+            max-height: 100vh;
         }
     }
 }

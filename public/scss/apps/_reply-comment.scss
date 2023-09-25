@@ -308,7 +308,7 @@ $reply-body-gap-x-dsk :2.5rem;
         }
     }
 }
-@include media-breakpoint-down(mb){
+@include media-breakpoint-down(sm){
     .nk-reply{
         &-info{
             margin-left: 0.75rem;

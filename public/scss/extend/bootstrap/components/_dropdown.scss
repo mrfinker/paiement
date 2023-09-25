@@ -148,42 +148,42 @@
         min-width: $dropdown-width-xxs;
         max-width: $dropdown-width-xxs;
         &.dropdown-menu-center{
-            margin-left: math.div($dropdown-width-xxs , 2);
+            margin-left: - math.div($dropdown-width-xxs,2);
         }
     }
     &-xs{
         min-width: $dropdown-width-xs;
         max-width: $dropdown-width-xs;
         &.dropdown-menu-center{
-            margin-left: math.div($dropdown-width-xs , 2);
+            margin-left: - math.div($dropdown-width-xs,2);
         }
     }
     &-md{
         min-width: $dropdown-width-md;
         max-width: $dropdown-width-md;
         &.dropdown-menu-center{
-            margin-left: math.div($dropdown-width-md , 2);
+            margin-left: - math.div($dropdown-width-md,2);
         }
     }
     &-sm{
         min-width: $dropdown-width-sm;
         max-width: $dropdown-width-sm;
         &.dropdown-menu-center{
-            margin-left: math.div($dropdown-width-sm , 2);
+            margin-left: - math.div($dropdown-width-sm,2);
         }
     }
     &-lg{
         min-width: $dropdown-width-lg;
         max-width: $dropdown-width-lg;
         &.dropdown-menu-center{
-            margin-left: math.div($dropdown-width-lg , 2);
+            margin-left: - math.div($dropdown-width-lg,2);
         }
     }
     &-xl{
         min-width: $dropdown-width-xl;
         max-width: $dropdown-width-xl;
         &.dropdown-menu-center{
-            margin-left: math.div($dropdown-width-xl , 2);
+            margin-left: - math.div($dropdown-width-xl,2);
         }
     }
     &-auto{
@@ -200,6 +200,7 @@
         margin-left: 14px !important;
     }
 }
+
 // Header Dropdown
 .nk-quick-nav{
     .dropdown-menu{
@@ -207,6 +208,7 @@
         margin-right: -6px !important;
     }
   }
+  
   @media (max-width:420px){
     .dropdown-menu-xl,.dropdown-menu-lg,.dropdown-menu-md{
         min-width: calc(100vw - 40px);
@@ -222,10 +224,8 @@
             }
         }
     }
-  } 
-
-
-
+  }
+  
 // Style s1
 .dropdown-menu-s1 {
     border-top:3px solid $primary;

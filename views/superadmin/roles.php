@@ -19,27 +19,17 @@ $userRoles = $superadminModel->getAllUserRoles();
 
 ?>
 
-<?=include_once "./views/include/header.php"?>
+<?php include_once  "./views/include/header.php"?>
 
 <div class="nk-content ">
     <div class="container-fluid">
         <div class="nk-content-inner">
             <div class="nk-content-body">
                 <div class="components-preview wide-lg mx-auto">
-                    <div class="nk-block-head nk-block-head-lg wide-sm">
-                        <div class="nk-block-head-content">
-                            <div class="nk-block-head-sub">
-                                <a class="back-to" href="<?=URL?>dashboard/superadmin">
-                                    <em class="icon ni ni-arrow-left"></em>
-                                    <span>Retour</span></a>
-                            </div>
-                        </div>
-                    </div>
-
+                    
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h4 class="nk-block-title">Liste des roles</h4>
 
                                 <button
                                     href="#"
@@ -93,16 +83,6 @@ $userRoles = $superadminModel->getAllUserRoles();
                                                     <span class="sub-text">permissions</span>
                                                 </th>
                                                 <th
-                                                    class="nk-tb-col tb-col-md sorting"
-                                                    tabindex="0"
-                                                    aria-controls="DataTables_Table_1"
-                                                    rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Phone: activate to sort column ascending">
-                                                    <span class="sub-text">Date d'ajout</span>
-                                                </th>
-
-                                                <th
                                                     class="nk-tb-col nk-tb-col-tools text-end sorting"
                                                     tabindex="0"
                                                     aria-controls="DataTables_Table_1"
@@ -142,9 +122,9 @@ $userRoles = $superadminModel->getAllUserRoles();
                                                     </div>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-mb">
-                                                    <span class="tb-amount"><?=$userRole['nom']?></span>
+                                                    <span class="tb-amount"><?=$userRole['name']?></span>
                                                 </td>
-                                                <td class="nk-tb-col tb-col-md col-6">
+                                                <td class="nk-tb-col tb-col-md col-9">
                                                     <?php
                                                         $permissions = explode(", ", $userRole['permissions']);
                                                         foreach ($permissions as $permission) {?>
@@ -152,9 +132,6 @@ $userRoles = $superadminModel->getAllUserRoles();
                                                     <?php
                                                         }
                                                     ?>
-                                                </td>
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$userRole['created_at']?></span>
                                                 </td>
                                                 <td class="nk-tb-col nk-tb-col-tools">
                                                     <ul class="nk-tb-actions gx-1">
@@ -189,22 +166,11 @@ $userRoles = $superadminModel->getAllUserRoles();
                                                                             <a
                                                                                 href="#"
                                                                                 class="update_button_role"
-                                                                                data-userrole-name="<?=$userRole['nom']?>"
+                                                                                data-userrole-name="<?=$userRole['name']?>"
                                                                                 data-checked-role="<?=$userRole['permissions']?>"
                                                                                 data-id="<?=$userRole['id_role'];?>">
                                                                                 <em class="icon ni ni-pen2"></em>
                                                                                 <span>Modifier</span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li class="divider"></li>
-                                                                        <li>
-                                                                            <a
-                                                                                href="#"
-                                                                                class="view_button_role"
-                                                                                data-view-name="<?=$userRole['nom']?>"
-                                                                                data-id="<?=$userRole['id_role'];?>">
-                                                                                <em class="icon ni ni-eye"></em>
-                                                                                <span>Voir</span>
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -273,9 +239,9 @@ $userRoles = $superadminModel->getAllUserRoles();
                     id="PrivilegeForm"
                     novalidate="novalidate">
                     <div class="form-group">
-                        <label class="form-label" for="nom">Nom</label>
+                        <label class="form-label" for="name">Nom</label>
                         <div class="form-control-wrap">
-                            <input type="text" class="form-control" id="nom" name="nom" required="">
+                            <input type="text" class="form-control" id="name" name="name" required="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -452,9 +418,9 @@ $userRoles = $superadminModel->getAllUserRoles();
                     id="UpdatePrivilegeForm"
                     novalidate="novalidate">
                     <div class="form-group">
-                        <label class="form-label" for="nomupdate">Nom</label>
+                        <label class="form-label" for="nameupdate">Nom</label>
                         <div class="form-control-wrap">
-                            <input type="text" class="form-control" id="nomupdate" name="nom" required="">
+                            <input type="text" class="form-control" id="nameupdate" name="name" required="">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Administration</label>
@@ -604,131 +570,4 @@ $userRoles = $superadminModel->getAllUserRoles();
 
 </div>
 
-<!-- view role -->
-<div
-    class="modal fade"
-    id="viewModalroles"
-    style="display: none;"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Voir le role</h5>
-                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <em class="icon ni ni-cross"></em>
-                </a>
-            </div>
-            <div class="modal-body">
-                <form
-                    action="#"
-                    class="form-validate is-alter"
-                    id="UpdatePrivilegeForm"
-                    novalidate="novalidate">
-                    <div class="form-group">
-                        <label class="form-label" for="viewnom">Nom</label>
-                        <div class="form-control-wrap">
-                            <input
-                                type="text"
-                                disabled="disabled"
-                                class="form-control"
-                                id="viewnom"
-                                name="nom"
-                                required="">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Utilisateurs</label>
-                            <ul class="custom-control-group g-3 align-center">
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="admin_create">
-                                        <label class="custom-control-label" for="admin_create">Admin create</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="admin_edit">
-                                        <label class="custom-control-label" for="admin_edit">Admin edit</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="admin_delete">
-                                        <label class="custom-control-label" for="admin_delete">Admin delete</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="admin_liste">
-                                        <label class="custom-control-label" for="admin_liste">Admin liste</label>
-                                    </div>
-                                </li>
-                            </ul>
-                            <label class="form-label">Company</label>
-                            <ul class="custom-control-group g-3 align-center">
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="company_create">
-                                        <label class="custom-control-label" for="company_create">Company create</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="company_edit">
-                                        <label class="custom-control-label" for="company_edit">Company edit</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="company_delete">
-                                        <label class="custom-control-label" for="company_delete">Company delete</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="company_liste">
-                                        <label class="custom-control-label" for="company_liste">Company liste</label>
-                                    </div>
-                                </li>
-                            </ul>
-                            <label class="form-label">Privileges</label>
-                            <ul class="custom-control-group g-3 align-center">
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="privilege_create">
-                                        <label class="custom-control-label" for="privilege_create">Privileges create</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="privilege_edit">
-                                        <label class="custom-control-label" for="privilege_edit">Privileges edit</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="privilege_delete">
-                                        <label class="custom-control-label" for="privilege_delete">Privileges delete</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="custom-control custom-control-sm custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="privilege_liste">
-                                        <label class="custom-control-label" for="privilege_liste">Privileges liste</label>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <input type="hidden" class="id_role">
-                    </form>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-<!-- wrap @e -->
-</div>
-<!-- app-root @e -->
-
-<?=include_once "./views/include/footer.php"?>
+<?php include_once  "./views/include/footer.php"?>

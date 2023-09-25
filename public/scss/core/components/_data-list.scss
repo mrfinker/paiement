@@ -24,6 +24,7 @@
             cursor: pointer;
         }
         &:hover{
+            // background-color: $lighter;
             .data-label{
                 color: $base-text;
             }

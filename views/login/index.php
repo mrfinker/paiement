@@ -19,6 +19,7 @@
         <link
             rel="stylesheet"
             href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
+        <link rel="stylesheet" href="<?=URL?>public/assets/css/skins/theme-blue.css">
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.css">
@@ -38,18 +39,7 @@
                     <!-- content @s -->
                     <div class="nk-content ">
                         <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
-                            <div class="brand-logo pb-4 text-center">
-                                <a href="html/index.html" class="logo-link">
-                                    <img
-                                        class="logo-light logo-img logo-img-lg"
-                                        src="public/images/logo.png"
-                                        alt="logo">
-                                    <img
-                                        class="logo-dark logo-img logo-img-lg"
-                                        src="public/images/logo-dark.png"
-                                        alt="logo-dark">
-                                </a>
-                            </div>
+                            
                             <div class="card card-bordered">
                                 <div class="card-inner card-inner-lg">
 
@@ -57,8 +47,7 @@
                                         <div class="nk-block-head-content">
                                             <h4 class="nk-block-title">Connexion</h4>
                                             <div class="nk-block-des">
-                                                <p>Veuiller entrer vos données.
-                                                    .</p>
+                                                <p>Veuiller entrer vos données. .</p>
                                             </div>
                                         </div>
                                     </div>
@@ -100,7 +89,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" name="login_btn" class="btn btn-lg btn-primary btn-block">Connexion</button>
+                                            <button id="moginBtn" type="submit" name="login_btn" class="btn btn-lg btn-primary btn-block">Connexion</button>
                                         </div>
 
                                     </form>

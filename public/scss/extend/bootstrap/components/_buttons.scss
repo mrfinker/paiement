@@ -21,7 +21,7 @@
     > span{
         display: inline-block;
         white-space: nowrap;
-        &:only-child(){
+        &:only-child{
             width: 100%;
         }
     }
@@ -85,14 +85,14 @@
             }
         }
         .dot{
-            position: absolute;
             top: .35rem;
+            position: absolute;
             right: .35rem;
             transform: translate(50%, -50%);
         }
         .badge{
-            position: absolute;
             top: .25rem;
+            position: absolute;
             right: .25rem;
             transform: translate(50%, -50%);
             &-circle{
@@ -185,6 +185,9 @@
     position: relative;
     z-index: 1;
     color: $base-text;
+    .is-dark &{
+        color: $white;
+    }
     &:active,&.show{
         border-color: transparent !important;
     }
@@ -206,7 +209,7 @@
         opacity: 0;
         transition: all .3s;
         .is-dark &{
-            background-color: darken($accent-dark,10%);
+            background-color: rgba($black,.2);
         }
         .show > &{
             @include btn-trigger-active();
@@ -223,6 +226,15 @@
             @include btn-trigger-active();
         }
     }
+    &.on-dark{
+        color: $white !important;
+        &:focus{
+            color: $white !important;
+        }
+        &:before{
+            background-color: rgba($black,.2);
+        }
+    } 
 }
 
 

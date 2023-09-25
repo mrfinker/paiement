@@ -15,7 +15,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
     exit;
 }
 ?>
-<?= include_once("./views/include/header.php") ?>
+<?php include_once ("./views/include/header.php") ?>
 <!-- content @s -->
 <div class="nk-content ">
     <div class="container-fluid">
@@ -150,7 +150,11 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                     <div class="card-inner">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary">
-                                                <span>AB</span>
+                                            <?php if (isset($user['image']) && !empty($user['image'])): ?>
+                                                    <img src="<?= $user['image'] ?>" alt="User Avatar">
+                                                <?php else: ?>
+                                                    <em class="icon ni ni-user-alt"></em>
+                                                    <?php endif; ?>
                                             </div>
                                             <div class="user-info">
                                                 <span class="lead-text"><?=$user['name']?></span>
@@ -354,4 +358,4 @@ aria-hidden="true">
 <!-- .modal-dialog -->
 </div>
 <!-- .modal -->
-<?= include_once("./views/include/footer.php") ?>
+<?php include_once ("./views/include/footer.php") ?>

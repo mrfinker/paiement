@@ -28,16 +28,29 @@ class Database extends PDO
      * @param array $data An associative array
      */
     public function insert($table, array $data)
-    {
-        $filedName = implode(',', array_keys($data)) . '';
-        $filedValues = ':' . implode(',:', array_keys($data));
-        // print_r($filedName);
-        $query = $this->prepare("INSERT INTO $table  ($filedName) VALUES ($filedValues)");
-        foreach ($data as $key => $value) {
-            $query->bindValue(":$key", $value);
-        }
-        return $query->execute();
+{
+    $filedName = implode(',', array_keys($data)) . '';
+    $filedValues = ':' . implode(',:', array_keys($data));
+    $query = $this->prepare("INSERT INTO $table  ($filedName) VALUES ($filedValues)");
+    foreach ($data as $key => $value) {
+        $query->bindValue(":$key", $value);
     }
+    
+    // Exécutez la requête
+    $result = $query->execute();
+
+    // Vérifiez si la requête a réussi
+    if ($result) {
+        // Récupérez le dernier ID inséré
+        $lastInsertId = $this->lastInsertId();
+
+        // Retournez le dernier ID inséré
+        return $lastInsertId;
+    } else {
+        return false;
+    }
+}
+
     /**
      * update
      * @param string $table A name of table to Insert into

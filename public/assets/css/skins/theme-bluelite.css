@@ -1,10 +1,28 @@
 /*!
- * Theme: BlueLite
+ * Theme: Blue Light
  * Package: DashLite v3.2.0
  * Updated: 06.13.2023
  * Author: Softnio
  * Author URI: http://themeforest.net/user/softnio
 **/
+.nk-sidebar.is-dark {
+  background: #0f192a;
+  border-right-color: #1c2f50;
+}
+.nk-sidebar.is-theme {
+  background: #29347a;
+  border-right-color: #3644a0;
+}
+.is-dark .nk-sidebar-head {
+  border-color: #1c2f50;
+}
+.is-theme .nk-sidebar-head {
+  border-color: #3644a0;
+}
+.nk-sidebar.is-dark .user-balance-alt, .nk-sidebar.is-theme .user-balance-alt {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .nk-header {
   background: #f5f6fa;
   border-bottom-color: #e5e9f2;
@@ -74,14 +92,13 @@
 .nav-tabs .nav-link:after,
 .progress-bar, .dot-primary,
 .alert-fill.alert-primary,
-.badge-primary,
+.bg-primary,
 .icon-circle,
 .noUi-connect,
 .nk-kycfm-label::after,
-.plan-item-card:after,
+.buysell-pm-label:after,
 .nk-msg-menu-item a:after,
-.ui-shady .nk-msg-item.active:after, .ui-shady .nk-msg-item.current:after,
-.ui-softy .nk-msg-item.active:after, .ui-softy .nk-msg-item.current:after {
+.ui-shady .nk-msg-item.active:after, .ui-shady .nk-msg-item.current:after {
   background: #6576ff;
 }
 
@@ -91,6 +108,10 @@
 
 .card.is-dark {
   background: #2c3782;
+}
+
+.is-dark .nk-wg7-title, .is-dark .nk-wg7-note {
+  color: #c4cefe;
 }
 
 .user-avatar, [class^=user-avatar]:not([class*=-group]) {
@@ -108,6 +129,7 @@
 .nk-menu-link:hover .count,
 .nk-menu-sub .nk-menu-link:hover,
 .nk-menu-sub .active > .nk-menu-link,
+.nk-menu-sm .nk-menu-link:hover,
 .nk-menu-main .nk-menu-link:hover,
 .nk-menu-main .nk-menu-link:focus,
 .nk-menu-main .nk-menu-item.active > .nk-menu-link,
@@ -141,19 +163,24 @@
 .list-step li.list-step-current:before,
 .accordion-s2 .accordion-head .title,
 .accordion-s3 .accordion-head .title,
-.badge-outline-primary,
-.badge-dim.badge-primary,
+.bg-outline-primary,
+.badge-dim.bg-primary,
 .badge-dot.bg-primary,
-.badge-dim.badge-outline-primary,
+.badge-dim.bg-outline-primary,
 .alert-primary,
 .form-clip,
 .form-text-hint,
 .search-submit:hover,
 .nk-news-icon .icon,
 .nk-refwg-name .title,
-.nk-iv-wg1-info, .nk-wg4-note span,
-.nk-iv-scheme-item .amount-ex,
+.nk-wg1-amount .amount,
+.nk-wgw-add a .title,
+.nk-wgw-actions a:hover span,
+.nk-wgw-actions a:hover .icon,
+.nk-wg4-note span,
 .nk-kycfm-control:checked ~ .nk-kycfm-label .label-icon,
+.wallet-item-add a:hover .wallet-icon,
+.wallet-item-add a:hover .wallet-name,
 .attach-item .icon,
 .attach-download:hover span,
 .nk-reply-meta-info .whom,
@@ -211,23 +238,22 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
   color: #f0f1ff !important;
 }
 
-.alert-primary, .badge-dim.badge-outline-primary {
+.alert-primary, .badge-dim.bg-outline-primary {
   background-color: #f0f1ff;
   border-color: #c1c8ff;
 }
 
-.alert-pro.alert-primary, .badge-primary,
-.plan-control:checked + .plan-item-card,
+.alert-pro.alert-primary, .bg-primary,
 .form-control:focus,
 .form-control.focus,
-.form-file-input:focus ~ .form-file-label,
+.custom-file-input:focus ~ .custom-file-label,
 .custom-control-input:focus:not(:checked) ~ .custom-control-label::before,
 .select2-container--default .select2-selection--single:focus,
 .select2-container--default.select2-container--focus .select2-selection--multiple {
   border-color: #6576ff;
 }
 
-.nk-order-ovwg-data.sell, .badge-outline-primary {
+.nk-order-ovwg-data.sell, .bg-outline-primary {
   border-color: #c1c8ff;
 }
 
@@ -235,12 +261,7 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
   border-top-color: #6576ff;
 }
 
-.nk-iv-wg2-amount.ui-v2 {
-  border-bottom-color: #6576ff;
-}
-
 .page-item.active .page-link,
-.plan-control:checked + .plan-item-card .plan-label,
 .custom-control-input:checked ~ .custom-control-label::before,
 .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
   background-color: #6576ff;
@@ -253,13 +274,13 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
   background-color: #a3adff;
 }
 
-.badge-dim.badge-primary {
+.badge-dim.bg-primary {
   background-color: #f0f1ff;
   border-color: #f0f1ff;
 }
 
 .bg-primary.badge-dot {
-  background: transparent;
+  background: transparent !important;
 }
 
 .nk-error-head {
@@ -282,11 +303,19 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
   background: #8491ff;
 }
 
-.is-dark .nk-iv-wg2-title .title {
+.is-dark .nk-wgw-balance .amount-sm, .is-dark .nk-wgw-actions a .icon, .is-dark .nk-wgw-more .btn-trigger {
   color: #c4cefe;
 }
 
-.is-theme .nk-quick-nav-icon:before {
+.is-dark .nk-wgw-actions a {
+  color: #c4cefe;
+}
+
+.is-dark .nk-wgw-actions {
+  border-color: rgba(196, 206, 254, 0.4);
+}
+
+.is-dark .nk-wgw-more .btn-trigger:before, .is-theme .nk-quick-nav-icon:before {
   background-color: #1f275c;
 }
 
@@ -366,7 +395,7 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
 
 .form-control:focus, .form-control.focus,
 .custom-control-input:focus ~ .custom-control-label::before,
-.form-file-input:focus ~ .form-file-label,
+.custom-file-input:focus ~ .custom-file-label,
 .select2-container--default .select2-selection--single:focus,
 .select2-container--default.select2-container--focus .select2-selection--multiple {
   box-shadow: 0 0 0 3px rgba(101, 118, 255, 0.1);
@@ -381,8 +410,7 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
 .btn-outline-primary:not(:disabled):not(.disabled):active,
 .btn-outline-primary:not(:disabled):not(.disabled).active,
 .show > .btn-outline-primary.dropdown-toggle,
-.btn-primary.disabled, .btn-primary:disabled,
-.invest-amount-control:checked ~ .invest-amount-label {
+.btn-primary.disabled, .btn-primary:disabled {
   background-color: #6576ff;
   border-color: #6576ff;
 }
@@ -438,20 +466,25 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
   color: #526484;
 }
 
-.nk-menu-badge, .nk-menu-main .nk-menu-sub .nk-menu-badge {
+.nk-menu-badge {
   color: #939fff;
   background-color: #f0f1ff;
 }
 
-.is-theme .nk-sidebar-footer, .nk-apps-sidebar.is-theme, .is-theme .nk-sidebar-profile-fixed {
+.is-theme .nk-sidebar-footer, .is-theme .nk-sidebar-profile-fixed {
   background: #29347a;
   border-color: #3644a0;
 }
 
-.is-theme .nk-menu-footer .nk-menu-link, .is-theme .sub-text, .is-theme .lead-text span {
+.is-theme .wallet-name, .is-theme .wallet-icon, .is-theme .wallet-balance span, .is-theme .nk-menu-footer .nk-menu-link, .is-theme .sub-text, .is-theme .lead-text span {
   color: #c4cefe;
 }
 
+@media (min-width: 1200px) {
+  .nk-sidebar.is-theme .nk-menu > li:hover > a, .nk-sidebar.is-theme .nk-menu > li.active > a, .nk-sidebar.is-theme .nk-menu > li.current-menu > a, .nk-sidebar.is-theme .nk-menu > li > a:hover, .is-theme .wallet-item a:before {
+    background: #344199;
+  }
+}
 .nav-switch-s2 .nav-link:hover, .nav-switch-s2 .nav-link:focus {
   color: #526484;
 }
@@ -518,4 +551,70 @@ a.bg-primary:hover, a.bg-primary:focus, button.bg-primary:hover, button.bg-prima
 .custom-control-pro.no-control .custom-control-input:not(:disabled):active ~ .custom-control-label,
 .custom-control.color-control .custom-control-label:before {
   border-color: #6576ff !important;
+}
+
+.has-sub.active > .nk-menu-toggle:after {
+  color: #6576ff;
+}
+
+.nk-sidebar .nk-menu > li .nk-menu-sub .nk-menu-link:before {
+  border-color: #eceefa;
+  background: #dee2fb;
+}
+.nk-sidebar .nk-menu > li.active > .nk-menu-link {
+  background: #dee2fb;
+}
+.nk-sidebar .nk-menu > li > .nk-menu-link:hover {
+  background: #dee2fb;
+}
+.nk-sidebar .nk-menu-sub {
+  background: #eceefa;
+}
+.nk-sidebar .nk-menu-sub:before {
+  background: #dee2fb;
+}
+.nk-sidebar .nk-menu-sub .active > .nk-menu-link:before {
+  background: #6576ff !important;
+}
+.nk-sidebar.is-dark .nk-menu > li .nk-menu-sub .nk-menu-link:before {
+  border-color: #141f37;
+  background: #1d284c;
+}
+.nk-sidebar.is-dark .nk-menu > li.active > .nk-menu-link {
+  background: #1d284c;
+}
+.nk-sidebar.is-dark .nk-menu > li > .nk-menu-link:hover {
+  background: #1d284c;
+}
+.nk-sidebar.is-dark .nk-menu-sub {
+  background: #141f37;
+}
+.nk-sidebar.is-dark .nk-menu-sub:before {
+  background: #1d284c;
+}
+.nk-sidebar.is-dark .nk-menu-sub .active > .nk-menu-link:before {
+  background: #ffffff !important;
+}
+.nk-sidebar.is-dark .nk-menu .nk-menu-link:hover .nk-menu-icon, .nk-sidebar.is-dark .nk-menu .nk-menu-item.active > .nk-menu-link .nk-menu-icon, .nk-sidebar.is-dark .nk-menu .nk-menu-item.current-menu > .nk-menu-link .nk-menu-icon,
+.nk-sidebar.is-dark .nk-menu .nk-menu-link:hover, .nk-sidebar.is-dark .nk-menu .active > .nk-menu-link {
+  color: #ffffff;
+}
+.nk-sidebar.is-theme .nk-menu > li .nk-menu-sub .nk-menu-link:before {
+  border-color: #2d3882;
+  background: #333f8f;
+}
+.nk-sidebar.is-theme .nk-menu > li.active > .nk-menu-link {
+  background: #333f8f;
+}
+.nk-sidebar.is-theme .nk-menu > li > .nk-menu-link:hover {
+  background: #333f8f;
+}
+.nk-sidebar.is-theme .nk-menu-sub {
+  background: #2d3882;
+}
+.nk-sidebar.is-theme .nk-menu-sub:before {
+  background: #333f8f;
+}
+.nk-sidebar.is-theme .nk-menu-sub .active > .nk-menu-link:before {
+  background: #ffffff !important;
 }

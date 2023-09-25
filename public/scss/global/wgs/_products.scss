@@ -1,12 +1,8 @@
 .nk-add-product{
-    top: $header-height;
     background-color: $white;
     width: 400px;
-    height: calc(100vh - #{$header-height});
+    height: 100vh;
     padding: 1.5rem;
-    + .toggle-overlay{
-        z-index: 700;
-    }
 }
 
 .rating{
@@ -103,8 +99,7 @@
         border-radius: $border-radius;
         border:1px solid $border-light;
         .slick-list{
-            padding-left: 0 !important;
-            padding-right: 0 !important;
+            padding: 0 !important;
         }
         .slider-nav{
             position: absolute;
@@ -147,6 +142,16 @@
         margin-top: 2rem;
         + .product-meta{
             margin-top: 1.25rem;
+        }
+    }
+    &-slider{
+        .slick{
+            &-track{
+                display: flex;
+            }
+            &-slide{
+                height: auto;
+            }
         }
     }
 }

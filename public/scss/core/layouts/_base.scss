@@ -20,9 +20,17 @@ body{
         display: flex;
         flex-direction: column;
         min-height: 100vh;
+        &:not(.nk-wrap-nosidebar){
+            padding: $body-offset*.5 0;
+        }
+        @include media-breakpoint-up(xl){
+            &:not(.nk-wrap-nosidebar){
+                padding: $body-offset 0;
+            }
+        }
     }
     &-content{
-        padding: $content-gap-y 4px;
+        padding: $content-gap-y $content-gap-x;
         &-fs{
             min-height: calc(100vh - (#{$header-height} + #{$header-height}));
             display: flex;
@@ -34,7 +42,7 @@ body{
 @include media-breakpoint-up(sm){
     .nk{
         &-content{
-            padding: ($content-gap-y + 8) $content-gap-x-sm;
+            padding: ($content-gap-y - 8px) $content-gap-x-sm $content-gap-y;
             &-fluid{
                 padding-left: 22px;
                 padding-right: 22px;

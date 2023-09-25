@@ -22,9 +22,24 @@ class Login extends Controller
             if (!empty($email) && !empty($password)) {
                 $getUserByEmail = $this->model->getUserByEmail($email);
                 if (!empty($getUserByEmail)) {
+                    if ($getUserByEmail[0]['is_logged_in'] == 1) {
+                        echo json_encode(array("status" => 403, "msg" => "Ce compte est déjà connecté."));
+                        return;
+                    }
+
+                    if ($getUserByEmail[0]['is_active'] == 0) {
+                        echo json_encode(array("status" => 403, "msg" => "Ce compte est désactivé."));
+                        return;
+                    }
+
                     if (password_verify($password, $getUserByEmail[0]["password"])) {
+                        $this->model->updateUserLoggedInStatus($email, 1);
                         $userIdentifier = $email;
                         $userType = $this->model->getUserByEmailOrUsernameWithRole($userIdentifier);
+
+                        // Mettre à jour last_login et last_login_ip
+                        $ip_address = $_SERVER['REMOTE_ADDR']; // Ceci est un exemple; utilisez votre propre méthode pour récupérer l'IP.
+                        $this->model->updateUserLastLogin($email, $ip_address);
 
                         if (!empty($userType)) {
                             Session::set("users", $getUserByEmail[0]);
@@ -47,8 +62,53 @@ class Login extends Controller
         }
     }
 
+    public function checkSession()
+    {
+        if (!isset($_SESSION['LAST_ACTIVITY'])) {
+            echo json_encode(['session_active' => false]);
+            return;
+        }
+
+        $timeout = 60 * 60; // 1 minute
+        if (time() - $_SESSION['LAST_ACTIVITY'] > $timeout) {
+            echo json_encode(['session_active' => false]);
+        } else {
+            echo json_encode(['session_active' => true]);
+        }
+    }
+
+    public function someMethodCalledOnEachRequest()
+    {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            $_SESSION['LAST_ACTIVITY'] = time();
+        }
+    }
+
     public function logout()
     {
+        $email = Session::get("users")["email"];
+        $this->model->updateUserLoggedInStatus($email, 0);
+        $this->model->updateUserLastLogout($email, date('Y-m-d H:i:s'));
         Session::destroy();
     }
+
+    public function logoutsession()
+    {
+        if (!isset($_SESSION['LAST_ACTIVITY'])) {
+            return;
+        }
+
+        $timeout = 60 * 60; // 1 heure
+        if (time() - $_SESSION['LAST_ACTIVITY'] > $timeout) {
+            $_SESSION['session_expired'] = true;
+            $email = Session::get("users")["email"];
+            $this->model->updateUserLoggedInStatus($email, 0);
+            $this->model->updateUserLastLogout($email, date('Y-m-d H:i:s'));
+            Session::destroy();
+            echo json_encode(['session_active' => false]);
+        } else {
+            echo json_encode(['session_active' => true]);
+        }
+    }
+
 }

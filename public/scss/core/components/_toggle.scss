@@ -29,10 +29,10 @@
     &-slide{
         position: fixed;
         top: 0;
-        z-index: 999;
+        z-index: 1031;
         min-width: 260px;
         max-width: calc(100% - 40px);
-        transition: transform 650ms ease;
+        transition: transform 650ms ease,;
         &-left{
             left: 0;
             transform: translateX(-100%);
@@ -52,7 +52,7 @@
         bottom: 0;
         left: 0;
         background: rgba($dark,.2);
-        z-index: 900;
+        z-index: 1030;
         animation: overlay-fade-in .4s ease 1;
     }
 }

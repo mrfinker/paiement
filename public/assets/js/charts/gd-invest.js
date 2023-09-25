@@ -8,7 +8,7 @@
     dataUnit: 'People',
     datasets: [{
       label: "Join",
-      color: "#9cabff",
+      color: "#6baafe",
       data: [110, 80, 125, 55, 95, 75, 90, 110, 80, 125, 55, 95, 75, 90, 110, 80, 125, 55, 95, 75, 90, 110, 80, 125, 55, 95, 75, 90, 75, 90]
     }]
   };
@@ -190,8 +190,8 @@
     lineTension: 0.15,
     datasets: [{
       label: "Total Received",
-      color: "#798bff",
-      background: NioApp.hexRGB('#798bff', .3),
+      color: "#733AEA",
+      background: NioApp.hexRGB('#733AEA', .3),
       data: [111, 80, 125, 75, 95, 75, 90, 111, 80, 125, 75, 95, 75, 90, 111, 80, 125, 75, 95, 75, 90, 111, 80, 125, 75, 95, 75, 90, 75, 90]
     }]
   };
@@ -281,7 +281,7 @@
     stacked: true,
     datasets: [{
       label: "Active User",
-      color: [NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), "#6576ff"],
+      color: [NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), "#733AEA"],
       data: [7200, 8200, 7800, 9500, 5500, 9200, 9690]
     }]
   };
@@ -301,7 +301,7 @@
     stacked: true,
     datasets: [{
       label: "Active User",
-      color: [NioApp.hexRGB("#559bfb", .2), NioApp.hexRGB("#559bfb", .2), NioApp.hexRGB("#559bfb", .2), NioApp.hexRGB("#559bfb", .2), NioApp.hexRGB("#559bfb", .2), NioApp.hexRGB("#559bfb", .2), "#559bfb"],
+      color: [NioApp.hexRGB("#AB89F2", .2), NioApp.hexRGB("#AB89F2", .2), NioApp.hexRGB("#AB89F2", .2), NioApp.hexRGB("#AB89F2", .2), NioApp.hexRGB("#AB89F2", .2), NioApp.hexRGB("#AB89F2", .2), "#AB89F2"],
       data: [6000, 8200, 7800, 9500, 5500, 9200, 9690]
     }]
   };
@@ -398,8 +398,8 @@
     stacked: true,
     datasets: [{
       label: "Active User",
-      color: NioApp.hexRGB("#6576ff", .2),
-      colorHover: "#6576ff",
+      color: NioApp.hexRGB("#733AEA", .3),
+      colorHover: "#733AEA",
       data: [6000, 8200, 7800, 9500, 5500, 9200, 9690, 6000, 8200, 7800, 9500, 5500, 9200, 9690, 6000, 8200, 7800, 9500, 5500, 9200, 9690]
     }]
   };
@@ -497,7 +497,7 @@
     stacked: true,
     datasets: [{
       label: "Direct Join",
-      color: "#9cabff",
+      color: "#6baafe",
       data: [110, 80, 125, 55, 95, 75, 90, 110, 80, 125, 55, 95, 75, 90, 110, 80, 125, 55, 95, 75, 90]
     }, {
       label: "Referral Join",

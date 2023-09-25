@@ -4,6 +4,7 @@
 
 /////////    COLORS    ///////////
 //////////////////////////////////////
+
 @use "sass:math";
 
 $white:		#fff;
@@ -31,7 +32,7 @@ $green: 	#1ee0ac;
 $cyan:		#09c2de;
 $blue:		#559bfb;
 $azure:		#1676fb;
-$indigo:	#2c3782;
+$indigo:	#323f9e;
 $purple:	#816bff;
 $pink:		#ff63a5;
 $orange: 	#ffa353;
@@ -51,16 +52,16 @@ $base-light:  		$base-400;
 $base-dim:  		mix($base-color,$white, 8%);
 
 // Base/Default color @used for text
-$accent-100:        #e4ecf6;
-$accent-200:        #d3e0f0;
-$accent-300:        #b2c9e4;
-$accent-400:        #7aa1d1;
-$accent-500:        #4e82c2;
+$accent-100:        #E3D8FB;
+$accent-200:        #C7B0F7;
+$accent-300:        #AB89F2;
+$accent-400:        #9C73F5;
+$accent-500:        #8E61EE;
 
-$accent-color:      #2263b3;
+$accent-color:      #733AEA;
 $accent-light:      $accent-300;
-$accent-dark:       #022c57;
-$accent-dim:  	    #e3e7fe;
+$accent-dark:       #170C2F;
+$accent-dim:  	    #F0F7FF;
 
 
 $body-bg:			$lighter;
@@ -75,16 +76,31 @@ $shadow-color-dark: 		$light-900;
 $shadow-color-accent: 		$accent-dark;
 
 // Status Color
-$success:                   $green;
-$warning:                   $yellow;
-$danger:                    $red;
-$info:                      $cyan;
+$success:                   #0FCA7A;
+$warning:                   #FD9722;
+$danger:                    #F2426E;
+$info:                      #058EFC;
 
 // Brand Colors
 $brand-color-bitcoin:       #f9841e;
 $brand-color-ethereum:      #6174b9;
-$brand-color-facebook:      #3b5998;
+$brand-color-facebook:      #337FFF;
 $brand-color-google:        #de5246;
+$brand-color-instagram:      #8D3BD0;
+$brand-color-linkedin:       #33CCFF;
+$brand-color-twitter:        #0178B6;
+$brand-color-youtube:        #FF0000;
+
+$brand-colors: (
+    "bitcoin" : $brand-color-bitcoin,
+    "ethereum" : $brand-color-ethereum,
+    "facebook" : $brand-color-facebook,
+    "google" : $brand-color-google,
+    "instagram" : $brand-color-instagram,
+    "linkedin" : $brand-color-linkedin,
+    "twitter" : $brand-color-twitter,
+    "youtube" : $brand-color-youtube
+);
 
 $extend-mix:                #fff;
 $extend-colors: (
@@ -102,7 +118,6 @@ $extend-colors: (
     "pink-dim":        mix($pink, $extend-mix, 13%),
     "orange-dim":      mix($orange, $extend-mix, 13%),
     "teal-dim":        mix($teal, $extend-mix, 13%),
-    // for bootstrap
     "primary-dim":     mix($accent-color, $extend-mix, 13%),
     "success-dim":     mix($success, $extend-mix, 13%),
     "info-dim":        mix($info, $extend-mix, 13%),
@@ -156,7 +171,7 @@ $fx-sz-15:			15px;
 $fx-sz-16:			16px; 
 
 $gutter-width:           28px;
-$stretch-gap-x:          (4px + math.div($gutter-width , 2));
+$stretch-gap-x:          (4px + math.div($gutter-width,2));
 
 /////////    TYPTOGRAPHY    //////////
 //////////////////////////////////////
@@ -715,6 +730,7 @@ $modal-footer-custom-padding-xy-sm:     0.75rem $modal-body-custom-padding-x-sm;
 ///////////////////////////////////////
 
 $min-body-width:                    320px;
+$body-offset:                       30px;
 
 // Logo
 $logo-height:                       36px;
@@ -722,17 +738,11 @@ $logo-height-sm:                    28px;
 $logo-height-lg:                    60px;
 $logo-height-icon:                  33px;
 
-// Sidebar
-$sidebar-width-normal:              290px;
-$sidebar-width-short:               81px;
-$sidebar-gap-x:                     24px;
 
-$sidebar-width-fat:                 400px;
-$sidebar-width-fat-tablet:          340px;
-$sidebar-gap-x-fat:                 32px;
-$sidebar-gap-x-fat-tablet:          16px;
-$sidebar-fat-transition-name:       ease;
-$sidebar-fat-transition-duration:   450ms;
+// Sidebar
+$sidebar-width-normal:              296px;
+$sidebar-width-compact:             76px;
+$sidebar-gap-x:                     36px;
 
 // Apps Sidebar
 $sidebar-width-apps:                 80px;
@@ -744,12 +754,13 @@ $sidebar-transition-name:           ease;
 $sidebar-transition-duration:       450ms;
 $sidebar-overlay:                   rgba($darker,.4); 
 
-$sidebar-bg-color:					$lighter;
+$sidebar-bg-color:					$white;
 $sidebar-border-color:              $light-200;
 
-$sidebar-bg-dark-color:			    $darker;
+$sidebar-bg-dark-color:			    darken($dark,4%);
 $sidebar-border-dark-color:         lighten($sidebar-bg-dark-color, 10%);
-$sidebar-bg-theme-color:			darken($accent-dark,2%);
+
+$sidebar-bg-theme-color:			lighten($accent-dark,4%);
 $sidebar-border-theme-color:		lighten($sidebar-bg-theme-color, 10%);
 
 $sidebar-bg-light-color:            $white;
@@ -758,8 +769,8 @@ $sidebar-border-light-color:        $light;
 $sidebar-toogle-btn-color:			$base-500;
 
 // Content
-$content-gap-x:                     20px - math.div($gutter-width , 2);
-$content-gap-x-sm:                  28px - math.div($gutter-width , 2);
+$content-gap-x:                     20px - math.div($gutter-width,2);
+$content-gap-x-sm:                  36px - math.div($gutter-width,2);
 $content-gap-y:                     24px;
 $content-sidebar-width:             280px;
 
@@ -778,7 +789,7 @@ $header-min-width:                  $min-body-width;
 
 $header-bg-color:                   $lighter;
 $header-bg-dark-color:              $darker;
-$header-bg-theme-color:             darken($accent-dark,2%); 
+$header-bg-theme-color:             darken($accent-dark,2%); //@i-v120 
 $header-border-bottom:				$border-light;
 $header-border-dark-bottom:		    lighten($header-bg-dark-color, 10%);
 $header-border-theme-bottom:		lighten($header-bg-theme-color, 10%);
@@ -790,13 +801,13 @@ $header-toogle-btn-lh:				$btn-line-height-sm;
 $header-toogle-btn-icon-width:		$btn-line-height-sm + $btn-padding-y-sm*2;
 
 $header-col-width-small:            120px;
-$header-col-width-safe:             math.div($header-col-width-small , 2);
+$header-col-width-safe:             math.div($header-col-width-small,2);
 $header-col-width:                  calc(50% - #{$header-col-width-safe});
 
 //Footer
 $footer-main-gap-x:                 $content-gap-x;
 $footer-main-gap-x-sm:              $content-gap-x-sm; 
-$footer-main-gap-y:                 20px;
+$footer-main-gap-y:                 8px;
 $footer-main-border-width:          1px;
 $footer-min-width:                  $min-body-width; 
 
@@ -814,7 +825,7 @@ $menu-icon-width:                   36px;
 $menu-icon-width-sm:                32px;
 
 
-//////  CONFIGURATION VARIABLE //////
+//////  CONFIGURATION VARIABLE  @io-v120  //////
 $dark_option:           true;
 $dark_theme_option:     true;
 $gd_analytic:           true;

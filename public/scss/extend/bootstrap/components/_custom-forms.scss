@@ -1,4 +1,5 @@
 @use "sass:math";
+
 //   
 .custom-control {
     position: relative;
@@ -52,11 +53,7 @@
     &[disabled],
     &:disabled {
         ~ .custom-control-label {
-        color: $custom-control-label-disabled-color;
-
-        &::before {
-            background-color: $custom-control-indicator-disabled-bg;
-        }
+            color: $custom-control-label-disabled-color;
         }
     }
 }
@@ -102,6 +99,7 @@
         background: no-repeat 50% / #{$custom-control-indicator-bg-size};
     }
 }
+
 .custom{
     &-control{
         display: inline-flex;
@@ -143,7 +141,7 @@
         &-label{
             font-size: $checkbox-radio-switch-font-size;
             line-height: $checkbox-radio-switch-line-height;
-            padding-top: math.div($checkbox-radio-switch-size - $checkbox-radio-switch-line-height , 2);
+            padding-top: math.div($checkbox-radio-switch-size - $checkbox-radio-switch-line-height,2);
             &::before,&::after {
                 top: 0;
             }
@@ -209,7 +207,7 @@
             .custom-control-label {
                 font-size: $checkbox-radio-switch-font-size-lg;
                 line-height: $checkbox-radio-switch-line-height-lg;
-                padding-top: math.div($checkbox-radio-switch-size-lg - $checkbox-radio-switch-line-height-lg , 2);
+                padding-top: math.div($checkbox-radio-switch-size-lg - $checkbox-radio-switch-line-height-lg,2);
                 &::before,&::after {
                     left: -($checkbox-radio-switch-text-gap-lg + $checkbox-radio-switch-size-lg);
                     width: $checkbox-radio-switch-size-lg;
@@ -261,6 +259,7 @@
         background: $field-bg;
     }
 }
+
 // custom-control-group
 .custom-control{
     &-group{
@@ -281,12 +280,12 @@
         &:not(.custom-control-vertical){
           > *{
             &:not(:first-child) .custom-control-label{
-              border-top-left-radius: 0;
-              border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
             }
             &:not(:last-child) .custom-control-label{
-              border-top-right-radius: 0;
-              border-bottom-right-radius: 0;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
             }
           }
         }
@@ -487,6 +486,30 @@
         }
     }
 }
+// Custom-checkbox
+.custom-checkbox{
+    .custom-control-input:disabled {
+        &:checked ~ .custom-control-label::before {
+          background-color: $custom-control-indicator-checked-disabled-bg;
+        }
+        &:indeterminate ~ .custom-control-label::before {
+            background-color: $custom-control-indicator-checked-disabled-bg;
+        }
+    }
+}
+
+// custom-radio
+.custom-radio {
+    .custom-control-label::before {
+      // stylelint-disable-next-line property-blacklist
+      border-radius: $custom-radio-indicator-border-radius;
+    }
+    .custom-control-input:disabled {
+        &:checked ~ .custom-control-label::before {
+            background-color: $custom-control-indicator-checked-disabled-bg;
+        }
+    }
+}
 //image control
 .image-control{
     &.custom-control{
@@ -529,32 +552,7 @@
       }
     }
   }
-// Custom-checkbox
-.custom-checkbox{
-    .custom-control-input:disabled {
-        &:checked ~ .custom-control-label::before {
-          background-color: $custom-control-indicator-checked-disabled-bg;
-        }
-        &:indeterminate ~ .custom-control-label::before {
-            background-color: $custom-control-indicator-checked-disabled-bg;
-        }
-    }
-}
-
-// custom-radio
-.custom-radio {
-    .custom-control-label::before {
-      // stylelint-disable-next-line property-blacklist
-      border-radius: $custom-radio-indicator-border-radius;
-    }
-    .custom-control-input:disabled {
-        &:checked ~ .custom-control-label::before {
-            background-color: $custom-control-indicator-checked-disabled-bg;
-        }
-    }
-}
-
-//custom switch
+// custom-switch
 .custom-switch {
     padding-left: $switch-width + $checkbox-radio-switch-text-gap;
     .custom-control-label {
@@ -566,8 +564,8 @@
       }
       &::after {
         opacity: 1;
-        top: math.div($checkbox-radio-switch-size - $switch-indicator-size , 2);
-        left: add(-($switch-width + $checkbox-radio-switch-text-gap), $custom-control-indicator-border-width * 2);
+        top: math.div($checkbox-radio-switch-size - $switch-indicator-size,2);
+        left: -3.5rem;
         width: $switch-indicator-size;
         height: $switch-indicator-size;
         border-radius: $switch-indicator-border-radius;
@@ -582,31 +580,24 @@
     }
     .custom-control-input:checked ~ .custom-control-label {
       &::after {
-          transform: translateX($switch-indicator-active-position);
-      }
-    }
-    .custom-control-input:checked ~ .custom-control-label {
-      &::after {
         background-color: $custom-control-indicator-bg;
-        transform: translateX($custom-switch-width - $custom-control-indicator-size);
+        transform: translateX($switch-indicator-active-position);
       }
     }
     &.custom-control-sm{
         padding-left: $switch-width-sm + $checkbox-radio-switch-text-gap-sm;
         .custom-control-label {
             &::before {
-              left: -($switch-width-sm + $checkbox-radio-switch-text-gap-sm);
+                left: -($switch-width-sm + $checkbox-radio-switch-text-gap-sm);
               width: $switch-width-sm;
               border-radius: $switch-indicator-border-radius-sm;
             }
             &::after {
-              top: math.div($checkbox-radio-switch-size-sm - $switch-indicator-size-sm ,2);
-              left: -2.20rem;
+              top: math.div($checkbox-radio-switch-size-sm - $switch-indicator-size-sm,2);
+              left: add(-($switch-width-sm + $checkbox-radio-switch-text-gap-sm), $switch-border-calc);
               width: $switch-indicator-size-sm;
               height: $switch-indicator-size-sm;
               border-radius: $switch-indicator-border-radius-sm;
-              background-color: $custom-control-indicator-border-color;
-              transition: transform .15s ease-in-out, $custom-forms-transition;
             }
         }
         .custom-control-input:checked ~ .custom-control-label {
@@ -619,12 +610,12 @@
         padding-left: $switch-width-lg + $checkbox-radio-switch-text-gap-lg;
         .custom-control-label {
             &::before {
-                left: -($switch-width-lg + $checkbox-radio-switch-text-gap-lg);
+              left: -($switch-width-lg + $checkbox-radio-switch-text-gap-lg);
               width: $switch-width-lg;
               border-radius: $switch-indicator-border-radius-lg;
             }
             &::after {
-              top: math.div($checkbox-radio-switch-size-lg - $switch-indicator-size-lg , 2);
+              top: math.div($checkbox-radio-switch-size-lg - $switch-indicator-size-lg,2);
               left: add(-($switch-width-lg + $checkbox-radio-switch-text-gap-lg), $switch-border-calc-1-5x);
               width: $switch-indicator-size-lg;
               height: $switch-indicator-size-lg;
@@ -739,7 +730,8 @@ label{
     }
 }
 
-form-file {
+
+.form-file {
     position: relative;
     display: inline-block;
     width: 100%;
@@ -918,8 +910,8 @@ form-file {
 .input-group > .input-group-append:not(:last-child) > .input-group-text,
 .input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
 .input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0
 }
 
 .input-group > .input-group-append > .btn,
@@ -928,8 +920,8 @@ form-file {
 .input-group > .input-group-prepend:not(:first-child) > .input-group-text,
 .input-group > .input-group-prepend:first-child > .btn:not(:first-child),
 .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0
 }
 // for datatable
 .custom-select {

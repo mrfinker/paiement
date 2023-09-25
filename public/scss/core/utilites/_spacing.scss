@@ -1,22 +1,23 @@
 @use "sass:math";
+
 @each $size, $length in $spacers {
     .g-#{$size}:not(.row) {
-        margin: math.div(-$length, 2);
+        margin: math.div(- $length, 2);
         > li,> div{
             padding: math.div($length, 2);
         }
     }
     .gx-#{$size}:not(.row) {
-        margin-left: math.div(-$length, 2);
-        margin-right: math.div(-$length, 2);
+        margin-left: math.div(- $length, 2);
+        margin-right: math.div(- $length, 2);
         > li,> div{
             padding-left: math.div($length, 2);
             padding-right: math.div($length, 2);
         }
     }
     .gy-#{$size}:not(.row) {
-        margin-top: math.div(-$length, 2);
-        margin-bottom: math.div(-$length, 2);
+        margin-top: math.div(- $length, 2);
+        margin-bottom: math.div(- $length, 2);
         > li,> div{
             padding-top: math.div($length, 2);
             padding-bottom: math.div($length, 2);

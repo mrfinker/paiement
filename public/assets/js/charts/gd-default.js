@@ -15,8 +15,8 @@
     lineTension: 0.15,
     datasets: [{
       label: "Total Received",
-      color: "#798bff",
-      background: NioApp.hexRGB('#798bff', .3),
+      color: "#733AEA",
+      background: NioApp.hexRGB('#733AEA', .3),
       data: [111, 80, 125, 75, 95, 75, 90, 111, 80, 125, 75, 95, 75, 90, 111, 80, 125, 75, 95, 75, 90, 111, 80, 125, 75, 95, 75, 90, 75, 90]
     }]
   };
@@ -102,16 +102,16 @@
     lineProfileBalance();
   });
   var orderOverview = {
-    labels: ["19 Dec", "20 Dec", "21 Dec", "22 Dec", "23 Dec", "24 Dec", "25 Dec", "26 Dec", "27 Dec", "28 Dec", "29 Dec", "30 Dec", "31 Dec", "01 Jan"],
+    labels: ["22 Jun", "23 Jun", "24 Jun", "25 Jun", "26 Jun", "27 Jun", "28 Jun", "29 Jun", "30 Jun", "01 Jul"],
     dataUnit: 'USD',
     datasets: [{
       label: "Buy Orders",
       color: "#8feac5",
-      data: [1740, 2500, 1820, 1200, 1600, 2500, 1820, 1200, 1700, 1820, 1400, 1600, 1930, 2100]
+      data: [1820, 1200, 1600, 2500, 1820, 1200, 1700, 1820, 1400, 2100]
     }, {
       label: "Sell Orders",
-      color: "#9cabff",
-      data: [2420, 1820, 3000, 5000, 2450, 1820, 2700, 5000, 2400, 2600, 4000, 2380, 2120, 1700]
+      color: "#9C73F5",
+      data: [3000, 3450, 2450, 1820, 2700, 4870, 2470, 2600, 4000, 2380]
     }]
   };
   function orderOverviewChart(selector, set_data) {
@@ -231,11 +231,11 @@
     stacked: true,
     datasets: [{
       label: "Direct Join",
-      color: "#9cabff",
+      color: "#9C73F5",
       data: [110, 80, 125, 55, 95, 75, 90, 110, 80, 125, 55, 95, 75, 90, 110, 80, 125, 55, 95, 75, 90]
     }, {
       label: "Referral Join",
-      color: NioApp.hexRGB("#9cabff", .2),
+      color: NioApp.hexRGB("#9C73F5", .2),
       data: [125, 55, 95, 75, 90, 110, 80, 125, 55, 95, 75, 90, 110, 80, 125, 55, 95, 75, 90, 75, 90]
     }]
   };
@@ -331,11 +331,11 @@
     stacked: true,
     datasets: [{
       label: "Buy Orders",
-      color: ["#f98c45", "#9cabff", "#8feac5", "#6b79c8", "#79f1dc"],
+      color: ["#f98c45", "#6baafe", "#8feac5", "#6b79c8", "#79f1dc"],
       data: [1740, 2500, 1820, 1200, 1600, 2500]
     }, {
       label: "Sell Orders",
-      color: [NioApp.hexRGB('#f98c45', .2), NioApp.hexRGB('#9cabff', .4), NioApp.hexRGB('#8feac5', .4), NioApp.hexRGB('#6b79c8', .4), NioApp.hexRGB('#79f1dc', .4)],
+      color: [NioApp.hexRGB('#f98c45', .2), NioApp.hexRGB('#6baafe', .4), NioApp.hexRGB('#8feac5', .4), NioApp.hexRGB('#6b79c8', .4), NioApp.hexRGB('#79f1dc', .4)],
       data: [2420, 1820, 3000, 5000, 2450, 1820]
     }]
   };
@@ -448,7 +448,7 @@
     stacked: true,
     datasets: [{
       label: "Sales Revenue",
-      color: [NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), "#6576ff"],
+      color: [NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), "#733AEA"],
       data: [11000, 8000, 12500, 5500, 9500, 14299, 11000, 8000, 12500, 5500, 9500, 14299]
     }]
   };
@@ -458,7 +458,7 @@
     stacked: true,
     datasets: [{
       label: "Active User",
-      color: [NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), NioApp.hexRGB("#6576ff", .2), "#6576ff"],
+      color: [NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), NioApp.hexRGB("#733AEA", .2), "#733AEA"],
       data: [8200, 7800, 9500, 5500, 9200, 9690]
     }]
   };
@@ -561,13 +561,13 @@
   });
   var salesOverview = {
     labels: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"],
-    dataUnit: 'USD',
-    lineTension: .3,
+    dataUnit: 'BTC',
+    lineTension: 0.1,
     datasets: [{
       label: "Sales Overview",
-      color: "#798bff",
-      background: NioApp.hexRGB('#798bff', .35),
-      data: [6200, 7850, 8500, 6500, 5790, 9690, 8200, 6860, 9500, 8590, 8230, 8950, 8200, 7680, 8500, 5500, 9200, 9690, 8200, 7800, 9500, 7500, 9200, 9690, 8200, 7800, 8500, 9100, 9360, 9690]
+      color: "#733AEA",
+      background: NioApp.hexRGB('#733AEA', .3),
+      data: [8200, 7800, 9500, 5500, 9200, 9690, 8200, 7800, 9500, 5500, 9200, 9690, 8200, 7800, 9500, 5500, 9200, 9690, 8200, 7800, 9500, 5500, 9200, 9690, 8200, 7800, 9500, 5500, 9200, 9690]
     }]
   };
   function lineSalesOverview(selector, set_data) {
@@ -583,7 +583,7 @@
           label: _get_data.datasets[i].label,
           tension: _get_data.lineTension,
           backgroundColor: _get_data.datasets[i].background,
-          borderWidth: 4,
+          borderWidth: 2,
           borderColor: _get_data.datasets[i].color,
           pointBorderColor: "transparent",
           pointBackgroundColor: "transparent",
@@ -690,15 +690,15 @@
     stacked: true,
     datasets: [{
       label: "Solved",
-      color: ["#f98c45", "#9cabff", "#8feac5", "#6b79c8", "#79f1dc"],
+      color: ["#f98c45", "#6baafe", "#8feac5", "#6b79c8", "#79f1dc"],
       data: [66, 74, 92, 142, 189]
     }, {
       label: "Open",
-      color: [NioApp.hexRGB('#f98c45', .4), NioApp.hexRGB('#9cabff', .4), NioApp.hexRGB('#8feac5', .4), NioApp.hexRGB('#6b79c8', .4), NioApp.hexRGB('#79f1dc', .4)],
+      color: [NioApp.hexRGB('#f98c45', .4), NioApp.hexRGB('#6baafe', .4), NioApp.hexRGB('#8feac5', .4), NioApp.hexRGB('#6b79c8', .4), NioApp.hexRGB('#79f1dc', .4)],
       data: [66, 74, 92, 32, 26]
     }, {
       label: "Pending",
-      color: [NioApp.hexRGB('#f98c45', .2), NioApp.hexRGB('#9cabff', .2), NioApp.hexRGB('#8feac5', .2), NioApp.hexRGB('#6b79c8', .2), NioApp.hexRGB('#79f1dc', .2)],
+      color: [NioApp.hexRGB('#f98c45', .2), NioApp.hexRGB('#6baafe', .2), NioApp.hexRGB('#8feac5', .2), NioApp.hexRGB('#6b79c8', .2), NioApp.hexRGB('#79f1dc', .2)],
       data: [66, 74, 92, 21, 9]
     }]
   };

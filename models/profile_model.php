@@ -53,6 +53,16 @@ public function saveUser(array $data)
         return $this->db->update('users', $data, $where);
     }
 
+    public function getAllCurrencies()
+{
+    $sql = "SELECT * FROM currencies";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute();
+    
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
 
 

@@ -44,7 +44,7 @@
 
 .code-block{
     position: relative;
-    border: 1px solid $border-color; 
+    border: 1px solid transparent; 
     padding:1.25rem;
     background: $white;
     border-radius: $border-radius;
@@ -59,7 +59,6 @@
     + .code-block {
         margin-top: -($border-radius - 1);
         border-top-color: $border-light;
-        border-radius: 0 0 $border-radius $border-radius;
     }
     + .card-preview, + .nk-block-head {
         margin-top: 40px;
@@ -93,6 +92,21 @@
             display: block;
         }
     }
+    &-group{
+        .card-preview + &{
+            margin-top: 28px;
+        }
+        .code-block{
+            &:not(:last-child){
+                border-bottom-left-radius: 0 !important;
+                border-bottom-right-radius: 0 !important;
+            }
+            + .code-block {
+                border-top-left-radius: 0 !important;
+                border-top-right-radius: 0 !important;
+            }
+        }
+    }
 }
 
 //Icon
@@ -112,7 +126,6 @@
             position: relative;
             padding: 25px 20px;
             text-align: center;
-            border: 1px solid $border-color;
             .btn-clipboard{
                 position: absolute;
                 top: 0;

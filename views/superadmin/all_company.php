@@ -16,37 +16,26 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
 
 $superadminModel = new superadmin_model();
 $company = $superadminModel->getAllcompany();
+$category = $superadminModel->getAllCategory();
+$Allcountry = $superadminModel->getAllCountry();
 
 ?>
 
-<?=include_once "./views/include/header.php"?>
+<?php include_once "./views/include/header.php"?>
 
 <div class="nk-content ">
     <div class="container-fluid">
         <div class="nk-content-inner">
             <div class="nk-content-body">
-                <div class="components-preview wide-xl mx-auto">
-                    <div class="nk-block-head nk-block-head-lg wide-sm">
-                        <div class="nk-block-head-content">
-                            <div class="nk-block-head-sub">
-                                <a class="back-to" href="<?=URL?>dashboard/superadmin">
-                                    <em class="icon ni ni-arrow-left"></em>
-                                    <span>Retour</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- .nk-block-head -->
-
+                <div class="components-preview wide-xxl mx-auto">
                     <div class="nk-block nk-block-xl">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h4 class="nk-block-title">Liste de toutes les company</h4>
                                 <button
                                     href="#"
+                                    id="addCompany"
                                     class="btn btn-primary mt-2"
-                                    type="button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#ModalCompany">
+                                    type="button">
                                     Ajouter<em class="icon ni ni-plus p-1"></em>
                                 </button>
                             </div>
@@ -217,10 +206,12 @@ foreach ($company as $compagni) {
                                                                                 href="#"
                                                                                 class="update_button_company"
                                                                                 data-id="<?=$compagni['id'];?>"
-                                                                                data-companyname="<?=$compagni['name'];?>"
-                                                                                data-companyemail="<?=$compagni['email'];?>"
-                                                                                data-companyphone="<?=$compagni['phone'];?>"
-                                                                                data-companyaddress="<?=$compagni['address'];?>">
+                                                                                data-company-name="<?=$compagni['name'];?>"
+                                                                                data-company-uniqueid="<?=$compagni['unique_id'];?>"
+                                                                                data-company-username="<?=$compagni['username'];?>"
+                                                                                data-company-email="<?=$compagni['email'];?>"
+                                                                                data-company-phone="<?=$compagni['phone'];?>"
+                                                                                data-company-address="<?=$compagni['address'];?>">
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
                                                                             </a>
@@ -229,12 +220,15 @@ foreach ($company as $compagni) {
                                                                         <li>
                                                                             <a
                                                                                 href="#"
-                                                                                class="update_button_company"
+                                                                                class="view_button_company"
                                                                                 data-id="<?=$compagni['id'];?>"
-                                                                                data-companyname="<?=$compagni['name'];?>"
-                                                                                data-companyemail="<?=$compagni['email'];?>"
-                                                                                data-companyphone="<?=$compagni['phone'];?>"
-                                                                                data-companyaddress="<?=$compagni['address'];?>">
+                                                                                data-view-name="<?=$compagni['name'];?>"
+                                                                                data-view-uniqueid="<?=$compagni['unique_id'];?>"
+                                                                                data-view-username="<?=$compagni['username'];?>"
+                                                                                data-view-email="<?=$compagni['email'];?>"
+                                                                                data-view-phone="<?=$compagni['phone'];?>"
+                                                                                data-view-address="<?=$compagni['address'];?>"
+                                                                                data-view-companycharge="<?=$compagni['company_charge'];?>">
                                                                                 <em class="icon ni ni-eye"></em>
                                                                                 <span>Voir</span>
                                                                             </a>
@@ -249,7 +243,7 @@ foreach ($company as $compagni) {
                                             <?php
 }
 ?>
-                                            </tbody>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <div class="row align-items-center">
@@ -273,10 +267,11 @@ foreach ($company as $compagni) {
     </div>
 </div>
 
-<!-- Ajouter company -->
+
+<!-- Create company -->
 <div
     class="modal fade"
-    id="ModalCompany"
+    id="addModalCompany"
     style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -289,16 +284,24 @@ foreach ($company as $compagni) {
             </div>
             <div class="modal-body">
                 <form
-                    action="#"
-                    class="form-validate is-alter"
                     id="registerFormCompany"
-                    novalidate="novalidate">
                     <div class="form-group">
                         <div class="row gy-4">
                             <div class="col-sm-6">
                                 <label class="form-label" for="name">Nom</label>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" name="name" id="name" required="">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="username">Username</label>
+                                <div class="form-control-wrap">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="username"
+                                        id="username"
+                                        required="">
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -327,40 +330,116 @@ foreach ($company as $compagni) {
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                <label class="form-label">Choisir le pays</label>
-                                <div class="form-control-wrap">
-                                    <select
-                                        id="country"
-                                        name="country_id"
-                                        class="form-select js-select2 select2-hidden-accessible"
-                                        data-select2-id="3"
-                                        tabindex="-1"
-                                        aria-hidden="true">
-                                        <option value="default_option" data-select2-id="5">Selectionner votre pays</option>
-                                        <option value="1" data-select2-id="28">Republique democratique du congo</option>
-                                        <option value="2" data-select2-id="29">Republique du congo</option>
-                                    </select>
-                                </div>
+                                    <label class="form-label">Choisir le pays</label>
+                                    <div class="form-control-wrap">
+                                        <select
+                                            id="country"
+                                            name="country_id"
+                                            class="form-select js-select2 select2-hidden-accessible"
+                                            data-search="on"
+                                            aria-hidden="true">
+                                            <option value="default_option">Selectionner votre pays</option>
+                                            <?php
+foreach ($Allcountry as $countri) {
+    echo '<option value="' . $countri['id'] . '">' . $countri['name'] . '</option>';
+}
+?>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                <label class="form-label">Choisir la category</label>
-                                <div class="form-control-wrap">
-                                    <select
-                                        id="category"
-                                        name="category_id"
-                                        class="form-select js-select2 select2-hidden-accessible"
-                                        data-select2-id="3"
-                                        tabindex="-1"
-                                        aria-hidden="true">
-                                        <option value="default_option" data-select2-id="5">Selectionner ici</option>
-                                        <option value="5" data-select2-id="28">Fudiciaire</option>
-                                        <option value="6" data-select2-id="29">ong locale</option>
-                                        <option value="7" data-select2-id="30">ong internationale</option>
-                                        <option value="8" data-select2-id="31">sous-traitance</option>
-                                    </select>
+                                    <label class="form-label">Choisir la category</label>
+                                    <div class="form-control-wrap">
+                                        <select
+                                            id="category"
+                                            name="category_id"
+                                            class="form-select js-select2 select2-hidden-accessible"
+                                            data-search="on"
+                                            aria-hidden="true">
+                                            <option value="default_option">Selectionner la category</option>
+                                            <?php
+foreach ($category as $categori) {
+    echo '<option value="' . $categori['id'] . '">' . $categori['name'] . '</option>';
+}
+?>
+                                        </select>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="form-label">Les compagnies</label>
+                                    <div class="form-control-wrap">
+                                        <select
+                                            id="company"
+                                            name="company_charge"
+                                            class="form-select js-select2 select2-hidden-accessible"
+                                            data-search="on"
+                                            aria-hidden="true"
+                                            disabled="disabled">
+                                            <option value="default_option">Selectionner les compagnies</option>
+                                            <?php
+$sessionCompanyId = isset($_SESSION['company_id']) ? $_SESSION['company_id'] : null;
+
+foreach ($company as $compagni) {
+    if ($compagni['id'] != $sessionCompanyId) {
+        echo '<option value="' . $compagni['name'] . '">' . $compagni['name'] . '</option>';
+    }
+}
+?>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label" for="password">Mot de passe</label>
+                                    </div>
+                                    <div class="form-control-wrap">
+                                        <a
+                                            href="#"
+                                            class="form-icon form-icon-right passcode-switch lg"
+                                            data-target="password">
+                                            <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                            <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                        </a>
+                                        <input
+                                            required="required"
+                                            type="password"
+                                            name="password"
+                                            class="form-control form-control-lg"
+                                            id="password"
+                                            placeholder="Entrer votre mot de passe">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label" for="confirm_password">Confirmer votre mot de passe</label>
+                                    </div>
+                                    <div class="form-control-wrap">
+                                        <a
+                                            href="#"
+                                            class="form-icon form-icon-right passcode-switch lg"
+                                            data-target="confirm_password">
+                                            <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                            <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                        </a>
+                                        <input
+                                            required="required"
+                                            type="password"
+                                            name="confirm_password"
+                                            class="form-control form-control-lg"
+                                            id="confirm_password"
+                                            placeholder="Confirmer votre mot de passe">
+                                    </div>
                                 </div>
                             </div>
 
@@ -376,22 +455,22 @@ foreach ($company as $compagni) {
 
     </div>
 
-<!-- Update company -->
-    <div
-        class="modal fade"
-        id="updateModalCompany"
-        style="display: none;"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modifier une compagnie</h5>
-                    <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <em class="icon ni ni-cross"></em>
-                    </a>
-                </div>
-                <div class="modal-body">
-                    <form
+<!-- update company -->
+<div
+    class="modal fade"
+    id="UpdateModalCompany"
+    style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier company</h5>
+                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+            <form
                         action="#"
                         class="form-validate is-alter"
                         id="updateFormCompany"
@@ -401,17 +480,18 @@ foreach ($company as $compagni) {
                                 <div class="col-sm-6">
                                     <label class="form-label" for="nameupdate">Nom</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="form-control" name="name" id="nameupdate" required="">
+                                        <input type="text" class="form-control" name="nameupdate" id="nameupdate" required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="form-label" for="uniqueid">identifiant unique</label>
+                                    <label class="form-label" for="updateuniqueid">identifiant unique</label>
                                     <div class="form-control-wrap">
                                         <input
                                             type="text"
                                             class="form-control"
                                             name="unique_id"
-                                            id="uniqueid"
+                                            id="uniqueidupdate"
+                                            disabled
                                             required="">
                                     </div>
                                 </div>
@@ -421,7 +501,7 @@ foreach ($company as $compagni) {
                                         <input
                                             type="text"
                                             class="form-control"
-                                            name="address"
+                                            name="addressupdate"
                                             id="addressupdate"
                                             required="">
                                     </div>
@@ -432,8 +512,19 @@ foreach ($company as $compagni) {
                                         <input
                                             type="text"
                                             class="form-control"
-                                            name="email"
+                                            name="emailupdate"
                                             id="emailupdate"
+                                            required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="emailupdate">Username</label>
+                                    <div class="form-control-wrap">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="usernameupdate"
+                                            id="usernameupdate"
                                             required="">
                                     </div>
                                 </div>
@@ -449,25 +540,131 @@ foreach ($company as $compagni) {
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" class="id_company">
+                            <input type="hidden" class="id_company" name="id">
                             <div class="form-group">
                                 <button
                                     type="submit"
-                                    id="modifier_btn"
+                                    id="modifier_company_btn"
                                     name="modifier_btn"
                                     class="btn btn-lg btn-primary mt-1">Modifier la company</button>
                             </div>
                         </div>
                     </form>
-                </div>
             </div>
         </div>
-
     </div>
 
 </div>
-<!-- wrap @e -->
-</div>
-<!-- app-root @e -->
+<!-- voir company -->
+<div
+    class="modal fade"
+    id="viewModalCompany"
+    style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modifier company</h5>
+                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+            <form
+                        action="#"
+                        class="form-validate is-alter"
+                        id="updateFormCompany"
+                        novalidate="novalidate">
+                        <div class="form-group">
+                            <div class="row gy-4">
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="nameview">Nom</label>
+                                    <div class="form-control-wrap">
+                                        <input type="text" disabled class="form-control" name="nameview" id="nameview" required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="uniqueiview">identifiant unique</label>
+                                    <div class="form-control-wrap">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="unique_id"
+                                            id="uniqueidview"
+                                            disabled
+                                            required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="addressview">adresse</label>
+                                    <div class="form-control-wrap">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="addressview"
+                                            id="addressview"
+                                            disabled
+                                            required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="emailview">Email</label>
+                                    <div class="form-control-wrap">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="emailview"
+                                            id="emailview"
+                                            disabled
+                                            required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="usernameview">Username</label>
+                                    <div class="form-control-wrap">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="usernameview"
+                                            id="usernameview"
+                                            disabled
+                                            required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="phoneview">Phone</label>
+                                    <div class="form-control-wrap">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="phoneview"
+                                            disabled
+                                            id="phoneview"
+                                            required="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="phoneview">Company en charge</label>
+                                    <div class="form-control-wrap">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="companychargeview"
+                                            disabled
+                                            id="companycharge"
+                                            required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="id_company" name="id">
+                            
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
 
-<?=include_once "./views/include/footer.php"?>
+</div>
+
+
+    <?php include_once "./views/include/footer.php"?>

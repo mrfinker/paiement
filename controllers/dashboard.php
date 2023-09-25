@@ -25,4 +25,5 @@ class Dashboard extends Controller
         $this->view->render('dashboard/staff/index', true);
     }
 
+    
 }

@@ -3,7 +3,6 @@
     border: 1px solid currentColor;
     line-height: $badge-line-height;
     font-family: $base-font-family;
-    font-size: $badge-font-size;
     letter-spacing: 0.01em;
     vertical-align: middle;
     display: inline-flex;
@@ -15,9 +14,13 @@
         padding-right: .5rem;
         padding-left: .5rem;
     }
+    &.badge-pill{
+        border-radius: $badge-pill-border-radius;
+    }
     &-sm{
         padding: $badge-padding-y-sm $badge-padding-x-sm;
         font-size:$badge-font-size-sm;
+
         &.rounded-pill{
             padding: $badge-padding-y-sm $badge-pill-padding-x-sm;
         }
@@ -55,7 +58,7 @@
     }
 }
 @each $name, $value in $theme-colors {
-    .bg-#{$name} {
+    .badge.bg-#{$name} {
         border-color: $value;
         background: $value;
     }

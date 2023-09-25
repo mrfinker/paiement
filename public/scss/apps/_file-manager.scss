@@ -1,5 +1,5 @@
 $fmg-aside-width :          260px;
-$fmg-aside-width-small :    300px;
+$fmg-aside-width-small :    220px;
 $fmg-file-icon-width-xs :    24px;
 $fmg-file-icon-width-sm :    32px;
 $fmg-file-icon-width-lg :    72px;
@@ -9,8 +9,9 @@ $file-desc-sap:           $ni-dot !default;
 /// Layout for FMG
 .nk-fmg{
     position: relative;
-    background-color: $lighter;
-    min-height: calc(100vh - (#{$header-height} + 64px));
+    background-color: $white;
+    border-radius: $border-radius;
+    min-height: calc(100vh - (#{$header-height} + 78px + #{$body-offset*2}));
     &-aside{
         position: fixed;
         width: $fmg-aside-width;
@@ -19,14 +20,14 @@ $file-desc-sap:           $ni-dot !default;
         max-height: 100%;
         background: $white;
         flex-shrink: 0;
+        z-index: 9999;
         left: 0;
         transform: translateX(-100%);
         border-right: 1px solid $border-light;
-        z-index: 99;
-        top: $header-height;
+        top: 0;
         transition: transform .4s linear;
-        min-height: calc(100vh - #{$header-height});
-        max-height: calc(100vh - #{$header-height});
+        min-height: 100vh;
+        max-height: 100vh;
         overflow-y: auto;
         + .toggle-overlay{
             z-index: 90;
@@ -50,7 +51,8 @@ $file-desc-sap:           $ni-dot !default;
     &-menu{
         padding: 1rem;
         li{
-            margin: 2px 0;            
+            margin: 2px 0;
+            
         }
         &-item{
             position: relative;
@@ -154,7 +156,7 @@ $file-desc-sap:           $ni-dot !default;
             z-index: 9;
             position: relative;
             top: 0;
-            border-top-right-radius: $border-radius;
+            border-top-right-radius: inherit;
         }
         &-content{
             padding:1.125rem 1.25rem;
@@ -234,10 +236,11 @@ $file-desc-sap:           $ni-dot !default;
             transition: none;
             width: $fmg-aside-width;
             position: absolute;
-            left: 0;
-            border-top-left-radius: $border-radius;
-            border-bottom-left-radius: $border-radius;
             top: 0;
+            left: 0;
+            z-index: 99;
+            border-top-left-radius: inherit;
+            border-bottom-left-radius: inherit;
             min-height: 100%;
             max-height: 100%;
             &-top{
@@ -245,6 +248,8 @@ $file-desc-sap:           $ni-dot !default;
             }
         }
         &-body{
+            border-top-right-radius: inherit;
+            border-bottom-right-radius: inherit;
             &-head{
                 padding: .75rem 1.75rem;
                 z-index: 9;
@@ -386,11 +391,11 @@ $file-desc-sap:           $ni-dot !default;
                 content:$file-desc-sap;
                 font-family: $nk-dashlite-font;
                 position: absolute;
-                left: 0;
                 top: 50%;
+                left: 0;
+                transform: translate(-50%,-50%);
                 font-size: 11px;
                 line-height: 10px;
-                transform: translate(-50%,-50%);
                 opacity: .8;
             }
         }
@@ -571,10 +576,15 @@ $file-desc-sap:           $ni-dot !default;
             }
             > div{
                 padding: .5rem .375rem;
+                border-bottom: 1px solid $border-color;
                 height: 4rem;
                 background-color: $white;
                 &:first-child{
+                    border-left: 1px solid $border-color;
                     padding-left: 1.25rem;
+                }
+                &:last-child{
+                    border-right: 1px solid $border-color;
                 }
                 &.nk-file-info {
                     padding-top: 0.125rem;
@@ -583,6 +593,7 @@ $file-desc-sap:           $ni-dot !default;
             }
             &:first-child{
                 > div{
+                    border-top: 1px solid $border-color;
                     &:first-child{
                         border-top-left-radius: $border-radius;
                     }

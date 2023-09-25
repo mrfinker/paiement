@@ -1,4 +1,8 @@
 .card{
+    box-shadow: 0 0 25px -12px rgba($dark, 0.15);
+    .card{
+        box-shadow: 0 0 4px rgba($dark, 0.15);
+    }
     + .card:not(.card .card + .card){
         margin-top: $gutter-width; 
     }

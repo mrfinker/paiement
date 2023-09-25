@@ -19,9 +19,9 @@ $users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
 
 ?>
 
+<?php include_once ("./views/include/header.php") ?>
 
-<?= include_once("./views/include/header.php") ?>
-                <div class="nk-content ">
+            <div class="nk-content ">
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">
@@ -527,4 +527,4 @@ $users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
         </div>
         <!-- app-root @e -->
 
-<?= include_once("./views/include/footer.php") ?>
+<?php include_once ("./views/include/footer.php") ?>
