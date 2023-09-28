@@ -150,8 +150,6 @@ class superadmin_model extends Model
         }
     }
     
-    
-
     public function deleteCompany($id)
     {
         return $this->db->delete("company", "id =$id");
@@ -167,7 +165,7 @@ class superadmin_model extends Model
         return $this->db->select("SELECT name FROM country WHERE id = :countryId LIMIT 1", array("countryId" => $countryId));
     }
 
-    public function updateCompany($id, $nameupdate, $emailupdate, $phoneupdate, $addressupdate, $usernameupdate) {
+    public function updateCompany($id, $nameupdate, $emailupdate, $phoneupdate, $addressupdate, $usernameupdate, $cityupdate, $provinceupdate, $code_postaleupdate, $tax_numberupdate, $rccmupdate, $bank_nameupdate, $bank_numberupdate) {
         try {
             $this->db->beginTransaction();
     
@@ -179,7 +177,14 @@ class superadmin_model extends Model
                     'email' => $emailupdate, 
                     'phone' => $phoneupdate, 
                     'address' => $addressupdate,
-                    'username' => $usernameupdate // Si vous voulez également mettre à jour le username
+                    'city' => $cityupdate,
+                    'province' => $provinceupdate,
+                    'code_postale' => $code_postaleupdate,
+                    'tax_number' => $tax_numberupdate,
+                    'rccm' => $rccmupdate,
+                    'bank_name' => $bank_nameupdate,
+                    'bank_number' => $bank_numberupdate,
+                    'username' => $usernameupdate
                 ), 
                 "id = $id"
             );
@@ -196,7 +201,7 @@ class superadmin_model extends Model
                     'email' => $emailupdate, 
                     'phone' => $phoneupdate, 
                     'address' => $addressupdate,
-                    'username' => $usernameupdate // Si vous voulez également mettre à jour le username
+                    'username' => $usernameupdate
                 ), 
                 "company_id = $id AND username = '$usernameupdate'"
             );

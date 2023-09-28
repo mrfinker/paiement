@@ -79,6 +79,41 @@ class Dashboard_model extends Model
             return ['users' => [], 'maleCount' => 0, 'femaleCount' => 0];
         }
     }
+
+    public function getTotalUsersByCompanyId() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        try {
+            if (isset($_SESSION['users'])) {
+                $companyId = $_SESSION['users']['company_id'];
+                $userId = $_SESSION['users']['id'];
+            } else {
+                // Si $_SESSION['users'] n'est pas défini, retourner zéro
+                return 0;
+            }
+    
+            $count = $this->db->select(
+                'SELECT COUNT(*) as total_users 
+                 FROM users 
+                 WHERE company_id = :companyId AND id != :userId',
+                ['companyId' => $companyId, 'userId' => $userId]
+            );
+    
+            if (is_array($count) && isset($count[0]['total_users'])) {
+                return $count[0]['total_users'];
+            }
+    
+            return 0;
+    
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
+    }
+
+    
     
 
 

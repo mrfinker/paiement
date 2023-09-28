@@ -273,12 +273,14 @@ formData.append('.id', id);
         let username = $(this).data("company-username");
         let phone = $(this).data("company-phone");
         let address = $(this).data("company-address");
+        let city = $(this).data("company-city");
         $("#nameupdate").val(name);
         $("#uniqueidupdate").val(uniqueid);
         $("#emailupdate").val(email);
         $("#usernameupdate").val(username);
         $("#phoneupdate").val(phone);
         $("#addressupdate").val(address);
+        $("#updatecity").val(city);
         $(".id_company").val(id);
         $("#UpdateModalCompany").modal("show");
     });
@@ -317,6 +319,13 @@ formData.append('.id', id);
         let country_id = $("#country").val();
         let company_charge = $("#company").val();
         let category_id = $("#category").val();
+        let city = $("#city").val();
+        let province = $("#province").val();
+        let code_postale = $("#code_postale").val();
+        let tax_number = $("#tax_number").val();
+        let rccm = $("#rccm").val();
+        let bank_name = $("#bank_name").val();
+        let bank_number = $("#bank_number").val();
         let password = $("#password").val();
         let confirm_password = $("#confirm_password").val();
 
@@ -331,6 +340,13 @@ formData.append('.id', id);
                 email: email,
                 phone: phone,
                 country_id: country_id,
+                city: city,
+                province: province,
+                code_postale: code_postale,
+                tax_number: tax_number,
+                rccm: rccm,
+                bank_name: bank_name,
+                bank_number: bank_number,
                 company_charge: company_charge,
                 category_id: category_id,
                 password: password,
@@ -338,7 +354,7 @@ formData.append('.id', id);
                 action: "jddiuanjkanciuwenfas,mcn;sdiojd"
             },
             success: function (res) {
-              if (!name || !username || !address || !email || !phone || !country_id || !category_id || !password || !confirm_password) {
+              if (!name || !username || !address || !email || !phone || !country_id || !city || !province || !code_postale || !tax_number || !rccm || !bank_name || !bank_number || !category_id || !password || !confirm_password) {
                 Swal.fire({icon: "error", title: "Erreur", text: "Tous les champs sont obligatoires"});
                 return;
             }

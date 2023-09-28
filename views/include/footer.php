@@ -3,6 +3,7 @@
 </div>
 <!-- app-root @e -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
 <script src="<?=URL?>public/assets/js/bundle.js?ver=3.2.0"></script>
 <script src="<?=URL?>public/assets/js/scripts.js?ver=3.2.0"></script>
 <script src="<?=URL?>public/assets/js/charts/gd-default.js?ver=3.2.0"></script>
@@ -34,6 +35,7 @@ options: {
     }
 }
 });
+
 
 new Chart(document.getElementById("doughnut-chart"), {
 type: 'doughnut',

@@ -16,7 +16,6 @@ $(document).ready(function () {
                 action: "jddiuanjkanciuSFDSFAEEEADS;sdiojd"
             },
             success: function (res) {
-              console.log(res);
               if (res.status === 200) {
                   Swal.fire({
                       icon: "success",

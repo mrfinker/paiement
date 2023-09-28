@@ -266,6 +266,13 @@ if (!$dateTime) {
             $address = $_POST["address"];
             $email = $_POST["email"];
             $phone = $_POST["phone"];
+            $city = $_POST["city"];
+            $province = $_POST["province"];
+            $code_postale = $_POST["code_postale"];
+            $tax_number = $_POST["tax_number"];
+            $rccm = $_POST["rccm"];
+            $bank_name = $_POST["bank_name"];
+            $bank_number = $_POST["bank_number"];
             $country_id = $_POST["country_id"];
             $category_id = $_POST["category_id"];
             $company_charge = $_POST["company_charge"];
@@ -300,6 +307,13 @@ if (!$dateTime) {
                 "company_charge" => $company_charge,
                 "password" => $hashedPassword,
                 "phone" => $phone,
+                "city" => $city,
+                "province" => $province,
+                "code_postale" => $code_postale,
+                "tax_number" => $tax_number,
+                "rccm" => $rccm,
+                "bank_name" => $bank_name,
+                "bank_number" => $bank_number
             ];
 
             $result = $this->model->insertCompany($data);
@@ -326,6 +340,13 @@ if (!$dateTime) {
             $usernameupdate = $_POST['usernameupdate'];
             $phoneupdate = $_POST['phoneupdate'];
             $addressupdate = $_POST['addressupdate'];
+            $cityupdate = $_POST["updatecity"];
+            $provinceupdate = $_POST["updateprovince"];
+            $code_postaleupdate = $_POST["updatecode_postale"];
+            $tax_numberupdate = $_POST["updatetax_number"];
+            $rccmupdate = $_POST["updaterccm"];
+            $bank_nameupdate = $_POST["updatebank_name"];
+            $bank_numberupdate = $_POST["updatebank_number"];
 
             // Vérifiez si les données obligatoires ne sont pas vides
             if (empty($nameupdate) || empty($emailupdate) || empty($phoneupdate) || empty($addressupdate)) {
@@ -334,9 +355,21 @@ if (!$dateTime) {
                     'msg' => 'Données vides, veuillez les remplir',
                 ];
             } else {
-                // Appelez la méthode de mise à jour de l'utilisateur dans votre modèle ici
-                // Assurez-vous que cette méthode effectue la mise à jour dans la base de données
-                $result = $this->model->updateCompany($id, $nameupdate, $emailupdate, $phoneupdate, $addressupdate, $usernameupdate);
+                $result = $this->model->updateCompany(
+                    $id, 
+                    $nameupdate, 
+                    $emailupdate, 
+                    $phoneupdate, 
+                    $addressupdate, 
+                    $usernameupdate, 
+                    $cityupdate,
+                    $provinceupdate,
+                    $code_postaleupdate,
+                    $tax_numberupdate,
+                    $rccmupdate,
+                    $bank_nameupdate,
+                    $bank_numberupdate
+                );
 
                 if ($result) {
                     $response = [
@@ -353,6 +386,13 @@ if (!$dateTime) {
                         $_SESSION['company']['username'] = $usernameupdate;
                         $_SESSION['company']['phone'] = $phoneupdate;
                         $_SESSION['company']['address'] = $addressupdate;
+                        $_SESSION['company']['city'] = $cityupdate;
+                        $_SESSION['company']['province'] = $provinceupdate;
+                        $_SESSION['company']['code_postale'] = $code_postaleupdate;
+                        $_SESSION['company']['tax_number'] = $tax_numberupdate;
+                        $_SESSION['company']['rccm'] = $rccmupdate;
+                        $_SESSION['company']['bank_name'] = $bank_nameupdate;
+                        $_SESSION['company']['bank_number'] = $bank_numberupdate;
                     }
                 } else {
                     $response = [

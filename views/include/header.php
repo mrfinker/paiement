@@ -219,11 +219,6 @@
                                                 <span class="nk-menu-text">Rapport du mois</span>
                                             </a>
                                         </li>
-                                        <li class="nk-menu-item">
-                                            <a href="<?=URL?><?= $userType['name'] ?>/retard" class="nk-menu-link">
-                                                <span class="nk-menu-text">Retard</span>
-                                            </a>
-                                        </li>
                                         <!-- .nk-menu-item -->
                                     </ul>
                                     <?php endif; ?>
@@ -242,6 +237,41 @@
                                         <li class="nk-menu-item">
                                             <a href="<?=URL?><?= $userType['name'] ?>/comptes" class="nk-menu-link">
                                                 <span class="nk-menu-text">Comptes</span>
+                                            </a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/depots" class="nk-menu-link">
+                                                <span class="nk-menu-text">Depots</span>
+                                            </a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/depenses" class="nk-menu-link">
+                                                <span class="nk-menu-text">Depenses</span>
+                                            </a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/transactions" class="nk-menu-link">
+                                                <span class="nk-menu-text">Transactions</span>
+                                            </a>
+                                        </li>
+                                        <!-- .nk-menu-item -->
+                                    </ul>
+                                    <?php endif; ?>
+                                    <?php if ($_SESSION['userType']['name'] === 'company'): ?>
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon">
+                                            <em class="icon ni ni-sign-dollar"></em>
+                                            </span>
+                                            <span class="nk-menu-text">Fiscale</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <!-- .nk-menu-item -->
+                                        </li>
+                                        <!-- .nk-menu-item -->
+                                        <li class="nk-menu-item">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/comptes" class="nk-menu-link">
+                                                <span class="nk-menu-text">ONEM</span>
                                             </a>
                                         </li>
                                         <li class="nk-menu-item">
@@ -446,4 +476,4 @@
                         </div>
                         <!-- .container-fliud -->
                     </div>
-                    <!-- main head
+                    <!-- main header @e -->

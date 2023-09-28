@@ -211,6 +211,8 @@ foreach ($company as $compagni) {
                                                                                 data-company-username="<?=$compagni['username'];?>"
                                                                                 data-company-email="<?=$compagni['email'];?>"
                                                                                 data-company-phone="<?=$compagni['phone'];?>"
+                                                                                data-company-city="<?=$compagni['city'];?>"
+                                                                                data-company-province="<?=$compagni['province'];?>"
                                                                                 data-company-address="<?=$compagni['address'];?>">
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
@@ -329,6 +331,48 @@ foreach ($company as $compagni) {
                                 </div>
                             </div>
                             <div class="col-sm-6">
+                                <label class="form-label" for="city">Ville</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="city" id="city" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="province">Province</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="province" id="province" required="">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="code_postale">Code postale</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="code_postale" id="code_postale" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="tax_number">Numero taxe</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="tax_number" id="tax_number" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="rccm">RCCM</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="rccm" id="rccm" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="bank_name">Nom banque</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="bank_name" id="bank_name" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="bank_number">Compte bancaire</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="bank_number" id="bank_number" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="form-label">Choisir le pays</label>
                                     <div class="form-control-wrap">
@@ -385,12 +429,10 @@ $sessionCompanyId = isset($_SESSION['company_id']) ? $_SESSION['company_id'] : n
 
 foreach ($company as $compagni) {
     if ($compagni['id'] != $sessionCompanyId) {
-        echo '<option value="' . $compagni['name'] . '">' . $compagni['name'] . '</option>';
+        echo '<option value="' . $compagni['id'] . '">' . $compagni['name'] . '</option>';
     }
 }
 ?>
-
-
                                         </select>
                                     </div>
                                 </div>
@@ -538,6 +580,48 @@ foreach ($company as $compagni) {
                                             id="phoneupdate"
                                             required="">
                                     </div>
+                                </div>
+                                <div class="col-sm-6">
+                                <label class="form-label" for="updatecity">Ville</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="updatecity" id="updatecity" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="updateprovince">Province</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="updateprovince" id="updateprovince" required="">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="updatecode_postale">Code postale</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="updatecode_postale" id="updatecode_postale" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="updatetax_number">Numero taxe</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="updatetax_number" id="updatetax_number" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="updaterccm">RCCM</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="updaterccm" id="updaterccm" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="updatebank_name">Nom banque</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="updatebank_name" id="updatebank_name" required="">
+                                </div>
+                                </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="updatebank_number">Compte bancaire</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" name="updatebank_number" id="updatebank_number" required="">
+                                </div>
                                 </div>
                             </div>
                             <input type="hidden" class="id_company" name="id">

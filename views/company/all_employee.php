@@ -16,6 +16,11 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
 }
     $companyModel = new company_model();
     $userc = $companyModel->getAllUsersByCreatorAndCompany();
+    $usersRoles = $companyModel->getAllUserRoles();
+    $usersDepartements = $companyModel->getAllDepartmentsByCreatorAndCompany();
+    $countries = $companyModel->getAllCountry();
+    $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
+    
 
 ?>
 <?php include_once './views/include/header.php'; ?>
@@ -35,7 +40,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                     class="btn btn-primary mt-2"
                                     type="button"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#newFormUser">
+                                    data-bs-target="#newFormUserCompany">
                                     Ajouter<em class="icon ni ni-plus p-1"></em>
                                 </button>
                             </div>
@@ -193,7 +198,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                     <span class="tb-amount"><?=$usercomp['name']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$usercomp['branche']?></span>
+                                                    <span><?=$usercomp['designation']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
                                                     <span><?=$usercomp['gender']?></span>
@@ -238,46 +243,34 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a href="#" class="delete-button-users" data-id="<?=$users['id'];?>">
+                                                                            <a href="#" class="delete-button-usercomp" data-id="<?=$usercomp['id'];?>">
                                                                                 <em class="icon ni ni-trash"></em>
                                                                                 <span>Supprimer</span></a>
                                                                             <a
                                                                                 href="#"
-                                                                                class="update_button_profile"
-                                                                                data-id="<?=$users['id'];?>"
-                                                                                data-userprofile-name="<?=$users['name'];?>"
-                                                                                data-userprofile-username="<?=$users['username'];?>"
-                                                                                data-userprofile-email="<?=$users['email'];?>"
-                                                                                data-userprofile-phone="<?=$users['phone'];?>"
-                                                                                data-userprofile-address="<?=$users['address'];?>"
-                                                                                data-userprofile-birthday="<?=$users['birthday'];?>">
+                                                                                class="update_button_usercomp"
+                                                                                data-id="<?=$usercomp['id'];?>"
+                                                                                data-userprofile-name="<?=$usercomp['name'];?>"
+                                                                                data-userprofile-designation="<?=$usercomp['designation_id'];?>"
+                                                                                data-userprofile-username="<?=$usercomp['username'];?>"
+                                                                                data-userprofile-email="<?=$usercomp['email'];?>"
+                                                                                data-userprofile-phone="<?=$usercomp['phone'];?>"
+                                                                                data-userprofile-address="<?=$usercomp['address'];?>"
+                                                                                data-userprofile-birthday="<?=$usercomp['birthday'];?>"
+                                                                                data-userprofile-departement="<?=$usercomp['departement_id'];?>"
+                                                                                data-userprofile-marital_status="<?=$usercomp['marital_status'];?>"
+                                                                                data-userprofile-employeeid="<?=$usercomp['emplyee_id'];?>"
+                                                                                data-userprofile-working_time="<?=$usercomp['office_shift_id'];?>"
+                                                                                data-userprofile-salaire_base="<?=$usercomp['basic_salary'];?>"
+                                                                                data-userprofile-salary_type="<?=$usercomp['salary_type'];?>"
+                                                                                data-userprofile-country="<?=$usercomp['country_id'];?>"
+                                                                                data-userprofile-contract_type="<?=$usercomp['contract_type'];?>"
+                                                                                data-userprofile-gender="<?=$usercomp['gender'];?>"
+                                                                                data-userprofile-role="<?=$usercomp['user_role_id'];?>"
+                                                                                data-image="<?=$usercomp['image'];?>">
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
                                                                             </a>
-                                                                            <a
-                                                                                href="#"
-                                                                                class="voir_button_profile"
-                                                                                data-id="<?=$users['id'];?>"
-                                                                                data-view-name="<?=$users['name'];?>"
-                                                                                data-view-username="<?=$users['username'];?>"
-                                                                                data-view-email="<?=$users['email'];?>"
-                                                                                data-view-phone="<?=$users['phone'];?>"
-                                                                                data-view-address="<?=$users['address'];?>"
-                                                                                data-view-birthday="<?=$users['birthday'];?>"
-                                                                                data-view-image="<?=$users['image'];?>">
-                                                                                <em class="icon ni ni-eye"></em>
-                                                                                <span>Voir</span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li class="divider"></li>
-                                                                        <li>
-                                                                            <a href="" class="desactiver-button-users" data-id="<?=$users['id'];?>">
-                                                                                <em class="icon ni ni-spark-off-fill"></em>
-                                                                                <span>
-                                                                                    <?php echo $users['is_active'] ? 'Désactiver' : 'Activer'; ?>
-                                                                                </span>
-                                                                            </a>
-
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -326,7 +319,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
 <!-- Ajouter utilisateur -->
 <div
     class="modal fade"
-    id="newFormUser"
+    id="newFormUserCompany"
     style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -338,7 +331,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                 </a>
             </div>
             <div class="modal-body">
-                <form id="registerFormUser" method="POST" enctype="multipart/form-data">
+                <form id="registerFormUserCompany" method="POST" enctype="multipart/form-data">
                     <div class="row gy-4">
                     <div class="col-sm-12">
                             <div class="form-group">
@@ -353,10 +346,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="name">Nom</label>
+                                    <label class="form-label" for="name">Noms</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <input
@@ -369,7 +362,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label class="form-label" for="prename">Prenom</label>
@@ -387,6 +380,24 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
+                                <label class="form-label" for="status_marital">Status marital</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        aria-hidden="true"
+                                        name="status_marital"
+                                        id="status_marital"
+                                        data-ui="lg">
+                                        <option disabled selected></option>
+                                        <option value="Celibataire">Celibataire</option>
+                                        <option value="Veuve/veuf">Veuve/veuf</option>
+                                        <option value="Marier">Marier</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
                                 <div class="form-label-group">
                                     <label class="form-label" for="employeid">Employee ID</label>
                                 </div>
@@ -397,16 +408,15 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                         name="employeid"
                                         class="form-control form-control-lg"
                                         id="employeid"
-                                        placeholder="Entrer l'id"
                                         <?php
                                         $randomId = rand(100000000, 999999999);
                                         ?>
                                         value="<?= $randomId; ?>"
-                                        disabled>
+                                        readonly>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label class="form-label" for="phone">Votre telephone</label>
@@ -422,18 +432,39 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4" data-select2-id="12">
-                            <div class="form-group" data-select2-id="11">
-                                <label class="form-label">Gender</label>
-                                <div class="form-control-wrap" data-select2-id="10">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="form-label" for="gender">Gender</label>
+                                <div class="form-control-wrap">
                                     <select
                                         class="form-select js-select2 select2-hidden-accessible"
                                         data-search="on"
                                         aria-hidden="true"
+                                        id="gender"
+                                        name="gender"
                                         data-ui="lg">
-                                        <option value="default_option" data-select2-id="0">Default Option</option>
+                                        <option disabled selected></option>
                                         <option value="Homme">Homme</option>
                                         <option value="Femme">Femme</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="form-label" for="country">Pays</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        data-search="on"
+                                        id="country"
+                                        name="country"
+                                        aria-hidden="true"
+                                        data-ui="lg">
+                                        <option disabled selected></option>
+                                        <?php foreach ($countries as $country): ?>
+        <option value="<?= $country['id'] ?>"><?= $country['name'] ?></option>
+    <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
@@ -516,80 +547,129 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4" data-select2-id="12">
-                            <div class="form-group" data-select2-id="11">
-                                <label class="form-label">Role</label>
-                                <div class="form-control-wrap" data-select2-id="10">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="user_role">Role</label>
+                                <div class="form-control-wrap">
                                     <select
                                         class="form-select js-select2 select2-hidden-accessible"
                                         data-search="on"
                                         aria-hidden="true"
+                                        id="user_role"
+                                        name="user_role"
                                         data-ui="lg">
-                                        <option value="default_option" data-select2-id="0">Default Option</option>
-                                        <option value="Homme">Role1</option>
-                                        <option value="Femme">Role1</option>
+                                        <option value="Role" disabled selected>Role</option>
+                                        <?php
+    foreach ($usersRoles as $role) {
+        echo '<option value="' . $role['id_role'] . '">' . $role['name'] . '</option>';
+    }
+?>
+
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6" data-select2-id="12">
-                            <div class="form-group" data-select2-id="11">
-                                <label class="form-label">Departements</label>
-                                <div class="form-control-wrap" data-select2-id="10">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="department_id">Departements</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible department-select"
+                                        aria-hidden="true"
+                                        name="department_id"
+                                        id="department_id"
+                                        data-ui="lg">
+                                        <option value="" disabled selected>Departements</option>
+                                        <?php
+    foreach ($usersDepartements as $dep) {
+        echo '<option value="' . $dep['department_id'] . '">' . $dep['department_name'] . '</option>';
+    }
+?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="designation_id">Branches</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible designation-select"
+                                        aria-hidden="true"
+                                        id="designation_id"
+                                        name="designation_id"
+                                        disabled
+                                        data-ui="lg">
+                                        <option value="" disabled selected>Branches</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="working_time">Temps de travail</label>
+                                <div class="form-control-wrap">
                                     <select
                                         class="form-select js-select2 select2-hidden-accessible"
                                         aria-hidden="true"
+                                        name="working_time"
+                                        id="working_time"
                                         data-ui="lg">
-                                        <option value="default_option" data-select2-id="0">Default Option</option>
-                                        <option value="Homme">Role1</option>
-                                        <option value="Femme">Role1</option>
+                                        <option value="default_option" >Default Option</option>
+                                        <?php
+                                        foreach($office_shifts as $office){
+                                           echo '<option value="' . $office['office_shift_id'] . '">' . $office['shift_name'] . '</option>';
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6" data-select2-id="12">
-                            <div class="form-group" data-select2-id="11">
-                                <label class="form-label">Branches</label>
-                                <div class="form-control-wrap" data-select2-id="10">
-                                    <select
-                                        class="form-select js-select2 select2-hidden-accessible"
-                                        aria-hidden="true"
-                                        data-ui="lg">
-                                        <option value="default_option" data-select2-id="0">Default Option</option>
-                                        <option value="Homme">Role1</option>
-                                        <option value="Femme">Role1</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="email">Salaire net</label>
+                                    <label class="form-label" for="salaire_base">Salaire de base</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <input
                                         required="required"
                                         type="text"
-                                        name="salaire_net"
+                                        name="salaire_base"
                                         class="form-control form-control-lg"
-                                        id="salaire_net"
-                                        placeholder="Entrer votre email">
+                                        id="salaire_base"
+                                        placeholder="entrer le salaire">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6" data-select2-id="12">
-                            <div class="form-group" data-select2-id="11">
-                                <label class="form-label">Type de paiement</label>
-                                <div class="form-control-wrap" data-select2-id="10">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="paiement_type">Type de paiement</label>
+                                <div class="form-control-wrap">
                                     <select
                                         class="form-select js-select2 select2-hidden-accessible"
                                         aria-hidden="true"
+                                        name="paiement_type"
+                                        id="paiement_type"
                                         data-ui="lg">
-                                        <option value="default_option" data-select2-id="0">Default Option</option>
-                                        <option value="Homme">Par mois</option>
-                                        <option value="Femme">Par semaine</option>
-                                        <option value="Femme">Par heure</option>
+                                        <option disabled selected></option>
+                                        <option value="1">Par mois</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="contract_type">Type de contart</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        aria-hidden="true"
+                                        id="contract_type"
+                                        name="contract_type"
+                                        data-ui="lg">
+                                        <option disabled selected></option>
+                                        <option value="CDD">CDD</option>
+                                        <option value="CDI">CDI</option>
                                     </select>
                                 </div>
                             </div>
@@ -601,7 +681,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                             type="submit"
                             id="register_btn"
                             name="register_btn"
-                            class="btn btn-lg btn-primary btn-block">Cree utilisateur</button>
+                            class="btn btn-lg btn-primary btn-block">Cree staff</button>
                     </div>
                 </form>
             </div>
@@ -613,7 +693,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
 <!-- update users -->
 <div
     class="modal fade"
-    id="UpdateModalProfile"
+    id="UpdateModalUsercomp"
     style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -625,99 +705,22 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                 </a>
             </div>
             <div class="modal-body">
-                <form id="updateFormUser" method="POST" enctype="multipart/form-data">
+                <form id="updateFormUsercomp" method="POST" enctype="multipart/form-data">
+                
+                <div class="user-avatar sq xl mb-2">
+                <?php if (isset($usercomp['image']) && !empty($usercomp['image'])): ?>
+                                                            <img src="" id="updateimage" alt="User Avatar">
+                                                            <?php if($usercomp['is_logged_in'] == 1): ?>
+                                                            <div class="status dot dot-lg dot-success"></div>
+                                                        <?php else: ?>
+                                                            <div class="status dot dot-lg dot-danger"></div>
+                                                            <?php endif; ?>
+                                                        <?php else: ?>
+                                                            <em class="icon ni ni-user-alt"></em>
+                                                            <?php endif;?>
+                    </div>
                     <div class="row gy-4">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="nameupdate">Votre noms</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="nameupdate"
-                                        class="form-control form-control-lg"
-                                        id="nameupdate"
-                                        placeholder="Entrer votre noms">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="usernameupdate">Votre nom utilisateur</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="usernameupdate"
-                                        class="form-control form-control-lg"
-                                        id="usernameupdate"
-                                        placeholder="Entrer votre username">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="emailupdate">Votre email</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="email"
-                                        name="emailupdate"
-                                        class="form-control form-control-lg"
-                                        id="emailupdate"
-                                        placeholder="Entrer votre email">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="phoneupdate">Votre telephone</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="number"
-                                        name="phoneupdate"
-                                        class="form-control form-control-lg"
-                                        id="phoneupdate"
-                                        placeholder="Entrer votre numero de telephone">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="addressupdate">Votre adresse</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="addressupdate"
-                                        class="form-control form-control-lg"
-                                        id="addressupdate"
-                                        placeholder="Entrer votre adresse">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="form-label" for="birthdayupdate">Date d'anniversaire</label>
-                                <input
-                                    type="text"
-                                    class="form-control form-control-lg date-picker"
-                                    name="birthdayupdate"
-                                    id="birthdayupdate">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
+                    <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label class="form-label" for="imageFile">Veuillez inserer une image</label>
@@ -730,6 +733,266 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="updatename">Noms</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="text"
+                                        name="updatename"
+                                        class="form-control form-control-lg"
+                                        id="updatename"
+                                        placeholder="Entrer le nom">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label" for="updatestatus_marital">Status marital</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        aria-hidden="true"
+                                        name="updatestatus_marital"
+                                        id="updatestatus_marital"
+                                        data-ui="lg">
+                                        <option selected><?= $usercomp['marital_status'] ?></option>
+                                        <option value="Celibataire">Celibataire</option>
+                                        <option value="Veuve/veuf">Veuve/veuf</option>
+                                        <option value="Marier">Marier</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="updateemployeid">Employee ID</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="text"
+                                        name="updateemployeid"
+                                        class="form-control form-control-lg"
+                                        id="updateemployeid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="updatephone">Votre telephone</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="number"
+                                        name="updatephone"
+                                        class="form-control form-control-lg"
+                                        id="updatephone"
+                                        placeholder="Entrer votre numero de telephone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="form-label" for="updategender">Gender</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        data-search="on"
+                                        aria-hidden="true"
+                                        id="updategender"
+                                        name="updategender"
+                                        data-ui="lg">
+                                        <option selected><?= $usercomp['gender'] ?></option>
+                                        <option value="Homme">Homme</option>
+                                        <option value="Femme">Femme</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="form-label" for="updatecountry">Pays</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        data-search="on"
+                                        id="updatecountry"
+                                        name="updatecountry"
+                                        aria-hidden="true"
+                                        data-ui="lg">
+                                        <option selected><?=$usercomp['country'] ?></option>
+                                        <?php foreach ($countries as $country): ?>
+        <option value="<?= $country['id'] ?>"><?= $country['name'] ?></option>
+    <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="updateusername">Votre nom utilisateur</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="text"
+                                        name="updateusername"
+                                        class="form-control form-control-lg"
+                                        id="updateusername"
+                                        placeholder="Entrer votre username">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="updateemail">Votre email</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="email"
+                                        name="updateemail"
+                                        class="form-control form-control-lg"
+                                        id="updateemail"
+                                        placeholder="Entrer votre email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="updateuser_role">Role</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        data-search="on"
+                                        aria-hidden="true"
+                                        id="updateuser_role"
+                                        name="updateuser_role"
+                                        data-ui="lg">
+                                        <option selected><?=$role['name'];?></option>
+                                        <?php
+    foreach ($usersRoles as $role) {
+        echo '<option value="' . $role['id_role'] . '">' . $role['name'] . '</option>';
+    }
+?>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="updatedepartment_id">Departements</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible department-select"
+                                        aria-hidden="true"
+                                        name="updatedepartment_id"
+                                        id="updatedepartment_id"
+                                        data-ui="lg">
+                                        <option selected><?=$dep['department_name'];?></option>
+                                        <?php
+    foreach ($usersDepartements as $dep) {
+        echo '<option value="' . $dep['department_id'] . '">' . $dep['department_name'] . '</option>';
+    }
+?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="updatedesignation_id">Branches</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible designation-select"
+                                        aria-hidden="true"
+                                        id="updatedesignation_id"
+                                        name="updatedesignation_id"
+                                        data-ui="lg">
+                                        <option selected><?=$usercomp['designation']?></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="form-label" for="updateworking_time">Temps de travail</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        aria-hidden="true"
+                                        name="updateworking_time"
+                                        id="updateworking_time"
+                                        data-ui="lg">
+                                        <option selected><?=$office['shift_name'] ?></option>
+                                        <?php
+                                        foreach($office_shifts as $office){
+                                           echo '<option value="' . $office['office_shift_id'] . '">' . $office['shift_name'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="updatesalaire_base">Salaire de base</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="text"
+                                        name="updatesalaire_base"
+                                        class="form-control form-control-lg"
+                                        id="updatesalaire_base"
+                                        placeholder="entrer le salaire">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="form-label" for="updatepaiement_type">Type de paiement</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        aria-hidden="true"
+                                        name="updatepaiement_type"
+                                        id="updatepaiement_type"
+                                        data-ui="lg">
+                                        <option selected><?php echo $usercomp['salary_type'] == 1 ? 'Par mois' : $usercomp['salary_type']; ?></option>
+                                        <option value="1">Par mois</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="form-label" for="updatecontract_type">Type de contart</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        aria-hidden="true"
+                                        id="updatecontract_type"
+                                        name="updatecontract_type"
+                                        data-ui="lg">
+                                        <option selected><?=$usercomp['contract_type'];?></option>
+                                        <option value="CDD">CDD</option>
+                                        <option value="CDI">CDI</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <input type="hidden" class="id_users" name="id">
                     <div class="form-group mt-2">
@@ -739,136 +1002,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                             name="update_btn"
                             class="btn btn-lg btn-primary btn-block">Modifier utilisateur</button>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<!-- voir users -->
-<div
-    class="modal fade"
-    id="viewModalProfile"
-    style="display: none;"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">voir l'utilisateur</h5>
-                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <em class="icon ni ni-cross"></em>
-                </a>
-            </div>
-
-            <div class="modal-body">
-                <form id="viewFormUser" method="POST" enctype="multipart/form-data">
-                    <div class="user-avatar sq xl mb-2">
-                        <?php if (isset($user['image']) && !empty($user['image'])): ?>
-                        <img src="" id="viewimage" alt="User Avatar">
-                    <?php else: ?>
-                        <em class="icon ni ni-user-alt"></em>
-                        <?php endif; ?>
-                    </div>
-                    <div class="row gy-4">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="viewname">Votre noms</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="name"
-                                        class="form-control form-control-lg"
-                                        id="viewname"
-                                        disabled="disabled"
-                                        placeholder="Entrer votre noms">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="viewusername">Votre nom utilisateur</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="username"
-                                        class="form-control form-control-lg"
-                                        id="viewusername"
-                                        disabled="disabled"
-                                        placeholder="Entrer votre username">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="viewemail">Votre email</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="email"
-                                        name="email"
-                                        class="form-control form-control-lg"
-                                        id="viewemail"
-                                        disabled="disabled"
-                                        placeholder="Entrer votre email">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="viewphone">Votre telephone</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="number"
-                                        name="phone"
-                                        class="form-control form-control-lg"
-                                        id="viewphone"
-                                        disabled="disabled"
-                                        placeholder="Entrer votre numero de telephone">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="viewaddress">Votre adresse</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="address"
-                                        class="form-control form-control-lg"
-                                        id="viewaddress"
-                                        disabled="disabled"
-                                        placeholder="Entrer votre adresse">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="form-label" for="viewbirthday">Date d'anniversaire</label>
-                                <input
-                                    type="text"
-                                    class="form-control form-control-lg date-picker"
-                                    name="birthday"
-                                    disabled="disabled"
-                                    id="viewbirthday">
-                            </div>
-                        </div>
-                    </div>
-                    <input type="hidden" class="id_users">
                 </form>
             </div>
         </div>

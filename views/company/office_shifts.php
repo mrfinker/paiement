@@ -15,7 +15,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
     exit;
 }
     $companyModel = new company_model();
-    $userc = $companyModel->getAllUsersByCreatorAndCompany();
+    $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
 
 ?>
 <?php include_once './views/include/header.php'; ?>
@@ -34,7 +34,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                     class="btn btn-primary mt-2"
                                     type="button"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#newFormUser">
+                                    data-bs-target="#newFormTime">
                                     Ajouter<em class="icon ni ni-plus p-1"></em>
                                 </button>
                             </div>
@@ -106,6 +106,33 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                     <span class="sub-text">Vendredi</span>
                                                 </th>
                                                 <th
+                                                    class="nk-tb-col tb-col-md sorting"
+                                                    tabindex="0"
+                                                    aria-controls="DataTables_Table_1"
+                                                    rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Phone: activate to sort column ascending">
+                                                    <span class="sub-text">Samedi</span>
+                                                </th>
+                                                <th
+                                                    class="nk-tb-col tb-col-md sorting"
+                                                    tabindex="0"
+                                                    aria-controls="DataTables_Table_1"
+                                                    rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Phone: activate to sort column ascending">
+                                                    <span class="sub-text">Dimanche</span>
+                                                </th>
+                                                <th
+                                                    class="nk-tb-col tb-col-md sorting"
+                                                    tabindex="0"
+                                                    aria-controls="DataTables_Table_1"
+                                                    rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Phone: activate to sort column ascending">
+                                                    <span class="sub-text">Total</span>
+                                                </th>
+                                                <th
                                                     class="nk-tb-col nk-tb-col-tools text-end sorting"
                                                     tabindex="0"
                                                     aria-controls="DataTables_Table_1"
@@ -117,7 +144,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                         </thead>
                                         <tbody>
                                             <?php
-                                            foreach ($userc as $usercomp) {
+                                            foreach ($temps_horaire as $horaire) {
                                                 ?>
 
                                             <!-- .nk-tb-item -->
@@ -136,22 +163,31 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                             <tr class="nk-tb-item odd">
 
                                                 <td class="nk-tb-col tb-col-mb">
-                                                    <span class="tb-amount"><?=$usercomp['name']?></span>
+                                                    <span class="tb-amount"><?= !empty($horaire['shift_name']) ? $horaire['shift_name'] : '<span class="badge badge-dim-success">Détente</span>' ?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$usercomp['branche']?></span>
+                                                    <span><?= !empty($horaire['monday_in_time']) && !empty($horaire['monday_out_time']) ? $horaire['monday_in_time'] . ' - ' . $horaire['monday_out_time'] : '<span class="badge badge-dim bg-success">Détente</span>' ?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$usercomp['gender']?></span>
+                                                    <span><?= !empty($horaire['tuesday_in_time']) && !empty($horaire['tuesday_out_time']) ? $horaire['tuesday_in_time'] . ' - ' . $horaire['tuesday_out_time'] : '<span class="badge badge-dim bg-success">Détente</span>' ?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$usercomp['phone']?></span>
+                                                    <span><?= !empty($horaire['wednesday_in_time']) && !empty($horaire['wednesday_out_time']) ? $horaire['wednesday_in_time'] . ' - ' . $horaire['wednesday_out_time'] : '<span class="badge badge-dim bg-success">Détente</span>' ?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$usercomp['country']?></span>
+                                                    <span><?= !empty($horaire['thursday_in_time']) && !empty($horaire['thursday_out_time']) ? $horaire['thursday_in_time'] . ' - ' . $horaire['thursday_out_time'] : '<span class="badge badge-dim bg-success">Détente</span>' ?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$usercomp['role_name']?></span>
+                                                    <span><?= !empty($horaire['friday_in_time']) && !empty($horaire['friday_out_time']) ? $horaire['friday_in_time'] . ' - ' . $horaire['friday_out_time'] : '<span class="badge badge-dim bg-success">Détente</span>' ?></span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <span><?= !empty($horaire['saturday_in_time']) && !empty($horaire['saturday_out_time']) ? $horaire['saturday_in_time'] . ' - ' . $horaire['saturday_out_time'] : '<span class="badge badge-dim bg-success">Détente</span>' ?></span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <span><?= !empty($horaire['sunday_in_time']) && !empty($horaire['sunday_out_time']) ? $horaire['sunday_in_time'] . ' - ' . $horaire['sunday_out_time'] : '<span class="badge badge-dim bg-success">Détente</span>' ?></span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <span class="badge badge-dim bg-success"><?=  $horaire['total_time'] . ' heures' ?></span>
                                                 </td>
 
                                                 <td class="nk-tb-col nk-tb-col-tools">
@@ -177,19 +213,32 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a href="#" class="delete-button-users" data-id="<?=$users['id'];?>">
+                                                                            <a
+                                                                                href="#"
+                                                                                class="delete-button-horaire"
+                                                                                data-id="<?=$horaire['office_shift_id'];?>">
                                                                                 <em class="icon ni ni-trash"></em>
                                                                                 <span>Supprimer</span></a>
                                                                             <a
                                                                                 href="#"
-                                                                                class="update_button_profile"
-                                                                                data-id="<?=$users['id'];?>"
-                                                                                data-userprofile-name="<?=$users['name'];?>"
-                                                                                data-userprofile-username="<?=$users['username'];?>"
-                                                                                data-userprofile-email="<?=$users['email'];?>"
-                                                                                data-userprofile-phone="<?=$users['phone'];?>"
-                                                                                data-userprofile-address="<?=$users['address'];?>"
-                                                                                data-userprofile-birthday="<?=$users['birthday'];?>">
+                                                                                class="update_button_horaire"
+                                                                                data-id="<?=$horaire['office_shift_id'];?>"
+                                                                                data-horaire-name="<?=$horaire['shift_name'];?>"
+                                                                                data-horaire-time="<?=$horaire['total_time'];?>"
+                                                                                data-horaire-monday-in="<?=$horaire['monday_in_time'];?>"
+                                                                                data-horaire-monday-out="<?=$horaire['monday_out_time'];?>"
+                                                                                data-horaire-tuesday-in="<?=$horaire['tuesday_in_time'];?>"
+                                                                                data-horaire-tuesday-out="<?=$horaire['tuesday_out_time'];?>"
+                                                                                data-horaire-wednesday-in="<?=$horaire['wednesday_in_time'];?>"
+                                                                                data-horaire-wednesday-out="<?=$horaire['wednesday_out_time'];?>"
+                                                                                data-horaire-thursday-in="<?=$horaire['thursday_in_time'];?>"
+                                                                                data-horaire-thursday-out="<?=$horaire['thursday_out_time'];?>"
+                                                                                data-horaire-friday-in="<?=$horaire['friday_in_time'];?>"
+                                                                                data-horaire-friday-out="<?=$horaire['friday_out_time'];?>"
+                                                                                data-horaire-saturday-in="<?=$horaire['saturday_in_time'];?>"
+                                                                                data-horaire-saturday-out="<?=$horaire['saturday_out_time'];?>"
+                                                                                data-horaire-sunday-in="<?=$horaire['sunday_in_time'];?>"
+                                                                                data-horaire-sunday-out="<?=$horaire['sunday_out_time'];?>">
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
                                                                             </a>
@@ -241,10 +290,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
 <!-- Ajouter utilisateur -->
 <div
     class="modal fade"
-    id="newFormUser"
+    id="newFormTime"
     style="display: none;"
     aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-mb" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Ajouter un temps de travail</h5>
@@ -253,21 +302,21 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                 </a>
             </div>
             <div class="modal-body">
-                <form id="registerFormUser" method="POST" enctype="multipart/form-data">
+                <form id="registerFormTime" method="POST">
                     <div class="row gy-4">
 
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="name">Nom</label>
+                                    <label class="form-label" for="shift_name">Nom</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <input
                                         required="required"
                                         type="text"
-                                        name="name"
+                                        name="shift_name"
                                         class="form-control form-control-lg"
-                                        id="name"
+                                        id="shift_name"
                                         placeholder="Entrer votre noms">
                                 </div>
                             </div>
@@ -280,9 +329,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                     </div>
                                     <input
                                         type="text"
+                                        name="lundi_in"
                                         class="form-control form-control-xl form-control-outlined time-picker"
-                                        id="outlined-time-picker">
-                                    <label class="form-label-outlined" for="outlined-time-picker">Time Picker</label>
+                                        id="lundi_in">
+                                    <label class="form-label-outlined" for="lundi_in">Temps d'arriver - Lundi</label>
                                 </div>
                             </div>
                         </div>
@@ -294,12 +344,216 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                     </div>
                                     <input
                                         type="text"
+                                        name="lundi_out"
                                         class="form-control form-control-xl form-control-outlined time-picker"
-                                        id="outlined-time-picker">
-                                    <label class="form-label-outlined" for="outlined-time-picker">Time Picker</label>
+                                        id="lundi_out">
+                                    <label class="form-label-outlined" for="lundi_out">Temps de sortie - Lundi</label>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="mardi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="mardi_in">
+                                    <label class="form-label-outlined" for="mardi_in">Temps d'arriver - Mardi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="mardi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="mardi_out">
+                                    <label class="form-label-outlined" for="mardi_out">Temps de sortie - Mardi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="mercredi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="mercredi_in">
+                                    <label class="form-label-outlined" for="mercredi_in">Temps d'arriver - Mercredi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="mercredi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="mercredi_out">
+                                    <label class="form-label-outlined" for="mercredi_out">Temps de sortie - Mercredi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="jeudi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="jeudi_in">
+                                    <label class="form-label-outlined" for="jeudi_in">Temps d'arriver - Jeudi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="jeudi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="jeudi_out">
+                                    <label class="form-label-outlined" for="jeudi_out">Temps de sortie - Jeudi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="vendredi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="vendredi_in">
+                                    <label class="form-label-outlined" for="vendredi_in">Temps d'arriver - Vendredi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="vendredi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="vendredi_out">
+                                    <label class="form-label-outlined" for="vendredi_out">Temps de sortie - Vendredi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="samedi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="samedi_in">
+                                    <label class="form-label-outlined" for="samedi_in">Temps d'arriver - Samedi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="samedi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="samedi_out">
+                                    <label class="form-label-outlined" for="samedi_out">Temps de sortie - Samedi</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="dimanche_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="dimanche_in">
+                                    <label class="form-label-outlined" for="dimanche_in">Temps d'arriver - Dimanche</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="dimanche_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="dimanche_out">
+                                    <label class="form-label-outlined" for="dimanche_out">Temps de sortie - Dimanche</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="total_hours">Total Heures</label>
+                                <input
+                                    type="text"
+                                    id="total_hours"
+                                    name="total_hours"
+                                    class="form-control"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="total_days">En jours</label>
+                                <input
+                                    type="text"
+                                    id="total_days"
+                                    name="total_days"
+                                    class="form-control"
+                                    readonly>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="form-group mt-2">
@@ -307,7 +561,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                             type="submit"
                             id="register_btn"
                             name="register_btn"
-                            class="btn btn-lg btn-primary btn-block">Cree utilisateur</button>
+                            class="btn btn-lg btn-primary btn-block">Cree un temps horaire</button>
                     </div>
                 </form>
             </div>
@@ -316,134 +570,270 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
 
 </div>
 
-<!-- update users -->
+<!-- update utilisateur -->
 <div
     class="modal fade"
-    id="UpdateModalProfile"
+    id="updateModalTime"
     style="display: none;"
     aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-mb" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modifier l'utilisateur</h5>
+                <h5 class="modal-title">Modifier temps de travail</h5>
                 <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
             <div class="modal-body">
-                <form id="updateFormUser" method="POST" enctype="multipart/form-data">
+                <form id="updateFormTime" method="POST">
                     <div class="row gy-4">
-                        <div class="col-sm-6">
+
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="nameupdate">Votre noms</label>
+                                    <label class="form-label" for="updateshift_name">Nom</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <input
                                         required="required"
                                         type="text"
-                                        name="nameupdate"
+                                        name="shift_name"
                                         class="form-control form-control-lg"
-                                        id="nameupdate"
+                                        id="updateshift_name"
                                         placeholder="Entrer votre noms">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="usernameupdate">Votre nom utilisateur</label>
-                                </div>
-                                <div class="form-control-wrap">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
                                     <input
-                                        required="required"
                                         type="text"
-                                        name="usernameupdate"
-                                        class="form-control form-control-lg"
-                                        id="usernameupdate"
-                                        placeholder="Entrer votre username">
+                                        name="lundi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatelundi_in">
+                                    <label class="form-label-outlined" for="updatelundi_in"></label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="emailupdate">Votre email</label>
-                                </div>
-                                <div class="form-control-wrap">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
                                     <input
-                                        required="required"
-                                        type="email"
-                                        name="emailupdate"
-                                        class="form-control form-control-lg"
-                                        id="emailupdate"
-                                        placeholder="Entrer votre email">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="phoneupdate">Votre telephone</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="number"
-                                        name="phoneupdate"
-                                        class="form-control form-control-lg"
-                                        id="phoneupdate"
-                                        placeholder="Entrer votre numero de telephone">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="addressupdate">Votre adresse</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
                                         type="text"
-                                        name="addressupdate"
-                                        class="form-control form-control-lg"
-                                        id="addressupdate"
-                                        placeholder="Entrer votre adresse">
+                                        name="lundi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatelundi_out">
+                                    <label class="form-label-outlined" for="updatelundi_out"></label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="form-label" for="birthdayupdate">Date d'anniversaire</label>
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="mardi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatemardi_in">
+                                    <label class="form-label-outlined" for="updatemardi_in"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="mardi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatemardi_out">
+                                    <label class="form-label-outlined" for="updatemardi_out"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="mercredi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatemercredi_in">
+                                    <label class="form-label-outlined" for="updatemercredi_in"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="mercredi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatemercredi_out">
+                                    <label class="form-label-outlined" for="updatemercredi_out"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="jeudi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatejeudi_in">
+                                    <label class="form-label-outlined" for="updatejeudi_in"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="jeudi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatejeudi_out">
+                                    <label class="form-label-outlined" for="updatejeudi_out"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="vendredi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatevendredi_in">
+                                    <label class="form-label-outlined" for="updatevendredi_in"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="vendredi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatevendredi_out">
+                                    <label class="form-label-outlined" for="updatevendredi_out"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="samedi_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatesamedi_in">
+                                    <label class="form-label-outlined" for="updatesamedi_in"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="samedi_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatesamedi_out">
+                                    <label class="form-label-outlined" for="updatesamedi_out"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="dimanche_in"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatedimanche_in">
+                                    <label class="form-label-outlined" for="updatedimanche_in"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-control-wrap has-timepicker">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-clock"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="dimanche_out"
+                                        class="form-control form-control-xl form-control-outlined time-picker"
+                                        id="updatedimanche_out">
+                                    <label class="form-label-outlined" for="updatedimanche_out"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="total_hours">Total Heures</label>
                                 <input
                                     type="text"
-                                    class="form-control form-control-lg date-picker"
-                                    name="birthdayupdate"
-                                    id="birthdayupdate">
+                                    id="updatetotal_hours"
+                                    name="total_hours"
+                                    class="form-control"
+                                    readonly>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="imageFile">Veuillez inserer une image</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <div class="form-file">
-                                        <input type="file" class="form-file-input" name="image" id="imageupdate">
-                                        <label class="form-file-label" for="imageupdate">Choisir fichier</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
-                    <input type="hidden" class="id_users" name="id">
+                    <input type="hidden" class="id_horaire" name="horaire_id">
                     <div class="form-group mt-2">
                         <button
                             type="submit"
-                            id="update_btn"
-                            name="update_btn"
-                            class="btn btn-lg btn-primary btn-block">Modifier utilisateur</button>
+                            id="register_btn"
+                            name="register_btn"
+                            class="btn btn-lg btn-primary btn-block">Modifier horaire</button>
                     </div>
                 </form>
             </div>
@@ -451,5 +841,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
     </div>
 
 </div>
+
+
 
 <?php include_once './views/include/footer.php' ?>

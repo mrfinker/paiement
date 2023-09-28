@@ -92,23 +92,23 @@ class Login extends Controller
         Session::destroy();
     }
 
-    public function logoutsession()
-    {
-        if (!isset($_SESSION['LAST_ACTIVITY'])) {
-            return;
-        }
+    // public function logoutsession()
+    // {
+    //     if (!isset($_SESSION['LAST_ACTIVITY'])) {
+    //         return;
+    //     }
 
-        $timeout = 60 * 60; // 1 heure
-        if (time() - $_SESSION['LAST_ACTIVITY'] > $timeout) {
-            $_SESSION['session_expired'] = true;
-            $email = Session::get("users")["email"];
-            $this->model->updateUserLoggedInStatus($email, 0);
-            $this->model->updateUserLastLogout($email, date('Y-m-d H:i:s'));
-            Session::destroy();
-            echo json_encode(['session_active' => false]);
-        } else {
-            echo json_encode(['session_active' => true]);
-        }
-    }
+    //     $timeout = 60 * 60; // 1 heure
+    //     if (time() - $_SESSION['LAST_ACTIVITY'] > $timeout) {
+    //         $_SESSION['session_expired'] = true;
+    //         $email = Session::get("users")["email"];
+    //         $this->model->updateUserLoggedInStatus($email, 0);
+    //         $this->model->updateUserLastLogout($email, date('Y-m-d H:i:s'));
+    //         Session::destroy();
+    //         echo json_encode(['session_active' => false]);
+    //     } else {
+    //         echo json_encode(['session_active' => true]);
+    //     }
+    // }
 
 }

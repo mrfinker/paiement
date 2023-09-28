@@ -25,10 +25,10 @@ if (isset($user['id'])) {
 
 $dashboardModel = new dashboard_model();
 $userc = $dashboardModel->getAllUsersByCreatorAndCompany();
+$usersComp = $dashboardModel->getTotalUsersByCompanyId();
 $userscompany = $userc['users'];
 $maleCount = $userc['maleCount'];
 $femaleCount = $userc['femaleCount'];
-
 
 
 ?>
@@ -55,7 +55,7 @@ $femaleCount = $userc['femaleCount'];
                                 <div class="row align-items-center mb-0">
                                     <div class="col">
                                         <h6 class="title">Total employer</h6>
-                                        <h4 class="sub-title">100000
+                                        <h4 class="sub-title"><?= $usersComp ?>
                                         </div>
                                     </div>
                                 </div>

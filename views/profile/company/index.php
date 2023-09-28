@@ -66,23 +66,13 @@ $currencies = $profileModel->getAllCurrencies();
                                 </ul>
 
                                 <ul class="nav link-list-menu border-light m-0" role="tablist">
+                                    
                                     <li>
                                         <a
                                             class="active"
                                             data-bs-toggle="tab"
-                                            href="#tabItem5"
-                                            aria-selected="false"
-                                            role="tab">
-                                            <em class="icon ni ni-user"></em>
-                                            <span>Compte</span></a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            class=""
-                                            data-bs-toggle="tab"
                                             href="#tabItem6"
                                             aria-selected="false"
-                                            tabindex="-1"
                                             role="tab">
                                             <em class="icon ni ni-tile-thumb"></em>
                                             <span>Personnel</span></a>
@@ -129,68 +119,9 @@ $currencies = $profileModel->getAllCurrencies();
                             <div class="card-inner">
 
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="tabItem5" role="tabpanel">
+                                    <div class="tab-pane active" id="tabItem6" role="tabpanel">
                                         <div class="row gy-4">
-                                            <div class="col-sm-6" data-select2-id="14">
-
-                                                <div class="form-group" data-select2-id="13">
-                                                    <label class="form-label">Monnaie</label>
-                                                    <div class="form-control-wrap" data-select2-id="12">
-                                                        <select
-                                                            class="form-select js-select2 select2-hidden-accessible"
-                                                            data-search="on"
-                                                            aria-hidden="true">
-                                                            <option value="default_option" data-select2-id="0">Default Option</option>
-                                                            <?php
-                                                                foreach ($currencies as $currency) {
-                                                                    $id = $currency['currency_id'];
-                                                                    $code = $currency['currency_code'];
-                                                                    $name = $currency['currency_name'];
-                                                                    echo "<option value='$id'>$name - $code</option>";
-                                                                }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6" data-select2-id="12">
-
-                                                <div class="form-group" data-select2-id="11">
-                                                    <label class="form-label">Langues</label>
-                                                    <div class="form-control-wrap" data-select2-id="10">
-                                                        <select
-                                                            class="form-select js-select2 select2-hidden-accessible"
-                                                            data-search="on"
-                                                            aria-hidden="true">
-                                                            <option value="default_option" data-select2-id="0">Default Option</option>
-                                                            <?php
-                                                                foreach ($currencies as $currency) {
-                                                                    $id = $currency['currency_id'];
-                                                                    $code = $currency['currency_code'];
-                                                                    $name = $currency['currency_name'];
-                                                                    echo "<option value='$id'>$name - $code</option>";
-                                                                }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <li class="divider"></li>
-
-                                            <div class="form-group mt-2">
-                                                <button
-                                                    type="submit"
-                                                    id="update_company_one"
-                                                    name="update_btn"
-                                                    class="btn btn-lg btn-primary btn-block">Enregistrer</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="tabItem6" role="tabpanel">
-                                        <div class="row gy-4">
-                                            <div class="col-lg-4 col-sm-6">
+                                            <div class="col-lg-8 col-sm-6">
                                                 <div class="form-group">
                                                     <div class="form-control-wrap">
                                                         <div class="form-icon form-icon-right">
@@ -200,21 +131,7 @@ $currencies = $profileModel->getAllCurrencies();
                                                             type="text"
                                                             class="form-control form-control-xl form-control-outlined"
                                                             id="outlined-right-icon">
-                                                        <label class="form-label-outlined" for="outlined-right-icon">Prenom</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-sm-6">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <div class="form-icon form-icon-right">
-                                                            <em class="icon ni ni-user"></em>
-                                                        </div>
-                                                        <input
-                                                            type="text"
-                                                            class="form-control form-control-xl form-control-outlined"
-                                                            id="outlined-right-icon">
-                                                        <label class="form-label-outlined" for="outlined-right-icon">Nom</label>
+                                                        <label class="form-label-outlined" for="outlined-right-icon">Noms</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -256,7 +173,7 @@ $currencies = $profileModel->getAllCurrencies();
                                                             type="text"
                                                             class="form-control form-control-xl form-control-outlined"
                                                             id="outlined-right-icon">
-                                                        <label class="form-label-outlined" for="outlined-right-icon">Contact</label>
+                                                        <label class="form-label-outlined" for="outlined-right-icon">Telephone</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -394,28 +311,13 @@ $currencies = $profileModel->getAllCurrencies();
                                         <div class="row gy-4">
                                             <div class="col-lg-6 col-sm-6">
                                                 <div class="form-group">
-
-                                                    <div class="form-control-wrap">
-                                                        <div class="form-icon form-icon-right">
-                                                            <em class="icon ni ni-user"></em>
-                                                        </div>
-                                                        <input
-                                                            type="text"
-                                                            class="form-control form-control-xl form-control-outlined"
-                                                            id="outlined-right-icon">
-                                                        <label class="form-label-outlined" for="outlined-right-icon">Nom compagnie</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-sm-6">
-                                                <div class="form-group">
                                                     <div class="form-control-wrap">
                                                         <select
                                                             class="form-select js-select2 select2-hidden-accessible"
                                                             data-search="on"
                                                             data-ui="xl"
                                                             aria-hidden="true">
-                                                            <option value="default_option" data-select2-id="0">Default genre</option>
+                                                            <option value="default_option">Default type company</option>
                                                             <?php
                                                                 foreach ($currencies as $currency) {
                                                                     $id = $currency['currency_id'];
@@ -428,21 +330,7 @@ $currencies = $profileModel->getAllCurrencies();
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-sm-6">
-                                                <div class="form-group">
-                                                    <div class="form-control-wrap">
-                                                        <div class="form-icon form-icon-right">
-                                                            <em class="icon ni ni-user"></em>
-                                                        </div>
-                                                        <input
-                                                            type="text"
-                                                            class="form-control form-control-xl form-control-outlined"
-                                                            id="outlined-right-icon">
-                                                        <label class="form-label-outlined" for="outlined-right-icon">Numero trading</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-sm-6">
+                                            <div class="col-lg-6 col-sm-6">
                                                 <div class="form-group">
                                                     <div class="form-control-wrap">
                                                         <div class="form-icon form-icon-right">
@@ -467,6 +355,34 @@ $currencies = $profileModel->getAllCurrencies();
                                                             class="form-control form-control-xl form-control-outlined"
                                                             id="outlined-right-icon">
                                                         <label class="form-label-outlined" for="outlined-right-icon">RCCM</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <div class="form-icon form-icon-right">
+                                                            <em class="icon ni ni-user"></em>
+                                                        </div>
+                                                        <input
+                                                            type="text"
+                                                            class="form-control form-control-xl form-control-outlined"
+                                                            id="outlined-right-icon">
+                                                        <label class="form-label-outlined" for="outlined-right-icon">Nom Banque</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-control-wrap">
+                                                        <div class="form-icon form-icon-right">
+                                                            <em class="icon ni ni-user"></em>
+                                                        </div>
+                                                        <input
+                                                            type="text"
+                                                            class="form-control form-control-xl form-control-outlined"
+                                                            id="outlined-right-icon">
+                                                        <label class="form-label-outlined" for="outlined-right-icon">Numero Banque</label>
                                                     </div>
                                                 </div>
                                             </div>
