@@ -461,7 +461,13 @@ public function getAllUsersByCreatorAndCompany()
     {
         return $this->db->insert("users", $data);
     }
-
+    
+    // Payements
+    public function insertPayement(array $data)
+    {
+        return $this->db->insert("payslips", $data);
+    }
+    
 
     
 

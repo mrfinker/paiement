@@ -570,9 +570,7 @@ public function handleRegisterUsers()
 public function updateUsers()
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        echo '<pre>';
-print_r($_POST);
-echo '</pre>';
+        
         $id = intval($_POST['id']);
         $nameupdate = $_POST['updatename'];
         $usernameupdate = $_POST['updateusername'];
@@ -720,6 +718,68 @@ echo '</pre>';
     {
         return $password === $c_password;
     }
+
+    // payements
+    public function handleAddPayments()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+            $staffId = $_POST['id']; 
+        } else {
+            return [];
+        }
+//         echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
+        // Générer une valeur aléatoire pour payslip_value
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $payslipValue = '';
+        for ($i = 0; $i < 15; $i++) {
+            $payslipValue .= $characters[mt_rand(0, strlen($characters) - 1)];
+        }
+        $year_to_date = date('d-m-Y');
+        $salary_month = date('Y-m');
+        
+        $data = [
+            'payslip_value' => $payslipValue,
+            'company_id' => $companyId,
+            'added_by' => $userId,
+            'staff_id' => $staffId,
+            'basic_salary' => $_POST['basic_salary'],
+            'year_to_date' => $year_to_date,
+            'salary_month' => $salary_month,
+            'net_salary' => $_POST['salary_net'],
+
+            'salary_imposable' => $_POST['salary_imposable'],
+            'net_before_taxes' => $_POST['net_before_taxes'],
+            'ipr' => $_POST['ipr'],
+            'net_after_taxes' => $_POST['net_after_taxes'],
+            'housing' => $_POST['housing'],
+            'transport' => $_POST['transport'],
+            'cnss' => $_POST['cnss'],
+            'cnss_company' => $_POST['cnss_company'],
+            'iere' => $_POST['iere'],
+            'inpp' => $_POST['inpp'],
+            'onem' => $_POST['onem'],
+            'salary_brut_company' => $_POST['salary_brut_company'],
+
+            'pay_comments' => $_POST['commentaire'],
+            'is_payment' => 1,
+        ];
+        
+        // Ici, vous feriez normalement appel à une méthode de votre modèle pour insérer les données dans la base de données.
+        $result = $this->model->insertPayement($data);
+        
+        if ($result) {
+            echo json_encode(array("status" => 200, "msg" => "Le paiement a été ajouté avec succès."));
+        } else {
+            echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du paiement."));
+        }
+    }
+}
 
 
 

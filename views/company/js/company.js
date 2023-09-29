@@ -890,26 +890,33 @@ $(document).on("click", ".update_button_usercomp", function (e) {
     $("#UpdateModalUsercomp").modal("show");
 });
 
-// Paye
+// Paye calcul et affichage
 $(document).on("click", ".paye_button_usercomp", function (e) {
     e.preventDefault();
     let id = parseInt($(this).data("id"));
     let bs = parseFloat($(this).data("basic_salary"));
     let hours_time = Number($(this).data("total_time"));
-    let regularization = Number($(this).data("regularization"))
-    let other = Number($(this).data("other"))
-    let leave = Number($(this).data("leave"))
-    let monthlastone = Number($(this).data("monthlastone"))
-    let advanced_salary = Number($(this).data("advanced_salary"))
-    let children = Number($(this).data("children"))
-    let spouse = Number($(this).data("spouse"))
-    let telephone = Number($(this).data("telephone"))
+    let regularization = 0;
+    // Number($(this).data("regularization"))
+    let other = 0;
+    // Number($(this).data("other"))
+    let leave = 0;
+    // Number($(this).data("leave"))
+    let monthlastone = 0;
+    // Number($(this).data("monthlastone"))
+    let advanced_salary = 0;
+    // Number($(this).data("advanced_salary"))
+    let children = 0;
+    // Number($(this).data("children"))
+    let spouse = 0;
+    // Number($(this).data("spouse"))
+    let telephone = 0;
+    // Number($(this).data("telephone"))
     let country = $(this).data("country")
     
     $("#basic_salary").val(bs);
     $("#hours_time").val(hours_time);
-    $("#country").val(country);
-    console.log(country)
+    $("#country").text(`${country}`);
     $(".id_users").val(id);
     $("#payeModalUsercomp").modal("show");
     
@@ -929,7 +936,6 @@ $(document).on("click", ".paye_button_usercomp", function (e) {
     $("#leave").text(`${leave} / Leave`);
     if(isNaN(monthlastone)) monthlastone = 0;
     $("#monthlastone").text(`${monthlastone} / 13th Month`);
-    if(isNaN(advanced_salary)) advanced_salary = 0;
     $("#advanced_salary").text(`${advanced_salary} / Advanced Salary`);
     if(isNaN(children)) children = 0;
     $("#children").text(`${children} / Enfants`);
@@ -941,10 +947,12 @@ $(document).on("click", ".paye_button_usercomp", function (e) {
     $("#jours").text(jours + " jours " + heures + " heures" + "/ mois");
     let salary_imposable = bs + regularization + other + leave + monthlastone;
     // Le reste de votre code ici, et utilisez salary_imposable comme vous le souhaitez.
-    $("#salary_imposable").text(salary_imposable + " $");
+    $("#salary_imposable_display").text(salary_imposable + " $");
+    $("#salary_imposable").val(salary_imposable.toFixed(2));
     
     let cnss_company = salary_imposable * 13 / 100;
-    $("#cnss_company").text(cnss_company + " $");
+    $("#cnss_company_display").text(cnss_company + " $");
+    $("#cnss_company").val(cnss_company.toFixed(2));
 
     let iere;
     if (country.toLowerCase() === "republique democratique du congo") {
@@ -952,23 +960,28 @@ $(document).on("click", ".paye_button_usercomp", function (e) {
     } else {
         iere = salary_imposable * 25 / 100;
     }
-    $("#iere").text(iere + " $");
+    $("#iere_display").text(iere + " $");
+    $("#iere").val(iere);
 
     let inpp = salary_imposable * 3 / 100;
-    $("#inpp").text(inpp + " $");
+    $("#inpp_display").text(inpp + " $");
+    $("#inpp").val(inpp);
     
     let onem = salary_imposable * 0.2 / 100;
-    $("#onem").text(onem + " $");
+    $("#onem_display").text(onem + " $");
+    $("#onem").val(onem);
 
     let cnss = (salary_imposable * 5) / 100;
     if(isNaN(cnss)) cnss = 0;
     // Afficher la valeur de cnss dans le DOM, si vous avez un élément HTML approprié pour cela
-    $("#cnss").text(cnss + " $");
+    $("#cnss_display").text(cnss + " $");
+    $("#cnss").val(cnss);
 
     let net_before_taxes = salary_imposable - cnss;
     if(isNaN(net_before_taxes)) net_before_taxes = 0;
     // Afficher la valeur de net_before_taxes dans le DOM, si vous avez un élément HTML approprié pour cela
-    $("#net_before_taxes").text(net_before_taxes + " $");
+    $("#net_before_taxes_display").text(net_before_taxes + " $");
+    $("#net_before_taxes").val(net_before_taxes);
 
     // Calcul important en fond
     let usdFranc;
@@ -1005,18 +1018,19 @@ if (usdFranc < 2000) {
     ipr_franc = usdFranc;
 }
     ipr = ipr_franc / exchange_rate
-$("#ipr").text(ipr.toFixed(2) + " $");
+$("#ipr_display").text(ipr.toFixed(2) + " $");
+$("#ipr").val(ipr.toFixed(2));
 
 
 let net_after_taxes = net_before_taxes - ipr; 
-$("#net_after_taxes").text(net_after_taxes.toFixed(2) + " $");
-
-
+$("#net_after_taxes_display").text(net_after_taxes.toFixed(2) + " $");
+$("#net_after_taxes").val(net_after_taxes.toFixed(2));
     
     let housing = (bs + regularization + leave)*30/100;
     if(isNaN(housing)) housing = 0;
     // Afficher la valeur de net_before_taxes dans le DOM, si vous avez un élément HTML approprié pour cela
-    $("#housing").text(housing + " $");
+    $("#housing_display").text(housing + " $");
+    $("#housing").val(housing);
 
     // Calcul du salaire de base new
     $('#absent_days').on('input', function() {
@@ -1030,30 +1044,33 @@ $("#net_after_taxes").text(net_after_taxes.toFixed(2) + " $");
         } else {
             let jours_travailles = Number(jours - Number(absent_days));
             let Transport = 0.545454545454545 * 4 * jours_travailles;
-            let salaire_final = (bs / jours) * jours_travailles;
-            $("#final_salary").text(salaire_final.toFixed(2) + " $");
-            $("#transport").text(Transport.toFixed(2) + " $");
+            $("#transport_display").text(Transport.toFixed(2) + " $");
+            $("#transport").val(Transport.toFixed(2));
 
+            let salaire_final = (bs / jours) * jours_travailles;
+            $("#final_salary_display").text(salaire_final.toFixed(2) + " $");
+            $("#final_salary").val(salaire_final.toFixed(2));
+            
             let salary_net = net_after_taxes + housing + Transport + telephone - advanced_salary
-            $("#salary_net").text(salary_net.toFixed(2) + " $");
+            $("#salary_net_display").text(salary_net.toFixed(2) + " $");
+            $("#salary_net").val(salary_net.toFixed(2));
 
             let salary_brut_company = salary_net + cnss + cnss_company + ipr + iere + inpp + onem;
-            $("#salary_brut_company").text(salary_brut_company.toFixed(2) + " $");
+            $("#salary_brut_company_display").text(salary_brut_company.toFixed(2) + " $");
+            $("#salary_brut_company").val(salary_brut_company.toFixed(2));
         }
 
         
     }); 
 });
 
-
 // Ajouter payements
 $(document).on("submit", "#payeFormUsercomp", function (e) { // ajusté pour cibler le formulaire, pas le bouton
     e.preventDefault();
     
-    let formData = new FormData(this); // 'this' fait référence au formulaire soumis
-    
+    let formData = new FormData(this);
     $.ajax({
-        url: `${baseUrl}company/handleAddPayements`, // Remplacez par l'URL appropriée de votre contrôleur
+        url: `${baseUrl}company/handleAddPayments`, // Remplacez par l'URL appropriée de votre contrôleur
         type: "POST",
         dataType: "JSON",
         processData: false, // Important pour envoyer les données du formulaire avec FormData
@@ -1106,6 +1123,8 @@ $(document).on("submit", "#payeFormUsercomp", function (e) { // ajusté pour cib
         },
     });
 });
+
+
 
 
 // selection departement pour afficher sa branche
