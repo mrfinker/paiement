@@ -1,18 +1,23 @@
 </div>
 <!-- wrap @e -->
 </div>
+
 <!-- app-root @e -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://momentjs.com/downloads/moment.min.js"></script>
 <script src="<?=URL?>public/assets/js/bundle.js?ver=3.2.0"></script>
 <script src="<?=URL?>public/assets/js/scripts.js?ver=3.2.0"></script>
 <script src="<?=URL?>public/assets/js/charts/gd-default.js?ver=3.2.0"></script>
+        
 <script
 src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script
 src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
 
 <script>
+
 new Chart(document.getElementById("pie-chart"), {
 type: 'pie',
 data: {
@@ -37,29 +42,6 @@ options: {
 });
 
 
-new Chart(document.getElementById("doughnut-chart"), {
-type: 'doughnut',
-data: {
-    labels: [
-        "Développement", "Support", "Administration Réseau", "Sécurité"
-    ],
-    datasets: [
-        {
-            label: "Nombre d'Employés",
-            backgroundColor: [
-                "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"
-            ],
-            data: [10, 8, 7, 5]
-        }
-    ]
-},
-options: {
-    legend: {
-        display: false
-    }
-}
-});
-
 new Chart(document.getElementById("line-chart"), {
 type: 'line',
 data: {
@@ -79,23 +61,11 @@ data: {
     ],
     datasets: [
         {
-            data: [
-                500,
-                800,
-                200,
-                1700,
-                600,
-                1800,
-                750,
-                1450,
-                1000,
-                1500,
-                2000,
-                2400
-            ],
-            label: "Dépenses",
-            borderColor: "#3e95cd",
-            fill: false
+            data: <?php echo json_encode($depenseData); ?>,
+label: "Dépenses",
+borderColor: "#3e95cd",
+fill: false
+
         }, {
             data: [
                 200,
@@ -200,12 +170,77 @@ new Chart(document.getElementById("sexe"), {
     }
 });
 
+let departmentGenderCount = <?php echo $jsonData; ?>;
+var labels = ["Homme", "Femme"];
+var datasets = [];
+
+for (var departmentId in departmentGenderCount) {
+    var department = departmentGenderCount[departmentId];
+    var dataset = {
+        label: department.name,
+        backgroundColor: ["#3e95cd", "#8e5ea2"], // ou d'autres couleurs pour chaque département
+        data: [department.homme, department.femme]
+    };
+    datasets.push(dataset);
+}
+
+// Créez votre graphique avec les labels et les données construits
+new Chart(document.getElementById("doughnut-chart"), {
+    type: 'doughnut',
+    data: {
+        labels: labels,
+        datasets: datasets
+    },
+    options: {
+        legend: {
+            display: true
+        },
+        responsive: true,
+        maintainAspectRatio: true
+    }
+});
 
 
 
 </script>
 
-</body>
+<script>
+    window.addEventListener('beforeunload', function (e) {
+    navigator.sendBeacon("<?=URL?>login/logoutClose", {});
+});
+</script>
+
+<script>
+    function showNotification(type, message) {
+        var canDismiss = false;
+        var notification;
+
+        if (type === 'success') {
+            notification = alertify.success(message);
+        } else if (type === 'error') {
+            notification = alertify.error(message);
+        }
+
+        notification.ondismiss = function () {
+            return canDismiss;
+        };
+        setTimeout(function () {
+            canDismiss = true;
+        }, 5000);
+    }
+
+    // Écoutez les changements d'état de la connexion
+    window.addEventListener('online', function () {
+        showNotification('success', 'Vous êtes de nouveau en ligne.');
+    });
+
+    window.addEventListener('offline', function () {
+        showNotification(
+            'error',
+            'Vous êtes hors ligne. Vérifiez votre connexion Internet.'
+        );
+    });
+</script>
 
 <?php
 if (isset($this->js)) {
@@ -214,4 +249,7 @@ if (isset($this->js)) {
     }
 }
 ?>
+
+</body>
+
 </html>

@@ -27,7 +27,6 @@ $Allcountry = $superadminModel->getAllCountry();
         <div class="nk-content-inner">
             <div class="nk-content-body">
                 <div class="components-preview wide-xxl mx-auto">
-                    
 
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
@@ -228,9 +227,13 @@ foreach ($Alluser as $users) {
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
+                                                                            <?php if($users['user_type_id'] !== 1): ?>
                                                                             <a href="#" class="delete-button-users" data-id="<?=$users['id'];?>">
                                                                                 <em class="icon ni ni-trash"></em>
-                                                                                <span>Supprimer</span></a>
+                                                                                <span>Supprimer</span>
+                                                                            </a>
+                                                                            <?php endif; ?>
+
                                                                             <a
                                                                                 href="#"
                                                                                 class="update_button_profile"
@@ -259,15 +262,31 @@ foreach ($Alluser as $users) {
                                                                                 <span>Voir</span>
                                                                             </a>
                                                                         </li>
+                                                                        <?php if($users['user_type_id'] !== 1): ?>
                                                                         <li class="divider"></li>
                                                                         <li>
-                                                                            <button type="button" class="btn active_desactive" data-id="<?=$users['id'];?>">
-                                                                                <em class="icon ni ni-spark-off-fill"></em>
-                                                                                <span>
-                                                                                    <?php echo $users['is_active'] ? 'Désactiver' : 'Activer'; ?>
-                                                                                </span>
-                                                                            </button>
+                                                                            <?php if(isset($users['is_active']) && $users['is_active'] == 1): ?>
+                                                                            <a
+                                                                                href="#"
+                                                                                class="deactivate_button_usercomp"
+                                                                                data-id="<?=$users['id'];?>"
+                                                                                data-status="0">
+                                                                                <em class="icon ni ni-lock"></em>
+                                                                                <span>Désactiver</span>
+                                                                            </a>
+                                                                        <?php else: ?>
+                                                                            <a
+                                                                                href="#"
+                                                                                class="activate_button_usercomp"
+                                                                                data-id="<?=$users['id'];?>"
+                                                                                data-status="1">
+                                                                                <em class="icon ni ni-unlock"></em>
+                                                                                <span>Activer</span>
+                                                                            </a>
+                                                                            <?php endif; ?>
+                                                                            
                                                                         </li>
+                                                                        <?php endif; ?>
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -646,7 +665,7 @@ foreach ($Alluser as $users) {
                     <div class="user-avatar sq xl mb-2">
                         <?php if (isset($user['image']) && !empty($user['image'])): ?>
                         <img src="" id="viewimage" alt="User Avatar">
-                        <?php else: ?>
+                    <?php else: ?>
                         <em class="icon ni ni-user-alt"></em>
                         <?php endif; ?>
                     </div>
@@ -754,6 +773,5 @@ foreach ($Alluser as $users) {
         </div>
     </div>
 </div>
-
 
 <?php include_once "./views/include/footer.php"?>

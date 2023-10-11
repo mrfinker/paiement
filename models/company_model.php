@@ -72,12 +72,13 @@ class company_model extends Model
 
     
 
-    public function addDepartment($data) {
-        return $this->db->insert("departments", $data);
-    }
-
+    
     // Departements
-    public function getAllDepartmentsByCreatorAndCompany()
+public function addDepartment($data) {
+        return $this->db->insert("departments", $data);
+}
+
+public function getAllDepartmentsByCreatorAndCompany()
 {
     // Démarrer une session si elle n'est pas déjà démarrée
     if (session_status() == PHP_SESSION_NONE) {
@@ -282,6 +283,143 @@ public function updateDesignation($id, $designationNameUpdate, $departmentId) {
     return $this->db->update("designations", $data, "designation_id = $id");
 }
 
+// Depot et depenses
+public function addDepExp($data) {
+    return $this->db->insert("constants_dep_exp", $data);
+}
+
+public function getAllDepensesByCreatorAndCompany()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $depenses = $this->db->select(
+            'SELECT d.*, u.name as creator_name
+             FROM constants_dep_exp d
+             LEFT JOIN users u ON d.added_by = u.id
+             WHERE (d.added_by = :userId OR d.company_id = :companyId) AND d.type = "depense"',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );
+
+        if (!is_array($depenses)) {
+            return [];
+        }
+
+        $count = 1;
+        foreach ($depenses as &$depense) {
+            $depense['num'] = $count;
+            $count++;
+        }
+
+        return $depenses;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
+public function getAllDepotsByCreatorAndCompany()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $depots = $this->db->select(
+            'SELECT d.*, u.name as creator_name
+             FROM constants_dep_exp d
+             LEFT JOIN users u ON d.added_by = u.id
+             WHERE (d.added_by = :userId OR d.company_id = :companyId) AND d.type = "depot"',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );
+
+        if (!is_array($depots)) {
+            return [];
+        }
+
+        $count = 1;
+        foreach ($depots as &$depot) {
+            $depot['num'] = $count;
+            $count++;
+        }
+
+        return $depots;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
+// depenses
+public function addDepenses($data) {
+    return $this->db->insert("finance_transactions", $data);
+}
+
+public function getAllTransactionsDepensesByCreatorAndCompany()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $transactions = $this->db->select(
+            'SELECT t.*, fa.account_name, u.name as staff_name, cde.category_name 
+             FROM finance_transactions t
+             LEFT JOIN finance_accounts fa ON t.account_id = fa.account_id
+             LEFT JOIN users u ON t.staff_id = u.id
+             LEFT JOIN constants_dep_exp cde ON t.entity_category_id = cde.constants_id
+             WHERE (t.added_by = :userId OR t.company_id = :companyId) AND t.transaction_type = "depense"',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );        
+
+        if (!is_array($transactions)) {
+            return [];
+        }
+
+        $count = 1;
+        foreach ($transactions as &$transaction) {
+            $transaction['num'] = $count;
+            $count++;
+        }
+
+        return $transactions;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
+
+
 public function getAllCountry(){
     return  $this->db->select('SELECT * FROM country');
 }
@@ -362,7 +500,19 @@ public function getAllUsersByCreatorAndCompany()
             }
 
             $userscompany = $this->db->select(
-                'SELECT u.*, c.name as country, ur.name as role_name, d.designation_name as designation, p.is_payment as payed, os.total_time as total_time
+                'SELECT 
+                u.*, 
+                c.name as country, 
+                ur.name as role_name, 
+                d.designation_name as designation, 
+                p.is_payment as payed, 
+                p.payslip_value as payslip_value, 
+                p.year_to_date as year_to_date, 
+                p.created_at as created_at, 
+                p.payslip_code as payslip_code, 
+                p.salary_month as salary_month, 
+                p.net_salary as net_salary, 
+                os.total_time as total_time
                 FROM users u
                 LEFT JOIN country c ON u.country_id = c.id
                 LEFT JOIN users_role ur ON u.user_role_id = ur.id_role
@@ -468,7 +618,74 @@ public function getAllUsersByCreatorAndCompany()
         return $this->db->insert("payslips", $data);
     }
     
-
+    public function updateStatus($id, $status) {
+        $data = ['is_active' => $status];
+        return $this->db->update("users", $data, "id = $id");
+    }
     
+    
+    // Comptes
+    public function addComptes($data) {
+        return $this->db->insert("finance_accounts", $data);
+    }
+
+public function getAllAccountsByCreatorAndCompany()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $accounts = $this->db->select(
+            'SELECT a.*, u.name as creator_name
+             FROM finance_accounts a
+             LEFT JOIN users u ON a.added_by = u.id
+             WHERE a.added_by = :userId OR a.company_id = :companyId',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );
+
+        if (!is_array($accounts)) {
+            return [];
+        }
+
+        $count = 1;
+        foreach ($accounts as &$account) {
+            $account['num'] = $count;
+            $count++;
+        }
+
+        return $accounts;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
+public function deleteComptes($id) {
+    
+    return $this->db->delete('finance_accounts', "account_id = $id");
+     
+}
+
+public function updateComptes($id, $compteNameUpdate, $compteNumberUpdate, $compteBalanceUpdate, $compteBankNameUpdate)
+{
+    $data = array(
+        'account_name' => $compteNameUpdate,
+        'account_number' => $compteNumberUpdate,
+        'account_balance' => $compteBalanceUpdate,
+        'bank_name' => $compteBankNameUpdate
+    );
+    
+    return $this->db->update("finance_accounts", $data, "account_id = $id");
+}
 
 }

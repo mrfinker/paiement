@@ -529,7 +529,22 @@ public function isUserIdExists($id) {
         }
 }
 
-
+public function updateStatus() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = intval($_POST['id']);
+        $status = intval($_POST['status']);
+        
+        $result = $this->model->updateStatus($id, $status);
+        
+        if ($result) {
+            $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+        } else {
+            $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour du statut'];
+        }
+        
+        echo json_encode($response);
+    }
+}
     
 
 }

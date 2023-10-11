@@ -199,9 +199,19 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 href="#"
                                                                                 class="facture_button_usercomp"
                                                                                 data-id="<?=$usercomp['id'];?>"
+                                                                                data-name="<?=$usercomp['name'];?>"
+                                                                                data-address="<?=$usercomp['address'];?>"
+                                                                                data-phone="<?=$usercomp['phone'];?>"
+                                                                                data-created_at="<?=$usercomp['created_at'];?>"
                                                                                 data-basic_salary="<?=$usercomp['basic_salary'];?>"
                                                                                 data-total_time="<?=$usercomp['total_time'];?>"
-                                                                                data-country="<?=$usercomp['country'];?>">
+                                                                                data-country="<?=$usercomp['country'];?>"
+                                                                                data-payslip_value="<?=$usercomp['payslip_value'];?>"
+                                                                                data-payslip_code="<?=$usercomp['payslip_code'];?>"
+                                                                                data-salary_month="<?=$usercomp['salary_month'];?>"
+                                                                                data-year_to_date="<?=$usercomp['year_to_date'];?>"
+                                                                                data-net_salary="<?=$usercomp['net_salary'];?>"
+                                                                                data-designation="<?=$usercomp['designation'];?>">
                                                                                 <em class="icon ni ni-file-text"></em>
                                                                                 <span>Voir Facture</span>
                                                                             </a>
@@ -489,8 +499,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
     </div>
 
 </div>
-
-<!-- Voir facture -->
 
 
 <?php include_once './views/include/footer.php' ?>

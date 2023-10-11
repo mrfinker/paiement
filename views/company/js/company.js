@@ -478,7 +478,161 @@ $(document).ready(function() {
 });
 
 
-// Horaire
+
+// Depenses et Depot_type
+// Ajouter
+$(document).on("submit", "#registerFormDepExp", function (e) { // ajusté pour cibler le formulaire, pas le bouton
+    e.preventDefault();
+    
+    let formData = new FormData(this); // 'this' fait référence au formulaire soumis
+    
+    $.ajax({
+        url: `${baseUrl}company/handleAddDepExp`, // Remplacez par l'URL appropriée de votre contrôleur
+        type: "POST",
+        dataType: "JSON",
+        processData: false, // Important pour envoyer les données du formulaire avec FormData
+        contentType: false, // Important pour envoyer les données du formulaire avec FormData
+        data: formData,
+        success: function (res) {
+            if (res.status === 200) {
+                let timerInterval;
+                Swal.fire({
+                    icon: "success",
+                    title: "Enregistrement réussi",
+                    text: res.msg,
+                    timer: 100, // Par exemple, disparaît après 2 secondes
+                    timerProgressBar: true,
+                    willOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                            const content = Swal.getContent();
+                            if (content) {
+                                const b = content.querySelector('b');
+                                if (b) {
+                                    b.textContent = Swal.getTimerLeft()
+                                }
+                            }
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('Fermé par le timer')
+                        window.location.href = window.location.href;
+                    }
+                })
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Erreur lors de l'enregistrement",
+                    text: res.msg,
+                });
+            }
+        },
+        
+        
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Erreur",
+                text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
+            });
+        },
+    });
+});
+
+// Depense
+// ajout
+$(document).on("submit", "#registerFormDepenses", function (e) { // ajusté pour cibler le formulaire, pas le bouton
+    e.preventDefault();
+    
+    let account_name = $("#account_name").val();
+    let amount = $("#amount").val();
+    let transaction_date = $("#transaction_date").val();
+    let parts = transaction_date.split('/');
+    if (parts.length === 3) {
+        transaction_date = parts[2] + '-' + parts[0] + '-' + parts[1];
+    } else {
+        parts = transaction_date.split('-');
+        if (parts.length === 3) {
+            let year = parts[0];
+            let month = parts[1];
+            let day = parts[2];
+            transaction_date = year + '-' + month + '-' + day;
+        }
+    }
+    let entity_category_id = $("#entity_category_id").val();
+    let staff_id = $("#staff_id").val();
+    let payement_method = $("#payement_method").val();
+    let reference = $("#reference").val();
+    let description = $("#description").val();
+
+    $.ajax({
+        url: `${baseUrl}company/handleAddDepenses`,
+        method: "POST",
+        dataType: "JSON",
+        data: {
+            account_name,
+            amount,
+            transaction_date,
+            entity_category_id,
+            staff_id,
+            payement_method,
+            reference,
+            description
+        },
+        success: function (res) {
+            if (res.status === 200) {
+                let timerInterval;
+                Swal.fire({
+                    icon: "success",
+                    title: "Enregistrement réussi",
+                    text: res.msg,
+                    timer: 100, // Par exemple, disparaît après 2 secondes
+                    timerProgressBar: true,
+                    willOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                            const content = Swal.getContent();
+                            if (content) {
+                                const b = content.querySelector('b');
+                                if (b) {
+                                    b.textContent = Swal.getTimerLeft()
+                                }
+                            }
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('Fermé par le timer')
+                        window.location.href = window.location.href;
+                    }
+                })
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Erreur lors de l'enregistrement",
+                    text: res.msg,
+                });
+            }
+        },
+        
+        
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Erreur",
+                text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
+            });
+        },
+    });
+});
+transactionDate// Horaire
 // Ajouter
 $(document).on("submit", "#registerFormTime", function (e) {
     e.preventDefault();
@@ -741,33 +895,6 @@ $(document).on("click", ".delete-button-usercomp", function (e) {
         }
     });
 });
-
-// 
-$(document).on("click", ".active_desactive", function (e) {
-    e.preventDefault();
-    let id = parseInt($(this).data("id"));
-    let $this = $(this); // Ne pas oublier de définir $this
-    
-    $.ajax({
-        url: `${baseUrl}superadmin/toggleUserActiveStatus`,
-        type: "POST",
-        dataType: "JSON",
-        data: { id: id },
-        success: function (res) {
-            if (res.success) {
-                let newText = res.newIsActive ? 'Désactiver' : 'Activer';
-                $this.find('span').text(newText);
-                window.location.reload(); // recharger la page après la mise à jour du texte du bouton.
-            } else {
-                alert(res.message); // afficher le message d'erreur
-            }
-        },
-        error: function () {
-            alert('Une erreur s’est produite lors de la requête.'); // afficher un message en cas d'échec de la requête
-        }
-    });
-});
-
 
 // Ajouter utilisateurs
 $(document).on("submit", "#registerFormUserCompany", function (e) {
@@ -1039,8 +1166,9 @@ $("#net_after_taxes").val(net_after_taxes.toFixed(2));
         if(isNaN(absent_days) || absent_days < 0) absent_days = 0; // si la conversion échoue ou la valeur est négative, définir la valeur à 0
         
         if(absent_days >= jours) {
-            $("#final_salary").text('0 $');
-            $("#transport").text('0 $');
+            $("#final_salary_display").text('0 $');
+            $("#transport_display").text('0 $');
+            console.log(absent_days);
         } else {
             let jours_travailles = Number(jours - Number(absent_days));
             let Transport = 0.545454545454545 * 4 * jours_travailles;
@@ -1156,5 +1284,268 @@ $(document).ready(function() {
         }
     });
 });
+
+$(document).on('click', '.facture_button_usercomp', function(e){
+    e.preventDefault();
+    
+    let id = $(this).data('id');
+    let name = $(this).data('name');
+    let address = $(this).data('address');
+    let phone = $(this).data('phone');
+    let basicSalary = $(this).data('basic_salary');
+    let created_at = $(this).data('created_at');
+    let totalTime = $(this).data('total_time');
+    let country = $(this).data('country');
+    let payslip_value = $(this).data('payslip_value');
+    let payslip_code = $(this).data('payslip_code');
+    let salary_month = $(this).data('salary_month');
+    let year_to_date = $(this).data('year_to_date');
+    let designation = $(this).data('designation');
+    let net_salary = $(this).data('net_salary');
+    
+    // Stocker les données dans le localStorage ou sessionStorage
+    sessionStorage.setItem('id', id);
+    sessionStorage.setItem('name', name);
+    sessionStorage.setItem('address', address);
+    sessionStorage.setItem('phone', phone);
+    sessionStorage.setItem('created_at', created_at);
+    sessionStorage.setItem('basicSalary', basicSalary);
+    sessionStorage.setItem('totalTime', totalTime);
+    sessionStorage.setItem('country', country);
+    sessionStorage.setItem('payslip_value', payslip_value);
+    sessionStorage.setItem('payslip_code', payslip_code);
+    sessionStorage.setItem('salary_month', salary_month);
+    sessionStorage.setItem('year_to_date', year_to_date);
+    sessionStorage.setItem('designation', designation);
+    sessionStorage.setItem('net_salary', net_salary);
+    
+    let url = `${baseUrl}company/invoice?payslip_value=${payslip_value}`;
+    window.open(url, '_blank');
+});
+
+    $(document).ready(function() {
+    let basicSalary = sessionStorage.getItem('basicSalary');
+    let totalTime = sessionStorage.getItem('totalTime');
+    let country = sessionStorage.getItem('country');
+    let name = sessionStorage.getItem('name');
+    let address = sessionStorage.getItem('address');
+    let phone = sessionStorage.getItem('phone');
+    let created_at = sessionStorage.getItem('created_at');
+    let year_to_date = sessionStorage.getItem('year_to_date');
+    let payslip_code = sessionStorage.getItem('payslip_code');
+    let payslip_code_ = payslip_code;
+    let salary_month = sessionStorage.getItem('salary_month');
+    let designation = sessionStorage.getItem('designation');
+    let net_salary = sessionStorage.getItem('net_salary');
+    
+    // Sélectionner l'élément par son ID et changer son contenu
+    // Utiliser les données récupérées comme vous le souhaitez
+    document.getElementById('name').textContent = name;
+    document.getElementById('address').textContent = address;
+    document.getElementById('created_at').textContent = created_at;
+    document.getElementById('phone').textContent = phone;
+    document.getElementById('invoice_date_value').textContent = year_to_date;
+    document.getElementById('payslip_code').textContent = payslip_code;
+    document.getElementById('payslip_code_').textContent = payslip_code_;
+    document.getElementById('salary_month').textContent = salary_month;
+    document.getElementById('designation').textContent = designation;
+    document.getElementById('net_salary').textContent = net_salary;
+    
+});
+
+// Mise a jour is_active(update)
+$(document).on("click", ".activate_button_usercomp, .deactivate_button_usercomp", function (e) {
+    e.preventDefault();
+    
+    let id = $(this).data('id');
+    let status = $(this).data('status');
+    
+    // Vérification de l'ID
+    if (isNaN(id) || (status !== 0 && status !== 1)) {
+        Swal.fire({icon: "error", title: "Erreur", text: "Données non valides"});
+        return;
+    }
+    
+    // Construction de formData
+    let formData = new FormData();
+    formData.append('id', id);
+    formData.append('status', status);
+    
+    // AJAX Request
+    $.ajax({
+        url: `${baseUrl}company/updateStatus`, // Assurez-vous que l'URL est correcte
+        type: "POST",
+        dataType: "JSON",
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function (res) {
+            if (res.status === 200) {
+                Swal.fire({icon: "success", title: "Mise à jour réussie", text: res.msg});
+                location.reload(); // Rechargez la page ou modifiez la vue en conséquence.
+            } else {
+                Swal.fire({icon: "error", title: "Erreur", text: res.msg});
+            }
+        },
+        error: function () {
+            Swal.fire({icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."});
+        }
+    });
+});
+
+
+// Finance
+// Ajouter comptes
+$(document).on("submit", "#registerFormComptes", function (e) { // ajusté pour cibler le formulaire, pas le bouton
+    e.preventDefault();
+    
+    let formData = new FormData(this); // 'this' fait référence au formulaire soumis
+    
+    $.ajax({
+        url: `${baseUrl}company/handleAddComptes`, // Remplacez par l'URL appropriée de votre contrôleur
+        type: "POST",
+        dataType: "JSON",
+        processData: false, // Important pour envoyer les données du formulaire avec FormData
+        contentType: false, // Important pour envoyer les données du formulaire avec FormData
+        data: formData,
+        success: function (res) {
+            if (res.status === 200) {
+                let timerInterval;
+                Swal.fire({
+                    icon: "success",
+                    title: "Enregistrement réussi",
+                    text: res.msg,
+                    timer: 100, // Par exemple, disparaît après 2 secondes
+                    timerProgressBar: true,
+                    willOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                            const content = Swal.getContent();
+                            if (content) {
+                                const b = content.querySelector('b');
+                                if (b) {
+                                    b.textContent = Swal.getTimerLeft()
+                                }
+                            }
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('Fermé par le timer')
+                        window.location.href = window.location.href;
+                    }
+                })
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Erreur lors de l'enregistrement",
+                    text: res.msg,
+                });
+            }
+        },
+        
+        
+        error: function () {
+            Swal.fire({
+                icon: "error",
+                title: "Erreur",
+                text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
+            });
+        },
+    });
+});
+
+// supprimer comptes
+$(document).on("click", ".delete-button-comptes", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    $.ajax({
+        url: `${baseUrl}company/handleDeleteComptes`, // Notez le changement d'URL ici
+        type: "POST",
+        dataType: "JSON",
+        data: {
+            id
+        },
+        success: function (res) {
+            if (res.status === 200) {
+                window.location.reload();
+                Swal.fire({icon: "success", title: "Suppression réussie", text: res.msg});
+            } else {
+                Swal.fire({icon: "error", title: "Erreur", text: res.msg});
+            }
+        },
+        error: function () {
+            Swal.fire({icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."});
+        }
+    });
+});
+
+// Mise a jour comptes(update)
+$(document).on("submit", "#updateFormCompte", function (e) {
+    e.preventDefault();
+    let id = parseInt($(".account_id").val()); // Récupère l'ID de l'utilisateur
+if (isNaN(id)) {
+    // Gérer l'erreur, par exemple afficher une alerte
+    Swal.fire(
+        {icon: "error", title: "Erreur", text: "ID utilisateur non valide"}
+    );
+    return;
+}
+
+    let formData = new FormData(this);
+formData.append('.account_id', id);
+
+$.ajax({
+url: `${baseUrl}company/updateComptes`,
+type: "POST",
+dataType: "JSON",
+processData: false,
+contentType: false,
+data: formData,
+        success: function (res) {
+            if (res.status === 200) {
+                window
+                    .location
+                    .reload();
+                Swal.fire({icon: "success", title: "Mise à jour réussie", text: res.msg});
+            } else if (res.status === 409) {
+                Swal.fire(
+                    {icon: "error", title: "Erreur lors de la mise à jour", text: res.msg}
+                );
+            } else {
+                Swal.fire({icon: "error", title: "Erreur", text: res.msg});
+            }
+        },
+        error: function () {
+            Swal.fire(
+                {icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."}
+            );
+        }
+    });
+});
+
+// update comptes(recuperation donnees)
+$(document).on("click", ".update_button_comptes", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    let name = $(this).data("comptes-name");
+    let number = $(this).data("comptes-number");
+    let balance = $(this).data("comptes-balance");
+    let bank_name = $(this).data("comptes-bank_name");
+    $("#compteNameUpdate").val(name);
+    $("#compteNumberUpdate").val(number);
+    $("#compteBalanceUpdate").val(balance);
+    $("#compteBankNameUpdate").val(bank_name);
+    $(".account_id").val(id);
+    $("#UpdateModalComptes").modal("show");
+});
+
+// voir transactions compte attente
+
+// Depenses
+
   
 });

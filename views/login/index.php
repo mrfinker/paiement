@@ -27,6 +27,10 @@
             id="skin-default"
             rel="stylesheet"
             href="<?= URL ?>public/assets/css/theme.css?ver=3.2.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        <!-- Par défaut theme -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+
     </head>
 
     <body class="nk-body bg-white npc-general pg-auth">
@@ -129,6 +133,8 @@
             <script src="<?= URL ?>public/assets/js/example-sweetalert.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
 
             <?php
         if (isset($this->js)) {

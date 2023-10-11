@@ -254,9 +254,10 @@ class superadmin_model extends Model
         return $allcategory;
     }
 
-
-
-
+    public function updateStatus($id, $status) {
+        $data = ['is_active' => $status];
+        return $this->db->update("users", $data, "id = $id");
+    }
     
 
 }

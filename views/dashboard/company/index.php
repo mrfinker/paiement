@@ -29,6 +29,17 @@ $usersComp = $dashboardModel->getTotalUsersByCompanyId();
 $userscompany = $userc['users'];
 $maleCount = $userc['maleCount'];
 $femaleCount = $userc['femaleCount'];
+$NetSalary = $dashboardModel->getSumNetSalaryByCompanyId();
+$departmentGenderCount = $userc['departmentGenderCount'];
+$jsonData = json_encode($departmentGenderCount);
+$totalDepense = $dashboardModel->getTotalDepenseAmount();
+$monthlyDepenses = $dashboardModel->getMonthlyDepenseAmount();
+$depenseData = array_fill(0, 12, 0); // Crée un tableau avec 12 zéros
+
+foreach ($monthlyDepenses as $depense) {
+    $monthIndex = $depense['month'] - 1;
+    $depenseData[$monthIndex] = (float)$depense['total_amount'];
+}
 
 
 ?>
@@ -80,7 +91,7 @@ $femaleCount = $userc['femaleCount'];
                                     <div class="row align-items-center mb-0">
                                         <div class="col">
                                             <h6 class="title">Total depenser</h6>
-                                            <h4 class="sub-title">100000
+                                            <h4 class="sub-title"><?= $totalDepense; ?>
                                                 <span>$</span></h4>
                                         </div>
                                     </div>
@@ -91,11 +102,14 @@ $femaleCount = $userc['femaleCount'];
                             <div class="card card-bordered bg-success-dim">
                                 <div class="card-body m-2">
                                     <div class="row align-items-center mb-0">
-                                        <div class="col">
-                                            <h6 class="title">Total payers</h6>
-                                            <h4 class="sub-title">100000
-                                                <span>$</span></h4>
-                                        </div>
+                                    <div class="col">
+    <h6 class="title">Total payers</h6>
+    <h4 class="sub-title">
+        <?= $NetSalary ?>
+        <span>$</span>
+    </h4>
+</div>
+
                                     </div>
                                 </div>
                             </div>

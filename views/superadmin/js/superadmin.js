@@ -574,4 +574,44 @@ $(document).on("click", ".update_button_role", function (e) {
         }
     });
 
+    // Mise a jour is_active(update)
+$(document).on("click", ".activate_button_usercomp, .deactivate_button_usercomp", function (e) {
+    e.preventDefault();
+    
+    let id = $(this).data('id');
+    let status = $(this).data('status');
+    
+    // Vérification de l'ID
+    if (isNaN(id) || (status !== 0 && status !== 1)) {
+        Swal.fire({icon: "error", title: "Erreur", text: "Données non valides"});
+        return;
+    }
+    
+    // Construction de formData
+    let formData = new FormData();
+    formData.append('id', id);
+    formData.append('status', status);
+    
+    // AJAX Request
+    $.ajax({
+        url: `${baseUrl}company/updateStatus`, // Assurez-vous que l'URL est correcte
+        type: "POST",
+        dataType: "JSON",
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function (res) {
+            if (res.status === 200) {
+                Swal.fire({icon: "success", title: "Mise à jour réussie", text: res.msg});
+                location.reload(); // Rechargez la page ou modifiez la vue en conséquence.
+            } else {
+                Swal.fire({icon: "error", title: "Erreur", text: res.msg});
+            }
+        },
+        error: function () {
+            Swal.fire({icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."});
+        }
+    });
+});
+
 });

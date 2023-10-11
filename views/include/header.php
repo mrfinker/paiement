@@ -23,10 +23,14 @@
             id="skin-default"
             rel="stylesheet"
             href="<?=URL?>public/assets/css/theme.css?ver=3.2.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        <!-- Par défaut theme -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+
     </head>
     
 
-    <body class="nk-body ui-rounder has-sidebar ">
+    <body class="nk-body ui-rounder has-sidebar">
         <div class="nk-app-root">
             <!-- main @s -->
             <div class="nk-main ">
@@ -189,11 +193,11 @@
                                                 <span class="nk-menu-text">Branches</span>
                                             </a>
                                         </li>
-                                        <!-- <li class="nk-menu-item">
-                                            <a href="<?=URL?><?= $userType['name'] ?>/organization" class="nk-menu-link">
-                                                <span class="nk-menu-text">Hierarchie</span>
+                                        <li class="nk-menu-item">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/depense_depot" class="nk-menu-link">
+                                                <span class="nk-menu-text">Type depense/depot</span>
                                             </a>
-                                        </li> -->
+                                        </li>
                                         <!-- .nk-menu-item -->
                                     </ul>
                                     <?php endif; ?>

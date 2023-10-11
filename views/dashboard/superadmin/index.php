@@ -87,13 +87,12 @@ $users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
                                     <div class="row g-gs">
                                         <div class="col-xxl-6">
                                             <div class="row g-gs">
-                                                <div class="col-lg-6 col-xxl-12">
+                                                <div class="col-lg-4 col-xxl-4">
                                                     <div class="card card-bordered">
                                                         <div class="card-inner">
                                                             <div class="card-title-group align-start mb-2">
                                                                 <div class="card-title">
                                                                     <h6 class="title">Les abonnements</h6>
-                                                                    <p>Revenue de 30 derniers jours.</p>
                                                                 </div>
                                                                 <div class="card-tools">
                                                                     <em
@@ -108,33 +107,8 @@ $users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
                                                                 class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
                                                                 <div class="nk-sale-data-group flex-md-nowrap g-4">
                                                                     <div class="nk-sale-data">
-                                                                        <span class="amount">59
-                                                                            <span class="change down text-danger">
-                                                                                <em class="icon ni ni-arrow-long-down"></em>16.93%</span></span>
-                                                                        <span class="sub-title">Ce mois</span>
+                                                                        <span class="amount">59</span>
                                                                     </div>
-                                                                    <div class="nk-sale-data">
-                                                                        <span class="amount">29
-                                                                            <span class="change up text-success">
-                                                                                <em class="icon ni ni-arrow-long-up"></em>4.26%</span></span>
-                                                                        <span class="sub-title">Cette semaine</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="nk-sales-ck sales-revenue">
-                                                                    <div class="chartjs-size-monitor">
-                                                                        <div class="chartjs-size-monitor-expand">
-                                                                            <div class=""></div>
-                                                                        </div>
-                                                                        <div class="chartjs-size-monitor-shrink">
-                                                                            <div class=""></div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <canvas
-                                                                        class="sales-bar-chart chartjs-render-monitor"
-                                                                        id="salesRevenue"
-                                                                        style="display: block; width: 603px; height: 148px;"
-                                                                        width="603"
-                                                                        height="148"></canvas>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -143,7 +117,7 @@ $users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
                                                 <!-- .col -->
                                                 <div class="col-lg-6 col-xxl-12">
                                                     <div class="row g-gs">
-                                                        <div class="col-sm-6 col-lg-12 col-xxl-6">
+                                                        <div class="col-sm-6 col-lg-8 col-xxl-4">
                                                             <div class="card card-bordered">
                                                                 <div class="card-inner">
                                                                     <div class="card-title-group align-start mb-2">
@@ -162,25 +136,6 @@ $users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
                                                                     <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                                         <div class="nk-sale-data">
                                                                             <span class="amount">945</span>
-                                                                            <span class="sub-title">
-                                                                                <span class="change down text-danger">
-                                                                                    <em class="icon ni ni-arrow-long-down"></em>1.93%</span>par raport au mois passés</span>
-                                                                        </div>
-                                                                        <div class="nk-sales-ck">
-                                                                            <div class="chartjs-size-monitor">
-                                                                                <div class="chartjs-size-monitor-expand">
-                                                                                    <div class=""></div>
-                                                                                </div>
-                                                                                <div class="chartjs-size-monitor-shrink">
-                                                                                    <div class=""></div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <canvas
-                                                                                class="sales-bar-chart chartjs-render-monitor"
-                                                                                id="activeSubscription"
-                                                                                style="display: block; width: 438px; height: 56px;"
-                                                                                width="438"
-                                                                                height="56"></canvas>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -188,7 +143,7 @@ $users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
                                                             <!-- .card -->
                                                         </div>
                                                         <!-- .col -->
-                                                        <div class="col-sm-6 col-lg-12 col-xxl-6">
+                                                        <div class="col-sm-6 col-lg-8 col-xxl-4">
                                                             <div class="card card-bordered">
                                                                 <div class="card-inner">
                                                                     <div class="card-title-group align-start mb-2">
@@ -207,25 +162,6 @@ $users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
                                                                     <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
                                                                         <div class="nk-sale-data">
                                                                             <span class="amount">346</span>
-                                                                            <span class="sub-title">
-                                                                                <span class="change up text-success">
-                                                                                    <em class="icon ni ni-arrow-long-up"></em>2.45%</span>debut de cette semaine</span>
-                                                                        </div>
-                                                                        <div class="nk-sales-ck">
-                                                                            <div class="chartjs-size-monitor">
-                                                                                <div class="chartjs-size-monitor-expand">
-                                                                                    <div class=""></div>
-                                                                                </div>
-                                                                                <div class="chartjs-size-monitor-shrink">
-                                                                                    <div class=""></div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <canvas
-                                                                                class="sales-bar-chart chartjs-render-monitor"
-                                                                                id="totalSubscription"
-                                                                                style="display: block; width: 445px; height: 56px;"
-                                                                                width="445"
-                                                                                height="56"></canvas>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -241,72 +177,28 @@ $users = $dashboardModel->threeLast($_SESSION[('users')]['id']);
                                             <!-- .row -->
                                         </div>
                                         <!-- .col -->
-                                        <div class="col-xxl-6">
-                                            <div class="card card-bordered h-100">
-                                                <div class="card-inner">
-                                                    <div class="card-title-group align-start gx-3 mb-3">
-                                                        <div class="card-title">
-                                                            <h6 class="title">Vue d'ensemble</h6>
-                                                            <p>Abonnements des 30 derniers jours
-                                                            </p>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <div class="dropdown">
-                                                                <a
-                                                                    href="#"
-                                                                    class="btn btn-primary btn-dim d-none d-sm-inline-flex"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Telecharger</span>
-                                                                        le rapport</span></a>
-                                                                <a
-                                                                    href="#"
-                                                                    class="btn btn-icon btn-primary btn-dim d-sm-none"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <em class="icon ni ni-download-cloud"></em>
-                                                                </a>
-                                                                <div class="dropdown-menu dropdown-menu-end">
-                                                                    <ul class="link-list-opt no-bdr">
-                                                                        <li>
-                                                                            <a href="#">
-                                                                                <span>Version PDF</span></a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="#">
-                                                                                <span>Version EXCEL</span></a>
-                                                                        </li>
-                                                                        <li class="divider"></li>
-                                                                    </ul>
+                                        <div class="col-sm-6 col-lg-8 col-xxl-4">
+                                            <div class="card card-bordered">
+                                            <div class="card-inner">
+                                                                    <div class="card-title-group align-start mb-2">
+                                                                        <div class="card-title">
+                                                                            <h6 class="title">Moyenne d'abonnements</h6>
+                                                                        </div>
+                                                                        <div class="card-tools">
+                                                                            <em
+                                                                                class="card-hint icon ni ni-help-fill"
+                                                                                data-bs-toggle="tooltip"
+                                                                                data-bs-placement="left"
+                                                                                aria-label="Abonnements moyenn par semaine"
+                                                                                data-bs-original-title="Abonnements moyenne par semaine"></em>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
+                                                                        <div class="nk-sale-data">
+                                                                            <span class="amount">346</span>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
-                                                        <div class="nk-sale-data">
-                                                            <span class="amount">$82,944.60</span>
-                                                        </div>
-                                                        <div class="nk-sale-data">
-                                                            <span class="amount sm">9852
-                                                                <small>personnes dans la platforme</small>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nk-sales-ck large pt-4">
-                                                        <div class="chartjs-size-monitor">
-                                                            <div class="chartjs-size-monitor-expand">
-                                                                <div class=""></div>
-                                                            </div>
-                                                            <div class="chartjs-size-monitor-shrink">
-                                                                <div class=""></div>
-                                                            </div>
-                                                        </div>
-                                                        <canvas
-                                                            class="sales-overview-chart chartjs-render-monitor"
-                                                            id="salesOverview"
-                                                            style="display: block; width: 1283px; height: 176px;"
-                                                            width="1283"
-                                                            height="176"></canvas>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <!-- .card -->
                                         </div>

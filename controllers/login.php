@@ -86,11 +86,45 @@ class Login extends Controller
 
     public function logout()
     {
-        $email = Session::get("users")["email"];
-        $this->model->updateUserLoggedInStatus($email, 0);
-        $this->model->updateUserLastLogout($email, date('Y-m-d H:i:s'));
+        $userSession = Session::get("users");
+        
+        if ($userSession && isset($userSession["email"])) {
+            $email = $userSession["email"];
+            $this->model->updateUserLoggedInStatus($email, 0);
+            $this->model->updateUserLastLogout($email, date('Y-m-d H:i:s'));
+        }
         Session::destroy();
     }
+
+    protected function logoutClose()
+{
+    $userSession = Session::get("users");
+        
+    if ($userSession && isset($userSession["email"])) {
+        $email = $userSession["email"];
+        $this->model->updateUserLoggedInStatus($email, 0);
+        $this->model->updateUserLastLogout($email, date('Y-m-d H:i:s'));
+
+        Session::destroy();
+    }
+    
+    // Marquez la session pour destruction dans 20 secondes
+    $_SESSION['marked_for_destruction'] = time() + 10;
+}
+
+
+protected function checkSessionStatus() {
+
+    // Si le temps actuel dépasse le temps marqué pour destruction
+    if (isset($_SESSION['marked_for_destruction']) && time() > $_SESSION['marked_for_destruction']) {
+        $this->logoutClose();
+    } else {
+        unset($_SESSION['marked_for_destruction']);
+    }
+}
+
+
+    // Votre route
 
     // public function logoutsession()
     // {
