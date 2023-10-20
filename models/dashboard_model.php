@@ -53,13 +53,15 @@ class Dashboard_model extends Model
             }
 
             $userscompany = $this->db->select(
-                'SELECT u.*, c.name as country, ur.name as role_name
+                'SELECT u.*, c.name as country, ur.name as role_name, d.department_name
                 FROM users u
                 LEFT JOIN country c ON u.country_id = c.id
                 LEFT JOIN users_role ur ON u.user_role_id = ur.id_role AND ur.company_id = :companyId
+                LEFT JOIN departments d ON u.departement_id = d.department_id
                 WHERE (u.id = :userId OR u.company_id = :companyId) AND u.id != :userId',
                 ['userId' => $userId, 'companyId' => $companyId]
             );
+            
 
             if (!is_array($userscompany)) {
                 return ['users' => [], 'maleCount' => 0, 'femaleCount' => 0];
@@ -76,20 +78,21 @@ class Dashboard_model extends Model
             }
 
             $departmentGenderCount = [];
-            foreach ($userscompany as $userc) {
-                $departmentId = $userc['departement_id'];
-                $gender = strtolower($userc['gender']);
+foreach ($userscompany as $userc) {
+    $departmentId = $userc['departement_id'];
+    $gender = strtolower($userc['gender']);
 
-                if (!isset($departmentGenderCount[$departmentId])) {
-                    $departmentGenderCount[$departmentId] = ['homme' => 0, 'femme' => 0];
-                }
+    if (!isset($departmentGenderCount[$departmentId])) {
+        $departmentGenderCount[$departmentId] = ['name' => $userc['department_name'], 'homme' => 0, 'femme' => 0];
+    }
 
-                if ($gender === 'homme') {
-                    $departmentGenderCount[$departmentId]['homme']++;
-                } elseif ($gender === 'femme') {
-                    $departmentGenderCount[$departmentId]['femme']++;
-                }
-            }
+    if ($gender === 'homme') {
+        $departmentGenderCount[$departmentId]['homme']++;
+    } elseif ($gender === 'femme') {
+        $departmentGenderCount[$departmentId]['femme']++;
+    }
+}
+
 
             return [
                 'users' => $userscompany,
@@ -141,6 +144,70 @@ class Dashboard_model extends Model
             return 0;
         }
     }
+
+    public function getTotalUsersByDepartementsId()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        try {
+            if (isset($_SESSION['users'])) {
+                $companyId = $_SESSION['users']['company_id'];
+                $userId = $_SESSION['users']['id'];
+            } else {
+                // Si $_SESSION['users'] n'est pas défini, retourner zéro
+                return 0;
+            }
+
+            $departmentUserCount = $this->db->select(
+                'SELECT d.department_name, COUNT(u.id) as user_count
+                FROM departments d
+                LEFT JOIN users u ON u.departement_id = d.department_id
+                WHERE (u.id = :userId OR u.company_id = :companyId) AND u.id != :userId
+                GROUP BY d.department_id',
+                ['userId' => $userId, 'companyId' => $companyId]
+            );
+
+            return $departmentUserCount;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+    }
+
+    public function getTotalUsersByDesignation()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $companyId = $_SESSION['users']['company_id'];
+            $userId = $_SESSION['users']['id'];
+        } else {
+            return [];
+        }
+
+        $designationUserCount = $this->db->select(
+            'SELECT d.designation_name, COUNT(u.id) as user_count
+            FROM designations d
+            LEFT JOIN users u ON u.designation_id = d.designation_id
+            WHERE (u.id = :userId OR u.company_id = :companyId) AND u.id != :userId
+            GROUP BY d.designation_id',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );
+
+        return $designationUserCount;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
 
     public function getSumNetSalaryByCompanyId()
     {
@@ -236,6 +303,141 @@ class Dashboard_model extends Model
             return [];
         }
     }
+
+    public function getTotalDepotsAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        try {
+            if (isset($_SESSION['users'])) {
+                $companyId = $_SESSION['users']['company_id'];
+                $userId = $_SESSION['users']['id'];
+            } else {
+                return 0;
+            }
+
+            $sum = $this->db->select(
+                'SELECT SUM(amount) as total_amount
+                 FROM finance_transactions
+                 WHERE transaction_type = "depot" AND company_id = :companyId AND added_by = :userId',
+                ['companyId' => $companyId, 'userId' => $userId]
+            );
+
+            if (is_array($sum) && isset($sum[0]['total_amount'])) {
+                return $sum[0]['total_amount'] ?? 0;
+            }
+
+            return 0;
+
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
+    }
+
+    public function getMonthlyDepotsAmount() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        if (!isset($_SESSION['users'])) {
+            return [];
+        }
+    
+        $companyId = $_SESSION['users']['company_id'];
+        $userId = $_SESSION['users']['id'];
+        $currentYear = date("Y");
+    
+        try {
+            $sums = $this->db->select(
+                "SELECT MONTH(transaction_date) as month, SUM(amount) as total_amount
+                 FROM finance_transactions
+                 WHERE transaction_type = 'depot' AND YEAR(transaction_date) = :currentYear AND company_id = :companyId AND added_by = :userId
+                 GROUP BY MONTH(transaction_date)",
+                 ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+            );
+    
+            return $sums ?? [];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+
+    public function getWeeklyAttendance() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        if (isset($_SESSION['users'])) {
+            $companyId = $_SESSION['users']['company_id'];
+            $userId = $_SESSION['users']['id'];
+        } else {
+            // Si $_SESSION['users'] n'est pas défini, retourner zéro
+            return 0;
+        }
+
+        $companyId = $_SESSION['users']['company_id'];
+        $userId = $_SESSION['users']['id'];
+        $currentYear = intval(date("Y"));
+        $currentWeekNumber = intval(date("W")); // Récupère le numéro de la semaine actuelle.
+        
+
+
+        try {
+            // Récupérer le nombre total des utilisateurs dans la company
+            $totalUsers = $this->db->select(
+                'SELECT COUNT(*) as total_users
+                 FROM users
+                 WHERE company_id = :companyId AND id != :userId',
+                ['companyId' => $companyId, 'userId' => $userId]
+            );
+    
+            $totalUsersCount = intval($totalUsers[0]['total_users']);
+
+            $presentCounts = $this->db->select(
+                "SELECT DATE(timesheet_date) as day, COUNT(*) as present_count
+                 FROM timesheet
+                 WHERE timesheet_status = 'Present' 
+                 AND YEAR(timesheet_date) = :currentYear 
+                 AND WEEK(timesheet_date, 1) = :currentWeekNumber 
+                 AND company_id = :companyId
+                 GROUP BY DATE(timesheet_date)",
+                [
+                    'currentYear' => $currentYear,
+                    'currentWeekNumber' => $currentWeekNumber,
+                    'companyId' => $companyId
+                ]
+            );
+
+            // Construire le résultat basé sur le total des utilisateurs
+            $result = [];
+            $totalPresent = 0; // Variable pour garder une trace du total
+
+            foreach ($presentCounts as $row) {
+                $day = $row['day'];
+                $present = intval($row['present_count']); // Convertir en entier
+                $absent = $totalUsersCount - $present;
+                $totalPresent += $present; // Incrémenter le total
+                
+                $result[$day] = [
+                    'present' => $present,
+                    'absent' => $absent
+                ];
+            }
+
+            
+            return $result;
+
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+
+    }
+    
     
 
 }

@@ -24,22 +24,108 @@ if (isset($user['id'])) {
 }
 
 $dashboardModel = new dashboard_model();
+$monthlyDepenses = $dashboardModel->getMonthlyDepenseAmount();
 $userc = $dashboardModel->getAllUsersByCreatorAndCompany();
 $usersComp = $dashboardModel->getTotalUsersByCompanyId();
+$NetSalary = $dashboardModel->getSumNetSalaryByCompanyId();
+$totalDepense = $dashboardModel->getTotalDepenseAmount();
+$totalDepots = $dashboardModel->getTotalDepotsAmount();
+$monthlyDepots = $dashboardModel->getMonthlyDepotsAmount();
+
 $userscompany = $userc['users'];
 $maleCount = $userc['maleCount'];
 $femaleCount = $userc['femaleCount'];
-$NetSalary = $dashboardModel->getSumNetSalaryByCompanyId();
-$departmentGenderCount = $userc['departmentGenderCount'];
-$jsonData = json_encode($departmentGenderCount);
-$totalDepense = $dashboardModel->getTotalDepenseAmount();
-$monthlyDepenses = $dashboardModel->getMonthlyDepenseAmount();
+
+$departmentUserCount = $dashboardModel->getTotalUsersByDepartementsId();
+$departmentNames = [];
+$DepartmentUsersCount = [];
+
+foreach ($departmentUserCount as $department) {
+    $departmentNames[] = $department['department_name'];
+    $DepartmentUsersCount[] = $department['user_count'];
+}
+$departmentNamesJson = json_encode($departmentNames);
+$DepartmentUsersCountJson = json_encode($DepartmentUsersCount);
+
+
+function generateColorFromName($name) {
+    $hash = md5($name);  // Convertir le nom en un hash md5
+    
+    // Prendre les 6 premiers caractères du hash pour les convertir en valeurs RGB
+    $r = hexdec(substr($hash, 0, 2));
+    $g = hexdec(substr($hash, 2, 2));
+    $b = hexdec(substr($hash, 4, 2));
+    
+    // Augmenter la luminosité pour rendre la couleur plus pâle
+    $factor = 1.5; // Vous pouvez ajuster cette valeur
+    $r = min(125, $r * $factor);
+    $g = min(125, $g * $factor);
+    $b = min(255, $b * $factor);
+    
+    // Convertir les valeurs RGB en couleur hexadécimale
+    $color = sprintf("#%02x%02x%02x", $r, $g, $b);
+    
+    return $color;
+}
+
+$colorsDep = array_map(function($name) {
+    return generateColorFromName($name);
+}, $departmentNames);
+
+$designationUserCount = $dashboardModel->getTotalUsersByDesignation();
+
+$designationNames = [];
+$designationUsersCount = [];
+
+foreach ($designationUserCount as $designation) {
+    $designationNames[] = $designation['designation_name'];
+    $designationUsersCount[] = $designation['user_count'];
+}
+
+$designationNamesJson = json_encode($designationNames);
+$designationUsersCountJson = json_encode($designationUsersCount);
+
+$colorsDes = array_map(function($name) {
+    return generateColorFromName($name);
+}, $designationNames);
+
+$colorsJsonDep = json_encode($colorsDep);
+$colorsJsonDes = json_encode($colorsDes);
+
+
+
 $depenseData = array_fill(0, 12, 0); // Crée un tableau avec 12 zéros
 
 foreach ($monthlyDepenses as $depense) {
     $monthIndex = $depense['month'] - 1;
     $depenseData[$monthIndex] = (float)$depense['total_amount'];
 }
+$depotsData = array_fill(0, 12, 0); // Crée un tableau avec 12 zéros
+
+foreach ($monthlyDepots as $depots) {
+    $monthIndex = $depots['month'] - 1;
+    $depotsData[$monthIndex] = (float)$depots['total_amount'];
+}
+
+$attendanceData = $dashboardModel->getWeeklyAttendance();
+
+$today = date('N');  // Le numéro du jour actuel (1 = lundi, 7 = dimanche)
+
+foreach (["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as $key => $day) {
+    // Calculez le décalage pour chaque jour
+    $offset = $key + 1 - $today;
+    $date = date('Y-m-d', strtotime("$offset days"));
+    
+    if (isset($attendanceData[$date])) {
+        $presents[] = $attendanceData[$date]['present'];
+        $absents[] = $attendanceData[$date]['absent'];
+    } else {
+        $presents[] = 0;
+        $absents[] = 0;
+    }
+}
+
+
 
 
 ?>
@@ -78,7 +164,7 @@ foreach ($monthlyDepenses as $depense) {
                                     <div class="row align-items-center mb-0">
                                         <div class="col">
                                             <h6 class="title">Total deposer</h6>
-                                            <h4 class="sub-title">100000
+                                            <h4 class="sub-title"><?= $totalDepots; ?>
                                                 <span>$</span></h4>
                                         </div>
                                     </div>
@@ -120,7 +206,7 @@ foreach ($monthlyDepenses as $depense) {
                                 <div class="card-body m-2">
                                     <div class="row align-items-center mb-0">
                                         <div class="col">
-                                            <h6 class="title">Statistique depenses/payer/deposer</h6>
+                                            <h6 class="title">Statistique des depenses et depots</h6>
                                             <div class="nk-ck">
                                                 <div class="chartjs-size-monitor">
                                                     <div class="chartjs-size-monitor-expand">

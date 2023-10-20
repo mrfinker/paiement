@@ -288,6 +288,21 @@ public function addDepExp($data) {
     return $this->db->insert("constants_dep_exp", $data);
 }
 
+public function deleteCategoryDepExp($id) {
+    
+    return $this->db->delete('constants_dep_exp', "constants_id = $id");
+     
+}
+
+public function updateDepExp($id, $depexpNameUpdate, $constantsId) {
+    $data = [
+        'category_name' => $depexpNameUpdate,
+        'constants_id' => $constantsId // Ajoutez cette ligne pour mettre à jour le department_id
+    ];
+    
+    return $this->db->update("constants_dep_exp", $data, "constants_id = $id");
+}
+
 public function getAllDepensesByCreatorAndCompany()
 {
     if (session_status() == PHP_SESSION_NONE) {
@@ -418,6 +433,111 @@ public function getAllTransactionsDepensesByCreatorAndCompany()
     }
 }
 
+public function deleteTransactionDepExp($id) {
+    
+    return $this->db->delete('finance_transactions', "transactions_id = $id");
+     
+}
+
+// depots
+public function addDepots($data) {
+    return $this->db->insert("finance_transactions", $data);
+}
+
+public function getAllTransactionsDepotsByCreatorAndCompany()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $transactions = $this->db->select(
+            'SELECT t.*, fa.account_name, u.name as staff_name, cde.category_name 
+             FROM finance_transactions t
+             LEFT JOIN finance_accounts fa ON t.account_id = fa.account_id
+             LEFT JOIN users u ON t.staff_id = u.id
+             LEFT JOIN constants_dep_exp cde ON t.entity_category_id = cde.constants_id
+             WHERE (t.added_by = :userId OR t.company_id = :companyId) AND t.transaction_type = "depot"',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );        
+
+        if (!is_array($transactions)) {
+            return [];
+        }
+
+        $count = 1;
+        foreach ($transactions as &$transaction) {
+            $transaction['num'] = $count;
+            $count++;
+        }
+
+        return $transactions;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
+public function getAllTransactionsByCreatorAndCompany()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $transactions = $this->db->select(
+            'SELECT t.*, fa.account_name, u.name as staff_name, cde.category_name 
+             FROM finance_transactions t
+             LEFT JOIN finance_accounts fa ON t.account_id = fa.account_id
+             LEFT JOIN users u ON t.staff_id = u.id
+             LEFT JOIN constants_dep_exp cde ON t.entity_category_id = cde.constants_id
+             WHERE (t.added_by = :userId OR t.company_id = :companyId)',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );        
+
+        if (!is_array($transactions)) {
+            return [];
+        }
+
+        $count = 1;
+        foreach ($transactions as &$transaction) {
+            $transaction['num'] = $count;
+            $count++;
+        }
+
+        return $transactions;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
+public function updateTransaction($id, $transaction_date, $amount) {
+    $data = [
+        'transaction_date' => $transaction_date,
+        'amount' => $amount // Ajoutez cette ligne pour mettre à jour le department_id
+    ];
+    
+    return $this->db->update("finance_transactions", $data, "transactions_id = $id");
+}
 
 
 public function getAllCountry(){
@@ -549,18 +669,19 @@ public function getAllUsersByCreatorAndCompany()
     public function updateUser(
         $id, 
         $nameupdate, 
+        $updatestatus_marital, 
+        $updateemployeid, 
+        $phoneupdate, 
+        $updategender, 
+        $updatecountry, 
         $usernameupdate, 
         $emailupdate, 
-        $phoneupdate, 
-        $updatestatus_marital,
-        $updateemployeid,
-        $updategender,
-        $updateuser_role,
-        $updatedepartment_id,
-        $updatedesignation_id,
-        $updateworking_time,
-        $updatesalaire_base,
-        $updatepaiement_type,
+        $updateuser_role,  
+        $updatedepartment_id,  
+        $updatedesignation_id,  
+        $updateworking_time,  
+        $updatesalaire_base,  
+        $updatepaiement_type,  
         $updatecontract_type,  
         $imageFileName = null)
     {
@@ -573,6 +694,7 @@ public function getAllUsersByCreatorAndCompany()
             'gender' => $updategender,
             'emplyee_id' => $updateemployeid,
             'user_role_id' => $updateuser_role,
+            'country_id' => $updatecountry,
             'departement_id' => $updatedepartment_id,
             'designation_id' => $updatedesignation_id,
             'office_shift_id' => $updateworking_time,
@@ -686,6 +808,135 @@ public function updateComptes($id, $compteNameUpdate, $compteNumberUpdate, $comp
     );
     
     return $this->db->update("finance_accounts", $data, "account_id = $id");
+}
+
+// timesheet
+public function addTimesheet($data) {
+    return $this->db->insert("timesheet", $data);
+}
+
+public function getAllTimesheetsByCreatorAndCompany() {
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $timesheets = $this->db->select(
+            'SELECT t.*, u.name as staff_name, u.image as staff_image
+             FROM timesheet t
+             LEFT JOIN users u ON t.staff_id = u.id
+             WHERE t.added_by = :userId OR t.company_id = :companyId',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );
+
+        if (!is_array($timesheets)) {
+            return [];
+        }
+
+        $count = 1;
+        foreach ($timesheets as &$timesheet) {
+            $timesheet['num'] = $count;
+            $count++;
+        }
+
+        return $timesheets;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
+public function getCurrentMonthTimesheetsByCreatorAndCompany($staffId) {
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        // Récupère les fiches du mois en cours
+        $firstDayOfMonth = date("Y-m-01");
+        $lastDayOfMonth = date("Y-m-t");
+
+        $timesheets = $this->db->select(
+            'SELECT t.*, DAY(t.timesheet_date) as day, u.name as staff_name, u.image as staff_image
+             FROM timesheet t
+             LEFT JOIN users u ON t.staff_id = u.id
+             WHERE (t.added_by = :userId OR t.company_id = :companyId) AND t.staff_id = :staffId
+                   AND t.timesheet_date BETWEEN :firstDay AND :lastDay',
+            ['userId' => $userId, 'companyId' => $companyId, 'staffId' => $staffId, 'firstDay' => $firstDayOfMonth, 'lastDay' => $lastDayOfMonth]
+        );
+
+        // Après avoir récupéré les fiches de temps, récupérez également les informations de l'office_shift pour cet utilisateur.
+    $officeShift = $this->db->select(
+        'SELECT os.* 
+         FROM users u
+         JOIN office_shifts os ON u.office_shift_id = os.office_shift_id
+         WHERE u.id = :staffId',
+        ['staffId' => $staffId]
+    );
+
+        if (!is_array($timesheets)) {
+            return [];
+        }
+
+        if (!is_array($officeShift) || count($officeShift) == 0) {
+            $officeShift = null;
+        } else {
+            $officeShift = $officeShift[0];
+        }
+
+        // Initialisation d'un tableau pour tous les jours du mois avec la valeur par défaut 'A'.
+    $days = array_fill(1, 31, 'A');
+    foreach ($timesheets as $timesheet) {
+        $day = intval($timesheet['day']);
+        $days[$day] = $timesheet['timesheet_status'] == 'Present' ? 'P' : 'A';
+    }
+
+    return [
+        'days' => $days,
+        'officeShift' => $officeShift
+    ];
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
+
+public function deleteTimesheet($id) {
+    
+    return $this->db->delete('timesheet', "timesheet_id = $id");
+     
+}
+
+public function updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timesheet_date, $total_work, $total_rest, $total_sup) {
+    $data = [
+        'staff_id' => $staff_id,
+        'clock_in' => $clock_in,
+        'clock_out' => $clock_out,
+        'timesheet_date' => $timesheet_date,
+        'total_work' => $total_work,
+        'total_rest' => $total_rest,
+        'total_sup' => $total_sup,
+    ];
+    return $this->db->update("timesheet", $data, "timesheet_id = $id");
 }
 
 }

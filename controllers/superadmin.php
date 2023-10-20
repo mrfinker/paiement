@@ -342,11 +342,7 @@ if (!$dateTime) {
             $addressupdate = $_POST['addressupdate'];
             $cityupdate = $_POST["updatecity"];
             $provinceupdate = $_POST["updateprovince"];
-            $code_postaleupdate = $_POST["updatecode_postale"];
-            $tax_numberupdate = $_POST["updatetax_number"];
-            $rccmupdate = $_POST["updaterccm"];
-            $bank_nameupdate = $_POST["updatebank_name"];
-            $bank_numberupdate = $_POST["updatebank_number"];
+            
 
             // Vérifiez si les données obligatoires ne sont pas vides
             if (empty($nameupdate) || empty($emailupdate) || empty($phoneupdate) || empty($addressupdate)) {
@@ -363,12 +359,7 @@ if (!$dateTime) {
                     $addressupdate, 
                     $usernameupdate, 
                     $cityupdate,
-                    $provinceupdate,
-                    $code_postaleupdate,
-                    $tax_numberupdate,
-                    $rccmupdate,
-                    $bank_nameupdate,
-                    $bank_numberupdate
+                    $provinceupdate
                 );
 
                 if ($result) {
@@ -388,11 +379,6 @@ if (!$dateTime) {
                         $_SESSION['company']['address'] = $addressupdate;
                         $_SESSION['company']['city'] = $cityupdate;
                         $_SESSION['company']['province'] = $provinceupdate;
-                        $_SESSION['company']['code_postale'] = $code_postaleupdate;
-                        $_SESSION['company']['tax_number'] = $tax_numberupdate;
-                        $_SESSION['company']['rccm'] = $rccmupdate;
-                        $_SESSION['company']['bank_name'] = $bank_nameupdate;
-                        $_SESSION['company']['bank_number'] = $bank_numberupdate;
                     }
                 } else {
                     $response = [

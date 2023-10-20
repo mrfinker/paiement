@@ -4,13 +4,13 @@
     <head>
         <base href="../">
         <meta charset="utf-8">
-        <meta name="author" content="Softnio">
+        <meta name="author" content="Linked-solution">
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta
             name="description"
-            content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+            content="Une application de gestion de paiement complete.">
         <!-- Fav Icon -->
         <link rel="shortcut icon" href="<?=URL?>public/images/favicon.png">
         <!-- Page Title -->
@@ -214,12 +214,12 @@
                                         </li>
                                         <!-- .nk-menu-item -->
                                         <li class="nk-menu-item">
-                                            <a href="<?=URL?><?= $userType['name'] ?>/presence" class="nk-menu-link">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/timesheet" class="nk-menu-link">
                                                 <span class="nk-menu-text">Presences</span>
                                             </a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="<?=URL?><?= $userType['name'] ?>/rapport_mois" class="nk-menu-link">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/report_monthly" class="nk-menu-link">
                                                 <span class="nk-menu-text">Rapport du mois</span>
                                             </a>
                                         </li>
@@ -274,23 +274,8 @@
                                         </li>
                                         <!-- .nk-menu-item -->
                                         <li class="nk-menu-item">
-                                            <a href="<?=URL?><?= $userType['name'] ?>/comptes" class="nk-menu-link">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/onem" class="nk-menu-link">
                                                 <span class="nk-menu-text">ONEM</span>
-                                            </a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="<?=URL?><?= $userType['name'] ?>/depots" class="nk-menu-link">
-                                                <span class="nk-menu-text">Depots</span>
-                                            </a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="<?=URL?><?= $userType['name'] ?>/depenses" class="nk-menu-link">
-                                                <span class="nk-menu-text">Depenses</span>
-                                            </a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="<?=URL?><?= $userType['name'] ?>/transactions" class="nk-menu-link">
-                                                <span class="nk-menu-text">Transactions</span>
                                             </a>
                                         </li>
                                         <!-- .nk-menu-item -->

@@ -20,6 +20,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
     $usersDepartements = $companyModel->getAllDepartmentsByCreatorAndCompany();
     $countries = $companyModel->getAllCountry();
     $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
+    $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
     
 
 ?>
@@ -267,7 +268,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 data-userprofile-contract_type="<?=$usercomp['contract_type'];?>"
                                                                                 data-userprofile-gender="<?=$usercomp['gender'];?>"
                                                                                 data-userprofile-role="<?=$usercomp['user_role_id'];?>"
-                                                                                data-image="<?=$usercomp['image'];?>">
+                                                                                data-userprofile-image="<?=$usercomp['image'];?>">
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
                                                                             </a>
@@ -403,7 +404,7 @@ aria-hidden="true">
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="form-label" for="status_marital">Status marital</label>
+                            <label class="form-label" for="status_marital">Etat-civil</label>
                             <div class="form-control-wrap">
                                 <select
                                     class="form-select js-select2 select2-hidden-accessible"
@@ -416,6 +417,36 @@ aria-hidden="true">
                                     <option value="Veuve/veuf">Veuve/veuf</option>
                                     <option value="Marier">Marier</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="form-label-group">
+                                <label class="form-label" for="children">Enfants</label>
+                            </div>
+                            <div class="form-control-wrap">
+                                <input
+                                    required="required"
+                                    type="text"
+                                    name="children"
+                                    class="form-control form-control-lg"
+                                    id="children">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="form-label-group">
+                                <label class="form-label" for="spouse">Epouse</label>
+                            </div>
+                            <div class="form-control-wrap">
+                                <input
+                                    required="required"
+                                    type="text"
+                                    name="spouse"
+                                    class="form-control form-control-lg"
+                                    id="spouse">
                             </div>
                         </div>
                     </div>
@@ -728,23 +759,11 @@ aria-hidden="true">
         <div class="modal-body">
             <form id="updateFormUsercomp" method="POST" enctype="multipart/form-data">
 
-                <div class="user-avatar sq xl mb-2">
-                    <?php if (isset($usercomp['image']) && !empty($usercomp['image'])): ?>
-                    <img src="" id="updateimage" alt="User Avatar">
-                    <?php if($usercomp['is_logged_in'] == 1): ?>
-                    <div class="status dot dot-lg dot-success"></div>
-                <?php else: ?>
-                    <div class="status dot dot-lg dot-danger"></div>
-                    <?php endif; ?>
-                <?php else: ?>
-                    <em class="icon ni ni-user-alt"></em>
-                    <?php endif;?>
-                </div>
                 <div class="row gy-4">
                     <div class="col-sm-12">
                         <div class="form-group">
                             <div class="form-label-group">
-                                <label class="form-label" for="imageFile">Veuillez inserer une image</label>
+                                <label class="form-label" for="imageupdate">Veuillez inserer une image</label>
                             </div>
                             <div class="form-control-wrap">
                                 <div class="form-file">
@@ -1015,7 +1034,7 @@ aria-hidden="true">
                         </div>
                     </div>
                 </div>
-                <input type="hidden" class="id_users" name="id">
+                <input type="hidden" class="id_users" name="id_users">
                 <div class="form-group mt-2">
                     <button
                         type="submit"

@@ -285,8 +285,7 @@ foreach ($company as $compagni) {
                 </a>
             </div>
             <div class="modal-body">
-                <form
-                    id="registerFormCompany"
+                <form id="registerFormCompany">
                     <div class="form-group">
                         <div class="row gy-4">
                             <div class="col-sm-6">
@@ -335,43 +334,13 @@ foreach ($company as $compagni) {
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" name="city" id="city" required="">
                                 </div>
-                                </div>
+                            </div>
                             <div class="col-sm-6">
                                 <label class="form-label" for="province">Province</label>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" name="province" id="province" required="">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="code_postale">Code postale</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" name="code_postale" id="code_postale" required="">
-                                </div>
-                                </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="tax_number">Numero taxe</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" name="tax_number" id="tax_number" required="">
-                                </div>
-                                </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="rccm">RCCM</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" name="rccm" id="rccm" required="">
-                                </div>
-                                </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="bank_name">Nom banque</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" name="bank_name" id="bank_name" required="">
-                                </div>
-                                </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="bank_number">Compte bancaire</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" name="bank_number" id="bank_number" required="">
-                                </div>
-                                </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="form-label">Choisir le pays</label>
@@ -437,7 +406,6 @@ foreach ($company as $compagni) {
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <div class="form-label-group">
@@ -484,8 +452,8 @@ foreach ($company as $compagni) {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+                    </div>
 
                         <div class="form-group">
                             <button type="submit" id="insert_company" class="btn btn-lg btn-primary mt-1">Enregistrer</button>
@@ -604,23 +572,6 @@ foreach ($company as $compagni) {
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" name="updatetax_number" id="updatetax_number" required="">
                                 </div>
-                                </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="updaterccm">RCCM</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" name="updaterccm" id="updaterccm" required="">
-                                </div>
-                                </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="updatebank_name">Nom banque</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" name="updatebank_name" id="updatebank_name" required="">
-                                </div>
-                                </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="updatebank_number">Compte bancaire</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control" name="updatebank_number" id="updatebank_number" required="">
                                 </div>
                                 </div>
                             </div>

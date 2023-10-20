@@ -20,7 +20,8 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
     $usersDepartements = $companyModel->getAllDepartmentsByCreatorAndCompany();
     $countries = $companyModel->getAllCountry();
     $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
-    
+    $currentMonth = date('Y-m');  // Cela donnera une valeur comme "10-2023" pour octobre 2023
+
 
 ?>
 <?php include_once './views/include/header.php'; ?>
@@ -194,7 +195,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <?php if(isset($usercomp['payed']) && $usercomp['payed'] == 1): ?>
+                                                                            <?php if(isset($usercomp['payed']) && $usercomp['payed'] == 1 && $usercomp['salary_month'] == $currentMonth): ?>
                                                                             <a
                                                                                 href="#"
                                                                                 class="facture_button_usercomp"

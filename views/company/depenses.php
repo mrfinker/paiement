@@ -70,6 +70,33 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                     <span class="sub-text">#</span>
                                                 </th>
                                                 <th
+                                                    class="nk-tb-col tb-col-md sorting"
+                                                    tabindex="0"
+                                                    aria-controls="DataTables_Table_1"
+                                                    rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Phone: activate to sort column ascending">
+                                                    <span class="sub-text">Date</span>
+                                                </th>
+                                                <th
+                                                    class="nk-tb-col tb-col-md sorting"
+                                                    tabindex="0"
+                                                    aria-controls="DataTables_Table_1"
+                                                    rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Phone: activate to sort column ascending">
+                                                    <span class="sub-text">Categorie</span>
+                                                </th>
+                                                <th
+                                                    class="nk-tb-col tb-col-md sorting"
+                                                    tabindex="0"
+                                                    aria-controls="DataTables_Table_1"
+                                                    rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="Phone: activate to sort column ascending">
+                                                    <span class="sub-text">Reference</span>
+                                                </th>
+                                                <th
                                                     class="nk-tb-col sorting"
                                                     tabindex="0"
                                                     aria-controls="DataTables_Table_1"
@@ -103,34 +130,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                     rowspan="1"
                                                     colspan="1"
                                                     aria-label="Phone: activate to sort column ascending">
-                                                    <span class="sub-text">Categorie</span>
-                                                </th>
-                                                <th
-                                                    class="nk-tb-col tb-col-md sorting"
-                                                    tabindex="0"
-                                                    aria-controls="DataTables_Table_1"
-                                                    rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Phone: activate to sort column ascending">
-                                                    <span class="sub-text">Reference</span>
-                                                </th>
-                                                <th
-                                                    class="nk-tb-col tb-col-md sorting"
-                                                    tabindex="0"
-                                                    aria-controls="DataTables_Table_1"
-                                                    rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Methode</span>
-                                                </th>
-                                                <th
-                                                    class="nk-tb-col tb-col-md sorting"
-                                                    tabindex="0"
-                                                    aria-controls="DataTables_Table_1"
-                                                    rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Phone: activate to sort column ascending">
-                                                    <span class="sub-text">Date</span>
                                                 </th>
                                                 <th
                                                     class="nk-tb-col nk-tb-col-tools text-end sorting"
@@ -166,25 +166,35 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                     <span><?=$transaction['num']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
+                                                    <span><?php 
+                                                        try {
+                                                            $date = DateTime::createFromFormat('Y-m-d', $transaction['transaction_date']);
+                                                            echo $date->format('d-m-Y');
+                                                        } catch (Exception $e) {
+                                                            // Si une exception est levée, cela signifie que la date n'a pas pu être analysée.
+                                                            // Afficher la date telle quelle ou afficher un message d'erreur selon vos préférences.
+                                                            echo $transaction['transaction_date'];
+                                                        } 
+                                                    ?>
+                                                    </span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <span class="badge badge-dim bg-danger"><?=$transaction['category_name']?></span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <span class="badge badge-dim bg-primary"><?=$transaction['reference']?></span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
                                                     <span><?=$transaction['account_name']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
                                                     <span><?=$transaction['staff_name']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$transaction['amount']?></span>
-                                                </td>
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$transaction['category_name']?></span>
-                                                </td>
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$transaction['reference']?></span>
+                                                    <span><?=$transaction['amount']?> $</span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
                                                     <span><?=$transaction['payement_method']?></span>
-                                                </td>
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$transaction['transaction_date']?></span>
                                                 </td>
 
                                                 <td class="nk-tb-col nk-tb-col-tools">
@@ -212,19 +222,19 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                         <li>
                                                                             <a
                                                                                 href="#"
-                                                                                class="delete-button-comptes"
-                                                                                data-id="<?=$account['account_id'];?>">
+                                                                                class="delete-button-transaction-depexp"
+                                                                                data-id="<?=$transaction['transactions_id'];?>">
                                                                                 <em class="icon ni ni-trash"></em>
                                                                                 <span>Supprimer</span>
                                                                             </a>
                                                                             <a
                                                                                 href="#"
-                                                                                class="update_button_comptes"
-                                                                                data-id="<?=$account['account_id'];?>"
-                                                                                data-comptes-name="<?=$account['account_name'];?>"
-                                                                                data-comptes-number="<?=$account['account_number'];?>"
-                                                                                data-comptes-balance="<?=$account['account_balance'];?>"
-                                                                                data-comptes-bank_name="<?=$account['bank_name'];?>">
+                                                                                class="update_button_transaction-depexp"
+                                                                                data-id="<?=$transaction['transactions_id'];?>"
+                                                                                data-transactions-amount="<?=$transaction['amount'];?>"
+                                                                                data-transactions-date="<?=$transaction['transaction_date'];?>"
+                                                                                data-transactions-method="<?=$transaction['payement_method'];?>"
+                                                                                data-transactions-entity="<?=$transaction['entity_category_id'];?>">
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
                                                                             </a>
@@ -395,7 +405,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                         data-ui="lg">
                                         <option disabled="disabled" selected="selected">Le type de paiement</option>
                                         <option value="cash">Cash</option>
-                                        <option value="carte_bancaire">Carte bancaire</option>
+                                        <option value="carte bancaire">Carte bancaire</option>
                                         <option value="cheque">Cheque</option>
                                         <option value="banque">Bank</option>
                                     </select>
@@ -447,89 +457,58 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
     </div>
 </div>
 
-<!-- update depenses -->
+<!-- update transactions -->
 <div
     class="modal fade"
-    id="UpdateModalComptes"
+    id="UpdateModalTransactions"
     style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-mb" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modifier le compte</h5>
+                <h5 class="modal-title">Modifier la transaction</h5>
                 <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
             <div class="modal-body">
-                <form id="updateFormCompte" method="POST" enctype="multipart/form-data">
+                <form id="updateFormTransactions" method="POST" enctype="multipart/form-data">
                     <div class="row gy-4">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="compteNameUpdate">Nom</label>
+                                    <label class="form-label" for="transactionDate">Date</label>
                                 </div>
                                 <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-calendar-alt"></em>
+                                    </div>
                                     <input
-                                        required="required"
                                         type="text"
-                                        name="compteNameUpdate"
-                                        class="form-control form-control-lg"
-                                        id="compteNameUpdate"
-                                        placeholder="Entrer votre noms">
+                                        name="transactionDate"
+                                        class="form-control form-control-lg form-control-outlined date-picker"
+                                        id="transactionDate">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="compteNumberUpdate">Nom</label>
+                                    <label class="form-label" for="TransactionAmount">Montant</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <input
                                         required="required"
                                         type="text"
-                                        name="compteNumberUpdate"
+                                        name="TransactionAmount"
                                         class="form-control form-control-lg"
-                                        id="compteNumberUpdate"
-                                        placeholder="Entrer votre noms">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="compteBalanceUpdate">Nom</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="compteBalanceUpdate"
-                                        class="form-control form-control-lg"
-                                        id="compteBalanceUpdate"
-                                        placeholder="Entrer votre noms">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="compteBankNameUpdate">Nom</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="compteBankNameUpdate"
-                                        class="form-control form-control-lg"
-                                        id="compteBankNameUpdate"
+                                        id="TransactionAmount"
                                         placeholder="Entrer votre noms">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" class="account_id" name="account_id">
+                    <input type="hidden" class="transactions_id" name="transactions_id">
                     <div class="form-group mt-2">
                         <button
                             type="submit"

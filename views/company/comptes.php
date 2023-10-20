@@ -140,7 +140,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                     <span><?=$account['account_number']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$account['account_balance']?></span>
+                                                    <span><?=$account['account_balance']?> $</span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
                                                     <span><?=$account['bank_name']?></span>

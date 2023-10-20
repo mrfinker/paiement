@@ -18,28 +18,26 @@ src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></
 
 <script>
 
+let designationNames = <?php echo $designationNamesJson; ?>;
+let designationUsersCount = <?php echo $designationUsersCountJson; ?>;
+let colorsDes = <?php echo $colorsJsonDes; ?>;
+
 new Chart(document.getElementById("pie-chart"), {
-type: 'pie',
-data: {
-    labels: [
-        "Ressources Humaines", "IT", "Finance", "Marketing", "Production"
-    ],
-    datasets: [
-        {
-            label: "Nombre d'Employés",
-            backgroundColor: [
-                "#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"
-            ],
-            data: [20, 30, 15, 25, 10]
+    type: 'pie',
+    data: {
+        labels: designationNames,
+        datasets: [{
+            backgroundColor: colorsDes,
+            data: designationUsersCount
+        }]
+    },
+    options: {
+        legend: {
+            display: false
         }
-    ]
-},
-options: {
-    legend: {
-        display: false
     }
-}
 });
+
 
 
 new Chart(document.getElementById("line-chart"), {
@@ -62,45 +60,14 @@ data: {
     datasets: [
         {
             data: <?php echo json_encode($depenseData); ?>,
-label: "Dépenses",
-borderColor: "#3e95cd",
-fill: false
-
-        }, {
-            data: [
-                200,
-                450,
-                300,
-                500,
-                1000,
-                650,
-                800,
-                1500,
-                1200,
-                1600,
-                1500,
-                2000
-            ],
-            label: "Dépôts",
+            label: "Dépenses",
             borderColor: "#8e5ea2",
             fill: false
+            
         }, {
-            data: [
-                100,
-                200,
-                150,
-                300,
-                400,
-                500,
-                450,
-                300,
-                400,
-                500,
-                600,
-                700
-            ],
-            label: "Paiements",
-            borderColor: "#3cba9f",
+            data: <?php echo json_encode($depotsData); ?>,
+            label: "Dépots",
+            borderColor: "#3e95cd",
             fill: false
         }
     ]
@@ -116,21 +83,21 @@ options: {
 new Chart(document.getElementById("presence"), {
     type: 'line', // Changez le type à 'line'
     data: {
-        labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"], // Labels pour chaque point de données
+        labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"], // Labels pour chaque point de données
         datasets: [
             {
                 label: "Présent",
                 backgroundColor: "#3e95cd",
                 borderColor: "#3e95cd",
                 fill: false, // N'utilisez pas de couleur de remplissage sous la ligne
-                data: [20, 25, 30, 35, 40] // Exemple de données pour les présents
+                data: <?= json_encode($presents); ?>
             }, 
             {
                 label: "Absent",
                 backgroundColor: "#8e5ea2",
                 borderColor: "#8e5ea2",
                 fill: false, // N'utilisez pas de couleur de remplissage sous la ligne
-                data: [10, 15, 20, 15, 10] // Exemple de données pour les absents
+                data: <?= json_encode($absents); ?>
             }
         ]
     },
@@ -170,35 +137,28 @@ new Chart(document.getElementById("sexe"), {
     }
 });
 
-let departmentGenderCount = <?php echo $jsonData; ?>;
-var labels = ["Homme", "Femme"];
-var datasets = [];
+let departmentNames = <?php echo $departmentNamesJson; ?>;
+let DepartmentUsersCount = <?php echo $DepartmentUsersCountJson; ?>;
+let colorsDep = <?php echo $colorsJsonDep; ?>;
 
-for (var departmentId in departmentGenderCount) {
-    var department = departmentGenderCount[departmentId];
-    var dataset = {
-        label: department.name,
-        backgroundColor: ["#3e95cd", "#8e5ea2"], // ou d'autres couleurs pour chaque département
-        data: [department.homme, department.femme]
-    };
-    datasets.push(dataset);
-}
-
-// Créez votre graphique avec les labels et les données construits
 new Chart(document.getElementById("doughnut-chart"), {
     type: 'doughnut',
     data: {
-        labels: labels,
-        datasets: datasets
+        labels: departmentNames,
+        datasets: [{
+            backgroundColor: colorsDep,
+            data: DepartmentUsersCount
+        }]
     },
     options: {
         legend: {
-            display: true
+            display: false
         },
         responsive: true,
         maintainAspectRatio: true
     }
 });
+
 
 
 

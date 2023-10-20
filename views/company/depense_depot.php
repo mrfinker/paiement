@@ -152,16 +152,16 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 <li>
                                                                                     <a
                                                                                         href="#"
-                                                                                        class="delete-button-departement"
-                                                                                        data-id="<?=$deps['department_id'];?>">
+                                                                                        class="delete-button-category-depexp"
+                                                                                        data-id="<?=$depense['constants_id'];?>">
                                                                                         <em class="icon ni ni-trash"></em>
                                                                                         <span>Supprimer</span>
                                                                                     </a>
                                                                                     <a
                                                                                         href="#"
-                                                                                        class="update_button_departement"
-                                                                                        data-id="<?=$deps['department_id'];?>"
-                                                                                        data-departement-name="<?=$deps['department_name'];?>">
+                                                                                        class="update_button_category-depexp"
+                                                                                        data-id="<?=$depense['constants_id'];?>"
+                                                                                        data-depexp-name="<?=$depense['category_name'];?>">
                                                                                         <em class="icon ni ni-pen"></em>
                                                                                         <span>Modifier</span>
                                                                                     </a>
@@ -307,16 +307,16 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 <li>
                                                                                     <a
                                                                                         href="#"
-                                                                                        class="delete-button-departement"
-                                                                                        data-id="<?=$deps['department_id'];?>">
+                                                                                        class="delete-button-category-depexp"
+                                                                                        data-id="<?=$depot['constants_id'];?>">
                                                                                         <em class="icon ni ni-trash"></em>
                                                                                         <span>Supprimer</span>
                                                                                     </a>
                                                                                     <a
                                                                                         href="#"
-                                                                                        class="update_button_departement"
-                                                                                        data-id="<?=$deps['department_id'];?>"
-                                                                                        data-departement-name="<?=$deps['department_name'];?>">
+                                                                                        class="update_button_category-depexp"
+                                                                                        data-id="<?=$depot['constants_id'];?>"
+                                                                                        data-depexp-name="<?=$depot['category_name'];?>">
                                                                                         <em class="icon ni ni-pen"></em>
                                                                                         <span>Modifier</span>
                                                                                     </a>
@@ -435,38 +435,37 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
 <!-- update departements -->
 <div
     class="modal fade"
-    id="UpdateModalDepartements"
+    id="UpdateModalDepExp"
     style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-mb" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modifier le departements</h5>
+                <h5 class="modal-title">Modifier la categorie</h5>
                 <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
             <div class="modal-body">
-                <form id="updateFormDepartements" method="POST" enctype="multipart/form-data">
+                <form id="updateFormDepExp" method="POST" enctype="multipart/form-data">
                     <div class="row gy-4">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="departmentNameUpdate">Nom</label>
+                                    <label class="form-label" for="depexpNameUpdate">Nom</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <input
                                         required="required"
                                         type="text"
-                                        name="departmentNameUpdate"
+                                        name="depexpNameUpdate"
                                         class="form-control form-control-lg"
-                                        id="departmentNameUpdate"
-                                        placeholder="Entrer votre noms">
+                                        id="depexpNameUpdate">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" class="id_departements" name="department_id">
+                    <input type="hidden" class="id_constants" name="constants_id">
                     <div class="form-group mt-2">
                         <button
                             type="submit"

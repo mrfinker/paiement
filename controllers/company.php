@@ -61,6 +61,15 @@ class Company extends Controller
     {
         $this->view->render('company/depense_depot', true);
     }
+    public function timesheet()
+    {
+        $this->view->render('company/timesheet', true);
+    }
+    public function report_monthly()
+    {
+        $this->view->render('company/report_monthly', true);
+    }
+    
 
     // Role
     public function handleDeleteRole()
@@ -91,6 +100,28 @@ class Company extends Controller
             $permissionsAdmin = isset($_POST['admin']) ? $_POST['admin'] : [];
             $permissionsCompany = isset($_POST['company']) ? $_POST['company'] : [];
             $permissionsPrivilege = isset($_POST['privilege']) ? $_POST['privilege'] : [];
+
+            // Remplacez les caractères "_" par des espaces dans les noms des permissions
+            $permissionsAdmin = array_map(function($permission) {
+                return str_replace('_', ' ', $permission);
+            }, $permissionsAdmin);
+            $permissionsCompany = array_map(function($permission) {
+                return str_replace('_', ' ', $permission);
+            }, $permissionsCompany);
+            $permissionsPrivilege = array_map(function($permission) {
+                return str_replace('_', ' ', $permission);
+            }, $permissionsPrivilege);
+
+            // Supprimez les valeurs "on" du tableau des permissions
+            $permissionsAdmin = array_filter($permissionsAdmin, function($permission) {
+                return $permission !== 'on';
+            });
+            $permissionsCompany = array_filter($permissionsCompany, function($permission) {
+                return $permission !== 'on';
+            });
+            $permissionsPrivilege = array_filter($permissionsPrivilege, function($permission) {
+                return $permission !== 'on';
+            });
 
             $permissions = array_merge($permissionsAdmin, $permissionsCompany, $permissionsPrivilege);
 
@@ -380,6 +411,51 @@ class Company extends Controller
         }
     }
 
+    public function updateDepExp()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['constants_id']);
+            $depexpNameUpdate = $_POST['depexpNameUpdate'];
+            $constantsId = $_POST['constants_id'];
+
+            if (empty($depexpNameUpdate)) {
+                $response = ['status' => 400, 'msg' => 'Le nom de la category est vide, veuillez le remplir'];
+            } else {
+                $result = $this->model->updateDepExp($id, $depexpNameUpdate, $constantsId);
+
+                if ($result) {
+                    $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+                } else {
+                    $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+                }
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+    }
+
+    public function handleDeleteCategoryDepExp()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+
+            // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
+            // ...
+
+            $result = $this->model->deleteCategoryDepExp($id);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "L'element a été supprimée avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'element."));
+            }
+        } else {
+            echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
+        }
+    }
+
     public function handleAddDepenses()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -441,6 +517,25 @@ class Company extends Controller
             }
         }
     }
+    public function handleDeleteTransactionDepExp()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+
+            // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
+            // ...
+
+            $result = $this->model->deleteTransactionDepExp($id);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "L'element a été supprimée avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'element."));
+            }
+        } else {
+            echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
+        }
+    }
 
     public function handleAddDepots()
     {
@@ -466,7 +561,6 @@ class Company extends Controller
                 // Traiter l'exception ou indiquer une date incorrecte
                 echo $e->getMessage();
             }    
-                        
             $entity_category_id = $_POST['entity_category_id'];
             $staff_id = $_POST['staff_id'];
             $payement_method = $_POST['payement_method'];
@@ -494,7 +588,7 @@ class Company extends Controller
                 'added_by' => $userId,
             ];
 
-            $result = $this->model->addDepenses($data);
+            $result = $this->model->addDepots($data);
 
             if ($result) {
                 echo json_encode(array("status" => 200, "msg" => "Le depot a été ajoutée avec succès."));
@@ -503,6 +597,61 @@ class Company extends Controller
             }
         }
     }
+
+    public function updateTransactions()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = intval($_POST['transactions_id']);
+        $date = $_POST['transactionDate'];
+        $amount = $_POST['TransactionAmount'];
+
+        // Formatage et validation de la date
+        $parts = explode('/', $date);
+        if (count($parts) === 3) {
+            $date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+        } else {
+            $parts = explode('-', $date);
+            if (count($parts) === 3) {
+                $year = $parts[0];
+                $month = $parts[1];
+                $day = $parts[2];
+                $date = $year . '-' . $month . '-' . $day;
+            }
+        }
+
+        try {
+            $dateObject = DateTime::createFromFormat('Y-m-d', $date);
+            if (!$dateObject) {
+                throw new Exception("Format de date invalide.");
+            }
+            $transaction_date = $dateObject->format('Y-m-d');
+        } catch (Exception $e) {
+            // Traiter l'exception ou indiquer une date incorrecte
+            $response = ['status' => 400, 'msg' => $e->getMessage()];
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+
+        // Vérification de la date
+        if (empty($transaction_date)) {
+            $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
+        } else {
+            $result = $this->model->updateTransaction($id, $transaction_date, $amount);
+
+            if ($result) {
+                $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+            } else {
+                $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+            }
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    }
+}
+
 
 
 // Horaire
@@ -673,6 +822,8 @@ class Company extends Controller
         $user_role = $_POST['user_role'];
         $department_id = $_POST['department_id'];
         $designation_id = $_POST['designation_id'];
+        $children = $_POST['children'];
+        $spouse = $_POST['spouse'];
         $working_time = $_POST['working_time'];
         $salaire_base = $_POST['salaire_base'];
         $paiement_type = $_POST['paiement_type'];
@@ -742,6 +893,8 @@ class Company extends Controller
             "user_role_id" => $user_role,
             "departement_id" => $department_id,
             "designation_id" => $designation_id,
+            "children" => $children,
+            "spouse" => $spouse,
             "office_shift_id" => $working_time,
             "basic_salary" => $salaire_base,
             "contract_type" => $contract_type,
@@ -771,7 +924,7 @@ class Company extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $id = intval($_POST['id']);
+            $id = intval($_POST['id_users']);
             $nameupdate = $_POST['updatename'];
             $usernameupdate = $_POST['updateusername'];
             $emailupdate = $_POST['updateemail'];
@@ -786,6 +939,7 @@ class Company extends Controller
             $updatesalaire_base = $_POST['updatesalaire_base'];
             $updatepaiement_type = $_POST['updatepaiement_type'];
             $updatecontract_type = $_POST['updatecontract_type'];
+            $updatecountry = $_POST['updatecountry'];
 
             $imageFileName = null;
             if (isset($_FILES["image"]) && $_FILES["image"]["error"] === 0) {
@@ -822,12 +976,13 @@ class Company extends Controller
                 $result = $this->model->updateUser(
                     $id,
                     $nameupdate,
-                    $usernameupdate,
-                    $emailupdate,
-                    $phoneupdate,
                     $updatestatus_marital,
                     $updateemployeid,
+                    $phoneupdate,
                     $updategender,
+                    $updatecountry,
+                    $usernameupdate,
+                    $emailupdate,
                     $updateuser_role,
                     $updatedepartment_id,
                     $updatedesignation_id,
@@ -1101,5 +1256,252 @@ class Company extends Controller
             exit;
         }
     }
+
+// Timesheet
+public function handleAddTimesheet()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $staff_id = $_POST['staff_id'];
+        $timesheet_date = $_POST['timesheet_date'];
+        $clock_in = $_POST['clock_in'];
+        $clock_out = $_POST['clock_out'];
+        $timesheet_status = "Present";
+
+        // Formatage et validation de la date
+        $parts = explode('/', $timesheet_date);
+        if (count($parts) === 3) {
+            $timesheet_date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+        } else {
+            $parts = explode('-', $timesheet_date);
+            if (count($parts) === 3) {
+                $year = $parts[0];
+                $month = $parts[1];
+                $day = $parts[2];
+                $timesheet_date = $year . '-' . $month . '-' . $day;
+            }
+        }
+
+        try {
+            $dateObject = DateTime::createFromFormat('Y-m-d', $timesheet_date);
+            if (!$dateObject) {
+                throw new Exception("Format de date invalide.");
+            }
+            $timesheet_date = $dateObject->format('Y-m-d');
+        } catch (Exception $e) {
+            // Traiter l'exception ou indiquer une date incorrecte
+            $response = ['status' => 400, 'msg' => $e->getMessage()];
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+
+                // Convertir clock_in et clock_out en heures
+        $clockInParts = explode(':', $clock_in);
+        $clockOutParts = explode(':', $clock_out);
+
+        $clockInHour = intval($clockInParts[0]);
+        $clockOutHour = intval($clockOutParts[0]);
+
+        if (strpos($clock_in, 'PM') !== false && $clockInHour != 12) {
+            $clockInHour += 12;
+        } elseif (strpos($clock_in, 'AM') !== false && $clockInHour == 12) {
+            $clockInHour = 0;
+        }
+
+        if (strpos($clock_out, 'PM') !== false && $clockOutHour != 12) {
+            $clockOutHour += 12;
+        } elseif (strpos($clock_out, 'AM') !== false && $clockOutHour == 12) {
+            $clockOutHour = 0;
+        }
+
+        $clockInHours = $clockInHour + intval($clockInParts[1]) / 60;
+        $clockOutHours = $clockOutHour + intval($clockOutParts[1]) / 60;
+
+        // Calculer total_work
+        $total_work = $clockOutHours - $clockInHours;
+
+        // Calculer total_rest ou total_sup
+        $total_rest = 0;
+        $total_sup = 0;
+        $workDifference = 8 - $total_work;
+        if ($workDifference > 0) {
+            $total_rest = abs($workDifference);
+        } else {
+            $total_sup = abs($workDifference);
+        }
+        
+        $data = [
+            'staff_id' => $staff_id,
+            'timesheet_date' => $timesheet_date,
+            'clock_in' => $clock_in,
+            'clock_out' => $clock_out,
+            'timesheet_status' => $timesheet_status,
+            'total_work' => intval($total_work), // converti en entier
+            'total_rest' => intval($total_rest), // converti en entier
+            'total_sup' => intval($total_sup),   // converti en entier
+            'company_id' => $companyId,
+            'added_by' => $userId,
+        ];
+
+        $result = $this->model->addTimesheet($data);
+
+        if ($result) {
+            echo json_encode(array("status" => 200, "msg" => "La presence a été ajouté avec succès."));
+        } else {
+            echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout."));
+        }
+    }
+}
+
+public function handleDeleteTimesheet()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+
+            // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
+            // ...
+
+            $result = $this->model->deleteTimesheet($id);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "Le compte a été supprimée avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression du compte"));
+            }
+        } else {
+            echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
+        }
+    }
+
+    public function updateTimesheet()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = intval($_POST['timesheet_id']);
+        $timesheet_date = $_POST['timesheet_date_update'];
+        $clock_in = $_POST['clock_in_update'];
+        $clock_out = $_POST['clock_out_update'];
+        $staff_id = $_POST['staff_id_update'];
+
+        // Formatage et validation de la date
+        $parts = explode('/', $timesheet_date);
+        if (count($parts) === 3) {
+            $timesheet_date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+        } else {
+            $parts = explode('-', $timesheet_date);
+            if (count($parts) === 3) {
+                $year = $parts[0];
+                $month = $parts[1];
+                $day = $parts[2];
+                $timesheet_date = $year . '-' . $month . '-' . $day;
+            }
+        }
+
+        try {
+            $dateObject = DateTime::createFromFormat('Y-m-d', $timesheet_date);
+            if (!$dateObject) {
+                throw new Exception("Format de date invalide.");
+            }
+            $transaction_date = $dateObject->format('Y-m-d');
+        } catch (Exception $e) {
+            // Traiter l'exception ou indiquer une date incorrecte
+            $response = ['status' => 400, 'msg' => $e->getMessage()];
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+
+        // Formatage et validation de la date
+        $parts = explode('/', $timesheet_date);
+        if (count($parts) === 3) {
+            $timesheet_date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+        } else {
+            $parts = explode('-', $timesheet_date);
+            if (count($parts) === 3) {
+                $year = $parts[0];
+                $month = $parts[1];
+                $day = $parts[2];
+                $timesheet_date = $year . '-' . $month . '-' . $day;
+            }
+        }
+
+        try {
+            $dateObject = DateTime::createFromFormat('Y-m-d', $timesheet_date);
+            if (!$dateObject) {
+                throw new Exception("Format de date invalide.");
+            }
+            $timesheet_date = $dateObject->format('Y-m-d');
+        } catch (Exception $e) {
+            // Traiter l'exception ou indiquer une date incorrecte
+            $response = ['status' => 400, 'msg' => $e->getMessage()];
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+
+                // Convertir clock_in et clock_out en heures
+        $clockInParts = explode(':', $clock_in);
+        $clockOutParts = explode(':', $clock_out);
+
+        $clockInHour = intval($clockInParts[0]);
+        $clockOutHour = intval($clockOutParts[0]);
+
+        if (strpos($clock_in, 'PM') !== false && $clockInHour != 12) {
+            $clockInHour += 12;
+        } elseif (strpos($clock_in, 'AM') !== false && $clockInHour == 12) {
+            $clockInHour = 0;
+        }
+
+        if (strpos($clock_out, 'PM') !== false && $clockOutHour != 12) {
+            $clockOutHour += 12;
+        } elseif (strpos($clock_out, 'AM') !== false && $clockOutHour == 12) {
+            $clockOutHour = 0;
+        }
+
+        $clockInHours = $clockInHour + intval($clockInParts[1]) / 60;
+        $clockOutHours = $clockOutHour + intval($clockOutParts[1]) / 60;
+
+        // Calculer total_work
+        $total_work = $clockOutHours - $clockInHours;
+
+        // Calculer total_rest ou total_sup
+        $total_rest = 0;
+        $total_sup = 0;
+        $workDifference = 8 - $total_work;
+        if ($workDifference > 0) {
+            $total_rest = abs($workDifference);
+        } else {
+            $total_sup = abs($workDifference);
+        }
+
+        $total_work = intval($total_work); // converti en entier
+        $total_rest = intval($total_rest); // converti en entier
+        $total_sup = intval($total_sup);
+
+        // Vérification de la date
+        if (empty($transaction_date)) {
+            $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
+        } else {
+            $result = $this->model->updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timesheet_date, $total_work, $total_rest, $total_sup);
+
+            if ($result) {
+                $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+            } else {
+                $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+            }
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    }
+}
 
 }

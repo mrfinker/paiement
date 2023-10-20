@@ -160,7 +160,7 @@ $.ajax({
         e.preventDefault();
     let imageUrl = $(this).data("view-image");
 
-    $("#viewimage").attr("src", imageUrl);
+        $("#viewimage").attr("src", imageUrl);
         let id = parseInt($(this).data("id"));
         let name = $(this).data("view-name");
         let username = $(this).data("view-username");

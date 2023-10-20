@@ -245,54 +245,7 @@ $userRoles = $companyModel->getAllUserRoles();
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Utilisateurs</label>
-                        <ul class="custom-control-group g-3 align-center">
-                            <li>
-                                <div class="custom-control custom-checkbox custom-control-pro no-control">
-                                    <input
-                                        type="checkbox"
-                                        class="custom-control-input"
-                                        id="user_create"
-                                        name="user[]"
-                                        value="user create">
-                                    <label class="custom-control-label" for="user_create">user create</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="custom-control custom-checkbox custom-control-pro no-control">
-                                    <input
-                                        type="checkbox"
-                                        class="custom-control-input"
-                                        id="user_edit"
-                                        name="user[]"
-                                        value="user edit">
-                                    <label class="custom-control-label" for="user_edit">user edit</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="custom-control custom-radio custom-control-pro no-control checked">
-                                    <input
-                                        type="checkbox"
-                                        class="custom-control-input"
-                                        id="user_delete"
-                                        name="user[]"
-                                        value="user delete">
-                                    <label class="custom-control-label" for="user_delete">user delete</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="custom-control custom-radio custom-control-pro no-control checked">
-                                    <input
-                                        type="checkbox"
-                                        class="custom-control-input"
-                                        id="user_liste"
-                                        name="user[]"
-                                        value="user liste">
-                                    <label class="custom-control-label" for="user_liste">user liste</label>
-                                </div>
-                            </li>
-                        </ul>
-
+                       
                         <label class="form-label">Administration</label>
                         <ul class="custom-control-group g-3 align-center">
                             <li>

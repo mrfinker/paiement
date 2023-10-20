@@ -146,7 +146,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a href="#" class="delete-button-designation" data-id="<?=$branche['designation_id'];?>">
+                                                                            <a
+                                                                                href="#"
+                                                                                class="delete-button-designation"
+                                                                                data-id="<?=$branche['designation_id'];?>">
                                                                                 <em class="icon ni ni-trash"></em>
                                                                                 <span>Supprimer</span>
                                                                             </a>
@@ -306,21 +309,21 @@ foreach ($dep as $deps) {
                         </div>
                         <div class="col-sm-12" data-select2-id="12">
                             <div class="form-group" data-select2-id="11">
-                                <label class="form-label">Departements</label>
+                                <label class="form-label" for="departmentNameUpdate">Departements</label>
+                                <input type="hidden" name="department_id" id="departmentNameUpdate">
                                 <div class="form-control-wrap" data-select2-id="10">
                                     <select
                                         class="form-select js-select2 select2-hidden-accessible"
                                         data-search="on"
                                         aria-hidden="true"
                                         name="department_id"
-                                        id="departementNameUpdate"
+                                        id="departmentNameUpdate"
                                         data-ui="lg">
-                                        <option>Default Option</option>
-                                        <?php
-foreach ($dep as $deps) {
-        echo '<option value="' . $deps['department_id'] . '">' . $deps['department_name'] . '</option>';
-}
-?>
+                                        <option value="<?php echo $branche['department_id']; ?>"><?php echo $branche['department_name']; ?></option>
+                                        <?php foreach ($dep as $deps) {
+                                            $selected = ($deps['department_name'] === $branche['department_name']) ? 'selected' : '';
+                                            echo '<option value="' . $deps['department_id'] . '" ' . $selected . '>' . $deps['department_name'] . '</option>';
+                                        } ?>
                                     </select>
                                 </div>
                             </div>
@@ -340,6 +343,5 @@ foreach ($dep as $deps) {
     </div>
 
 </div>
-
 
 <?php include_once './views/include/footer.php' ?>
