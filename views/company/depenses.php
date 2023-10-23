@@ -307,16 +307,15 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                     <select
                                         class="form-select js-select2 select2-hidden-accessible"
                                         aria-hidden="true"
-                                        name="account_name"
                                         id="account_name"
                                         required="required"
+                                        name="account_name"
                                         data-ui="lg">
                                         <option disabled="disabled" selected="selected">Choisissez le compte</option>
                                         <?php foreach ($accounts as $account) { ?>
                                         <option value="<?= $account['account_id']; ?>"><?= $account['account_name']; ?></option>
                                         <?php } ?>
                                     </select>
-
                                 </div>
                             </div>
                         </div>

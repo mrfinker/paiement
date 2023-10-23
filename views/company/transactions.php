@@ -232,16 +232,25 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul class="link-list-opt no-bdr">
                                                                         <li>
-                                                                            <a
+                                                                            
+                                                                        <a
                                                                                 href="#"
-                                                                                class="update_button_comptes"
-                                                                                data-id="<?=$account['account_id'];?>"
-                                                                                data-comptes-name="<?=$account['account_name'];?>"
-                                                                                data-comptes-number="<?=$account['account_number'];?>"
-                                                                                data-comptes-balance="<?=$account['account_balance'];?>"
-                                                                                data-comptes-bank_name="<?=$account['bank_name'];?>">
+                                                                                class="voir_button_transaction-depexp"
+                                                                                data-id="<?=$transaction['transactions_id'];?>"
+                                                                                data-created_at="<?=$transaction['created_at'];?>"
+                                                                                data-transactions_value="<?=$transaction['transactions_value'];?>"
+                                                                                data-transactions_code="<?=$transaction['transactions_code'];?>"
+                                                                                data-reference="<?=$transaction['reference'];?>"
+                                                                                data-transactions_amount="<?=$transaction['amount'];?>"
+                                                                                data-transactions_date="<?=$transaction['transaction_date'];?>"
+                                                                                data-transactions_method="<?=$transaction['payement_method'];?>"
+                                                                                data-staff_name="<?=$transaction['staff_name'];?>"
+                                                                                data-category_name="<?=$transaction['category_name'];?>"
+                                                                                data-account_name="<?=$transaction['account_name'];?>"
+                                                                                data-account_number="<?=$transaction['account_number'];?>"
+                                                                                data-transactions_entity="<?=$transaction['entity_category_id'];?>">
                                                                                 <em class="icon ni ni-eye"></em>
-                                                                                <span>Voir la facture</span>
+                                                                                <span>voir</span>
                                                                             </a>
                                                                         </li>
                                                                     </ul>

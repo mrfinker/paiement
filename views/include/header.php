@@ -265,7 +265,7 @@
                                     <li class="nk-menu-item has-sub">
                                         <a href="#" class="nk-menu-link nk-menu-toggle">
                                             <span class="nk-menu-icon">
-                                            <em class="icon ni ni-sign-dollar"></em>
+                                            <em class="icon ni ni-money"></em>
                                             </span>
                                             <span class="nk-menu-text">Fiscale</span>
                                         </a>
@@ -276,6 +276,12 @@
                                         <li class="nk-menu-item">
                                             <a href="<?=URL?><?= $userType['name'] ?>/onem" class="nk-menu-link">
                                                 <span class="nk-menu-text">ONEM</span>
+                                            </a>
+                                        </li>
+                                        <!-- .nk-menu-item -->
+                                        <li class="nk-menu-item">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/cnss" class="nk-menu-link">
+                                                <span class="nk-menu-text">CNSS</span>
                                             </a>
                                         </li>
                                         <!-- .nk-menu-item -->

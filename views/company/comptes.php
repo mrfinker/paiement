@@ -55,15 +55,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                         <thead>
                                             <tr class="nk-tb-item nk-tb-head">
 
-                                                <th
-                                                    class="nk-tb-col sorting"
-                                                    tabindex="0"
-                                                    aria-controls="DataTables_Table_1"
-                                                    rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="User: activate to sort column ascending">
-                                                    <span class="sub-text">#</span>
-                                                </th>
+                                                
                                                 <th
                                                     class="nk-tb-col sorting"
                                                     tabindex="0"
@@ -130,9 +122,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                             <!-- .nk-tb-item -->
                                             <tr class="nk-tb-item odd">
 
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$account['num']?></span>
-                                                </td>
+                                                
                                                 <td class="nk-tb-col tb-col-md">
                                                     <span><?=$account['account_name']?></span>
                                                 </td>
@@ -183,6 +173,20 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 data-comptes-bank_name="<?=$account['bank_name'];?>">
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
+                                                                            </a>
+                                                                            <a
+                                                                                href="#"
+                                                                                class="view_button_comptes"
+                                                                                data-id="<?=$account['account_id'];?>"
+                                                                                data-account_code="<?=$account['account_code'];?>"
+                                                                                data-account_value="<?=$account['account_value'];?>"
+                                                                                data-account_name="<?=$account['account_name'];?>"
+                                                                                data-creator_name="<?=$account['creator_name'];?>"
+                                                                                data-account_number="<?=$account['account_number'];?>"
+                                                                                data-created_at="<?=$account['created_at'];?>"
+                                                                                data-bank_name="<?=$account['bank_name'];?>">
+                                                                                <em class="icon ni ni-eye"></em>
+                                                                                <span>Voir</span>
                                                                             </a>
                                                                         </li>
                                                                     </ul>

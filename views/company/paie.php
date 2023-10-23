@@ -212,6 +212,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 data-salary_month="<?=$usercomp['salary_month'];?>"
                                                                                 data-year_to_date="<?=$usercomp['year_to_date'];?>"
                                                                                 data-net_salary="<?=$usercomp['net_salary'];?>"
+                                                                                data-housing="<?=$usercomp['housing'];?>"
+                                                                                data-transport="<?=$usercomp['transport'];?>"
+                                                                                data-net_after_taxes="<?=$usercomp['net_after_taxes'];?>"
+                                                                                data-advance_salary_amount="<?=$usercomp['advance_salary_amount'];?>"
                                                                                 data-designation="<?=$usercomp['designation'];?>">
                                                                                 <em class="icon ni ni-file-text"></em>
                                                                                 <span>Voir Facture</span>

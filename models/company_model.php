@@ -406,7 +406,7 @@ public function getAllTransactionsDepensesByCreatorAndCompany()
         }
 
         $transactions = $this->db->select(
-            'SELECT t.*, fa.account_name, u.name as staff_name, cde.category_name 
+            'SELECT t.*, fa.account_name, u.name as staff_name, cde.category_name, fa.account_number 
              FROM finance_transactions t
              LEFT JOIN finance_accounts fa ON t.account_id = fa.account_id
              LEFT JOIN users u ON t.staff_id = u.id
@@ -460,7 +460,7 @@ public function getAllTransactionsDepotsByCreatorAndCompany()
         }
 
         $transactions = $this->db->select(
-            'SELECT t.*, fa.account_name, u.name as staff_name, cde.category_name 
+            'SELECT t.*, fa.account_name, u.name as staff_name, cde.category_name, fa.account_number  
              FROM finance_transactions t
              LEFT JOIN finance_accounts fa ON t.account_id = fa.account_id
              LEFT JOIN users u ON t.staff_id = u.id
@@ -503,12 +503,12 @@ public function getAllTransactionsByCreatorAndCompany()
         }
 
         $transactions = $this->db->select(
-            'SELECT t.*, fa.account_name, u.name as staff_name, cde.category_name 
+            'SELECT t.*, fa.account_name, u.name as staff_name, cde.category_name, fa.account_number
              FROM finance_transactions t
              LEFT JOIN finance_accounts fa ON t.account_id = fa.account_id
              LEFT JOIN users u ON t.staff_id = u.id
              LEFT JOIN constants_dep_exp cde ON t.entity_category_id = cde.constants_id
-             WHERE (t.added_by = :userId OR t.company_id = :companyId)',
+             WHERE (t.added_by = :userId AND t.company_id = :companyId)',
             ['userId' => $userId, 'companyId' => $companyId]
         );        
 
@@ -632,6 +632,10 @@ public function getAllUsersByCreatorAndCompany()
                 p.payslip_code as payslip_code, 
                 p.salary_month as salary_month, 
                 p.net_salary as net_salary, 
+                p.housing as housing, 
+                p.transport as transport, 
+                p.advance_salary_amount as advance_salary_amount, 
+                p.net_after_taxes as net_after_taxes, 
                 os.total_time as total_time
                 FROM users u
                 LEFT JOIN country c ON u.country_id = c.id
@@ -768,11 +772,11 @@ public function getAllAccountsByCreatorAndCompany()
 
         $accounts = $this->db->select(
             'SELECT a.*, u.name as creator_name
-             FROM finance_accounts a
-             LEFT JOIN users u ON a.added_by = u.id
-             WHERE a.added_by = :userId OR a.company_id = :companyId',
+            FROM finance_accounts a
+            LEFT JOIN users u ON a.added_by = u.id
+            WHERE a.added_by = :userId OR a.company_id = :companyId',
             ['userId' => $userId, 'companyId' => $companyId]
-        );
+        );  
 
         if (!is_array($accounts)) {
             return [];

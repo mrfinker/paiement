@@ -33,9 +33,17 @@ class Company extends Controller
     {
         $this->view->render('company/paie', true);
     }
-    public function invoice()
+    public function invoice_paie()
     {
-        $this->view->render('company/invoice', true);
+        $this->view->render('company/invoice_paie', true);
+    }
+    public function invoice_account()
+    {
+        $this->view->render('company/invoice_account', true);
+    }
+    public function invoice_transaction()
+    {
+        $this->view->render('company/invoice_transaction', true);
     }
     public function invoiceprint()
     {
@@ -488,6 +496,19 @@ class Company extends Controller
             $description = $_POST['description'];
             $transaction_type = "depense";
 
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $transactionsValue = '';
+            for ($i = 0; $i < 15; $i++) {
+                $transactionsValue .= $characters[mt_rand(0, strlen($characters) - 1)];
+            }
+
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
+            $transactionsCode = '#'; // Commence par #
+
+            for ($i = 0; $i < 6; $i++) {
+                $transactionsCode .= $characters[mt_rand(0, strlen($characters) - 1)];
+            }
+
             // TODO: Ajoutez des vérifications pour s'assurer que accountName et type sont valides.
 
             // Par exemple, pour vérifier si cette catégorie et ce type existent déjà, 
@@ -504,6 +525,8 @@ class Company extends Controller
                 'reference' => $reference,
                 'description' => $description,
                 'transaction_type' => $transaction_type,
+                'transactions_value' => $transactionsValue,
+                'transactions_code' => $transactionsCode,
                 'company_id' => $companyId,
                 'added_by' => $userId,
             ];
@@ -568,6 +591,19 @@ class Company extends Controller
             $description = $_POST['description'];
             $transaction_type = "depot";
 
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $transactionsValue = '';
+            for ($i = 0; $i < 15; $i++) {
+                $transactionsValue .= $characters[mt_rand(0, strlen($characters) - 1)];
+            }
+
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
+            $transactionsCode = '#'; // Commence par #
+
+            for ($i = 0; $i < 6; $i++) {
+                $transactionsCode .= $characters[mt_rand(0, strlen($characters) - 1)];
+            }
+
             // TODO: Ajoutez des vérifications pour s'assurer que accountName et type sont valides.
 
             // Par exemple, pour vérifier si cette catégorie et ce type existent déjà, 
@@ -584,6 +620,8 @@ class Company extends Controller
                 'reference' => $reference,
                 'description' => $description,
                 'transaction_type' => $transaction_type,
+                'transactions_value' => $transactionsValue,
+                'transactions_code' => $transactionsCode,
                 'company_id' => $companyId,
                 'added_by' => $userId,
             ];
@@ -1177,9 +1215,24 @@ class Company extends Controller
             $accountBalance = $_POST['account_balance'];
             $bankName = strtoupper($_POST['bank_name']);
 
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $accountValue = '';
+            for ($i = 0; $i < 20; $i++) {
+                $accountValue .= $characters[mt_rand(0, strlen($characters) - 1)];
+            }
+
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
+            $accountCode = '#'; // Commence par #
+
+            for ($i = 0; $i < 10; $i++) {
+                $accountCode .= $characters[mt_rand(0, strlen($characters) - 1)];
+            }
+
             // TODO: Ajoutez une validation pour chacun des champs pour s'assurer qu'ils sont correctement remplis.
 
             $data = [
+                'account_value' => $accountValue,
+                'account_code' => $accountCode,
                 'account_name' => $accountName,
                 'account_number' => $accountNumber,
                 'account_balance' => $accountBalance,

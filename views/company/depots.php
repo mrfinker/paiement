@@ -161,7 +161,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                             <!-- .nk-tb-item -->
                                             <!-- .nk-tb-item -->
                                             <tr class="nk-tb-item odd">
-
                                                 <td class="nk-tb-col tb-col-md">
                                                     <span><?=$transaction['num']?></span>
                                                 </td>
@@ -238,6 +237,25 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
                                                                             </a>
+                                                                            <a
+                                                                                href="#"
+                                                                                class="voir_button_transaction-depexp"
+                                                                                data-id="<?=$transaction['transactions_id'];?>"
+                                                                                data-created_at="<?=$transaction['created_at'];?>"
+                                                                                data-transactions_value="<?=$transaction['transactions_value'];?>"
+                                                                                data-transactions_code="<?=$transaction['transactions_code'];?>"
+                                                                                data-reference="<?=$transaction['reference'];?>"
+                                                                                data-transactions_amount="<?=$transaction['amount'];?>"
+                                                                                data-transactions_date="<?=$transaction['transaction_date'];?>"
+                                                                                data-transactions_method="<?=$transaction['payement_method'];?>"
+                                                                                data-staff_name="<?=$transaction['staff_name'];?>"
+                                                                                data-category_name="<?=$transaction['category_name'];?>"
+                                                                                data-account_name="<?=$transaction['account_name'];?>"
+                                                                                data-account_number="<?=$transaction['account_number'];?>"
+                                                                                data-transactions_entity="<?=$transaction['entity_category_id'];?>">
+                                                                                <em class="icon ni ni-eye"></em>
+                                                                                <span>voir</span>
+                                                                            </a>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -300,6 +318,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
             <div class="modal-body">
                 <form id="registerFormDepots" method="POST">
                     <div class="row gy-4">
+                        
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label" for="account_name">Nom du compte</label>
@@ -308,13 +327,13 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                         class="form-select js-select2 select2-hidden-accessible"
                                         aria-hidden="true"
                                         name="account_name"
-                                        id="account_name"
                                         required="required"
                                         data-ui="lg">
                                         <option disabled="disabled" selected="selected">Choisissez le compte</option>
                                         <?php foreach ($accounts as $account) { ?>
                                         <option value="<?= $account['account_id']; ?>"><?= $account['account_name']; ?></option>
                                         <?php } ?>
+                                        
                                     </select>
 
                                 </div>

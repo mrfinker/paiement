@@ -1570,6 +1570,7 @@ $(document).ready(function () {
         );
     });
 
+    // Voir facture paiement
     $(document).on('click', '.facture_button_usercomp', function (e) {
         e.preventDefault();
 
@@ -1587,6 +1588,9 @@ $(document).ready(function () {
         let year_to_date = $(this).data('year_to_date');
         let designation = $(this).data('designation');
         let net_salary = $(this).data('net_salary');
+        let housing = $(this).data('housing');
+        let transport = $(this).data('transport');
+        let net_after_taxes = $(this).data('net_after_taxes');
 
         // Stocker les données dans le localStorage ou sessionStorage
         sessionStorage.setItem('id', id);
@@ -1603,8 +1607,11 @@ $(document).ready(function () {
         sessionStorage.setItem('year_to_date', year_to_date);
         sessionStorage.setItem('designation', designation);
         sessionStorage.setItem('net_salary', net_salary);
+        sessionStorage.setItem('housing', housing);
+        sessionStorage.setItem('transport', transport);
+        sessionStorage.setItem('net_after_taxes', net_after_taxes);
 
-        let url = `${baseUrl}company/invoice?payslip_value=${payslip_value}`;
+        let url = `${baseUrl}company/invoice_paie?payslip_value=${payslip_value}`;
         window.open(url, '_blank');
     });
 
@@ -1622,6 +1629,9 @@ $(document).ready(function () {
         let salary_month = sessionStorage.getItem('salary_month');
         let designation = sessionStorage.getItem('designation');
         let net_salary = sessionStorage.getItem('net_salary');
+        let housing = sessionStorage.getItem('housing');
+        let transport = sessionStorage.getItem('transport');
+        let net_after_taxes = sessionStorage.getItem('net_after_taxes');
 
         // Sélectionner l'élément par son ID et changer son contenu Utiliser les données
         // récupérées comme vous le souhaitez
@@ -1655,6 +1665,175 @@ $(document).ready(function () {
         document
             .getElementById('net_salary')
             .textContent = net_salary;
+        document
+            .getElementById('housing')
+            .textContent = housing + " $";
+        document
+            .getElementById('transport')
+            .textContent = transport + " $";
+        document
+            .getElementById('net_after_taxes')
+            .textContent = net_after_taxes + " $";
+
+    });
+
+    // voir facture du compte
+    $(document).on('click', '.view_button_comptes', function (e) {
+        e.preventDefault();
+
+        let id = $(this).data('id');
+        let account_name = $(this).data('account_name');
+        let creator_name = $(this).data('creator_name');
+        let account_code = $(this).data('account_code');
+        let account_value = $(this).data('account_value');
+        let account_number = $(this).data('account_number');
+        let bank_name = $(this).data('bank_name');
+        let created_at = $(this).data('created_at');
+
+        // Stocker les données dans le localStorage ou sessionStorage
+        sessionStorage.setItem('id', id);
+        sessionStorage.setItem('account_name', account_name);
+        sessionStorage.setItem('creator_name', creator_name);
+        sessionStorage.setItem('account_code', account_code);
+        sessionStorage.setItem('account_value', account_value);
+        sessionStorage.setItem('account_number', account_number);
+        sessionStorage.setItem('bank_name', bank_name);
+        sessionStorage.setItem('created_at', created_at);
+
+        let url = `${baseUrl}company/invoice_account?account_value=${account_value}?linked-solution?`;
+        window.open(url, '_blank');
+    });
+
+    $(document).ready(function () {
+        let account_name = sessionStorage.getItem('account_name');
+        let account_name_2 = account_name;
+        let creator_name = sessionStorage.getItem('creator_name');
+        let account_number = sessionStorage.getItem('account_number');
+        let bank_name = sessionStorage.getItem('bank_name');
+        let created_at = sessionStorage.getItem('created_at');
+        
+        // Obtenez la date actuelle
+        let today = new Date();
+        // Obtenez la date au format "AAAA-MM-JJ" (par exemple, "2023-10-25")
+        let todayDate = today.toISOString().split('T')[0];
+        
+        // Sélectionner l'élément par son ID et changer son contenu Utiliser les données
+        // récupérées comme vous le souhaitez
+        document
+            .getElementById('account_name')
+            .textContent = account_name;
+        document
+            .getElementById('account_name_2')
+            .textContent = account_name_2;
+        document
+            .getElementById('creator_name')
+            .textContent = creator_name;
+        document
+            .getElementById('account_number')
+            .textContent = account_number;
+        document
+            .getElementById('bank_name')
+            .textContent = bank_name;
+        document
+            .getElementById('today_date')
+            .textContent = todayDate;
+        document
+            .getElementById('created_at')
+            .textContent = created_at;
+
+    });
+
+    // voir facture du depot
+    $(document).on('click', '.voir_button_transaction-depexp', function (e) {
+        e.preventDefault();
+
+        let id = $(this).data('id');
+        let transactions_amount = $(this).data('transactions_amount');
+        let transactions_date = $(this).data('transactions_date');
+        let transactions_method = $(this).data('transactions_method');
+        let transactions_value = $(this).data('transactions_value');
+        let transactions_code = $(this).data('transactions_code');
+        let reference = $(this).data('reference');
+        let staff_name = $(this).data('staff_name');
+        let category_name = $(this).data('category_name');
+        let account_name = $(this).data('account_name');
+        let account_number = $(this).data('account_number');
+        let created_at = $(this).data('created_at');
+
+        // Stocker les données dans le localStorage ou sessionStorage
+        sessionStorage.setItem('id', id);
+        sessionStorage.setItem('transactions_amount', transactions_amount);
+        sessionStorage.setItem('transactions_date', transactions_date);
+        sessionStorage.setItem('transactions_method', transactions_method);
+        sessionStorage.setItem('transactions_value', transactions_value);
+        sessionStorage.setItem('transactions_code', transactions_code);
+        sessionStorage.setItem('reference', reference);
+        sessionStorage.setItem('account_name', account_name);
+        sessionStorage.setItem('account_number', account_number);
+        sessionStorage.setItem('staff_name', staff_name);
+        sessionStorage.setItem('category_name', category_name);
+        sessionStorage.setItem('created_at', created_at);
+
+        let url = `${baseUrl}company/invoice_transaction?transaction=${transactions_value}?linked-solution?`;
+        window.open(url, '_blank');
+    });
+
+    $(document).ready(function () {
+        let transactions_amount = sessionStorage.getItem('transactions_amount');
+        let transactions_amount_2 = transactions_amount;
+        let transactions_date = sessionStorage.getItem('transactions_date');
+        let transactions_method = sessionStorage.getItem('transactions_method');
+        let reference = sessionStorage.getItem('reference');
+        let account_name = sessionStorage.getItem('account_name');
+        let account_name_2 = account_name;
+        let account_number = sessionStorage.getItem('account_number');
+        let staff_name = sessionStorage.getItem('staff_name');
+        let category_name = sessionStorage.getItem('category_name');
+        let created_at = sessionStorage.getItem('created_at');
+        
+        // Obtenez la date actuelle
+        let today = new Date();
+        // Obtenez la date au format "AAAA-MM-JJ" (par exemple, "2023-10-25")
+        let todayDate = today.toISOString().split('T')[0];
+        
+        // Sélectionner l'élément par son ID et changer son contenu Utiliser les données
+        // récupérées comme vous le souhaitez
+        document
+            .getElementById('transactions_date')
+            .textContent = transactions_date;
+        document
+            .getElementById('reference')
+            .textContent = reference;
+        document
+            .getElementById('account_name')
+            .textContent = account_name;
+        document
+            .getElementById('account_number')
+            .textContent = account_number;
+        document
+            .getElementById('account_name_2')
+            .textContent = account_name_2;
+        document
+            .getElementById('transactions_method')
+            .textContent = transactions_method;
+        document
+            .getElementById('category_name')
+            .textContent = category_name;
+        document
+            .getElementById('transactions_amount')
+            .textContent = transactions_amount + " $";
+        document
+            .getElementById('transactions_amount_2')
+            .textContent = transactions_amount_2 + " $";
+        document
+            .getElementById('staff_name')
+            .textContent = staff_name;
+        document
+            .getElementById('today_date')
+            .textContent = todayDate;
+        document
+            .getElementById('created_at')
+            .textContent = created_at;
 
     });
 
