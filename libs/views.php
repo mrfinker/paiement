@@ -10,10 +10,7 @@ class Views
     public $active;
     public $login;
     public $notification;
-    public $infraction;
-    public $findPersonne;
-    public $findProces;
-    public $findPersonById;
+    public $userc;
     public function __construct()
     {
     }

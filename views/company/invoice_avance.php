@@ -14,13 +14,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
     header('Location:' . ERROR);
     exit;
 }
-    $companyModel = new company_model();
-    $userc = $companyModel->getAllUsersByCreatorAndCompany();
-    $usersRoles = $companyModel->getAllUserRoles();
-    $usersDepartements = $companyModel->getAllDepartmentsByCreatorAndCompany();
-    $countries = $companyModel->getAllCountry();
-    $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
-    
 
 ?>
 <?php include_once './views/include/header.php'; ?>
@@ -31,7 +24,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                             <div class="nk-block-head">
                                 <div class="nk-block-between g-3">
                                     <div class="nk-block-head-content">
-                                        <h3 class="nk-block-title page-title">Bulletin de paie <strong class="text-primary small" id="payslip_code"></strong></h3>
+                                        <h3 class="nk-block-title page-title">Facture avance <strong class="text-primary small" id="avance_code"></strong></h3>
                                         <div class="nk-block-des text-soft">
                                             <ul class="list-inline">
                                                 <li>Créé à: <span class="text-base" id="created_at"></span></li>
@@ -55,23 +48,21 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                         </div>
                                         <div class="invoice-head">
                                             <div class="invoice-desc">
-                                                <span class="overline-title">Facture à</span>
+                                                <span class="overline-title">Facture de</span>
                                                 <div class="invoice-contact-info">
-                                                    <h4 class="title" id="name"></h4>
+                                                    <h4 class="title" id="account_name_2" style="width: 250px;"></h4>
                                                     <ul class="list-plain">
-                                                        <li class="invoice-id"><span>Adresse</span>:<span id="address"></span></li>
-                                                        <li class="invoice-date"><span>Telephone</span>:<span id="phone"></span></li>
-                                                        <li class="invoice-date"><span>Departement</span>:<span id="department"></span></li>
-                                                        <li class="invoice-date" style="width:300px;"><span>Branche</span>:<span id="designation"></span></li>
+                                                        <li class="invoice-date" style="width:300px;"><span>Compagnie</span> : <span id="company_name"></span></li>
+                                                        <li class="invoice-date" style="width:300px;"><span>Numero de reference</span> : <span id="avance_reference"></span></li>
+                                                        <li class="invoice-date" style="width:300px;"><span>Date de paiement</span> : <span id="month_year"></span></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                             <div class="invoice-desc">
-                                                <h3 class="title">Facture</h3>
+                                                <h3 class="title" style="font-size:large">Infos</h3>
                                                 <ul class="list-plain">
-                                                    <li class="invoice-id"><span>Facture</span>:<span id="payslip_code_"></span></li>
-                                                    <li class="invoice-date"><span>Date</span>:<span id="invoice_date_value"></span></li>
-                                                    <li class="invoice-date"><span>Date paiement</span>:<span id="salary_month"></span></li>
+                                                    <li class="invoice-id"><span>Date </span> : <span id="today_date"></span></li>
+                                                    <li class="invoice-id"><span>Chargé </span> : <span id="staff_name"></span></li>
                                                 </ul>
                                             </div>
                                         </div><!-- .invoice-head -->
@@ -83,66 +74,32 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                             <th class="w-60">Description</th>
                                                             <th></th>
                                                             <th></th>
-                                                            <th></th>
-                                                            <th class="w-60">Montant</th>
+                                                            <th>Type</th>
+                                                            <th class="w-10">Montant</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <span>
-                                                                    Salaire apres taxe
+                                                                <span id="description">
                                                                 </span>
                                                             </td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td></td>
-                                                            <td id="net_after_taxes"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                            <span>
-                                                                    Maison
-                                                                </span>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td id="housing"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                            <span>
-                                                                    Transport
-                                                                </span>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td id="transport"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                            <span>
-                                                                    Avance sur salaire
-                                                                </span>
-                                                            </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td id="advance_salary"></td>
+                                                            <td id="paiement_type"></td>
+                                                            <td id="advance_amount"></td>
                                                         </tr>
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
                                                             <td colspan="2"></td>
-                                                            <td colspan="2">Salaire net</td>
-                                                            <td id="net_salary"></td>
+                                                            <td colspan="2">Montant</td>
+                                                            <td id="transactions_amount_2"></td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="2"></td>
                                                             <td colspan="2"></td>
-                                                            <td ></td>
+                                                            <td></td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>

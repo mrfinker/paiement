@@ -629,7 +629,7 @@ $(document).ready(function () {
         function (e) { // ajusté pour cibler le formulaire, pas le bouton
             e.preventDefault();
 
-            let account_name = $("#account_name").val();
+            let account_name = $("[name='account_name']").val();
             let amount = $("#amount").val();
             let transaction_date = $("#transaction_date").val();
             let parts = transaction_date.split('/');
@@ -716,7 +716,7 @@ $(document).ready(function () {
         function (e) { // ajusté pour cibler le formulaire, pas le bouton
             e.preventDefault();
 
-            let account_name = $("#account_name").val();
+            let account_name = $("[name='account_name']").val();
             let amount = $("#amount").val();
             let transaction_date = $("#transaction_date").val();
             let parts = transaction_date.split('/');
@@ -1213,10 +1213,9 @@ $(document).ready(function () {
             contentType: false,
             data: formData,
             success: function (res) {
+                console.log(res);
                 if (res.status === 200) {
-                    window
-                        .location
-                        .reload();
+                    window.location.reload();
                     Swal.fire({icon: "success", title: "Mise à jour réussie", text: res.msg});
                 } else if (res.status === 409) {
                     Swal.fire(
@@ -1226,7 +1225,8 @@ $(document).ready(function () {
                     Swal.fire({icon: "error", title: "Erreur", text: res.msg});
                 }
             },
-            error: function () {
+            error: function (error) {
+                console.log(error);
                 Swal.fire(
                     {icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."}
                 );
@@ -1278,12 +1278,40 @@ $(document).ready(function () {
         $("#UpdateModalUsercomp").modal("show");
     });
 
+    // voir utilisateur(recuperation donnees)
+    $(document).on("click", ".voir_button_usercomp", function (e) {
+        e.preventDefault();
+    let imageUrl = $(this).data("userview_image");
+
+        $("#viewimage").attr("src", imageUrl);
+        let id = parseInt($(this).data("id"));
+        let name = $(this).data("userview_name");
+        let username = $(this).data("userview_username");
+        let email = $(this).data("userview_email");
+        let phone = $(this).data("userview_phone");
+        let address = $(this).data("userview_address");
+        let birthday = $(this).data("userview_birthday");
+        $("#viewname").val(name);
+        $("#viewusername").val(username);
+        $("#viewemail").val(email);
+        $("#viewphone").val(phone);
+        $("#viewaddress").val(address);
+        $("#viewbirthday").val(birthday);
+        $(".id_users").val(id);
+        $("#viewModalProfile").modal("show");
+    });
+
     // Paye calcul et affichage
     $(document).on("click", ".paye_button_usercomp", function (e) {
         e.preventDefault();
         let id = parseInt($(this).data("id"));
         let bs = parseFloat($(this).data("basic_salary"));
         let hours_time = Number($(this).data("total_time"));
+        let children = Number($(this).data("children"));
+        let spouse = Number($(this).data("spouse"));
+        let timesheet_count = Number($(this).data("timesheet_count"));
+        let advanced_salary = Number($(this).data("advanced_salary"));
+        console.log(advanced_salary)
         let regularization = 0;
         // Number($(this).data("regularization"))
         let other = 0;
@@ -1292,12 +1320,6 @@ $(document).ready(function () {
         // Number($(this).data("leave"))
         let monthlastone = 0;
         // Number($(this).data("monthlastone"))
-        let advanced_salary = 0;
-        // Number($(this).data("advanced_salary"))
-        let children = 0;
-        // Number($(this).data("children"))
-        let spouse = 0;
-        // Number($(this).data("spouse"))
         let telephone = 0;
         // Number($(this).data("telephone"))
         let country = $(this).data("country")
@@ -1305,6 +1327,7 @@ $(document).ready(function () {
         $("#basic_salary").val(bs);
         $("#hours_time").val(hours_time);
         $("#country").text(`${country}`);
+        $("#timesheet_count").val(`${timesheet_count}`);
         $(".id_users").val(id);
         $("#payeModalUsercomp").modal("show");
 
@@ -1315,8 +1338,44 @@ $(document).ready(function () {
         let total_hours_month = parseInt(hours_time * 4);
         let jours = Number(Math.floor(total_hours_month / 8)); // 8 heures par jour
         let heures = parseInt(total_hours_month % 8); // Le reste des heures
+        
+        // Calcul du salaire de base new
+        let absent_days = jours - timesheet_count;
+        if (absent_days < 0) {
+            absent_days = 0; // Si absent_days est négatif, définissez-le à 0
+        }
+        $("#absent_days").val(absent_days); // Mettez à jour la valeur du champ "Jours absent"
 
-        if (isNaN(regularization)) 
+        if (absent_days >= jours) {
+            $("#final_salary_display").text('0 $');
+            $("#transport_display").text('0 $');
+            console.log(absent_days);
+        } else {
+            let jours_travailles = jours - absent_days;
+
+            let bsp = (bs+(bs*0))/jours*jours_travailles
+            let salary_imposable = bsp + regularization + other + leave +
+                monthlastone;
+            // Le reste de votre code ici, et utilisez salary_imposable comme vous le
+            // souhaitez.
+            $("#salary_imposable_display").text(salary_imposable + " $");
+            $("#salary_imposable").val(salary_imposable.toFixed(2));
+
+            let housing = (bsp + regularization + leave) * 30 / 100;
+            if (isNaN(housing)){
+                housing = 0;
+            }
+            
+            // Afficher la valeur de net_before_taxes dans le DOM, si vous avez un élément
+            // HTML approprié pour cela
+            $("#housing_display").text(housing + " $");
+            $("#housing").val(housing);
+
+            let Transport = 0.545454545454545 * 4 * jours_travailles;
+            $("#transport_display").text(Transport.toFixed(2) + " $");
+            $("#transport").val(Transport.toFixed(2));
+
+            if (isNaN(regularization)) 
             regularization = 0;
         $("#regularization").text(`${regularization} / Regularization`);
         if (isNaN(other)) 
@@ -1339,13 +1398,8 @@ $(document).ready(function () {
             telephone = 0;
         $("#telephone").text(`${telephone} / Telephone`);
 
-        $("#jours").text(jours + " jours " + heures + " heures/ mois");
-        let salary_imposable = bs + regularization + other + leave +
-                monthlastone;
-        // Le reste de votre code ici, et utilisez salary_imposable comme vous le
-        // souhaitez.
-        $("#salary_imposable_display").text(salary_imposable + " $");
-        $("#salary_imposable").val(salary_imposable.toFixed(2));
+        $("#jours").text(jours + " jours" + " / mois");
+        
 
         let cnss_company = salary_imposable * 13 / 100;
         $("#cnss_company_display").text(cnss_company + " $");
@@ -1428,47 +1482,21 @@ $(document).ready(function () {
         $("#net_after_taxes_display").text(net_after_taxes.toFixed(2) + " $");
         $("#net_after_taxes").val(net_after_taxes.toFixed(2));
 
-        let housing = (bs + regularization + leave) * 30 / 100;
-        if (isNaN(housing)) 
-            housing = 0;
         
-        // Afficher la valeur de net_before_taxes dans le DOM, si vous avez un élément
-        // HTML approprié pour cela
-        $("#housing_display").text(housing + " $");
-        $("#housing").val(housing);
 
-        // Calcul du salaire de base new
-        $('#absent_days').on('input', function () {
-            let absent_days = Number($(this).val()); // convertir la valeur en number, si la conversion échoue, ça devient NaN
+            let salaire_final = (bsp / jours) * jours_travailles;
+            $("#final_salary_display").text(salaire_final.toFixed(2) + " $");
+            $("#final_salary").val(salaire_final.toFixed(2));
 
-            if (isNaN(absent_days) || absent_days < 0) 
-                absent_days = 0; // si la conversion échoue ou la valeur est négative, définir la valeur à 0
-            
-            if (absent_days >= jours) {
-                $("#final_salary_display").text('0 $');
-                $("#transport_display").text('0 $');
-                console.log(absent_days);
-            } else {
-                let jours_travailles = Number(jours - Number(absent_days));
-                let Transport = 0.545454545454545 * 4 * jours_travailles;
-                $("#transport_display").text(Transport.toFixed(2) + " $");
-                $("#transport").val(Transport.toFixed(2));
+            let salary_net = net_after_taxes + housing + Transport + telephone - advanced_salary;
+            $("#salary_net_display").text(salary_net.toFixed(2) + " $");
+            $("#salary_net").val(salary_net.toFixed(2));
 
-                let salaire_final = (bs / jours) * jours_travailles;
-                $("#final_salary_display").text(salaire_final.toFixed(2) + " $");
-                $("#final_salary").val(salaire_final.toFixed(2));
+            let salary_brut_company = salary_net + cnss + cnss_company + ipr + iere + inpp + onem;
+            $("#salary_brut_company_display").text(salary_brut_company.toFixed(2) + " $");
+            $("#salary_brut_company").val(salary_brut_company.toFixed(2));
+        }
 
-                let salary_net = net_after_taxes + housing + Transport + telephone - advanced_salary
-                $("#salary_net_display").text(salary_net.toFixed(2) + " $");
-                $("#salary_net").val(salary_net.toFixed(2));
-
-                let salary_brut_company = salary_net + cnss + cnss_company + ipr + iere +
-                        inpp + onem;
-                $("#salary_brut_company_display").text(salary_brut_company.toFixed(2) + " $");
-                $("#salary_brut_company").val(salary_brut_company.toFixed(2));
-            }
-
-        });
     });
 
     // Ajouter payements
@@ -1532,6 +1560,46 @@ $(document).ready(function () {
 
     // selection departement pour afficher sa branche
     $(document).ready(function () {
+        $('select[name="department_id"]').on(
+            'change',
+            function () { // Ajusté ici
+                var departmentId = $(this).val();
+
+                if (departmentId) {
+                    $.ajax({
+                        url: `${baseUrl}company/handleAjaxRequest`,
+                        type: 'POST',
+                        data: {
+                            departmentId: departmentId
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var designationSelect = $('select[name="designation_id"]');
+                            designationSelect.empty();
+                            designationSelect.append(
+                                '<option value="" disabled selected>Choisissez la branche</option>'
+                            );
+
+                            $.each(data, function (key, value) {
+                                designationSelect.append(
+                                    '<option value="' + value.designation_id + '">' + value.designation_name + '</o' +
+                                    'ption>'
+                                );
+                            });
+
+                            designationSelect.prop('disabled', false);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error('AJAX Error:', textStatus, errorThrown); // Log pour débugger
+                        }
+                    });
+                }
+            }
+        );
+    });
+
+    // selection departement pour afficher sa branche
+    $(document).ready(function () {
         $('select[name="updatedepartment_id"]').on(
             'change',
             function () { // Ajusté ici
@@ -1549,7 +1617,7 @@ $(document).ready(function () {
                             var designationSelect = $('select[name="updatedesignation_id"]');
                             designationSelect.empty();
                             designationSelect.append(
-                                '<option value="" disabled selected>Designations</option>'
+                                '<option value="" disabled selected>Choisissez la branche</option>'
                             );
 
                             $.each(data, function (key, value) {
@@ -1587,9 +1655,11 @@ $(document).ready(function () {
         let salary_month = $(this).data('salary_month');
         let year_to_date = $(this).data('year_to_date');
         let designation = $(this).data('designation');
+        let department = $(this).data('department');
         let net_salary = $(this).data('net_salary');
         let housing = $(this).data('housing');
         let transport = $(this).data('transport');
+        let advance_salary = $(this).data('advance_salary');
         let net_after_taxes = $(this).data('net_after_taxes');
 
         // Stocker les données dans le localStorage ou sessionStorage
@@ -1606,9 +1676,11 @@ $(document).ready(function () {
         sessionStorage.setItem('salary_month', salary_month);
         sessionStorage.setItem('year_to_date', year_to_date);
         sessionStorage.setItem('designation', designation);
+        sessionStorage.setItem('department', department);
         sessionStorage.setItem('net_salary', net_salary);
         sessionStorage.setItem('housing', housing);
         sessionStorage.setItem('transport', transport);
+        sessionStorage.setItem('advance_salary', advance_salary);
         sessionStorage.setItem('net_after_taxes', net_after_taxes);
 
         let url = `${baseUrl}company/invoice_paie?payslip_value=${payslip_value}`;
@@ -1628,9 +1700,11 @@ $(document).ready(function () {
         let payslip_code_ = payslip_code;
         let salary_month = sessionStorage.getItem('salary_month');
         let designation = sessionStorage.getItem('designation');
+        let department = sessionStorage.getItem('department');
         let net_salary = sessionStorage.getItem('net_salary');
         let housing = sessionStorage.getItem('housing');
         let transport = sessionStorage.getItem('transport');
+        let advance_salary = sessionStorage.getItem('advance_salary');
         let net_after_taxes = sessionStorage.getItem('net_after_taxes');
 
         // Sélectionner l'élément par son ID et changer son contenu Utiliser les données
@@ -1663,6 +1737,9 @@ $(document).ready(function () {
             .getElementById('designation')
             .textContent = designation;
         document
+            .getElementById('department')
+            .textContent = department;
+        document
             .getElementById('net_salary')
             .textContent = net_salary;
         document
@@ -1671,6 +1748,9 @@ $(document).ready(function () {
         document
             .getElementById('transport')
             .textContent = transport + " $";
+        document
+            .getElementById('advance_salary')
+            .textContent = advance_salary + " $";
         document
             .getElementById('net_after_taxes')
             .textContent = net_after_taxes + " $";
@@ -1700,11 +1780,12 @@ $(document).ready(function () {
         sessionStorage.setItem('bank_name', bank_name);
         sessionStorage.setItem('created_at', created_at);
 
-        let url = `${baseUrl}company/invoice_account?account_value=${account_value}?linked-solution?`;
+        let url = `${baseUrl}company/invoice_account`;
         window.open(url, '_blank');
     });
 
     $(document).ready(function () {
+        let account_id = sessionStorage.getItem('id');
         let account_name = sessionStorage.getItem('account_name');
         let account_name_2 = account_name;
         let creator_name = sessionStorage.getItem('creator_name');
@@ -1741,9 +1822,64 @@ $(document).ready(function () {
             .getElementById('created_at')
             .textContent = created_at;
 
+            $.ajax({
+                url: `${baseUrl}company/getAllAccountsByCreatorAndCompany_hack`,
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    account_id
+                },
+                success: function (res) {
+                    // Obtenez la table du corps du tableau
+                    var tableBody = $(".table tbody");
+            
+                    // Réinitialisez les totaux
+                    var soldeInitial = 0;
+                    var depenses = 0;
+                    var depots = 0;
+            
+                    // Parcourez les données renvoyées
+                    for (var i = 0; i < res.data.length; i++) {
+                        var transaction = res.data[i];
+            
+                        // Créez une nouvelle ligne et ajoutez les données dans les cellules
+                        var row = $("<tr>");
+                        row.append($("<td>").text(transaction.reference));
+                        row.append($("<td>").text(transaction.transaction_date));
+                        row.append($("<td>").text(transaction.name));
+                        row.append($("<td>").text(transaction.transaction_type));
+                        row.append($("<td>").text(transaction.amount));
+            
+                        // Ajoutez la ligne au corps du tableau
+                        tableBody.append(row);
+            
+                        // Effectuez des calculs en fonction du type de transaction
+                        if (transaction.transaction_type === "depense") {
+                            depenses += parseFloat(transaction.amount);
+                        } else if (transaction.transaction_type === "depot") {
+                            depots += parseFloat(transaction.amount);
+                        }
+                    }
+            
+                    // Récupérez le solde initial à partir de la première transaction
+                    if (res.data.length > 0) {
+                        soldeInitial = parseFloat(res.data[0].account_opening_balance);
+                    }
+            
+                    var reste = soldeInitial - depenses + depots;
+            
+                    $("#solde_initial").text(soldeInitial);
+                    $("#depenses").text(depenses);
+                    $("#depots").text(depots);
+                    $("#Reste").text(reste);
+                }
+            });
+            
+            
+
     });
 
-    // voir facture du depot
+    // voir facture depot et depense 
     $(document).on('click', '.voir_button_transaction-depexp', function (e) {
         e.preventDefault();
 
@@ -1831,6 +1967,102 @@ $(document).ready(function () {
         document
             .getElementById('today_date')
             .textContent = todayDate;
+        document
+            .getElementById('created_at')
+            .textContent = created_at;
+
+    });
+
+    // voir facture avance sur salaire 
+    $(document).on('click', '.voir_button_advanced', function (e) {
+        e.preventDefault();
+
+        let id = $(this).data('id');
+        let advance_amount = $(this).data('advance_amount');
+        let month_year = $(this).data('month_year');
+        let paiement_type = $(this).data('paiement_type');
+        let description = $(this).data('description');
+        let avance_reference = $(this).data('avance_reference');
+        let avance_value = $(this).data('avance_value');
+        let avance_code = $(this).data('avance_code');
+        let salary_type = $(this).data('salary_type');
+        let adresse_company = $(this).data('adresse_company');
+        let company_name = $(this).data('company_name');
+        let staff_name = $(this).data('staff_name');
+        let created_at = $(this).data('created_at');
+
+        // Stocker les données dans le localStorage ou sessionStorage
+        sessionStorage.setItem('id', id);
+        sessionStorage.setItem('advance_amount', advance_amount);
+        sessionStorage.setItem('month_year', month_year);
+        sessionStorage.setItem('paiement_type', paiement_type);
+        sessionStorage.setItem('description', description);
+        sessionStorage.setItem('avance_reference', avance_reference);
+        sessionStorage.setItem('avance_value', avance_value);
+        sessionStorage.setItem('avance_code', avance_code);
+        sessionStorage.setItem('salary_type', salary_type);
+        sessionStorage.setItem('adresse_company', adresse_company);
+        sessionStorage.setItem('staff_name', staff_name);
+        sessionStorage.setItem('company_name', company_name);
+        sessionStorage.setItem('created_at', created_at);
+
+        let url = `${baseUrl}company/invoice_avance?avance_value=${avance_value}?linked-solution?`;
+        window.open(url, '_blank');
+    });
+
+    $(document).ready(function () {
+        let advance_amount = sessionStorage.getItem('advance_amount');
+        let month_year = sessionStorage.getItem('month_year');
+        let paiement_type = sessionStorage.getItem('paiement_type');
+        let description = sessionStorage.getItem('description');
+        let avance_reference = sessionStorage.getItem('avance_reference');
+        let avance_code = sessionStorage.getItem('avance_code');
+        let salary_type = sessionStorage.getItem('salary_type');
+        let staff_name = sessionStorage.getItem('staff_name');
+        let adresse_company = sessionStorage.getItem('adresse_company');
+        let company_name = sessionStorage.getItem('company_name');
+        let created_at = sessionStorage.getItem('created_at');
+        
+        // Obtenez la date actuelle
+        let today = new Date();
+        // Obtenez la date au format "AAAA-MM-JJ" (par exemple, "2023-10-25")
+        let todayDate = today.toISOString().split('T')[0];
+        
+        // Sélectionner l'élément par son ID et changer son contenu Utiliser les données
+        // récupérées comme vous le souhaitez
+        document
+            .getElementById('advance_amount')
+            .textContent = advance_amount  + " $";
+        document
+            .getElementById('month_year')
+            .textContent = month_year;
+        document
+            .getElementById('paiement_type')
+            .textContent = paiement_type;
+        document
+                .getElementById('avance_code')
+                .textContent = avance_code;
+        document
+                .getElementById('company_name')
+                .textContent = company_name;
+        document
+            .getElementById('staff_name')
+            .textContent = staff_name;
+        document
+                .getElementById('today_date')
+                .textContent = todayDate;
+        document
+            .getElementById('description')
+            .textContent = description;
+        document
+            .getElementById('avance_reference')
+            .textContent = avance_reference;
+        document
+            .getElementById('salary_type')
+            .textContent = salary_type;
+        document
+            .getElementById('adresse_company')
+            .textContent = adresse_company;
         document
             .getElementById('created_at')
             .textContent = created_at;
@@ -2177,6 +2409,178 @@ $(document).ready(function () {
         $("#staff_id_update").val(timesheet_staffid);
         $(".timesheet_id").val(id);
         $("#UpdateModalTimesheet").modal("show");
+    });
+
+    // Avance sur salaire ajout
+    $(document).on("submit", "#registerFormAvanceSalaire", function (e) { // ajusté pour cibler le formulaire, pas le bouton
+            e.preventDefault();
+
+            let advance_amount = $("#advance_amount").val();
+            let month_year = $("#month_year").val();
+            let parts = month_year.split('/');
+            if (parts.length === 3) {
+                month_year = parts[2] + '-' + parts[0] + '-' + parts[1];
+            } else {
+                parts = month_year.split('-');
+                if (parts.length === 3) {
+                    let year = parts[0];
+                    let month = parts[1];
+                    let day = parts[2];
+                    month_year = year + '-' + month + '-' + day;
+                }
+            }
+            let paiement_type = $("#paiement_type").val();
+            let staff_id = $("#staff_id").val();
+            let avance_reference = $("#avance_reference").val();
+            let description = $("#description").val();
+
+            $.ajax({
+                url: `${baseUrl}company/handleAddavanceSalaire`,
+                method: "POST",
+                dataType: "JSON",
+                data: {
+                    advance_amount,
+                    month_year,
+                    paiement_type,
+                    staff_id,
+                    avance_reference,
+                    description
+                },
+                success: function (res) {
+                    if (res.status === 200) {
+                        let timerInterval;
+                        Swal
+                            .fire({
+                                icon: "success", title: "Enregistrement réussi", text: res.msg, timer: 100, // Par exemple, disparaît après 2 secondes
+                                timerProgressBar: true,
+                                willOpen: () => {
+                                    Swal.showLoading()
+                                    timerInterval = setInterval(() => {
+                                        const content = Swal.getContent();
+                                        if (content) {
+                                            const b = content.querySelector('b');
+                                            if (b) {
+                                                b.textContent = Swal.getTimerLeft()
+                                            }
+                                        }
+                                    }, 100)
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval)
+                                }
+                            })
+                            .then((result) => {
+                                if (result.dismiss === Swal.DismissReason.timer) {
+                                    console.log('Fermé par le timer')
+                                    window.location.href = window.location.href;
+                                }
+                            })
+                    } else {
+                        Swal.fire(
+                            {icon: "error", title: "Erreur lors de l'enregistrement", text: res.msg}
+                        );
+                    }
+                },
+
+                error: function () {
+                    Swal.fire(
+                        {icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."}
+                    );
+                }
+            });
+        }
+    );
+
+    // supprimer Avance sur salaire
+    $(document).on("click", ".delete_button_advanced", function (e) {
+        e.preventDefault();
+        let id = parseInt($(this).data("id"));
+        $.ajax({
+            url: `${baseUrl}company/handleDeleteAvanceSalaire`, // Notez le changement d'URL ici
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                id
+            },
+            success: function (res) {
+                if (res.status === 200) {
+                    window
+                        .location
+                        .reload();
+                    Swal.fire({icon: "success", title: "Suppression réussie", text: res.msg});
+                } else {
+                    Swal.fire({icon: "error", title: "Erreur", text: res.msg});
+                }
+            },
+            error: function () {
+                Swal.fire(
+                    {icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."}
+                );
+            }
+        });
+    });
+
+    // Mise a jour Avance sur salaire(update)
+    $(document).on("submit", "#updateFormAdvanceSalaire", function (e) {
+        e.preventDefault();
+        let id = parseInt($(".advanced_salary_id").val()); // Récupère l'ID de l'utilisateur
+        if (isNaN(id)) {
+            // Gérer l'erreur, par exemple afficher une alerte
+            Swal.fire({icon: "error", title: "Erreur", text: "ID utilisateur non valide"});
+            return;
+        }
+
+        let formData = new FormData(this);
+        formData.append('.advanced_salary_id', id);
+
+        $.ajax({
+            url: `${baseUrl}company/updateAvanceSalaire`,
+            type: "POST",
+            dataType: "JSON",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (res) {
+                if (res.status === 200) {
+                    window
+                        .location
+                        .reload();
+                    Swal.fire({icon: "success", title: "Mise à jour réussie", text: res.msg});
+                } else if (res.status === 409) {
+                    Swal.fire(
+                        {icon: "error", title: "Erreur lors de la mise à jour", text: res.msg}
+                    );
+                } else {
+                    Swal.fire({icon: "error", title: "Erreur", text: res.msg});
+                }
+            },
+            error: function () {
+                Swal.fire(
+                    {icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."}
+                );
+            }
+        });
+    });
+
+    // update avance sur salaire (recuperation donnees)
+    $(document).on("click", ".update_button_advanced", function (e) {
+        e.preventDefault();
+        let id = parseInt($(this).data("id"));
+        let advance_amount = $(this).data("advance_amount");
+        let month_year = $(this).data("month_year");
+        let description = $(this).data("description");
+        let avance_reference = $(this).data("avance_reference");
+        console.log(avance_reference)
+        let paiement_type = $(this).data("paiement_type");
+        let staff_name = $(this).data("staff_name");
+        $("#updatestaff_id").val(staff_name);
+        $("#updateadvance_amount").val(advance_amount);
+        $("#updatemonth_year").val(month_year);
+        $("#updatepaiement_type").val(paiement_type);
+        $("#updateavance_reference").val(avance_reference);
+        $("#updatedescription").val(description);
+        $(".advanced_salary_id").val(id);
+        $("#UpdateModalAvanceSalaire").modal("show");
     });
 
 });

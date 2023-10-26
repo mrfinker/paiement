@@ -272,6 +272,31 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
                                                                             </a>
+                                                                            <a
+                                                                                href="#"
+                                                                                class="voir_button_usercomp"
+                                                                                data-id="<?=$usercomp['id'];?>"
+                                                                                data-userview_name="<?=$usercomp['name'];?>"
+                                                                                data-userview_designation="<?=$usercomp['designation_id'];?>"
+                                                                                data-userview_username="<?=$usercomp['username'];?>"
+                                                                                data-userview_email="<?=$usercomp['email'];?>"
+                                                                                data-userview_phone="<?=$usercomp['phone'];?>"
+                                                                                data-userview_address="<?=$usercomp['address'];?>"
+                                                                                data-userview_birthday="<?=$usercomp['birthday'];?>"
+                                                                                data-userview_departement="<?=$usercomp['departement_id'];?>"
+                                                                                data-userview_marital_status="<?=$usercomp['marital_status'];?>"
+                                                                                data-userview_employeeid="<?=$usercomp['emplyee_id'];?>"
+                                                                                data-userview_working_time="<?=$usercomp['office_shift_id'];?>"
+                                                                                data-userview_salaire_base="<?=$usercomp['basic_salary'];?>"
+                                                                                data-userview_salary_type="<?=$usercomp['salary_type'];?>"
+                                                                                data-userview_country="<?=$usercomp['country_id'];?>"
+                                                                                data-userview_contract_type="<?=$usercomp['contract_type'];?>"
+                                                                                data-userview_gender="<?=$usercomp['gender'];?>"
+                                                                                data-userview_role="<?=$usercomp['user_role_id'];?>"
+                                                                                data-userview_image="<?=$usercomp['image'];?>">
+                                                                                <em class="icon ni ni-eye"></em>
+                                                                                <span>Voir</span>
+                                                                            </a>
                                                                         <li ></li>
                                                                         <li>
                                                                             <?php if(isset($usercomp['is_active']) && $usercomp['is_active'] == 1): ?>
@@ -1047,6 +1072,135 @@ aria-hidden="true">
     </div>
 </div>
 
+</div>
+
+<!-- voir users -->
+<div
+    class="modal fade"
+    id="viewModalProfile"
+    style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">voir l'utilisateur</h5>
+                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+
+            <div class="modal-body">
+                <form id="viewFormUser" method="POST" enctype="multipart/form-data">
+                    <div class="user-avatar sq xl mb-2">
+                            <?php if (isset($usercomp['image']) && !empty($usercomp['image'])): ?>
+                            <img src="" id="viewimage" alt="User Avatar">
+                        <?php else: ?>
+                            <em class="icon ni ni-user-alt"></em>
+                            <?php endif; ?>
+                    </div>
+                    <div class="row gy-4">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="viewname">Votre noms</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="text"
+                                        name="name"
+                                        class="form-control form-control-lg"
+                                        id="viewname"
+                                        disabled="disabled"
+                                        placeholder="Entrer votre noms">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="viewusername">Votre nom utilisateur</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="text"
+                                        name="username"
+                                        class="form-control form-control-lg"
+                                        id="viewusername"
+                                        disabled="disabled"
+                                        placeholder="Entrer votre username">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="viewemail">Votre email</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="email"
+                                        name="email"
+                                        class="form-control form-control-lg"
+                                        id="viewemail"
+                                        disabled="disabled"
+                                        placeholder="Entrer votre email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="viewphone">Votre telephone</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="number"
+                                        name="phone"
+                                        class="form-control form-control-lg"
+                                        id="viewphone"
+                                        disabled="disabled"
+                                        placeholder="Entrer votre numero de telephone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="viewaddress">Votre adresse</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="text"
+                                        name="address"
+                                        class="form-control form-control-lg"
+                                        id="viewaddress"
+                                        disabled="disabled"
+                                        placeholder="Entrer votre adresse">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label" for="viewbirthday">Date d'anniversaire</label>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-lg date-picker"
+                                    name="birthday"
+                                    disabled="disabled"
+                                    id="viewbirthday">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" class="id_users">
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <?php include_once './views/include/footer.php' ?>

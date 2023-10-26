@@ -4,12 +4,15 @@ class Company extends Controller
 {
     public function __construct()
     {
+
         parent::__construct();
+        Session::init();
         $this->view->js = array("company/js/company.js");
     }
 
     public function all_employee()
     {
+        $this->view->userc = $this->model->getAllUsersByCreatorAndCompany();
         $this->view->render('company/all_employee', true);
     }
 
@@ -33,21 +36,38 @@ class Company extends Controller
     {
         $this->view->render('company/paie', true);
     }
+    public function history_paiement()
+    {
+        $this->view->render('company/history_paiement', true);
+    }
     public function invoice_paie()
     {
         $this->view->render('company/invoice_paie', true);
     }
     public function invoice_account()
     {
+        // Récupérez la valeur de account_value depuis la requête GET
+        $accountValue = isset($_GET['account_value']) ? $_GET['account_value'] : '';
         $this->view->render('company/invoice_account', true);
+    }
+
+    public function getAllAccountsByCreatorAndCompany_hack () {
+        if(isset($_POST["account_id"]) && !empty($_POST["account_id"])){
+            $get = $this->model->getAllAccountsByCreatorAndCompany_hack($_POST["account_id"]);
+            if(!empty($get)){
+                echo json_encode(array("status" => 200, "data" => $get));
+            }else {
+                echo json_encode(array("status" => 500, "msg" => "error"));
+            }
+        }
+    }
+    public function invoice_avance()
+    {
+        $this->view->render('company/invoice_avance', true);
     }
     public function invoice_transaction()
     {
         $this->view->render('company/invoice_transaction', true);
-    }
-    public function invoiceprint()
-    {
-        $this->view->render('company/invoiceprint', true);
     }
     public function comptes()
     {
@@ -76,6 +96,10 @@ class Company extends Controller
     public function report_monthly()
     {
         $this->view->render('company/report_monthly', true);
+    }
+    public function avance_salaire()
+    {
+        $this->view->render('company/avance_salaire', true);
     }
     
 
@@ -498,14 +522,14 @@ class Company extends Controller
 
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $transactionsValue = '';
-            for ($i = 0; $i < 15; $i++) {
+            for ($i = 0; $i < 30; $i++) {
                 $transactionsValue .= $characters[mt_rand(0, strlen($characters) - 1)];
             }
 
             $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
             $transactionsCode = '#'; // Commence par #
 
-            for ($i = 0; $i < 6; $i++) {
+            for ($i = 0; $i < 10; $i++) {
                 $transactionsCode .= $characters[mt_rand(0, strlen($characters) - 1)];
             }
 
@@ -593,14 +617,14 @@ class Company extends Controller
 
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $transactionsValue = '';
-            for ($i = 0; $i < 15; $i++) {
+            for ($i = 0; $i < 30; $i++) {
                 $transactionsValue .= $characters[mt_rand(0, strlen($characters) - 1)];
             }
 
             $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
             $transactionsCode = '#'; // Commence par #
 
-            for ($i = 0; $i < 6; $i++) {
+            for ($i = 0; $i < 10; $i++) {
                 $transactionsCode .= $characters[mt_rand(0, strlen($characters) - 1)];
             }
 
@@ -1038,7 +1062,7 @@ class Company extends Controller
                     ];
 
                     $userIDInSession = $_SESSION['users']['id'];
-                    $idToUpdate = intval($_POST['id']);
+                    $idToUpdate = intval($_POST['id_users']);
 
                     if ($userIDInSession === $idToUpdate) {
                         $_SESSION['users']['name'] = $nameupdate;
@@ -1543,6 +1567,151 @@ public function handleDeleteTimesheet()
             $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
         } else {
             $result = $this->model->updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timesheet_date, $total_work, $total_rest, $total_sup);
+
+            if ($result) {
+                $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+            } else {
+                $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+            }
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    }
+}
+
+public function handleAddavanceSalaire()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_SESSION['users'])) {
+                $user = $_SESSION['users'];
+                $userId = $user['id'];
+                $companyId = $user['company_id'];
+            } else {
+                echo json_encode(array("status" => 400, "msg" => "Session utilisateur non trouvée."));
+                return;
+            }
+
+            $advance_amount = $_POST['advance_amount'];
+            try {
+                $date = DateTime::createFromFormat('Y-m-d', $_POST['month_year']);
+                if (!$date) {
+                    throw new Exception("Format de date invalide.");
+                }
+                $month_year = $date->format('Y-m'); // Pas nécessaire de reformater si on utilise le même format
+            } catch (Exception $e) {
+                // Traiter l'exception ou indiquer une date incorrecte
+                echo $e->getMessage();
+            }    
+            $staff_id = $_POST['staff_id'];
+            $paiement_type = $_POST['paiement_type'];
+            $avance_reference = $_POST['avance_reference'];
+            $description = $_POST['description'];
+
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $AvanceValue = '';
+            for ($i = 0; $i < 30; $i++) {
+                $AvanceValue .= $characters[mt_rand(0, strlen($characters) - 1)];
+            }
+
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
+            $AvanceCode = '#'; // Commence par #
+
+            for ($i = 0; $i < 10; $i++) {
+                $AvanceCode .= $characters[mt_rand(0, strlen($characters) - 1)];
+            }
+
+            // TODO: Ajoutez des vérifications pour s'assurer que accountName et type sont valides.
+
+            // Par exemple, pour vérifier si cette catégorie et ce type existent déjà, 
+            // vous pourriez avoir une méthode `categoryExists($accountName, $type, $companyId)`.
+            // Pour l'instant, je vais continuer sans cette vérification.
+
+            $data = [
+                'advance_amount' => $advance_amount,
+                'month_year' => $month_year,
+                'staff_id' => $staff_id,
+                'paiement_type' => $paiement_type,
+                'avance_reference' => $avance_reference,
+                'description' => $description,
+                'avance_value' => $AvanceValue,
+                'avance_code' => $AvanceCode,
+                'company_id' => $companyId,
+                'added_by' => $userId,
+            ];
+
+            $result = $this->model->addAvanceSalaire($data);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "Le depot a été ajoutée avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du depot."));
+            }
+        }
+    }
+
+    public function handleDeleteAvanceSalaire()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+
+            // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
+            // ...
+
+            $result = $this->model->deleteAvanceSalaire($id);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "Le compte a été supprimée avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression du compte"));
+            }
+        } else {
+            echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
+        }
+    }
+
+    public function updateAvanceSalaire()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = intval($_POST['advanced_salary_id']);
+        $updatemonth_year = $_POST['updatemonth_year'];
+        $updatestaff_id = $_POST['updatestaff_id'];
+        $updateadvance_amount = $_POST['updateadvance_amount'];
+        $updatepaiement_type = $_POST['updatepaiement_type'];
+        $updateavance_reference = $_POST['updateavance_reference'];
+        $updatedescription = $_POST['updatedescription'];
+
+        // Formatage et validation de la updatemonth_year
+        $parts = explode('/', $updatemonth_year);
+        if (count($parts) === 3) {
+            $updatemonth_year = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+        } else {
+            $parts = explode('-', $updatemonth_year);
+            if (count($parts) === 3) {
+                $year = $parts[0];
+                $month = $parts[1];
+                $day = $parts[2];
+                $updatemonth_year = $year . '-' . $month . '-' . $day;
+            }
+        }
+
+        try {
+            $date = DateTime::createFromFormat('Y-m-d', $updatemonth_year);
+            if (!$date) {
+                throw new Exception("Format de date invalide.");
+            }
+            $updatemonth_year = $date->format('Y-m'); // Pas nécessaire de reformater si on utilise le même format
+        } catch (Exception $e) {
+            // Traiter l'exception ou indiquer une date incorrecte
+            echo $e->getMessage();
+        }    
+
+        // Vérification de la date
+        if (empty($updatemonth_year)) {
+            $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
+        } else {
+            $result = $this->model->updateAvanceSalaire($id, $updatemonth_year, $updateadvance_amount, $updatestaff_id, $updatepaiement_type, $updateavance_reference, $updatedescription);
 
             if ($result) {
                 $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];

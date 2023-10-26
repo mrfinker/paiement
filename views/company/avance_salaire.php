@@ -16,9 +16,9 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
 }
     $companyModel = new company_model();
     $accounts = $companyModel->getAllAccountsByCreatorAndCompany();
-    $depenses = $companyModel->getAllDepensesByCreatorAndCompany();
+    $depots = $companyModel->getAllDepotsByCreatorAndCompany();
     $userscompany = $companyModel->getAllUsersByCreatorAndCompany();
-    $transactions = $companyModel->getAllTransactionsDepensesByCreatorAndCompany();
+    $advance = $companyModel->getAllAdvanceSalaireByCreatorAndCompany();
     
 
 
@@ -35,14 +35,14 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h5 class="nk-block-title">Liste de toutes les depenses</h5>
+                                <h5 class="nk-block-title">Liste des avances sur salaire</h5>
                                 <button
                                     href="#"
                                     class="btn btn-primary mt-2"
                                     type="button"
                                     style="height: 35px;"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#newFormDepenses">
+                                    data-bs-target="#newFormAvanceSalaire">
                                     Ajouter<em class="icon ni ni-plus p-1"></em>
                                 </button>
                             </div>
@@ -70,6 +70,15 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                     <span class="sub-text">#</span>
                                                 </th>
                                                 <th
+                                                    class="nk-tb-col sorting"
+                                                    tabindex="0"
+                                                    aria-controls="DataTables_Table_1"
+                                                    rowspan="1"
+                                                    colspan="1"
+                                                    aria-label="User: activate to sort column ascending">
+                                                    <span class="sub-text">Employer</span>
+                                                </th>
+                                                <th
                                                     class="nk-tb-col tb-col-md sorting"
                                                     tabindex="0"
                                                     aria-controls="DataTables_Table_1"
@@ -85,34 +94,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                     rowspan="1"
                                                     colspan="1"
                                                     aria-label="Phone: activate to sort column ascending">
-                                                    <span class="sub-text">Categorie</span>
-                                                </th>
-                                                <th
-                                                    class="nk-tb-col tb-col-md sorting"
-                                                    tabindex="0"
-                                                    aria-controls="DataTables_Table_1"
-                                                    rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Reference</span>
-                                                </th>
-                                                <th
-                                                    class="nk-tb-col sorting"
-                                                    tabindex="0"
-                                                    aria-controls="DataTables_Table_1"
-                                                    rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="User: activate to sort column ascending">
-                                                    <span class="sub-text">Compte</span>
-                                                </th>
-                                                <th
-                                                    class="nk-tb-col tb-col-md sorting"
-                                                    tabindex="0"
-                                                    aria-controls="DataTables_Table_1"
-                                                    rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Phone: activate to sort column ascending">
-                                                    <span class="sub-text">Payer</span>
                                                 </th>
                                                 <th
                                                     class="nk-tb-col tb-col-md sorting"
@@ -144,7 +126,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                         </thead>
                                         <tbody>
                                             <?php
-                                            foreach ($transactions as $transaction) {
+                                            foreach ($advance as $advanced) {
                                                 ?>
 
                                             <!-- .nk-tb-item -->
@@ -161,40 +143,33 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                             <!-- .nk-tb-item -->
                                             <!-- .nk-tb-item -->
                                             <tr class="nk-tb-item odd">
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <span><?=$advanced['num']?></span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                    <span><?=$advanced['staff_name']?></span>
+                                                </td>
+                                                <td class="nk-tb-col tb-col-md">
+                                                <span><?php 
+                                                    try {
+                                                        $date = DateTime::createFromFormat('Y-m', $advanced['month_year']);
+                                                        echo $date->format('m-Y'); // Affiche le mois et l'année (par exemple : "10-2023")
+                                                    } catch (Exception $e) {
+                                                        // Si une exception est levée, cela signifie que la date n'a pas pu être analysée.
+                                                        // Afficher la date telle quelle ou afficher un message d'erreur selon vos préférences.
+                                                        echo $advanced['month_year'];
+                                                    } 
+                                                ?></span>
 
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$transaction['num']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?php 
-                                                        try {
-                                                            $date = DateTime::createFromFormat('Y-m-d', $transaction['transaction_date']);
-                                                            echo $date->format('d-m-Y');
-                                                        } catch (Exception $e) {
-                                                            // Si une exception est levée, cela signifie que la date n'a pas pu être analysée.
-                                                            // Afficher la date telle quelle ou afficher un message d'erreur selon vos préférences.
-                                                            echo $transaction['transaction_date'];
-                                                        } 
-                                                    ?>
-                                                    </span>
+                                                    <span class="badge badge-dim bg-primary"><?=$advanced['avance_reference']?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span class="badge badge-dim bg-danger"><?=$transaction['category_name']?></span>
+                                                    <span><?=$advanced['advance_amount']?> $</span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span class="badge badge-dim bg-primary"><?=$transaction['reference']?></span>
-                                                </td>
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$transaction['account_name']?></span>
-                                                </td>
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$transaction['staff_name']?></span>
-                                                </td>
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$transaction['amount']?> $</span>
-                                                </td>
-                                                <td class="nk-tb-col tb-col-md">
-                                                    <span><?=$transaction['payement_method']?></span>
+                                                    <span class="badge badge-dim bg-success"><?=$advanced['paiement_type']?></span>
                                                 </td>
 
                                                 <td class="nk-tb-col nk-tb-col-tools">
@@ -222,21 +197,42 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                         <li>
                                                                             <a
                                                                                 href="#"
-                                                                                class="delete-button-transaction-depexp"
-                                                                                data-id="<?=$transaction['transactions_id'];?>">
+                                                                                class="delete_button_advanced"
+                                                                                data-id="<?=$advanced['advanced_salary_id'];?>">
                                                                                 <em class="icon ni ni-trash"></em>
                                                                                 <span>Supprimer</span>
                                                                             </a>
                                                                             <a
                                                                                 href="#"
-                                                                                class="update_button_transaction-depexp"
-                                                                                data-id="<?=$transaction['transactions_id'];?>"
-                                                                                data-transactions-amount="<?=$transaction['amount'];?>"
-                                                                                data-transactions-date="<?=$transaction['transaction_date'];?>"
-                                                                                data-transactions-method="<?=$transaction['payement_method'];?>"
-                                                                                data-transactions-entity="<?=$transaction['entity_category_id'];?>">
+                                                                                class="update_button_advanced"
+                                                                                data-id="<?=$advanced['advanced_salary_id'];?>"
+                                                                                data-advance_amount="<?=$advanced['advance_amount'];?>"
+                                                                                data-month_year="<?=$advanced['month_year'];?>"
+                                                                                data-paiement_type="<?=$advanced['paiement_type'];?>"
+                                                                                data-description="<?=$advanced['description'];?>"
+                                                                                data-avance_reference="<?=$advanced['avance_reference'];?>"
+                                                                                data-staff_name="<?=$advanced['staff_name'];?>">
                                                                                 <em class="icon ni ni-pen"></em>
                                                                                 <span>Modifier</span>
+                                                                            </a>
+                                                                            <a
+                                                                                href="#"
+                                                                                class="voir_button_advanced"
+                                                                                data-id="<?=$advanced['advanced_salary_id'];?>"
+                                                                                data-advance_amount="<?=$advanced['advance_amount'];?>"
+                                                                                data-month_year="<?=$advanced['month_year'];?>"
+                                                                                data-paiement_type="<?=$advanced['paiement_type'];?>"
+                                                                                data-description="<?=$advanced['description'];?>"
+                                                                                data-avance_reference="<?=$advanced['avance_reference'];?>"
+                                                                                data-avance_value="<?=$advanced['avance_value'];?>"
+                                                                                data-avance_code="<?=$advanced['avance_code'];?>"
+                                                                                data-salary_type="<?=$advanced['salary_type'];?>"
+                                                                                data-adresse_company="<?=$advanced['adresse_company'];?>"
+                                                                                data-company_name="<?=$advanced['company_name'];?>"
+                                                                                data-created_at="<?=$advanced['created_at'];?>"
+                                                                                data-staff_name="<?=$advanced['staff_name'];?>">
+                                                                                <em class="icon ni ni-eye"></em>
+                                                                                <span>voir</span>
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -283,97 +279,26 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
     </div>
 </div>
 
-<!-- Ajouter depenses -->
+<!-- Ajouter avance -->
 <div
     class="modal fade"
-    id="newFormDepenses"
+    id="newFormAvanceSalaire"
     style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Ajouter une transaction</h5>
+                <h5 class="modal-title">Ajouter une avance sur salaire</h5>
                 <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
                 </a>
             </div>
             <div class="modal-body">
-                <form id="registerFormDepenses" method="POST">
+                <form id="registerFormAvanceSalaire" method="POST">
                     <div class="row gy-4">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="form-label" for="account_name">Nom du compte</label>
-                                <div class="form-control-wrap">
-                                    <select
-                                        class="form-select js-select2 select2-hidden-accessible"
-                                        aria-hidden="true"
-                                        required="required"
-                                        name="account_name"
-                                        data-ui="lg">
-                                        <option disabled="disabled" selected="selected">Choisissez le compte</option>
-                                        <?php foreach ($accounts as $account) { ?>
-                                        <option value="<?= $account['account_id']; ?>"><?= $account['account_name']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="amount">Montant</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="amount"
-                                        class="form-control form-control-lg"
-                                        id="amount"
-                                        placeholder="Entrer le numero de compte">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label class="form-label" for="transaction_date">Date</label>
-                                </div>
-                                <div class="form-control-wrap">
-                                    <div class="form-icon form-icon-right">
-                                        <em class="icon ni ni-calendar-alt"></em>
-                                    </div>
-                                    <input
-                                        type="text"
-                                        name="transaction_date"
-                                        placeholder="2023-10-23"
-                                        class="form-control form-control-lg form-control-outlined date-picker"
-                                        id="transaction_date">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="form-label" for="entity_category_id">Categorie</label>
-                                <div class="form-control-wrap">
-                                    <select
-                                        class="form-select js-select2 select2-hidden-accessible"
-                                        aria-hidden="true"
-                                        name="entity_category_id"
-                                        id="entity_category_id"
-                                        required="required"
-                                        data-ui="lg">
-                                        <option disabled="disabled" selected="selected">Choisissez la cotegorie</option>
-                                        <?php foreach ($depenses as $depense) { ?>
-                                        <option value="<?= $depense['constants_id']; ?>"><?= $depense['category_name']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label class="form-label" for="staff_id">Payer par</label>
+                                <label class="form-label" for="staff_id">Employer</label>
                                 <div class="form-control-wrap">
                                     <select
                                         class="form-select js-select2 select2-hidden-accessible"
@@ -382,7 +307,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                         id="staff_id"
                                         required="required"
                                         data-ui="lg">
-                                        <option disabled="disabled" selected="selected">Choisissez une personne</option>
+                                        <option disabled selected>Choisissez une personne</option>
                                         <?php foreach ($userscompany as $userc) { ?>
                                         <option value="<?= $userc['id']; ?>"><?= $userc['name']; ?></option>
                                         <?php } ?>
@@ -390,15 +315,49 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="advance_amount">Montant</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="text"
+                                        name="advance_amount"
+                                        class="form-control form-control-lg"
+                                        id="advance_amount"
+                                        placeholder="Entrer le montant">
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="form-label" for="payement_method">Methode de paiement</label>
+                                <div class="form-label-group">
+                                    <label class="form-label" for="month_year">Date</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <div class="form-icon form-icon-right">
+                                        <em class="icon ni ni-calendar-alt"></em>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="month_year"
+                                        placeholder="2023-10-23"
+                                        class="form-control form-control-lg form-control-outlined date-picker"
+                                        id="month_year">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="paiement_type">Methode de paiement</label>
                                 <div class="form-control-wrap">
                                     <select
                                         class="form-select js-select2 select2-hidden-accessible"
                                         aria-hidden="true"
-                                        name="payement_method"
-                                        id="payement_method"
+                                        name="paiement_type"
+                                        id="paiement_type"
                                         required="required"
                                         data-ui="lg">
                                         <option disabled="disabled" selected="selected">Le type de paiement</option>
@@ -413,15 +372,15 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="reference">Reference</label>
+                                    <label class="form-label" for="avance_reference">Reference</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <input
                                         required="required"
                                         type="text"
-                                        name="reference"
+                                        name="avance_reference"
                                         class="form-control form-control-lg"
-                                        id="reference"
+                                        id="avance_reference"
                                         <?php $randomId = rand(100000000, 999999999); ?>
                                         value="<?= $randomId; ?>"
                                         readonly="readonly">
@@ -455,13 +414,13 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
     </div>
 </div>
 
-<!-- update transactions -->
+<!-- update avance -->
 <div
     class="modal fade"
-    id="UpdateModalTransactions"
+    id="UpdateModalAvanceSalaire"
     style="display: none;"
     aria-hidden="true">
-    <div class="modal-dialog modal-mb" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Modifier la transaction</h5>
@@ -470,12 +429,47 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                 </a>
             </div>
             <div class="modal-body">
-                <form id="updateFormTransactions" method="POST" enctype="multipart/form-data">
-                    <div class="row gy-4">
-                        <div class="col-sm-12">
+                <form id="updateFormAdvanceSalaire" method="POST" enctype="multipart/form-data">
+                <div class="row gy-4">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label" for="updatestaff_id">Employer</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        aria-hidden="true"
+                                        name="updatestaff_id"
+                                        id="updatestaff_id"
+                                        required="required"
+                                        data-ui="lg">
+                                        <option selected>Choisissez une personne</option>
+                                        <?php foreach ($userscompany as $userc) { ?>
+                                        <option value="<?= $userc['id']; ?>"><?= $userc['name']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="transactionDate">Date</label>
+                                    <label class="form-label" for="updateadvance_amount">Montant</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        required="required"
+                                        type="text"
+                                        name="updateadvance_amount"
+                                        class="form-control form-control-lg"
+                                        id="updateadvance_amount"
+                                        placeholder="Entrer le montant">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="updatemonth_year">Date</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <div class="form-icon form-icon-right">
@@ -483,30 +477,63 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                     </div>
                                     <input
                                         type="text"
-                                        name="transactionDate"
+                                        name="updatemonth_year"
+                                        placeholder="2023-10-23"
                                         class="form-control form-control-lg form-control-outlined date-picker"
-                                        id="transactionDate">
+                                        id="updatemonth_year">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="form-label" for="updatepaiement_type">Methode de paiement</label>
+                                <div class="form-control-wrap">
+                                    <select
+                                        class="form-select js-select2 select2-hidden-accessible"
+                                        aria-hidden="true"
+                                        name="updatepaiement_type"
+                                        id="updatepaiement_type"
+                                        required="required"
+                                        data-ui="lg">
+                                        <option disabled="disabled" selected="selected">Le type de paiement</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="carte bancaire">Carte bancaire</option>
+                                        <option value="cheque">Cheque</option>
+                                        <option value="banque">Bank</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label class="form-label" for="TransactionAmount">Montant</label>
+                                    <label class="form-label" for="updateavance_reference">Reference</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <input
                                         required="required"
                                         type="text"
-                                        name="TransactionAmount"
+                                        name="updateavance_reference"
                                         class="form-control form-control-lg"
-                                        id="TransactionAmount"
-                                        placeholder="Entrer votre noms">
+                                        id="updateavance_reference">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="form-label" for="updatedescription">Description</label>
+                                <div class="form-control-wrap">
+                                    <textarea
+                                        class="form-control no-resize"
+                                        id="updatedescription"
+                                        name="updatedescription"
+                                        required="required"
+                                        placeholder="Veuiller remplir cette zone..."></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" class="transactions_id" name="transactions_id">
+                    <input type="hidden" class="advanced_salary_id" name="advanced_salary_id">
                     <div class="form-group mt-2">
                         <button
                             type="submit"

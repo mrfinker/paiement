@@ -215,7 +215,8 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 data-housing="<?=$usercomp['housing'];?>"
                                                                                 data-transport="<?=$usercomp['transport'];?>"
                                                                                 data-net_after_taxes="<?=$usercomp['net_after_taxes'];?>"
-                                                                                data-advance_salary_amount="<?=$usercomp['advance_salary_amount'];?>"
+                                                                                data-advance_salary="<?=$usercomp['advanced_salary'];?>"
+                                                                                data-department="<?=$usercomp['department'];?>"
                                                                                 data-designation="<?=$usercomp['designation'];?>">
                                                                                 <em class="icon ni ni-file-text"></em>
                                                                                 <span>Voir Facture</span>
@@ -227,6 +228,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                                                                 data-id="<?=$usercomp['id'];?>"
                                                                                 data-basic_salary="<?=$usercomp['basic_salary'];?>"
                                                                                 data-total_time="<?=$usercomp['total_time'];?>"
+                                                                                data-children="<?=$usercomp['children'];?>"
+                                                                                data-spouse="<?=$usercomp['spouse'];?>"
+                                                                                data-advanced_salary="<?=$usercomp['advanced_salary'];?>"
+                                                                                data-timesheet_count="<?=$usercomp['timesheet_count'];?>"
                                                                                 data-country="<?=$usercomp['country'];?>">
                                                                                 <em class="icon ni ni-money"></em>
                                                                                 <span>Payer</span>
@@ -305,22 +310,40 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                                         type="text"
                                         class="form-control form-control-lg"
                                         id="basic_salary"
-                                        name="basic_salary">
+                                        name="basic_salary"
+                                        readonly>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label class="form-label" for="absent_days">Jours absent</label>
                                 </div>
                                 <div class="form-control-wrap">
                                     <input
-                                        type="number"
+                                        type="text"
                                         class="form-control form-control-lg"
                                         id="absent_days"
                                         name="absent_days"
-                                        placeholder="Jours d'absence">
+                                        placeholder="Jours d'absence"
+                                        readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="timesheet_count">Jours presents</label>
+                                </div>
+                                <div class="form-control-wrap">
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-lg"
+                                        id="timesheet_count"
+                                        name="timesheet_count"
+                                        placeholder="Jours d'absence"
+                                        readonly>
                                 </div>
                             </div>
                         </div>

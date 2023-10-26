@@ -623,8 +623,10 @@ public function getAllUsersByCreatorAndCompany()
                 'SELECT 
                 u.*, 
                 c.name as country, 
-                ur.name as role_name, 
+                ur.name as role_name,
                 d.designation_name as designation, 
+                dep.department_name as department, 
+                avc.advance_amount as advanced_salary, 
                 p.is_payment as payed, 
                 p.payslip_value as payslip_value, 
                 p.year_to_date as year_to_date, 
@@ -634,15 +636,22 @@ public function getAllUsersByCreatorAndCompany()
                 p.net_salary as net_salary, 
                 p.housing as housing, 
                 p.transport as transport, 
-                p.advance_salary_amount as advance_salary_amount, 
                 p.net_after_taxes as net_after_taxes, 
-                os.total_time as total_time
+                os.total_time as total_time,
+                ts.timesheet_status as timesheet_count
                 FROM users u
                 LEFT JOIN country c ON u.country_id = c.id
                 LEFT JOIN users_role ur ON u.user_role_id = ur.id_role
                 LEFT JOIN designations d ON u.designation_id = d.designation_id
+                LEFT JOIN departments dep ON u.departement_id = dep.department_id
+                LEFT JOIN advanced_salary avc ON u.id = avc.staff_id  AND avc.month_year = DATE_FORMAT(NOW(), "%Y-%m")
                 LEFT JOIN payslips p ON u.id = p.staff_id AND u.company_id = p.company_id
                 LEFT JOIN office_shifts os ON u.company_id = os.company_id AND u.office_shift_id = os.office_shift_id
+                LEFT JOIN (
+                    SELECT staff_id, COUNT(*) as timesheet_status
+                    FROM timesheet
+                    GROUP BY staff_id
+                ) ts ON u.id = ts.staff_id
                 WHERE (u.id = :userId OR u.company_id = :companyId) AND u.id != :userId',
                 ['userId' => $userId, 'companyId' => $companyId]
             );
@@ -748,6 +757,47 @@ public function getAllUsersByCreatorAndCompany()
         $data = ['is_active' => $status];
         return $this->db->update("users", $data, "id = $id");
     }
+
+    public function getAllPayementByCreatorAndCompany()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $payement = $this->db->select(
+            'SELECT p.*, u.name as staff_name
+            FROM payslips p
+            LEFT JOIN users u ON p.staff_id = u.id
+            WHERE p.added_by = :userId OR p.company_id = :companyId',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );  
+
+        if (!is_array($payement)) {
+            return [];
+        }
+
+        $count = 1;
+        foreach ($payement as &$payements) {
+            $payements['num'] = $count;
+            $count++;
+        }
+
+        return $payement;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
     
     
     // Comptes
@@ -795,6 +845,24 @@ public function getAllAccountsByCreatorAndCompany()
         return [];
     }
 }
+
+public function getAllAccountsByCreatorAndCompany_hack($id)  {
+    return $this->db->select(
+        "SELECT 
+        ft.transaction_date, 
+        ft.transaction_type, 
+        ft.reference, 
+        ft.amount, 
+        ft.payement_method,
+        fa.account_opening_balance,
+        u.name
+        FROM finance_accounts fa
+        JOIN finance_transactions ft ON fa.account_id = ft.account_id
+        LEFT JOIN users u ON ft.staff_id = u.id
+        WHERE ft.account_id = :id
+        ", array("id" => $id));
+}
+
 
 public function deleteComptes($id) {
     
@@ -941,6 +1009,71 @@ public function updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timeshee
         'total_sup' => $total_sup,
     ];
     return $this->db->update("timesheet", $data, "timesheet_id = $id");
+}
+
+// Avance sur salaire
+public function addAvanceSalaire($data) {
+    return $this->db->insert("advanced_salary", $data);
+}
+
+public function getAllAdvanceSalaireByCreatorAndCompany()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    try {
+        if (isset($_SESSION['users'])) {
+            $user = $_SESSION['users'];
+            $userId = $user['id'];
+            $companyId = $user['company_id'];
+        } else {
+            return [];
+        }
+
+        $advance = $this->db->select(
+            'SELECT avc.*, u.name as staff_name, c.name as company_name, c.address as adresse_company
+             FROM advanced_salary avc
+             LEFT JOIN users u ON avc.staff_id = u.id
+             LEFT JOIN company c ON avc.company_id = c.id
+             WHERE (avc.added_by = :userId OR avc.company_id = :companyId) AND avc.salary_type = "avance"',
+            ['userId' => $userId, 'companyId' => $companyId]
+        );        
+
+        if (!is_array($advance)) {
+            return [];
+        }
+
+        $count = 1;
+        foreach ($advance as &$advanced) {
+            $advanced['num'] = $count;
+            $count++;
+        }
+
+        return $advance;
+
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
+public function deleteAvanceSalaire($id) {
+    
+    return $this->db->delete('advanced_salary', "advanced_salary_id = $id");
+     
+}
+
+public function updateAvanceSalaire($id, $updatemonth_year, $updateadvance_amount, $updatestaff_id, $updatepaiement_type, $updateavance_reference, $updatedescription) {
+    $data = [
+        'month_year' => $updatemonth_year,
+        'advance_amount' => $updateadvance_amount,
+        'staff_id' => $updatestaff_id,
+        'paiement_type' => $updatepaiement_type,
+        'avance_reference' => $updateavance_reference,
+        'description' => $updatedescription,
+    ];
+    return $this->db->update("advanced_salary", $data, "advanced_salary_id = $id");
 }
 
 }

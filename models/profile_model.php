@@ -20,19 +20,45 @@ class Profile_model extends Model
 
     public function getUserProfile()
 {
-    $userId = $_SESSION['users']['id'];
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
-    $query = "SELECT * FROM users WHERE id = :userId";
-    $stmt = $this->db->prepare($query);
-    $stmt->bindParam(":userId", $userId);
-    $stmt->execute();
-
-    if ($stmt->rowCount() > 0) {
-        $profile = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $profile;
+    if (isset($_SESSION['users'])) {
+        $user = $_SESSION['users'];
+        $userId = $user['id'];
+        $companyId = $user['company_id'];
     } else {
+        // Si $_SESSION['users'] n'est pas défini, retourner zéro
+        return 0;
+    }
+
+    try {
+        $userProfile = $this->db->select(
+            "SELECT 
+            u.*,
+            c.city,
+            c.code_postale,
+            c.tax_number,
+            c.rccm,
+            c.bank_name,
+            c.bank_number
+            FROM users u
+            LEFT JOIN company c ON u.company_id = c.id
+            WHERE u.id = :userId AND u.company_id = :companyId",
+            ['userId' => $userId, 'companyId' => $companyId]
+        );
+    
+        if (!is_array($userProfile)) {
+            return [];
+        }
+    
+        return ($userProfile && count($userProfile) > 0) ? $userProfile[0] : null;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
         return null;
     }
+    
 }
 
 public function saveUser(array $data)
@@ -62,6 +88,35 @@ public function saveUser(array $data)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function updateCompanyAndPersonnel($companyId, $userId, $name, $username, $email, $phone, $address, $ville, $city)
+{
+    // Mettre à jour la table "users"
+    $userData = [
+        'name' => $name,
+        'username' => $username,
+        'email' => $email,
+        'phone' => $phone,
+        'address' => $address,
+        'ville' => $ville,
+    ];
+
+    $this->db->update("users", $userData, "id = $userId");
+
+    // Mettre à jour la table "company"
+    $companyData = [
+        'name' => $name,
+        'username' => $username,
+        'email' => $email,
+        'phone' => $phone,
+        'address' => $address,
+        'city' => $city,
+        'province' => $ville,
+    ];
+
+    if (!empty($companyId)) {
+        $this->db->update("company", $companyData, "id = $companyId");
+    }
+}
 
 
 

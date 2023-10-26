@@ -305,7 +305,7 @@
                                             </a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="<?=URL?><?= $userType['name'] ?>/historique_paie" class="nk-menu-link">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/history_paiement" class="nk-menu-link">
                                                 <span class="nk-menu-text">Historique de paie</span>
                                             </a>
                                         </li>

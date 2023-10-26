@@ -36,7 +36,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                             <div class="nk-block">
                                 <div class="invoice">
                                     <div class="invoice-action">
-                                        <a class="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary"><em class="icon ni ni-printer-fill"></em></a>
+                                        <a class="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary" onclick="printInvoice()"><em class="icon ni ni-printer-fill"></em></a>
                                         <a class="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary" href="<?=URL?>/public/html/invoice-print.html" target="_blank"><em class="icon ni ni-save-fill"></em></a>
                                     </div><!-- .invoice-actions -->
                                     <div class="card invoice-wrap">
@@ -113,8 +113,33 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
                     </div>
                 </div>
                 <script>
-    function printPromot() {
-        window.print();
-    }
+function printInvoice() {
+    // Cacher la partie nk-main
+    const nkSidebar = document.querySelector('.nk-sidebar');
+    nkSidebar.style.display = 'none';
+
+    const nkHeader = document.querySelector('.nk-header');
+    nkHeader.style.display = 'none';
+
+    // Cacher les autres éléments de la page
+    const buttonsToHide = document.querySelectorAll('.invoice-action');
+    buttonsToHide.forEach(button => {
+        button.style.display = 'none';
+    });
+
+    // Imprimer la partie désignée
+    window.print();
+
+    // Afficher à nouveau la partie nk-main
+    nkSidebar.style.display = 'block';
+    
+    // Afficher à nouveau la partie nk-main
+    nkHeader.style.display = 'block';
+
+    // Afficher à nouveau les éléments cachés après l'impression
+    buttonsToHide.forEach(button => {
+        button.style.display = 'block';
+    });
+}
 </script>
 <?php include_once './views/include/footer.php' ?>

@@ -67,4 +67,50 @@ $(document).ready(function () {
         $(".id").val(id);
         $("#profile_edit").modal("show")
     });
+
+   // Mise a jour company(update)
+$(document).on("submit", "#updateFormCompany_personnel", function (e) {
+    e.preventDefault();
+    let form = $(this); // Récupère l'élément du formulaire
+    let id = form.find('input[name="user_id"]').val();
+    if (isNaN(id)) {
+        // Gérer l'erreur, par exemple afficher une alerte
+        Swal.fire({icon: "error", title: "Erreur", text: "ID utilisateur non valide"});
+        return;
+    }
+
+    let formData = new FormData(this); // "this" fait référence à l'élément de formulaire actuel
+
+    // Utilisez le bon append pour ajouter l'ID au FormData
+    formData.append('input[name="user_id"]', id);
+
+    $.ajax({
+        url: `${baseUrl}profile/updateCompany_personnel`,
+        type: "POST",
+        dataType: "JSON",
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function (res) {
+            if (res.status === 200) {
+                window
+                    .location
+                    .reload();
+                Swal.fire({icon: "success", title: "Mise à jour réussie", text: res.msg});
+            } else if (res.status === 409) {
+                Swal.fire(
+                    {icon: "error", title: "Erreur lors de la mise à jour", text: res.msg}
+                );
+            } else {
+                Swal.fire({icon: "error", title: "Erreur", text: res.msg});
+            }
+        },
+        error: function () {
+            Swal.fire(
+                {icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."}
+            );
+        }
+    });
+});
+
 });

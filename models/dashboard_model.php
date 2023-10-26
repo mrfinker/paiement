@@ -437,6 +437,43 @@ foreach ($userscompany as $userc) {
         }
 
     }
+
+    public function getUserInformation()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (isset($_SESSION['users'])) {
+        $userId = $_SESSION['users']['id'];
+    } else {
+        // Si $_SESSION['users'] n'est pas défini, retourner zéro
+        return 0;
+    }
+
+    try {
+        $userProfile = $this->db->select(
+            "SELECT 
+            u.*, 
+            dep.department_name, 
+            des.designation_name,
+            (SELECT SUM(amount) FROM finance_transactions WHERE staff_id = :userId AND transaction_type = 'depense') AS total_depenses,
+            (SELECT SUM(amount) FROM finance_transactions WHERE staff_id = :userId AND transaction_type = 'depot') AS total_depots,
+            (SELECT SUM(net_salary) FROM payslips WHERE staff_id = :userId) AS total_payer
+            FROM users u
+            LEFT JOIN departments dep ON u.departement_id = dep.department_id
+            LEFT JOIN designations des ON u.designation_id = des.designation_id
+            WHERE id = :userId",
+            ['userId' => $userId]
+        );
+
+        return ($userProfile && count($userProfile) > 0) ? $userProfile[0] : null;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        return null;
+    }
+}
+
     
     
 

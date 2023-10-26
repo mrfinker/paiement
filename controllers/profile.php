@@ -25,45 +25,42 @@ class Profile extends Controller
         $this->view->render('profile/staff/index', true);
     }
 
-    public function handleUpdateProfile() {
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
-            $id = intval($_POST['userId']);;
-            $name = $_POST['name']; 
-            $username = $_POST['username']; 
-            $phone = $_POST['phone']; 
-            $birthday = $_POST['birthday'];
-        
-            $result = $this->model->updateUserProfile($id, $name, $username, $phone, $birthday);
+    public function updateCompany_personnel() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = intval($_POST['user_id']);
+            $companyId = intval($_POST['company_id']);
+            $name = $_POST['name'];
+            $username = $_POST['username'];
+            $email = $_POST['email']; // Ajoutez l'email
+            $phone = $_POST['phone'];
+            $address = $_POST['address'];
+            $ville = $_POST['ville'];
+            $city = $_POST['city']; // Ajoutez la ville
     
-                    if ($result) {
-                        $response = [
-                            'status' => 200,
-                            'msg' => 'Mise à jour réussie',
-                            
-                        ];
-                        $userIDInSession = $_SESSION['users']['id'];
-                        $idToUpdate = intval($_POST['userId']);
-                        
-                        if ($userIDInSession === $idToUpdate) {
-                            $_SESSION['users']['name'] = $name;
-                            $_SESSION['users']['username'] = $username;
-                            $_SESSION['users']['phone'] = $phone;
-                            $_SESSION['users']['birthday'] = $birthday;
-                        }
-                    } else {
-                        $response = [
-                            'status' => 409,
-                            'msg' => 'Erreur lors de la mise à jour',
-                        ];
-                    }
+            // Utilisez la fonction pour mettre à jour à la fois "users" et "company"
+            $this->model->updateCompanyAndPersonnel($companyId, $userId, $name, $username, $email, $phone, $address, $ville, $city);
+    
+            $response = [
+                'status' => 200,
+                'msg' => 'Mise à jour réussie',
+            ];
+    
+            // Mettez à jour la session si nécessaire (par exemple, si l'utilisateur met à jour son propre profil)
+            $userIDInSession = $_SESSION['users']['id'];
+            if ($userIDInSession === $userId) {
+                $_SESSION['users']['name'] = $name;
+                $_SESSION['users']['username'] = $username;
+                $_SESSION['users']['email'] = $email; // Mettez à jour l'email
+                $_SESSION['users']['phone'] = $phone;
+                $_SESSION['users']['address'] = $address;
+                $_SESSION['users']['ville'] = $ville;
+            } 
             echo json_encode($response);
             exit;
         }
-
-        }
-
-        
+    }
     
+
 
 
 }
