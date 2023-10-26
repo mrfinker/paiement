@@ -25,6 +25,10 @@ class Superadmin extends Controller
     {
         $this->view->render('superadmin/roles', true);
     }
+    public function membership_plan()
+    {
+        $this->view->render('superadmin/membership_plan', true);
+    }
 
     // utilisateurs
     public function handleRegisterUsers()
@@ -531,6 +535,85 @@ public function updateStatus() {
         echo json_encode($response);
     }
 }
-    
+
+public function AddPlan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+            $membership_plan_name = $_POST['membership_plan_name'];
+            $membership_type_plan = $_POST['membership_type_plan'];
+            $price = $_POST['price'];
+            $plan_duration = $_POST['plan_duration'];
+            $total_employee = $_POST['total_employee'];
+
+            $data = [
+                'membership_plan_name' => $membership_plan_name,
+                'membership_type_plan' => $membership_type_plan,
+                'price' => $price,
+                'plan_duration' => $plan_duration,
+                'total_employee' => $total_employee,
+            ];
+
+            $result = $this->model->addPlan($data);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "Le privilège a été ajouté avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du privilège."));
+            }
+        }
+    }
+
+public function DeletePlan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $result = $this->model->deletePlan($id);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "L'élément a été supprimé avec succès."));
+            } else {
+                echo json_encode(array("status" => 409, "msg" => "Une erreur s'est produite lors de la suppression de l'élément."));
+            }
+        }
+    }
+
+    public function UpdatePlan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['membership_plan_id']); // Obtention de l'ID de l'horaire
+
+            $membership_plan_name = $_POST['updatemembership_plan_name'];
+            $membership_type_plan = $_POST['updatemembership_type_plan'];
+            $price = $_POST['updateprice'];
+            $plan_duration = $_POST['updateplan_duration'];
+            $total_employee = $_POST['updatetotal_employee'];
+
+            // Validation
+            if (empty($membership_plan_name)) {
+                $response = ['status' => 400, 'msg' => 'Veuillez remplir tous les champs obligatoires'];
+            } else {
+                $data = [
+                    'membership_plan_name' => $membership_plan_name,
+                    'membership_type_plan' => $membership_type_plan,
+                    'price' => $price,
+                    'plan_duration' => $plan_duration,
+                    'total_employee' => $total_employee,
+                ];
+
+                $result = $this->model->updatePlan($id, $data);
+
+                if ($result) {
+                    $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+                } else {
+                    $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+                }
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+    }
 
 }

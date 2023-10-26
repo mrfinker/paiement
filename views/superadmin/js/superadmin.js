@@ -594,7 +594,7 @@ $(document).on("click", ".activate_button_usercomp, .deactivate_button_usercomp"
     
     // AJAX Request
     $.ajax({
-        url: `${baseUrl}company/updateStatus`, // Assurez-vous que l'URL est correcte
+        url: `${baseUrl}superadmin/updateStatus`, // Assurez-vous que l'URL est correcte
         type: "POST",
         dataType: "JSON",
         processData: false,
@@ -612,6 +612,153 @@ $(document).on("click", ".activate_button_usercomp, .deactivate_button_usercomp"
             Swal.fire({icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."});
         }
     });
+});
+
+// Ajouter departements
+$(document).on(
+    "submit",
+    "#registerFormPlan",
+    function (e) { // ajusté pour cibler le formulaire, pas le bouton
+        e.preventDefault();
+
+        let formData = new FormData(this); // 'this' fait référence au formulaire soumis
+
+        $.ajax({
+            url: `${baseUrl}superadmin/AddPlan`, // Remplacez par l'URL appropriée de votre contrôleur
+            type: "POST",
+            dataType: "JSON",
+            processData: false, // Important pour envoyer les données du formulaire avec FormData
+            contentType: false, // Important pour envoyer les données du formulaire avec FormData
+            data: formData,
+            success: function (res) {
+                if (res.status === 200) {
+                    let timerInterval;
+                    Swal
+                        .fire({
+                            icon: "success", title: "Enregistrement réussi", text: res.msg, timer: 100, // Par exemple, disparaît après 2 secondes
+                            timerProgressBar: true,
+                            willOpen: () => {
+                                Swal.showLoading()
+                                timerInterval = setInterval(() => {
+                                    const content = Swal.getContent();
+                                    if (content) {
+                                        const b = content.querySelector('b');
+                                        if (b) {
+                                            b.textContent = Swal.getTimerLeft()
+                                        }
+                                    }
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        })
+                        .then((result) => {
+                            if (result.dismiss === Swal.DismissReason.timer) {
+                                console.log('Fermé par le timer')
+                                window.location.href = window.location.href;
+                            }
+                        })
+                } else {
+                    Swal.fire(
+                        {icon: "error", title: "Erreur lors de l'enregistrement", text: res.msg}
+                    );
+                }
+            },
+
+            error: function () {
+                Swal.fire(
+                    {icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."}
+                );
+            }
+        });
+    }
+);
+
+// supprimer
+$(document).on("click", ".delete-button-plan", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    $.ajax({
+        url: `${baseUrl}superadmin/deletePlan`, // Notez le changement d'URL ici
+        type: "POST",
+        dataType: "JSON",
+        data: {
+            id
+        },
+        success: function (res) {
+            if (res.status === 200) {
+                window
+                    .location
+                    .reload();
+                Swal.fire({icon: "success", title: "Suppression réussie", text: res.msg});
+            } else {
+                Swal.fire({icon: "error", title: "Erreur", text: res.msg});
+            }
+        },
+        error: function () {
+            Swal.fire(
+                {icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."}
+            );
+        }
+    });
+});
+
+// Transactions Mise à jour(update)
+$(document).on("submit", "#updateFormPlan", function (e) {
+    e.preventDefault();
+    let id = parseInt($(".membership_plan_id").val());
+    if (isNaN(id)) {
+        Swal.fire(
+            {icon: "error", title: "Erreur", text: "ID de la désignation non valide"}
+        );
+        return;
+    }
+
+    let formData = new FormData(this);
+    formData.append('membership_plan_id', id);
+
+    $.ajax({
+        url: `${baseUrl}superadmin/UpdatePlan`, // Correction du nom de la méthode
+        type: "POST",
+        dataType: "JSON",
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function (res) {
+            if (res.status === 200) {
+                window
+                    .location
+                    .reload();
+                Swal.fire({icon: "success", title: "Mise à jour réussie", text: res.msg});
+            } else {
+                Swal.fire({icon: "error", title: "Erreur", text: res.msg});
+            }
+        },
+        error: function () {
+            Swal.fire(
+                {icon: "error", title: "Erreur", text: "Une erreur s'est produite. Veuillez réessayer plus tard."}
+            );
+        }
+    });
+});
+
+$(document).on("click", ".update_button_plan", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    let membership_plan_name = $(this).data("membership_plan_name");
+    let membership_type_plan = $(this).data("membership_type_plan");
+    let price = $(this).data("price");
+    let plan_duration = $(this).data("plan_duration");
+    let total_employee = $(this).data("total_employee");
+
+    $("#updatemembership_plan_name").val(membership_plan_name);
+    $("#updatemembership_type_plan").val(membership_type_plan);
+    $("#updateprice").val(price);
+    $("#updateplan_duration").val(plan_duration);
+    $("#updatetotal_employee").val(total_employee);
+    $(".transactions_id").val(id);
+    $("#UpdateModalPlan").modal("show");
 });
 
 });

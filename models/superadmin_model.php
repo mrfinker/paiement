@@ -258,6 +258,35 @@ class superadmin_model extends Model
         $data = ['is_active' => $status];
         return $this->db->update("users", $data, "id = $id");
     }
+
+    // Company
+    public function getAllplan()
+    {
+        $allplan = $this->db->select("SELECT * FROM membership_plan");
+
+        if($allplan){
+            $count = 1;
+            foreach($allplan as &$allplans){
+                $allplans['num'] = $count;
+                $count++;
+            }
+        }
+        return $allplan;
+    }
+
+    // Plan
+    public function addPlan($data) {
+        return $this->db->insert("membership_plan", $data);
+    }
+
+    public function deletePlan($id) {
     
+        return $this->db->delete('membership_plan', "membership_plan_id = $id");
+         
+    }
+
+    public function updatePlan($id, $data) {
+        return $this->db->update("membership_plan", $data, "membership_plan_id = $id");
+    }
 
 }

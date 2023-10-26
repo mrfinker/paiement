@@ -118,8 +118,54 @@ public function updateCompanyAndPersonnel($companyId, $userId, $name, $username,
     }
 }
 
+public function updateCompanyAndImage($companyId, $userId, $imageFileName = null)
+{
+    $userData = array();
+    if ($imageFileName !== null) {
+        $userData['image'] = $imageFileName;
+    }
+
+    $this->db->update("users", $userData, "id = $userId");
+
+    if (!empty($companyId)) {
+        $this->db->update("company", $userData, "id = $companyId");
+    }
+}
+
+public function updateCompanyAndCompagny($companyId, $userId, $bank_name, $bank_number, $code_postale, $tax_number, $rccm)
+{
+    // Mettre à jour la table "users"
+    $userData = [
+        'bank_name' => $bank_name,
+        'bank_number' => $bank_number,
+    ];
+
+    $this->db->update("users", $userData, "id = $userId");
+
+    // Mettre à jour la table "company"
+    $companyData = [
+        'code_postale' => $code_postale,
+        'tax_number' => $tax_number,
+        'rccm' => $rccm,
+        'bank_name' => $bank_name,
+        'bank_number' => $bank_number,
+    ];
+
+    if (!empty($companyId)) {
+        $this->db->update("company", $companyData, "id = $companyId");
+    }
+}
 
 
+public function updateCompanyAndPassword($userId, $password)
+{
+    // Mettre à jour la table "users"
+    $userData = [
+        'password' => $password,
+    ];
+
+    $this->db->update("users", $userData, "id = $userId");
+}
 
 
 

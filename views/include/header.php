@@ -127,6 +127,11 @@
                                                 <span class="nk-menu-text">Toutes les compagnies</span>
                                             </a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="<?=URL?><?= $userType['name'] ?>/membership_plan" class="nk-menu-link">
+                                                <span class="nk-menu-text">Plans</span>
+                                            </a>
+                                        </li>
                                         <!-- .nk-menu-item -->
                                     </ul>
                                     <?php endif; ?>

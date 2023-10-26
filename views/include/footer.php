@@ -81,7 +81,7 @@ options: {
 });
 
 new Chart(document.getElementById("presence"), {
-    type: 'line', // Changez le type à 'line'
+    type: 'bar', // Changez le type à 'line'
     data: {
         labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"], // Labels pour chaque point de données
         datasets: [
