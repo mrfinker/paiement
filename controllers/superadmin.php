@@ -32,113 +32,42 @@ class Superadmin extends Controller
 
     // utilisateurs
     public function handleRegisterUsers()
-{
-    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-        $response = ["status" => 500, "msg" => "Méthode non autorisée"];
-        echo json_encode($response);
-        return;
-    }
-
-    $name = $_POST["name"];
-    $username = $_POST["username"];
-    $email = $_POST["email"];
-    $phone = $_POST["phone"];
-    $address = $_POST["address"];
-    $password = $_POST["password"];
-    $confirm_password = $_POST["confirm_password"];
-
-    if ($password !== $confirm_password) {
-        $response = ["status" => 400, "msg" => "Les mots de passe ne correspondent pas"];
-        echo json_encode($response);
-        return;
-    }
-
-    $existingEmailUser = $this->model->getUserbyEmail($email);
-    if (!empty($existingEmailUser)) {
-        $response = ["status" => 400, "msg" => "L'e-mail existe déjà"];
-        echo json_encode($response);
-        return;
-    }
-
-    $existingUsernameUser = $this->model->getUserbyUsername($username);
-    if (!empty($existingUsernameUser)) {
-        $response = ["status" => 400, "msg" => "Le nom d'utilisateur existe déjà"];
-        echo json_encode($response);
-        return;
-    }
-
-    $imageFileName = "";
-    if (isset($_FILES["image"]) && $_FILES["image"]["error"] === 0) {
-        $target_directory = "uploads/";
-        $target_file = $target_directory . time() . rand() . rand() . basename($_FILES["image"]["name"]);
-
-        $maxFileSize = 20 * 1024 * 1024;
-        if ($_FILES["image"]["size"] <= $maxFileSize) {
-            $imageFileNamed = pathinfo($_FILES["image"]["name"]);
-            $extensionImage = $imageFileNamed['extension'];
-            $allowedImageTypes = ["jpeg", "jpg", "png"];
-
-            if (in_array($extensionImage, $allowedImageTypes)) {
-                move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
-                $imageFileName = $target_file;
-            } else {
-                $response = ["status" => 400, "msg" => "Format de fichier non pris en charge. Veuillez utiliser une image au format JPEG, PNG ou JPG."];
-                echo json_encode($response);
-                return;
-            }
-            
-        } else {
-            $response = ["status" => 400, "msg" => "La taille de l'image dépasse la limite autorisée (20 Mo)."];
+    {
+        if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+            $response = ["status" => 500, "msg" => "Méthode non autorisée"];
             echo json_encode($response);
             return;
         }
-    }
 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $name = $_POST["name"];
+        $username = $_POST["username"];
+        $email = $_POST["email"];
+        $phone = $_POST["phone"];
+        $address = $_POST["address"];
+        $password = $_POST["password"];
+        $confirm_password = $_POST["confirm_password"];
 
-    $data = [
-        "name" => $name,
-        "username" => $username,
-        "email" => $email,
-        "phone" => $phone,
-        "address" => $address,
-        "password" => $hashedPassword,
-        "image" => $imageFileName,
-    ];
+        if ($password !== $confirm_password) {
+            $response = ["status" => 400, "msg" => "Les mots de passe ne correspondent pas"];
+            echo json_encode($response);
+            return;
+        }
 
-    $result = $this->model->insertUser($data);
+        $existingEmailUser = $this->model->getUserbyEmail($email);
+        if (!empty($existingEmailUser)) {
+            $response = ["status" => 400, "msg" => "L'e-mail existe déjà"];
+            echo json_encode($response);
+            return;
+        }
 
-    if ($result) {
-        $response = ["status" => 200, "msg" => "Enregistrement réussi"];
-    } else {
-        $response = ["status" => 500, "msg" => "Erreur lors de l'enregistrement"];
-    }
+        $existingUsernameUser = $this->model->getUserbyUsername($username);
+        if (!empty($existingUsernameUser)) {
+            $response = ["status" => 400, "msg" => "Le nom d'utilisateur existe déjà"];
+            echo json_encode($response);
+            return;
+        }
 
-    echo json_encode($response);
-}
-
-
-public function updateUsers()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = intval($_POST['id']);
-        $nameupdate = $_POST['nameupdate'];
-        $usernameupdate = $_POST['usernameupdate'];
-        $emailupdate = $_POST['emailupdate'];
-        $phoneupdate = $_POST['phoneupdate'];
-        $addressupdate = $_POST['addressupdate'];
-        $birthdayupdate = $_POST['birthdayupdate'];
-
-        $userdate = $_SESSION['users']['birthday'];
-
-        $dateTime = DateTime::createFromFormat('Y-m-d', $userdate);
-if (!$dateTime) {
-    $response = ['status' => 400, 'msg' => 'Format de date invalide dans la base de données: ' . $userdate];
-    echo json_encode($response);
-    return;
-}
-
-        $imageFileName = null;
+        $imageFileName = "";
         if (isset($_FILES["image"]) && $_FILES["image"]["error"] === 0) {
             $target_directory = "uploads/";
             $target_file = $target_directory . time() . rand() . rand() . basename($_FILES["image"]["name"]);
@@ -164,47 +93,117 @@ if (!$dateTime) {
             }
         }
 
-        if (empty($nameupdate) || empty($usernameupdate) || empty($emailupdate) || empty($phoneupdate) || empty($addressupdate) || empty($birthdayupdate)) {
-            $response = [
-                'status' => 400,
-                'msg' => 'Données vides, veuillez les remplir',
-            ];
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $data = [
+            "name" => $name,
+            "username" => $username,
+            "email" => $email,
+            "phone" => $phone,
+            "address" => $address,
+            "password" => $hashedPassword,
+            "image" => $imageFileName,
+        ];
+
+        $result = $this->model->insertUser($data);
+
+        if ($result) {
+            $response = ["status" => 200, "msg" => "Enregistrement réussi"];
         } else {
-            $result = $this->model->updateUser($id, $nameupdate, $usernameupdate, $emailupdate, $phoneupdate, $addressupdate, $birthdayupdate, $imageFileName);
-
-            if ($result) {
-                $response = [
-                    'status' => 200,
-                    'msg' => 'Mise à jour réussie',
-                ];
-
-                $userIDInSession = $_SESSION['users']['id'];
-                $idToUpdate = intval($_POST['id']);
-
-                if ($userIDInSession === $idToUpdate) {
-                    $_SESSION['users']['name'] = $nameupdate;
-                    $_SESSION['users']['username'] = $usernameupdate;
-                    $_SESSION['users']['email'] = $emailupdate;
-                    $_SESSION['users']['phone'] = $phoneupdate;
-                    $_SESSION['users']['address'] = $addressupdate;
-                    $_SESSION['users']['birthday'] = $birthdayupdate;
-                    if ($imageFileName != "") {
-                        $_SESSION['users']['image'] = $imageFileName;
-                    }
-                }
-            } else {
-                $response = [
-                    'status' => 409,
-                    'msg' => 'Erreur lors de la mise à jour',
-                ];
-            }
+            $response = ["status" => 500, "msg" => "Erreur lors de l'enregistrement"];
         }
 
-        header('Content-Type: application/json');
         echo json_encode($response);
-        exit;
     }
-}
+
+
+    public function updateUsers()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['id']);
+            $nameupdate = $_POST['nameupdate'];
+            $usernameupdate = $_POST['usernameupdate'];
+            $emailupdate = $_POST['emailupdate'];
+            $phoneupdate = $_POST['phoneupdate'];
+            $addressupdate = $_POST['addressupdate'];
+            $birthdayupdate = $_POST['birthdayupdate'];
+
+            $userdate = $_SESSION['users']['birthday'];
+
+            $dateTime = DateTime::createFromFormat('Y-m-d', $userdate);
+            if (!$dateTime) {
+                $response = ['status' => 400, 'msg' => 'Format de date invalide dans la base de données: ' . $userdate];
+                echo json_encode($response);
+                return;
+            }
+
+            $imageFileName = null;
+            if (isset($_FILES["image"]) && $_FILES["image"]["error"] === 0) {
+                $target_directory = "uploads/";
+                $target_file = $target_directory . time() . rand() . rand() . basename($_FILES["image"]["name"]);
+
+                $maxFileSize = 20 * 1024 * 1024;
+                if ($_FILES["image"]["size"] <= $maxFileSize) {
+                    $imageFileNamed = pathinfo($_FILES["image"]["name"]);
+                    $extensionImage = $imageFileNamed['extension'];
+                    $allowedImageTypes = ["jpeg", "jpg", "png"];
+
+                    if (in_array($extensionImage, $allowedImageTypes)) {
+                        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+                        $imageFileName = $target_file;
+                    } else {
+                        $response = ["status" => 400, "msg" => "Format de fichier non pris en charge. Veuillez utiliser une image au format JPEG, PNG ou JPG."];
+                        echo json_encode($response);
+                        return;
+                    }
+                } else {
+                    $response = ["status" => 400, "msg" => "La taille de l'image dépasse la limite autorisée (20 Mo)."];
+                    echo json_encode($response);
+                    return;
+                }
+            }
+
+            if (empty($nameupdate) || empty($usernameupdate) || empty($emailupdate) || empty($phoneupdate) || empty($addressupdate) || empty($birthdayupdate)) {
+                $response = [
+                    'status' => 400,
+                    'msg' => 'Données vides, veuillez les remplir',
+                ];
+            } else {
+                $result = $this->model->updateUser($id, $nameupdate, $usernameupdate, $emailupdate, $phoneupdate, $addressupdate, $birthdayupdate, $imageFileName);
+
+                if ($result) {
+                    $response = [
+                        'status' => 200,
+                        'msg' => 'Mise à jour réussie',
+                    ];
+
+                    $userIDInSession = $_SESSION['users']['id'];
+                    $idToUpdate = intval($_POST['id']);
+
+                    if ($userIDInSession === $idToUpdate) {
+                        $_SESSION['users']['name'] = $nameupdate;
+                        $_SESSION['users']['username'] = $usernameupdate;
+                        $_SESSION['users']['email'] = $emailupdate;
+                        $_SESSION['users']['phone'] = $phoneupdate;
+                        $_SESSION['users']['address'] = $addressupdate;
+                        $_SESSION['users']['birthday'] = $birthdayupdate;
+                        if ($imageFileName != "") {
+                            $_SESSION['users']['image'] = $imageFileName;
+                        }
+                    }
+                } else {
+                    $response = [
+                        'status' => 409,
+                        'msg' => 'Erreur lors de la mise à jour',
+                    ];
+                }
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+    }
 
     public function handleDeleteUsers()
     {
@@ -346,7 +345,7 @@ if (!$dateTime) {
             $addressupdate = $_POST['addressupdate'];
             $cityupdate = $_POST["updatecity"];
             $provinceupdate = $_POST["updateprovince"];
-            
+
 
             // Vérifiez si les données obligatoires ne sont pas vides
             if (empty($nameupdate) || empty($emailupdate) || empty($phoneupdate) || empty($addressupdate)) {
@@ -356,12 +355,12 @@ if (!$dateTime) {
                 ];
             } else {
                 $result = $this->model->updateCompany(
-                    $id, 
-                    $nameupdate, 
-                    $emailupdate, 
-                    $phoneupdate, 
-                    $addressupdate, 
-                    $usernameupdate, 
+                    $id,
+                    $nameupdate,
+                    $emailupdate,
+                    $phoneupdate,
+                    $addressupdate,
+                    $usernameupdate,
                     $cityupdate,
                     $provinceupdate
                 );
@@ -442,104 +441,107 @@ if (!$dateTime) {
     }
 
     public function updateRole()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = intval($_POST['id_role']);
-        $newName = $_POST['newName'];
-        
-        // Combine permissions arrays
-        $permissions = array_merge(
-            $_POST['admin'] ?? [],
-            $_POST['company'] ?? [],
-            $_POST['privilege'] ?? []
-        );
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['id_role']);
+            $newName = $_POST['newName'];
 
-        $permissionsString = implode(', ', $permissions);
+            // Combine permissions arrays
+            $permissions = array_merge(
+                $_POST['admin'] ?? [],
+                $_POST['company'] ?? [],
+                $_POST['privilege'] ?? []
+            );
 
-        if (empty($newName)) {
-            $response = [
-                'status' => 400,
-                'msg' => 'Données invalides',
-            ];
-        } else {
-            $result = $this->model->updateRoleName($id, $newName, $permissionsString);
+            $permissionsString = implode(', ', $permissions);
 
-            if ($result) {
+            if (empty($newName)) {
                 $response = [
-                    'status' => 200,
-                    'msg' => 'Mise à jour réussie',
+                    'status' => 400,
+                    'msg' => 'Données invalides',
                 ];
             } else {
-                $response = [
-                    'status' => 409,
-                    'msg' => 'Erreur lors de la mise à jour',
-                ];
+                $result = $this->model->updateRoleName($id, $newName, $permissionsString);
+
+                if ($result) {
+                    $response = [
+                        'status' => 200,
+                        'msg' => 'Mise à jour réussie',
+                    ];
+                } else {
+                    $response = [
+                        'status' => 409,
+                        'msg' => 'Erreur lors de la mise à jour',
+                    ];
+                }
             }
-        }
 
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit;
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
     }
-}
 
-public function toggleUserActiveStatus() {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = isset($_POST['id']) ? intval($_POST['id']) : null;
-        
-        if (is_null($id)) {
-            echo json_encode(['success' => false, 'message' => 'ID is missing']);
-            return;
-        }
-        
-        $userModel = new superadmin_model();
-        $success = $userModel->UserActiveStatus($id);
-        
-        if($success) {
-            $currentUser = $userModel->getUserById($id);
-            echo json_encode(['success' => true, 'newIsActive' => $currentUser[0]['is_active']]);
+    public function toggleUserActiveStatus()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = isset($_POST['id']) ? intval($_POST['id']) : null;
+
+            if (is_null($id)) {
+                echo json_encode(['success' => false, 'message' => 'ID is missing']);
+                return;
+            }
+
+            $userModel = new superadmin_model();
+            $success = $userModel->UserActiveStatus($id);
+
+            if ($success) {
+                $currentUser = $userModel->getUserById($id);
+                echo json_encode(['success' => true, 'newIsActive' => $currentUser[0]['is_active']]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to update user status']);
+            }
         } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to update user status']);
+            echo json_encode(['success' => false, 'message' => 'Not a POST request']);
         }
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Not a POST request']);
     }
-}
 
 
 
 
-// Dans le modèle, ajoutez une nouvelle méthode pour récupérer l'utilisateur par id
-public function isUserIdExists($id) {
-    $stmt = $this->model->getUserById($id);
+    // Dans le modèle, ajoutez une nouvelle méthode pour récupérer l'utilisateur par id
+    public function isUserIdExists($id)
+    {
+        $stmt = $this->model->getUserById($id);
         if (!empty($stmt)) {
             return true;
         } else {
             return false;
         }
-}
-
-public function updateStatus() {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = intval($_POST['id']);
-        $status = intval($_POST['status']);
-        
-        $result = $this->model->updateStatus($id, $status);
-        
-        if ($result) {
-            $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
-        } else {
-            $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour du statut'];
-        }
-        
-        echo json_encode($response);
     }
-}
 
-public function AddPlan()
+    public function updateStatus()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
+            $id = intval($_POST['id']);
+            $status = intval($_POST['status']);
+
+            $result = $this->model->updateStatus($id, $status);
+
+            if ($result) {
+                $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+            } else {
+                $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour du statut'];
+            }
+
+            echo json_encode($response);
+        }
+    }
+
+    public function AddPlan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             $membership_plan_name = $_POST['membership_plan_name'];
             $membership_type_plan = $_POST['membership_type_plan'];
             $price = $_POST['price'];
@@ -564,7 +566,7 @@ public function AddPlan()
         }
     }
 
-public function DeletePlan()
+    public function DeletePlan()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
@@ -615,5 +617,4 @@ public function DeletePlan()
             exit;
         }
     }
-
 }

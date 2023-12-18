@@ -25,7 +25,8 @@ class Profile extends Controller
         $this->view->render('profile/staff/index', true);
     }
 
-    public function updateCompany_personnel() {
+    public function updateCompany_personnel()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = intval($_POST['user_id']);
             $companyId = intval($_POST['company_id']);
@@ -36,7 +37,7 @@ class Profile extends Controller
             $address = $_POST['address'];
             $ville = $_POST['ville'];
             $city = $_POST['city']; // Ajoutez la ville
-    
+
             // Vérifiez si les valeurs sont vides
             if (empty($name) || empty($username) || empty($email) || empty($phone) || empty($address) || empty($ville) || empty($city)) {
                 $response = [
@@ -49,12 +50,12 @@ class Profile extends Controller
 
             // Utilisez la fonction pour mettre à jour à la fois "users" et "company"
             $this->model->updateCompanyAndPersonnel($companyId, $userId, $name, $username, $email, $phone, $address, $ville, $city);
-    
+
             $response = [
                 'status' => 200,
                 'msg' => 'Mise à jour réussie',
             ];
-    
+
             // Mettez à jour la session si nécessaire (par exemple, si l'utilisateur met à jour son propre profil)
             $userIDInSession = $_SESSION['users']['id'];
             if ($userIDInSession === $userId) {
@@ -64,13 +65,14 @@ class Profile extends Controller
                 $_SESSION['users']['phone'] = $phone;
                 $_SESSION['users']['address'] = $address;
                 $_SESSION['users']['ville'] = $ville;
-            } 
+            }
             echo json_encode($response);
             exit;
         }
     }
 
-    public function updateCompany_image() {
+    public function updateCompany_image()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = intval($_POST['user_id']);
             $companyId = intval($_POST['company_id']);
@@ -103,24 +105,25 @@ class Profile extends Controller
 
             // Utilisez la fonction pour mettre à jour à la fois "users" et "company"
             $this->model->updateCompanyAndImage($companyId, $userId, $imageFileName);
-    
+
             $response = [
                 'status' => 200,
                 'msg' => 'Mise à jour réussie',
             ];
-    
+
             // Mettez à jour la session si nécessaire (par exemple, si l'utilisateur met à jour son propre profil)
             $userIDInSession = $_SESSION['users']['id'];
             if ($userIDInSession === $userId) {
                 $_SESSION['users']['image'] = $imageFileName;
-            } 
-            
+            }
+
             echo json_encode($response);
             exit;
         }
     }
-    
-    public function updateCompany_compagny() {
+
+    public function updateCompany_compagny()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = intval($_POST['user_id']);
             $companyId = intval($_POST['company_id']);
@@ -129,7 +132,7 @@ class Profile extends Controller
             $code_postale = $_POST['code_postale']; // Ajoutez l'code_postale
             $tax_number = $_POST['tax_number'];
             $rccm = $_POST['rccm'];
-    
+
             // Vérifiez si les valeurs sont vides
             if (empty($bank_name) || empty($bank_number) || empty($code_postale) || empty($tax_number) || empty($rccm)) {
                 $response = [
@@ -142,12 +145,12 @@ class Profile extends Controller
 
             // Utilisez la fonction pour mettre à jour à la fois "users" et "company"
             $this->model->updateCompanyAndCompagny($companyId, $userId, $bank_name, $bank_number, $code_postale, $tax_number, $rccm);
-    
+
             $response = [
                 'status' => 200,
                 'msg' => 'Mise à jour réussie',
             ];
-    
+
             // Mettez à jour la session si nécessaire (par exemple, si l'utilisateur met à jour son propre profil)
             $userIDInSession = $_SESSION['users']['id'];
             if ($userIDInSession === $userId) {
@@ -156,24 +159,25 @@ class Profile extends Controller
                 $_SESSION['users']['code_postale'] = $code_postale; // Mettez à jour l'email
                 $_SESSION['users']['tax_number'] = $tax_number;
                 $_SESSION['users']['rccm'] = $rccm;
-            } 
+            }
             echo json_encode($response);
             exit;
         }
     }
 
-    public function updateCompany_password() {
+    public function updateCompany_password()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = intval($_POST['user_id']);
             $password = $_POST["password"];
             $confirm_password = $_POST["confirm_password"];
 
-        if ($password !== $confirm_password) {
-            $response = ["status" => 400, "msg" => "Les mots de passe ne correspondent pas"];
-            echo json_encode($response);
-            return;
-        }
-    
+            if ($password !== $confirm_password) {
+                $response = ["status" => 400, "msg" => "Les mots de passe ne correspondent pas"];
+                echo json_encode($response);
+                return;
+            }
+
             // Vérifiez si les valeurs sont vides
             if (empty($password) || empty($confirm_password)) {
                 $response = [
@@ -188,21 +192,19 @@ class Profile extends Controller
 
             // Utilisez la fonction pour mettre à jour à la fois "users" et "company"
             $this->model->updateCompanyAndPassword($userId, $password);
-    
+
             $response = [
                 'status' => 200,
                 'msg' => 'Mise à jour réussie',
             ];
-    
+
             // Mettez à jour la session si nécessaire (par exemple, si l'utilisateur met à jour son propre profil)
             $userIDInSession = $_SESSION['users']['id'];
             if ($userIDInSession === $userId) {
                 $_SESSION['users']['password'] = $password;
-            } 
+            }
             echo json_encode($response);
             exit;
         }
     }
-
-
 }

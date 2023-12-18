@@ -17,7 +17,8 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status === 200) {
-                    alertify.success("Connexion réussie. Vous êtes maintenant connecté.");
+                    alertify.success("Connexion réussie.");
+                    console.log(res.userRole);
                     setTimeout(() => {
                         switch (res.userRole) {
                             case 1:
@@ -47,4 +48,5 @@ $(document).ready(function () {
             
         });
     });
+        
 });

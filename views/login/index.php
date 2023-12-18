@@ -10,7 +10,7 @@
             content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta
             name="description"
-            content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+            content="Une application de gestion de paiement complete..">
         <!-- Fav Icon -->
         <link rel="shortcut icon" href="<?= URL ?>public/images/favicon.png">
         <!-- Page Title -->

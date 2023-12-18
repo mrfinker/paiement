@@ -37,14 +37,32 @@ class Login extends Controller
                         $userIdentifier = $email;
                         $userType = $this->model->getUserByEmailOrUsernameWithRole($userIdentifier);
 
+                        // Vérifiez si last_login est null ou vide
+                        $isLastLoginEmpty = $this->model->isUserLastLoginEmpty($email);
+
                         // Mettre à jour last_login et last_login_ip
                         $ip_address = $_SERVER['REMOTE_ADDR']; // Ceci est un exemple; utilisez votre propre méthode pour récupérer l'IP.
                         $this->model->updateUserLastLogin($email, $ip_address);
+                        $ValueRoles = $this->model->NumRole($getUserByEmail[0]["user_role_id"]);
+                        // S'assurer que les données sont dans un format compatible avec JSON
+                        // Extraction des permissions
+                        $permissionsList = array_map(function ($item) {
+                            return $item['permissions']; // Assurez-vous que 'permissions' est la clé correcte
+                        }, $ValueRoles);
+
+                        // Conversion du tableau des permissions en chaîne de caractères
+                        $ValueRolesFormatted = !empty($permissionsList) ? implode(', ', $permissionsList) : '';
 
                         if (!empty($userType)) {
                             Session::set("users", $getUserByEmail[0]);
                             Session::set("userType", $userType[0]);
-                            echo json_encode(array("status" => 200, "msg" => "success", "userRole" => $userType[0]["user_type_id"], "TypeName" => $userType[0]["name"]));
+                            Session::set("CheckLogin", $isLastLoginEmpty);
+                            Session::set("CheckEmployer", $isLastLoginEmpty);
+                            Session::set("CheckRh", $isLastLoginEmpty);
+                            Session::set("CheckFisc", $isLastLoginEmpty);
+                            Session::set("CheckPaie", $isLastLoginEmpty);
+                            Session::set("userPermissions", $ValueRolesFormatted);
+                            echo json_encode(array("status" => 200, "msg" => "success", "userRole" => $userType[0]["user_type_id"], "TypeName" => $userType[0]["name"], "NumRole" => $getUserByEmail[0]["user_role_id"], "ValueRole" => $ValueRolesFormatted, "checkLogin" => $isLastLoginEmpty));
                         } else {
                             echo json_encode(array("status" => 403, "msg" => "Erreur lors de la récupération du rôle"));
                         }
@@ -62,32 +80,32 @@ class Login extends Controller
         }
     }
 
-    public function checkSession()
-    {
-        if (!isset($_SESSION['LAST_ACTIVITY'])) {
-            echo json_encode(['session_active' => false]);
-            return;
-        }
+    // public function checkSession()
+    // {
+    //     if (!isset($_SESSION['LAST_ACTIVITY'])) {
+    //         echo json_encode(['session_active' => false]);
+    //         return;
+    //     }
 
-        $timeout = 60 * 60; // 1 minute
-        if (time() - $_SESSION['LAST_ACTIVITY'] > $timeout) {
-            echo json_encode(['session_active' => false]);
-        } else {
-            echo json_encode(['session_active' => true]);
-        }
-    }
+    //     $timeout = 60 * 60; // 1 minute
+    //     if (time() - $_SESSION['LAST_ACTIVITY'] > $timeout) {
+    //         echo json_encode(['session_active' => false]);
+    //     } else {
+    //         echo json_encode(['session_active' => true]);
+    //     }
+    // }
 
-    public function someMethodCalledOnEachRequest()
-    {
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            $_SESSION['LAST_ACTIVITY'] = time();
-        }
-    }
+    // public function someMethodCalledOnEachRequest()
+    // {
+    //     if (session_status() === PHP_SESSION_ACTIVE) {
+    //         $_SESSION['LAST_ACTIVITY'] = time();
+    //     }
+    // }
 
     public function logout()
     {
         $userSession = Session::get("users");
-        
+
         if ($userSession && isset($userSession["email"])) {
             $email = $userSession["email"];
             $this->model->updateUserLoggedInStatus($email, 0);
@@ -96,32 +114,33 @@ class Login extends Controller
         Session::destroy();
     }
 
-    protected function logoutClose()
-{
-    $userSession = Session::get("users");
-        
-    if ($userSession && isset($userSession["email"])) {
-        $email = $userSession["email"];
-        $this->model->updateUserLoggedInStatus($email, 0);
-        $this->model->updateUserLastLogout($email, date('Y-m-d H:i:s'));
+    // public function logoutClose()
+    // {
+    //     $userSession = Session::get("users");
 
-        Session::destroy();
-    }
-    
-    // Marquez la session pour destruction dans 20 secondes
-    $_SESSION['marked_for_destruction'] = time() + 10;
-}
+    //     if ($userSession && isset($userSession["email"])) {
+    //         $email = $userSession["email"];
+    //         $this->model->updateUserLoggedInStatus($email, 0);
+    //         $this->model->updateUserLastLogout($email, date('Y-m-d H:i:s'));
+
+    //         Session::destroy();
+    //     }
+
+    //     // Marquez la session pour destruction dans 20 secondes
+    //     $_SESSION['marked_for_destruction'] = time() + 10;
+    // }
 
 
-protected function checkSessionStatus() {
+    // public function checkSessionStatus()
+    // {
 
-    // Si le temps actuel dépasse le temps marqué pour destruction
-    if (isset($_SESSION['marked_for_destruction']) && time() > $_SESSION['marked_for_destruction']) {
-        $this->logoutClose();
-    } else {
-        unset($_SESSION['marked_for_destruction']);
-    }
-}
+    //     // Si le temps actuel dépasse le temps marqué pour destruction
+    //     if (isset($_SESSION['marked_for_destruction']) && time() > $_SESSION['marked_for_destruction']) {
+    //         $this->logoutClose();
+    //     } else {
+    //         unset($_SESSION['marked_for_destruction']);
+    //     }
+    // }
 
 
     // Votre route

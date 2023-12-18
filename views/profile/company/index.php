@@ -18,6 +18,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "company")
 $profileModel = new profile_model();
 $currencies = $profileModel->getAllCurrencies();
 $profile = $profileModel->getUserProfile();
+$test = $profileModel->getAllUsers();
 
 ?>
 

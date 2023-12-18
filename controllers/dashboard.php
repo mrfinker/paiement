@@ -25,5 +25,14 @@ class Dashboard extends Controller
         $this->view->render('dashboard/staff/index', true);
     }
 
-    
+    public function updateSession()
+    {
+        if (isset($_POST['updateSession']) && $_POST['updateSession'] == 'true') {
+            // Met à jour la session
+            Session::set("CheckLogin", false);
+            echo json_encode(["message" => "La session a ete mise a jour"]);
+        } else {
+            echo json_encode(["message" => "La requete est invalide"]);
+        }
+    }
 }

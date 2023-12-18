@@ -40,6 +40,38 @@ class Company extends Controller
     {
         $this->view->render('company/history_paiement', true);
     }
+    public function generate_paie_pdf()
+    {
+        $this->view->render('company/generate_paie_pdf', true);
+    }
+    public function generate_pdf()
+    {
+        $this->view->render('company/generate_pdf', true);
+    }
+    public function generate_excel()
+    {
+        $this->view->render('company/generate_excel', true);
+    }
+    public function generate_presence_pdf()
+    {
+        $this->view->render('company/generate_presence_pdf', true);
+    }
+    public function generate_presence_excel()
+    {
+        $this->view->render('company/generate_presence_excel', true);
+    }
+    public function generate_report_paie_annuel_pdf()
+    {
+        $this->view->render('company/generate_report_paie_annuel_pdf', true);
+    }
+    public function generate_report_paie_annuel_excel()
+    {
+        $this->view->render('company/generate_report_paie_annuel_excel', true);
+    }
+    public function generate_dgi_pdf()
+    {
+        $this->view->render('company/generate_dgi_pdf', true);
+    }
     public function invoice_paie()
     {
         $this->view->render('company/invoice_paie', true);
@@ -51,12 +83,13 @@ class Company extends Controller
         $this->view->render('company/invoice_account', true);
     }
 
-    public function getAllAccountsByCreatorAndCompany_hack () {
-        if(isset($_POST["account_id"]) && !empty($_POST["account_id"])){
+    public function getAllAccountsByCreatorAndCompany_hack()
+    {
+        if (isset($_POST["account_id"]) && !empty($_POST["account_id"])) {
             $get = $this->model->getAllAccountsByCreatorAndCompany_hack($_POST["account_id"]);
-            if(!empty($get)){
+            if (!empty($get)) {
                 echo json_encode(array("status" => 200, "data" => $get));
-            }else {
+            } else {
                 echo json_encode(array("status" => 500, "msg" => "error"));
             }
         }
@@ -101,7 +134,27 @@ class Company extends Controller
     {
         $this->view->render('company/avance_salaire', true);
     }
-    
+    public function report_paie_annuel()
+    {
+        $this->view->render('company/report_paie_annuel', true);
+    }
+    public function dgi()
+    {
+        $this->view->render('company/dgi', true);
+    }
+    public function cnss()
+    {
+        $this->view->render('company/cnss', true);
+    }
+    public function onem()
+    {
+        $this->view->render('company/onem', true);
+    }
+    public function inpp()
+    {
+        $this->view->render('company/inpp', true);
+    }
+
 
     // Role
     public function handleDeleteRole()
@@ -130,32 +183,34 @@ class Company extends Controller
             }
             $name = $_POST['name'];
             $permissionsAdmin = isset($_POST['admin']) ? $_POST['admin'] : [];
-            $permissionsCompany = isset($_POST['company']) ? $_POST['company'] : [];
-            $permissionsPrivilege = isset($_POST['privilege']) ? $_POST['privilege'] : [];
+            // $permissionsCompany = isset($_POST['company']) ? $_POST['company'] : [];
+            // $permissionsPrivilege = isset($_POST['privilege']) ? $_POST['privilege'] : [];
 
             // Remplacez les caractères "_" par des espaces dans les noms des permissions
-            $permissionsAdmin = array_map(function($permission) {
+            $permissionsAdmin = array_map(function ($permission) {
                 return str_replace('_', ' ', $permission);
             }, $permissionsAdmin);
-            $permissionsCompany = array_map(function($permission) {
-                return str_replace('_', ' ', $permission);
-            }, $permissionsCompany);
-            $permissionsPrivilege = array_map(function($permission) {
-                return str_replace('_', ' ', $permission);
-            }, $permissionsPrivilege);
+
+            // $permissionsCompany = array_map(function($permission) {
+            //     return str_replace('_', ' ', $permission);
+            // }, $permissionsCompany);
+
+            // $permissionsPrivilege = array_map(function($permission) {
+            //     return str_replace('_', ' ', $permission);
+            // }, $permissionsPrivilege);
 
             // Supprimez les valeurs "on" du tableau des permissions
-            $permissionsAdmin = array_filter($permissionsAdmin, function($permission) {
+            $permissionsAdmin = array_filter($permissionsAdmin, function ($permission) {
                 return $permission !== 'on';
             });
-            $permissionsCompany = array_filter($permissionsCompany, function($permission) {
-                return $permission !== 'on';
-            });
-            $permissionsPrivilege = array_filter($permissionsPrivilege, function($permission) {
-                return $permission !== 'on';
-            });
+            // $permissionsCompany = array_filter($permissionsCompany, function($permission) {
+            //     return $permission !== 'on';
+            // });
+            // $permissionsPrivilege = array_filter($permissionsPrivilege, function($permission) {
+            //     return $permission !== 'on';
+            // });
 
-            $permissions = array_merge($permissionsAdmin, $permissionsCompany, $permissionsPrivilege);
+            $permissions = array_merge($permissionsAdmin);
 
             $permissionsString = implode(', ', $permissions);
 
@@ -184,9 +239,9 @@ class Company extends Controller
 
             // Combine permissions arrays
             $permissions = array_merge(
-                $_POST['admin'] ?? [],
-                $_POST['company'] ?? [],
-                $_POST['privilege'] ?? []
+                $_POST['admin'] ?? []
+                // $_POST['company'] ?? [],
+                // $_POST['privilege'] ?? []
             );
 
             $permissionsString = implode(', ', $permissions);
@@ -218,7 +273,7 @@ class Company extends Controller
         }
     }
 
-// departements
+    // departements
     public function handleAddDepartment()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -308,7 +363,7 @@ class Company extends Controller
         }
     }
 
-// Designation
+    // Designation
     public function handleAddDesignation()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -404,7 +459,7 @@ class Company extends Controller
         }
     }
 
-// depots et depenses
+    // depots et depenses
     public function handleAddDepExp()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -511,8 +566,8 @@ class Company extends Controller
             } catch (Exception $e) {
                 // Traiter l'exception ou indiquer une date incorrecte
                 echo $e->getMessage();
-            }    
-                        
+            }
+
             $entity_category_id = $_POST['entity_category_id'];
             $staff_id = $_POST['staff_id'];
             $payement_method = $_POST['payement_method'];
@@ -607,7 +662,7 @@ class Company extends Controller
             } catch (Exception $e) {
                 // Traiter l'exception ou indiquer une date incorrecte
                 echo $e->getMessage();
-            }    
+            }
             $entity_category_id = $_POST['entity_category_id'];
             $staff_id = $_POST['staff_id'];
             $payement_method = $_POST['payement_method'];
@@ -661,62 +716,62 @@ class Company extends Controller
     }
 
     public function updateTransactions()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = intval($_POST['transactions_id']);
-        $date = $_POST['transactionDate'];
-        $amount = $_POST['TransactionAmount'];
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['transactions_id']);
+            $date = $_POST['transactionDate'];
+            $amount = $_POST['TransactionAmount'];
 
-        // Formatage et validation de la date
-        $parts = explode('/', $date);
-        if (count($parts) === 3) {
-            $date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
-        } else {
-            $parts = explode('-', $date);
+            // Formatage et validation de la date
+            $parts = explode('/', $date);
             if (count($parts) === 3) {
-                $year = $parts[0];
-                $month = $parts[1];
-                $day = $parts[2];
-                $date = $year . '-' . $month . '-' . $day;
+                $date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+            } else {
+                $parts = explode('-', $date);
+                if (count($parts) === 3) {
+                    $year = $parts[0];
+                    $month = $parts[1];
+                    $day = $parts[2];
+                    $date = $year . '-' . $month . '-' . $day;
+                }
             }
-        }
 
-        try {
-            $dateObject = DateTime::createFromFormat('Y-m-d', $date);
-            if (!$dateObject) {
-                throw new Exception("Format de date invalide.");
+            try {
+                $dateObject = DateTime::createFromFormat('Y-m-d', $date);
+                if (!$dateObject) {
+                    throw new Exception("Format de date invalide.");
+                }
+                $transaction_date = $dateObject->format('Y-m-d');
+            } catch (Exception $e) {
+                // Traiter l'exception ou indiquer une date incorrecte
+                $response = ['status' => 400, 'msg' => $e->getMessage()];
+                header('Content-Type: application/json');
+                echo json_encode($response);
+                exit;
             }
-            $transaction_date = $dateObject->format('Y-m-d');
-        } catch (Exception $e) {
-            // Traiter l'exception ou indiquer une date incorrecte
-            $response = ['status' => 400, 'msg' => $e->getMessage()];
+
+            // Vérification de la date
+            if (empty($transaction_date)) {
+                $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
+            } else {
+                $result = $this->model->updateTransaction($id, $transaction_date, $amount);
+
+                if ($result) {
+                    $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+                } else {
+                    $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+                }
+            }
+
             header('Content-Type: application/json');
             echo json_encode($response);
             exit;
         }
-
-        // Vérification de la date
-        if (empty($transaction_date)) {
-            $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
-        } else {
-            $result = $this->model->updateTransaction($id, $transaction_date, $amount);
-
-            if ($result) {
-                $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
-            } else {
-                $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
-            }
-        }
-
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit;
     }
-}
 
 
 
-// Horaire
+    // Horaire
     public function handleAddHoraire()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -857,7 +912,7 @@ class Company extends Controller
         }
     }
 
-// utilisateurs
+    // utilisateurs
     public function handleRegisterUsers()
     {
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
@@ -886,6 +941,9 @@ class Company extends Controller
         $designation_id = $_POST['designation_id'];
         $children = $_POST['children'];
         $spouse = $_POST['spouse'];
+        $poste_name = $_POST['poste'];
+        $contract_start = $_POST['contract_start'];
+        $contract_end = $_POST['contract_end'];
         $working_time = $_POST['working_time'];
         $salaire_base = $_POST['salaire_base'];
         $paiement_type = $_POST['paiement_type'];
@@ -917,6 +975,62 @@ class Company extends Controller
             return;
         }
 
+        // Formatage et validation de la date start
+        $parts = explode('/', $contract_start);
+        if (count($parts) === 3) {
+            $contract_start = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+        } else {
+            $parts = explode('-', $contract_start);
+            if (count($parts) === 3) {
+                $year = $parts[0];
+                $month = $parts[1];
+                $day = $parts[2];
+                $contract_start = $year . '-' . $month . '-' . $day;
+            }
+        }
+
+        try {
+            $dateObject = DateTime::createFromFormat('Y-m-d', $contract_start);
+            if (!$dateObject) {
+                throw new Exception("Format de date invalide.");
+            }
+            $contract_start = $dateObject->format('Y-m-d');
+        } catch (Exception $e) {
+            // Traiter l'exception ou indiquer une date incorrecte
+            $response = ['status' => 400, 'msg' => $e->getMessage()];
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+
+        // Formatage et validation de la date end
+        $parts = explode('/', $contract_end);
+        if (count($parts) === 3) {
+            $contract_end = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+        } else {
+            $parts = explode('-', $contract_end);
+            if (count($parts) === 3) {
+                $year = $parts[0];
+                $month = $parts[1];
+                $day = $parts[2];
+                $contract_end = $year . '-' . $month . '-' . $day;
+            }
+        }
+
+        try {
+            $dateObject = DateTime::createFromFormat('Y-m-d', $contract_end);
+            if (!$dateObject) {
+                throw new Exception("Format de date invalide.");
+            }
+            $contract_end = $dateObject->format('Y-m-d');
+        } catch (Exception $e) {
+            // Traiter l'exception ou indiquer une date incorrecte
+            $response = ['status' => 400, 'msg' => $e->getMessage()];
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        }
+
         $imageFileName = "";
         if (isset($_FILES["image"]) && $_FILES["image"]["error"] === 0) {
             $target_directory = "uploads/";
@@ -936,7 +1050,6 @@ class Company extends Controller
                     echo json_encode($response);
                     return;
                 }
-
             } else {
                 $response = ["status" => 400, "msg" => "La taille de l'image dépasse la limite autorisée (20 Mo)."];
                 echo json_encode($response);
@@ -957,6 +1070,9 @@ class Company extends Controller
             "designation_id" => $designation_id,
             "children" => $children,
             "spouse" => $spouse,
+            "poste_name" => $poste_name,
+            "contract_start" => $contract_start,
+            "contract_end" => $contract_end,
             "office_shift_id" => $working_time,
             "basic_salary" => $salaire_base,
             "contract_type" => $contract_type,
@@ -992,6 +1108,7 @@ class Company extends Controller
             $emailupdate = $_POST['updateemail'];
             $phoneupdate = $_POST['updatephone'];
             $updatestatus_marital = $_POST['updatestatus_marital'];
+            $updateposte_name = $_POST['updateposte'];
             $updateemployeid = $_POST['updateemployeid'];
             $updategender = $_POST['updategender'];
             $updateuser_role = $_POST['updateuser_role'];
@@ -1039,6 +1156,7 @@ class Company extends Controller
                     $id,
                     $nameupdate,
                     $updatestatus_marital,
+                    $updateposte_name,
                     $updateemployeid,
                     $phoneupdate,
                     $updategender,
@@ -1072,6 +1190,7 @@ class Company extends Controller
                         $_SESSION['users']['image'] = $imageFileName;
                         $_SESSION['users']['emplyee_id'] = $updateemployeid;
                         $_SESSION['users']['gender'] = $updategender;
+                        $_SESSION['users']['poste_name'] = $updateposte_name;
                         $_SESSION['users']['user_role_id'] = $updateuser_role;
                         $_SESSION['users']['departement_id'] = $updatedepartment_id;
                         $_SESSION['users']['designation_id'] = $updatedesignation_id;
@@ -1162,8 +1281,13 @@ class Company extends Controller
                 $payslipCode .= $characters[mt_rand(0, strlen($characters) - 1)];
             }
 
+            $currentYear = $_POST['year']; // Récupération de l'année de POST
+            $currentMonth = $_POST['month']; // Récupération du mois de POST
+            $currentDay = date('d'); // Récupération du jour
+
             $year_to_date = date('d-m-Y');
-            $salary_month = date('Y-m');
+            $salary_month = $currentYear . '-' . $currentMonth;
+            $salary_month_day = $currentYear . '-' . $currentMonth . '-' . $currentDay;
 
             $data = [
                 'payslip_value' => $payslipValue,
@@ -1174,6 +1298,7 @@ class Company extends Controller
                 'basic_salary' => $_POST['basic_salary'],
                 'year_to_date' => $year_to_date,
                 'salary_month' => $salary_month,
+                'salary_month_day' => $salary_month_day,
                 'net_salary' => $_POST['salary_net'],
 
                 'salary_imposable' => $_POST['salary_imposable'],
@@ -1222,7 +1347,7 @@ class Company extends Controller
         }
     }
 
-// Comptes
+    // Comptes
     public function handleAddComptes()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -1334,111 +1459,111 @@ class Company extends Controller
         }
     }
 
-// Timesheet
-public function handleAddTimesheet()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_SESSION['users'])) {
-            $user = $_SESSION['users'];
-            $userId = $user['id'];
-            $companyId = $user['company_id'];
-        } else {
-            return [];
-        }
+    // Timesheet
+    public function handleAddTimesheet()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_SESSION['users'])) {
+                $user = $_SESSION['users'];
+                $userId = $user['id'];
+                $companyId = $user['company_id'];
+            } else {
+                return [];
+            }
 
-        $staff_id = $_POST['staff_id'];
-        $timesheet_date = $_POST['timesheet_date'];
-        $clock_in = $_POST['clock_in'];
-        $clock_out = $_POST['clock_out'];
-        $timesheet_status = "Present";
+            $staff_id = $_POST['staff_id'];
+            $timesheet_date = $_POST['timesheet_date'];
+            $clock_in = $_POST['clock_in'];
+            $clock_out = $_POST['clock_out'];
+            $timesheet_status = "Present";
 
-        // Formatage et validation de la date
-        $parts = explode('/', $timesheet_date);
-        if (count($parts) === 3) {
-            $timesheet_date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
-        } else {
-            $parts = explode('-', $timesheet_date);
+            // Formatage et validation de la date
+            $parts = explode('/', $timesheet_date);
             if (count($parts) === 3) {
-                $year = $parts[0];
-                $month = $parts[1];
-                $day = $parts[2];
-                $timesheet_date = $year . '-' . $month . '-' . $day;
+                $timesheet_date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+            } else {
+                $parts = explode('-', $timesheet_date);
+                if (count($parts) === 3) {
+                    $year = $parts[0];
+                    $month = $parts[1];
+                    $day = $parts[2];
+                    $timesheet_date = $year . '-' . $month . '-' . $day;
+                }
             }
-        }
 
-        try {
-            $dateObject = DateTime::createFromFormat('Y-m-d', $timesheet_date);
-            if (!$dateObject) {
-                throw new Exception("Format de date invalide.");
+            try {
+                $dateObject = DateTime::createFromFormat('Y-m-d', $timesheet_date);
+                if (!$dateObject) {
+                    throw new Exception("Format de date invalide.");
+                }
+                $timesheet_date = $dateObject->format('Y-m-d');
+            } catch (Exception $e) {
+                // Traiter l'exception ou indiquer une date incorrecte
+                $response = ['status' => 400, 'msg' => $e->getMessage()];
+                header('Content-Type: application/json');
+                echo json_encode($response);
+                exit;
             }
-            $timesheet_date = $dateObject->format('Y-m-d');
-        } catch (Exception $e) {
-            // Traiter l'exception ou indiquer une date incorrecte
-            $response = ['status' => 400, 'msg' => $e->getMessage()];
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            exit;
-        }
 
-                // Convertir clock_in et clock_out en heures
-        $clockInParts = explode(':', $clock_in);
-        $clockOutParts = explode(':', $clock_out);
+            // Convertir clock_in et clock_out en heures
+            $clockInParts = explode(':', $clock_in);
+            $clockOutParts = explode(':', $clock_out);
 
-        $clockInHour = intval($clockInParts[0]);
-        $clockOutHour = intval($clockOutParts[0]);
+            $clockInHour = intval($clockInParts[0]);
+            $clockOutHour = intval($clockOutParts[0]);
 
-        if (strpos($clock_in, 'PM') !== false && $clockInHour != 12) {
-            $clockInHour += 12;
-        } elseif (strpos($clock_in, 'AM') !== false && $clockInHour == 12) {
-            $clockInHour = 0;
-        }
+            if (strpos($clock_in, 'PM') !== false && $clockInHour != 12) {
+                $clockInHour += 12;
+            } elseif (strpos($clock_in, 'AM') !== false && $clockInHour == 12) {
+                $clockInHour = 0;
+            }
 
-        if (strpos($clock_out, 'PM') !== false && $clockOutHour != 12) {
-            $clockOutHour += 12;
-        } elseif (strpos($clock_out, 'AM') !== false && $clockOutHour == 12) {
-            $clockOutHour = 0;
-        }
+            if (strpos($clock_out, 'PM') !== false && $clockOutHour != 12) {
+                $clockOutHour += 12;
+            } elseif (strpos($clock_out, 'AM') !== false && $clockOutHour == 12) {
+                $clockOutHour = 0;
+            }
 
-        $clockInHours = $clockInHour + intval($clockInParts[1]) / 60;
-        $clockOutHours = $clockOutHour + intval($clockOutParts[1]) / 60;
+            $clockInHours = $clockInHour + intval($clockInParts[1]) / 60;
+            $clockOutHours = $clockOutHour + intval($clockOutParts[1]) / 60;
 
-        // Calculer total_work
-        $total_work = $clockOutHours - $clockInHours;
+            // Calculer total_work
+            $total_work = $clockOutHours - $clockInHours;
 
-        // Calculer total_rest ou total_sup
-        $total_rest = 0;
-        $total_sup = 0;
-        $workDifference = 8 - $total_work;
-        if ($workDifference > 0) {
-            $total_rest = abs($workDifference);
-        } else {
-            $total_sup = abs($workDifference);
-        }
-        
-        $data = [
-            'staff_id' => $staff_id,
-            'timesheet_date' => $timesheet_date,
-            'clock_in' => $clock_in,
-            'clock_out' => $clock_out,
-            'timesheet_status' => $timesheet_status,
-            'total_work' => intval($total_work), // converti en entier
-            'total_rest' => intval($total_rest), // converti en entier
-            'total_sup' => intval($total_sup),   // converti en entier
-            'company_id' => $companyId,
-            'added_by' => $userId,
-        ];
+            // Calculer total_rest ou total_sup
+            $total_rest = 0;
+            $total_sup = 0;
+            $workDifference = 8 - $total_work;
+            if ($workDifference > 0) {
+                $total_rest = abs($workDifference);
+            } else {
+                $total_sup = abs($workDifference);
+            }
 
-        $result = $this->model->addTimesheet($data);
+            $data = [
+                'staff_id' => $staff_id,
+                'timesheet_date' => $timesheet_date,
+                'clock_in' => $clock_in,
+                'clock_out' => $clock_out,
+                'timesheet_status' => $timesheet_status,
+                'total_work' => intval($total_work), // converti en entier
+                'total_rest' => intval($total_rest), // converti en entier
+                'total_sup' => intval($total_sup),   // converti en entier
+                'company_id' => $companyId,
+                'added_by' => $userId,
+            ];
 
-        if ($result) {
-            echo json_encode(array("status" => 200, "msg" => "La presence a été ajouté avec succès."));
-        } else {
-            echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout."));
+            $result = $this->model->addTimesheet($data);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "La presence a été ajouté avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout."));
+            }
         }
     }
-}
 
-public function handleDeleteTimesheet()
+    public function handleDeleteTimesheet()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
@@ -1459,129 +1584,129 @@ public function handleDeleteTimesheet()
     }
 
     public function updateTimesheet()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = intval($_POST['timesheet_id']);
-        $timesheet_date = $_POST['timesheet_date_update'];
-        $clock_in = $_POST['clock_in_update'];
-        $clock_out = $_POST['clock_out_update'];
-        $staff_id = $_POST['staff_id_update'];
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['timesheet_id']);
+            $timesheet_date = $_POST['timesheet_date_update'];
+            $clock_in = $_POST['clock_in_update'];
+            $clock_out = $_POST['clock_out_update'];
+            $staff_id = $_POST['staff_id_update'];
 
-        // Formatage et validation de la date
-        $parts = explode('/', $timesheet_date);
-        if (count($parts) === 3) {
-            $timesheet_date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
-        } else {
-            $parts = explode('-', $timesheet_date);
+            // Formatage et validation de la date
+            $parts = explode('/', $timesheet_date);
             if (count($parts) === 3) {
-                $year = $parts[0];
-                $month = $parts[1];
-                $day = $parts[2];
-                $timesheet_date = $year . '-' . $month . '-' . $day;
-            }
-        }
-
-        try {
-            $dateObject = DateTime::createFromFormat('Y-m-d', $timesheet_date);
-            if (!$dateObject) {
-                throw new Exception("Format de date invalide.");
-            }
-            $transaction_date = $dateObject->format('Y-m-d');
-        } catch (Exception $e) {
-            // Traiter l'exception ou indiquer une date incorrecte
-            $response = ['status' => 400, 'msg' => $e->getMessage()];
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            exit;
-        }
-
-        // Formatage et validation de la date
-        $parts = explode('/', $timesheet_date);
-        if (count($parts) === 3) {
-            $timesheet_date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
-        } else {
-            $parts = explode('-', $timesheet_date);
-            if (count($parts) === 3) {
-                $year = $parts[0];
-                $month = $parts[1];
-                $day = $parts[2];
-                $timesheet_date = $year . '-' . $month . '-' . $day;
-            }
-        }
-
-        try {
-            $dateObject = DateTime::createFromFormat('Y-m-d', $timesheet_date);
-            if (!$dateObject) {
-                throw new Exception("Format de date invalide.");
-            }
-            $timesheet_date = $dateObject->format('Y-m-d');
-        } catch (Exception $e) {
-            // Traiter l'exception ou indiquer une date incorrecte
-            $response = ['status' => 400, 'msg' => $e->getMessage()];
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            exit;
-        }
-
-                // Convertir clock_in et clock_out en heures
-        $clockInParts = explode(':', $clock_in);
-        $clockOutParts = explode(':', $clock_out);
-
-        $clockInHour = intval($clockInParts[0]);
-        $clockOutHour = intval($clockOutParts[0]);
-
-        if (strpos($clock_in, 'PM') !== false && $clockInHour != 12) {
-            $clockInHour += 12;
-        } elseif (strpos($clock_in, 'AM') !== false && $clockInHour == 12) {
-            $clockInHour = 0;
-        }
-
-        if (strpos($clock_out, 'PM') !== false && $clockOutHour != 12) {
-            $clockOutHour += 12;
-        } elseif (strpos($clock_out, 'AM') !== false && $clockOutHour == 12) {
-            $clockOutHour = 0;
-        }
-
-        $clockInHours = $clockInHour + intval($clockInParts[1]) / 60;
-        $clockOutHours = $clockOutHour + intval($clockOutParts[1]) / 60;
-
-        // Calculer total_work
-        $total_work = $clockOutHours - $clockInHours;
-
-        // Calculer total_rest ou total_sup
-        $total_rest = 0;
-        $total_sup = 0;
-        $workDifference = 8 - $total_work;
-        if ($workDifference > 0) {
-            $total_rest = abs($workDifference);
-        } else {
-            $total_sup = abs($workDifference);
-        }
-
-        $total_work = intval($total_work); // converti en entier
-        $total_rest = intval($total_rest); // converti en entier
-        $total_sup = intval($total_sup);
-
-        // Vérification de la date
-        if (empty($transaction_date)) {
-            $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
-        } else {
-            $result = $this->model->updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timesheet_date, $total_work, $total_rest, $total_sup);
-
-            if ($result) {
-                $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+                $timesheet_date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
             } else {
-                $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+                $parts = explode('-', $timesheet_date);
+                if (count($parts) === 3) {
+                    $year = $parts[0];
+                    $month = $parts[1];
+                    $day = $parts[2];
+                    $timesheet_date = $year . '-' . $month . '-' . $day;
+                }
             }
+
+            try {
+                $dateObject = DateTime::createFromFormat('Y-m-d', $timesheet_date);
+                if (!$dateObject) {
+                    throw new Exception("Format de date invalide.");
+                }
+                $transaction_date = $dateObject->format('Y-m-d');
+            } catch (Exception $e) {
+                // Traiter l'exception ou indiquer une date incorrecte
+                $response = ['status' => 400, 'msg' => $e->getMessage()];
+                header('Content-Type: application/json');
+                echo json_encode($response);
+                exit;
+            }
+
+            // Formatage et validation de la date
+            $parts = explode('/', $timesheet_date);
+            if (count($parts) === 3) {
+                $timesheet_date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+            } else {
+                $parts = explode('-', $timesheet_date);
+                if (count($parts) === 3) {
+                    $year = $parts[0];
+                    $month = $parts[1];
+                    $day = $parts[2];
+                    $timesheet_date = $year . '-' . $month . '-' . $day;
+                }
+            }
+
+            try {
+                $dateObject = DateTime::createFromFormat('Y-m-d', $timesheet_date);
+                if (!$dateObject) {
+                    throw new Exception("Format de date invalide.");
+                }
+                $timesheet_date = $dateObject->format('Y-m-d');
+            } catch (Exception $e) {
+                // Traiter l'exception ou indiquer une date incorrecte
+                $response = ['status' => 400, 'msg' => $e->getMessage()];
+                header('Content-Type: application/json');
+                echo json_encode($response);
+                exit;
+            }
+
+            // Convertir clock_in et clock_out en heures
+            $clockInParts = explode(':', $clock_in);
+            $clockOutParts = explode(':', $clock_out);
+
+            $clockInHour = intval($clockInParts[0]);
+            $clockOutHour = intval($clockOutParts[0]);
+
+            if (strpos($clock_in, 'PM') !== false && $clockInHour != 12) {
+                $clockInHour += 12;
+            } elseif (strpos($clock_in, 'AM') !== false && $clockInHour == 12) {
+                $clockInHour = 0;
+            }
+
+            if (strpos($clock_out, 'PM') !== false && $clockOutHour != 12) {
+                $clockOutHour += 12;
+            } elseif (strpos($clock_out, 'AM') !== false && $clockOutHour == 12) {
+                $clockOutHour = 0;
+            }
+
+            $clockInHours = $clockInHour + intval($clockInParts[1]) / 60;
+            $clockOutHours = $clockOutHour + intval($clockOutParts[1]) / 60;
+
+            // Calculer total_work
+            $total_work = $clockOutHours - $clockInHours;
+
+            // Calculer total_rest ou total_sup
+            $total_rest = 0;
+            $total_sup = 0;
+            $workDifference = 8 - $total_work;
+            if ($workDifference > 0) {
+                $total_rest = abs($workDifference);
+            } else {
+                $total_sup = abs($workDifference);
+            }
+
+            $total_work = intval($total_work); // converti en entier
+            $total_rest = intval($total_rest); // converti en entier
+            $total_sup = intval($total_sup);
+
+            // Vérification de la date
+            if (empty($transaction_date)) {
+                $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
+            } else {
+                $result = $this->model->updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timesheet_date, $total_work, $total_rest, $total_sup);
+
+                if ($result) {
+                    $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+                } else {
+                    $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+                }
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
         }
-
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit;
     }
-}
 
-public function handleAddavanceSalaire()
+    public function handleAddavanceSalaire()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_SESSION['users'])) {
@@ -1603,7 +1728,7 @@ public function handleAddavanceSalaire()
             } catch (Exception $e) {
                 // Traiter l'exception ou indiquer une date incorrecte
                 echo $e->getMessage();
-            }    
+            }
             $staff_id = $_POST['staff_id'];
             $paiement_type = $_POST['paiement_type'];
             $avance_reference = $_POST['avance_reference'];
@@ -1672,58 +1797,392 @@ public function handleAddavanceSalaire()
     }
 
     public function updateAvanceSalaire()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = intval($_POST['advanced_salary_id']);
-        $updatemonth_year = $_POST['updatemonth_year'];
-        $updatestaff_id = $_POST['updatestaff_id'];
-        $updateadvance_amount = $_POST['updateadvance_amount'];
-        $updatepaiement_type = $_POST['updatepaiement_type'];
-        $updateavance_reference = $_POST['updateavance_reference'];
-        $updatedescription = $_POST['updatedescription'];
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['advanced_salary_id']);
+            $updatemonth_year = $_POST['updatemonth_year'];
+            $updatestaff_id = $_POST['updatestaff_id'];
+            $updateadvance_amount = $_POST['updateadvance_amount'];
+            $updatepaiement_type = $_POST['updatepaiement_type'];
+            $updateavance_reference = $_POST['updateavance_reference'];
+            $updatedescription = $_POST['updatedescription'];
 
-        // Formatage et validation de la updatemonth_year
-        $parts = explode('/', $updatemonth_year);
-        if (count($parts) === 3) {
-            $updatemonth_year = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
-        } else {
-            $parts = explode('-', $updatemonth_year);
+            // Formatage et validation de la updatemonth_year
+            $parts = explode('/', $updatemonth_year);
             if (count($parts) === 3) {
-                $year = $parts[0];
-                $month = $parts[1];
-                $day = $parts[2];
-                $updatemonth_year = $year . '-' . $month . '-' . $day;
-            }
-        }
-
-        try {
-            $date = DateTime::createFromFormat('Y-m-d', $updatemonth_year);
-            if (!$date) {
-                throw new Exception("Format de date invalide.");
-            }
-            $updatemonth_year = $date->format('Y-m'); // Pas nécessaire de reformater si on utilise le même format
-        } catch (Exception $e) {
-            // Traiter l'exception ou indiquer une date incorrecte
-            echo $e->getMessage();
-        }    
-
-        // Vérification de la date
-        if (empty($updatemonth_year)) {
-            $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
-        } else {
-            $result = $this->model->updateAvanceSalaire($id, $updatemonth_year, $updateadvance_amount, $updatestaff_id, $updatepaiement_type, $updateavance_reference, $updatedescription);
-
-            if ($result) {
-                $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+                $updatemonth_year = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
             } else {
-                $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+                $parts = explode('-', $updatemonth_year);
+                if (count($parts) === 3) {
+                    $year = $parts[0];
+                    $month = $parts[1];
+                    $day = $parts[2];
+                    $updatemonth_year = $year . '-' . $month . '-' . $day;
+                }
             }
+
+            try {
+                $date = DateTime::createFromFormat('Y-m-d', $updatemonth_year);
+                if (!$date) {
+                    throw new Exception("Format de date invalide.");
+                }
+                $updatemonth_year = $date->format('Y-m'); // Pas nécessaire de reformater si on utilise le même format
+            } catch (Exception $e) {
+                // Traiter l'exception ou indiquer une date incorrecte
+                echo $e->getMessage();
+            }
+
+            // Vérification de la date
+            if (empty($updatemonth_year)) {
+                $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
+            } else {
+                $result = $this->model->updateAvanceSalaire($id, $updatemonth_year, $updateadvance_amount, $updatestaff_id, $updatepaiement_type, $updateavance_reference, $updatedescription);
+
+                if ($result) {
+                    $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+                } else {
+                    $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+                }
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
         }
-
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit;
     }
-}
 
+    public function report_search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+
+            $selectedUserIds = isset($_GET['users']) ? explode(',', $_GET['users']) : null;
+
+            $companyModel = new company_model();
+            $userscompany = $selectedUserIds ? $companyModel->getAllUsersIdByCreatorAndCompany($selectedUserIds) : $companyModel->getAllUsersByCreatorAndCompany();
+
+            // Générez le HTML du tableau avec les nouvelles données
+            foreach ($userscompany as $user) {
+                foreach ($userscompany as $user) {
+                    // Récupération des données de paiement pour l'employé courant pour l'année sélectionnée
+                    $paymentData = $companyModel->getAllPayementCurrentYearByCreatorAndCompanyFiltered($user['id'], $currentYear);
+
+                    echo '<tr class="nk-tb-item odd">';
+                    echo '<td class="nk-tb-col tb-col-mb">';
+                    echo '<div class="col">';
+                    echo '<div class="custom-control custom-control-sm custom-checkbox notext">';
+                    echo '<input type="checkbox" class="custom-control-input user-checkbox" value="' . htmlspecialchars($user['id']) . '" id="user' . htmlspecialchars($user['id']) . '">';
+                    echo '<label class="custom-control-label" for="user' . htmlspecialchars($user['id']) . '"></label>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<span class="tb-amount">' . htmlspecialchars($user['name']) . '</span>';
+                    echo '</td>';
+
+
+                    // Parcourir chaque mois de l'année
+                    for ($month = 1; $month <= 12; $month++) {
+                        $netSalary = array_key_exists($month, $paymentData) ? $paymentData[$month] : '-';
+                        echo '<td class="nk-tb-col">' . htmlspecialchars($netSalary) . " $" . '</td>';
+                    }
+                    echo '</tr>';
+                }
+                exit;
+            }
+            exit;
+        }
+    }
+
+    public function report_paie_search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentMonth = $_POST['month']; // Mois sélectionné par l'utilisateur
+            $currentYear = $_POST['year']; // Année sélectionnée par l'utilisateur
+
+            $selectedUserIds = isset($_GET['users']) ? explode(',', $_GET['users']) : null;
+
+            $companyModel = new company_model();
+            $userscompany = $selectedUserIds ? $companyModel->getAllUsersIdByCreatorAndCompany($selectedUserIds) : $companyModel->getAllUsersByCreatorAndCompany();
+            $daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
+
+            // Générer le HTML pour l'entête du tableau
+            $thead = '<thead>
+                    <tr class="nk-tb-item nk-tb-head">
+                        <th class="nk-tb-col">Jours</th>';
+            for ($i = 1; $i <= $daysInCurrentMonth; $i++) {
+                $thead .= '<th class="nk-tb-col">' . $i . '</th>';
+            }
+            $thead .= '</tr><tr class="nk-tb-item nk-tb-head">
+                        <th class="nk-tb-col">Employer</th>';
+            foreach (range(1, $daysInCurrentMonth) as $day) {
+                $dayOfWeek = date('D', strtotime("$currentYear-$currentMonth-$day"));
+                $thead .= '<th class="nk-tb-col">' . $dayOfWeek . '</th>';
+            }
+            $thead .= '</tr></thead>';
+
+            // Commencer le HTML pour le corps du tableau
+            $tbody = '<tbody>';
+
+            foreach ($userscompany as $user) {
+                // Récupération des données pour l'employé pour le mois en cours et pour l'année sélectionnée
+                $timesheetData = $companyModel->getCurrentMonthTimesheetsByCreatorAndCompanyFiltered($user['id'], $currentMonth, $currentYear);
+                $timesheetDays = $timesheetData['days'];
+                $officeShift = $timesheetData['officeShift'];
+                $tbody .= '<tr class="nk-tb-item odd">';
+                $tbody .= '<td class="nk-tb-col tb-col-mb">';
+                $tbody .= '<div class="col">';
+                $tbody .= '<div class="custom-control custom-control-sm custom-checkbox notext">';
+                $tbody .= '<input type="checkbox" class="custom-control-input user-checkbox" value="' . htmlspecialchars($user['id']) . '" id="user' . htmlspecialchars($user['id']) . '">';
+                $tbody .= '<label class="custom-control-label" for="user' . htmlspecialchars($user['id']) . '"></label>';
+                $tbody .= '</div>';
+                $tbody .= '</div>';
+                $tbody .= '<span class="tb-amount">' . htmlspecialchars($user['name']) . '</span>';
+                $tbody .= '</td>';
+
+
+                for ($i = 1; $i <= $daysInCurrentMonth; $i++) {
+                    $dayKeyIn = strtolower(date('l', strtotime("$currentYear-$currentMonth-$i"))) . '_in_time';
+                    $dayKeyOut = strtolower(date('l', strtotime("$currentYear-$currentMonth-$i"))) . '_out_time';
+
+                    $presence = '<span class="badge badge-dim bg-danger">A</span>'; // Par défaut Absent
+                    if (isset($timesheetDays[$i]) && $timesheetDays[$i] == 'P') {
+                        $presence = '<span class="badge badge-dim bg-success">P</span>'; // Présent
+                    } elseif (isset($officeShift[$dayKeyIn]) && empty($officeShift[$dayKeyIn]) && isset($officeShift[$dayKeyOut]) && empty($officeShift[$dayKeyOut])) {
+                        $presence = '<span class="badge badge-dim bg-primary">O</span>'; // Office
+                    }
+                    $tbody .= '<td class="nk-tb-col">' . $presence . '</td>';
+                }
+                $tbody .= '</tr>';
+            }
+            $tbody .= '</tbody>';
+
+            // Envoyer l'ensemble du HTML (entête + corps) comme réponse
+            echo $thead . $tbody;
+            exit;
+        }
+    }
+
+
+    public function updateTable()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $searchUsername = $_POST['username'] ?? '';
+
+            $companyModel = new company_model();
+
+            // Si un nom d'utilisateur est fourni, filtrez par ce nom
+            if (!empty($searchUsername)) {
+                // Assurez-vous que cette méthode renvoie les utilisateurs dont le nom correspond à $searchUsername
+                $userscompany = $companyModel->getUsersByName($searchUsername, $currentYear);
+            } else {
+                $userscompany = $companyModel->getAllUsersByCreatorAndCompany();
+            }
+
+            // Vérifier si $userscompany est vide
+            if (empty($userscompany)) {
+                echo '<tr class="nk-tb-item odd"><td colspan="13" class="nk-tb-col">Aucun utilisateur trouvé.</td></tr>'; // Assurez-vous que le colspan correspond au nombre de colonnes de votre tableau
+                exit;
+            }
+
+            // Générez le HTML du tableau avec les nouvelles données
+            foreach ($userscompany as $user) {
+                // Récupération des données de paiement pour l'employé courant pour l'année sélectionnée
+                $paymentData = $companyModel->getAllPayementCurrentYearByCreatorAndCompany($user['id'], $currentYear);
+
+                echo '<tr class="nk-tb-item odd">';
+                echo '<td class="nk-tb-col tb-col-mb">' . htmlspecialchars($user['name']) . '</td>';
+
+                for ($month = 1; $month <= 12; $month++) {
+                    $netSalary = array_key_exists($month, $paymentData) ? $paymentData[$month] : '-';
+                    echo '<td class="nk-tb-col">' . htmlspecialchars($netSalary) . " $" . '</td>';
+                }
+                echo '</tr>';
+            }
+            exit;
+        }
+    }
+
+    public function paiement_search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllUsersByCreatorAndCompanyFiltered($currentYear, $currentMonth);
+
+            // Commencer le HTML pour le corps du tableau
+            $tbody = '<tbody>';
+
+            foreach ($userc as $usercomp) {
+                // Générer chaque ligne du tableau pour les utilisateurs
+                $tbody .= '<tr class="nk-tb-item odd">';
+                $tbody .= '<td class="nk-tb-col"><div class="user-card"><div class="user-info"><span class="tb-lead">' . $usercomp['num'] . '<span class="d-md-none ms-1"></span></span></div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><div class="user-toggle"><div class="user-avatar sm">';
+                if (isset($usercomp['image']) && !empty($usercomp['image'])) {
+                    $tbody .= '<img src="' . $usercomp['image'] . '" alt="User Avatar">';
+                    if ($usercomp['is_logged_in'] == 1) {
+                        $tbody .= '<div class="status dot dot-lg dot-success"></div>';
+                    } else {
+                        $tbody .= '<div class="status dot dot-lg dot-danger"></div>';
+                    }
+                } else {
+                    $tbody .= '<em class="icon ni ni-user-alt"></em>';
+                }
+                $tbody .= '</div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-mb"><span class="tb-amount">' . $usercomp['name'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['emplyee_id'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['basic_salary'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md">';
+                if (isset($usercomp['payed']) && $usercomp['payed'] == 1 && $usercomp['salary_month'] == $currentYear . "-" . $currentMonth) {
+                    $tbody .= '<span class="badge badge-dim bg-success">Payé</span>';
+                } else {
+                    $tbody .= '<span class="badge badge-dim bg-danger">Non Payé</span>';
+                }
+                $tbody .= '</td>';
+
+                // Ajout de la colonne pour les actions
+                $tbody .= '<td class="nk-tb-col nk-tb-col-tools"><ul class="nk-tb-actions gx-1">';
+                $tbody .= '<li><div class="drodown"><a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>';
+                $tbody .= '<div class="dropdown-menu dropdown-menu-end"><ul class="link-list-opt no-bdr">';
+                if (isset($usercomp['payed']) && $usercomp['payed'] == 1 && $usercomp['salary_month'] == $currentYear . "-" . $currentMonth) {
+                    $tbody .= '<a href="#" class="facture_button_usercomp" data-id="' . $usercomp['id'] . '" data-name="' . $usercomp['name'] . '" data-address="' . $usercomp['address'] . '" data-phone="' . $usercomp['phone'] . '" data-created_at="' . $usercomp['created_at'] . '" data-basic_salary="' . $usercomp['basic_salary'] . '" data-total_time="' . $usercomp['total_time'] . '" data-country="' . $usercomp['country'] . '" data-payslip_value="' . $usercomp['payslip_value'] . '" data-payslip_code="' . $usercomp['payslip_code'] . '" data-salary_month="' . $usercomp['salary_month'] . '" data-year_to_date="' . $usercomp['year_to_date'] . '" data-net_salary="' . $usercomp['net_salary'] . '" data-housing="' . $usercomp['housing'] . '" data-transport="' . $usercomp['transport'] . '" data-net_after_taxes="' . $usercomp['net_after_taxes'] . '" data-advance_salary="' . $usercomp['advanced_salary'] . '" data-department="' . $usercomp['department'] . '" data-designation="' . $usercomp['designation'] . '"><em class="icon ni ni-file-text"></em><span>Voir Facture</span></a>';
+                } else {
+                    $tbody .= '<a href="#" class="paye_button_usercomp" data-id="' . $usercomp['id'] . '" data-basic_salary="' . $usercomp['basic_salary'] . '" data-total_time="' . $usercomp['total_time'] . '" data-children="' . $usercomp['children'] . '" data-spouse="' . $usercomp['spouse'] . '" data-advanced_salary="' . $usercomp['advanced_salary'] . '" data-timesheet_count="' . $usercomp['timesheet_count'] . '" data-country="' . $usercomp['country'] . '"><em class="icon ni ni-money"></em><span>Payer</span></a>';
+                }
+                $tbody .= '</ul></div></div></li></ul></td>';
+
+                $tbody .= '</tr>';
+            }
+
+            $tbody .= '</tbody>';
+
+            // Envoyer le HTML généré comme réponse
+            echo $tbody;
+            exit;
+        }
+    }
+
+    public function dgi_search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllUsersByCreatorAndCompanyFiltered($currentYear, $currentMonth);
+
+            // Commencer le HTML pour le corps du tableau
+            $tbody = '<tbody>';
+
+            foreach ($userc as $usercomp) {
+                // Générer chaque ligne du tableau pour les utilisateurs
+                $tbody .= '<tr class="nk-tb-item odd">';
+                $tbody .= '<td class="nk-tb-col"><div class="user-card"><div class="user-info"><span class="tb-lead">' . $usercomp['num'] . '<span class="d-md-none ms-1"></span></span></div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><div class="user-toggle"><div class="user-avatar sm">';
+                if (isset($usercomp['image']) && !empty($usercomp['image'])) {
+                    $tbody .= '<img src="' . $usercomp['image'] . '" alt="User Avatar">';
+                    if ($usercomp['is_logged_in'] == 1) {
+                        $tbody .= '<div class="status dot dot-lg dot-success"></div>';
+                    } else {
+                        $tbody .= '<div class="status dot dot-lg dot-danger"></div>';
+                    }
+                } else {
+                    $tbody .= '<em class="icon ni ni-user-alt"></em>';
+                }
+                $tbody .= '</div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-mb"><span class="tb-amount">' . $usercomp['name'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['emplyee_id'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['basic_salary'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['net_salary'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['ipr'] . '</span></td>';
+
+                $tbody .= '</tr>';
+            }
+
+            $tbody .= '</tbody>';
+
+            // Envoyer le HTML généré comme réponse
+            echo $tbody;
+            exit;
+        }
+    }
+
+    public function dgi_searchData()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllUsersByCreatorAndCompanyFiltered($currentYear, $currentMonth);
+
+            $data = [];
+            foreach ($userc as $usercomp) {
+                $data[] = [
+                    'name' => $usercomp['name'],
+                    'employee_id' => $usercomp['emplyee_id'],
+                    'basic_salary' => $usercomp['basic_salary'],
+                    'net_salary' => $usercomp['net_salary'] ?? '0',
+                    'ipr' => $usercomp['ipr'] ?? '0'
+                ];
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        }
+    }
+
+    public function generatePaiePdfAjax()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Définir l'en-tête pour le type de contenu JSON
+
+            $postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $_SESSION['pdfData'] = $postData;
+
+            // Supposons que vous avez généré une URL pour rediriger l'utilisateur
+            $redirectUrl = URL . "company/generate_paie_pdf";
+
+            // Créez un tableau avec l'URL de redirection
+            $responseArray = ['redirectUrl' => $redirectUrl];
+
+            // Encodez ce tableau en JSON et renvoyez-le
+            header('Content-Type: application/json');
+            echo json_encode($responseArray);
+        }
+    }
+
+    public function generatedgiPdfAjax()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Récupérer les données JSON de la requête POST
+            $json = file_get_contents('php://input');
+            $postData = json_decode($json, true);
+
+            // Vérifier si les données JSON ont été décodées correctement
+            if ($postData === null) {
+                // Gérer l'erreur de décodage JSON
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Invalid JSON data']);
+                exit;
+            }
+
+            $_SESSION['pdfData'] = $postData;
+
+            // Supposons que vous avez généré une URL pour rediriger l'utilisateur
+            $redirectUrl = URL . "company/generate_dgi_pdf";
+
+            // Créez un tableau avec l'URL de redirection
+            $responseArray = ['redirectUrl' => $redirectUrl];
+
+            // Encodez ce tableau en JSON et renvoyez-le
+            header('Content-Type: application/json');
+            echo json_encode($responseArray);
+        }
+    }
 }

@@ -61,7 +61,7 @@ class Dashboard_model extends Model
                 WHERE (u.id = :userId OR u.company_id = :companyId) AND u.id != :userId',
                 ['userId' => $userId, 'companyId' => $companyId]
             );
-            
+
 
             if (!is_array($userscompany)) {
                 return ['users' => [], 'maleCount' => 0, 'femaleCount' => 0];
@@ -78,20 +78,20 @@ class Dashboard_model extends Model
             }
 
             $departmentGenderCount = [];
-foreach ($userscompany as $userc) {
-    $departmentId = $userc['departement_id'];
-    $gender = strtolower($userc['gender']);
+            foreach ($userscompany as $userc) {
+                $departmentId = $userc['departement_id'];
+                $gender = strtolower($userc['gender']);
 
-    if (!isset($departmentGenderCount[$departmentId])) {
-        $departmentGenderCount[$departmentId] = ['name' => $userc['department_name'], 'homme' => 0, 'femme' => 0];
-    }
+                if (!isset($departmentGenderCount[$departmentId])) {
+                    $departmentGenderCount[$departmentId] = ['name' => $userc['department_name'], 'homme' => 0, 'femme' => 0];
+                }
 
-    if ($gender === 'homme') {
-        $departmentGenderCount[$departmentId]['homme']++;
-    } elseif ($gender === 'femme') {
-        $departmentGenderCount[$departmentId]['femme']++;
-    }
-}
+                if ($gender === 'homme') {
+                    $departmentGenderCount[$departmentId]['homme']++;
+                } elseif ($gender === 'femme') {
+                    $departmentGenderCount[$departmentId]['femme']++;
+                }
+            }
 
 
             return [
@@ -138,7 +138,6 @@ foreach ($userscompany as $userc) {
             }
 
             return 0;
-
         } catch (Exception $e) {
             error_log($e->getMessage());
             return 0;
@@ -170,43 +169,41 @@ foreach ($userscompany as $userc) {
             );
 
             return $departmentUserCount;
-
-    } catch (Exception $e) {
-        error_log($e->getMessage());
-        return [];
-    }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
     }
 
     public function getTotalUsersByDesignation()
-{
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    try {
-        if (isset($_SESSION['users'])) {
-            $companyId = $_SESSION['users']['company_id'];
-            $userId = $_SESSION['users']['id'];
-        } else {
-            return [];
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
         }
 
-        $designationUserCount = $this->db->select(
-            'SELECT d.designation_name, COUNT(u.id) as user_count
+        try {
+            if (isset($_SESSION['users'])) {
+                $companyId = $_SESSION['users']['company_id'];
+                $userId = $_SESSION['users']['id'];
+            } else {
+                return [];
+            }
+
+            $designationUserCount = $this->db->select(
+                'SELECT d.designation_name, COUNT(u.id) as user_count
             FROM designations d
             LEFT JOIN users u ON u.designation_id = d.designation_id
             WHERE (u.id = :userId OR u.company_id = :companyId) AND u.id != :userId
             GROUP BY d.designation_id',
-            ['userId' => $userId, 'companyId' => $companyId]
-        );
+                ['userId' => $userId, 'companyId' => $companyId]
+            );
 
-        return $designationUserCount;
-
-    } catch (Exception $e) {
-        error_log($e->getMessage());
-        return [];
+            return $designationUserCount;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
     }
-}
 
 
     public function getSumNetSalaryByCompanyId()
@@ -235,14 +232,137 @@ foreach ($userscompany as $userc) {
             }
 
             return 0;
-
         } catch (Exception $e) {
             error_log($e->getMessage());
             return 0;
         }
     }
 
-    public function getTotalDepenseAmount()
+    // public function getTotalDepenseAmount()
+    // {
+    //     if (session_status() == PHP_SESSION_NONE) {
+    //         session_start();
+    //     }
+
+    //     try {
+    //         if (isset($_SESSION['users'])) {
+    //             $companyId = $_SESSION['users']['company_id'];
+    //             $userId = $_SESSION['users']['id'];
+    //         } else {
+    //             return 0;
+    //         }
+
+    //         $sum = $this->db->select(
+    //             'SELECT SUM(amount) as total_amount
+    //              FROM finance_transactions
+    //              WHERE transaction_type = "depense" AND company_id = :companyId AND added_by = :userId',
+    //             ['companyId' => $companyId, 'userId' => $userId]
+    //         );
+
+    //         if (is_array($sum) && isset($sum[0]['total_amount'])) {
+    //             return $sum[0]['total_amount'] ?? 0;
+    //         }
+
+    //         return 0;
+
+    //     } catch (Exception $e) {
+    //         error_log($e->getMessage());
+    //         return 0;
+    //     }
+    // }
+
+    // public function getMonthlyDepenseAmount() {
+    //     if (session_status() == PHP_SESSION_NONE) {
+    //         session_start();
+    //     }
+
+    //     if (!isset($_SESSION['users'])) {
+    //         return [];
+    //     }
+
+    //     $companyId = $_SESSION['users']['company_id'];
+    //     $userId = $_SESSION['users']['id'];
+    //     $currentYear = date("Y");
+
+    //     try {
+    //         $sums = $this->db->select(
+    //             "SELECT MONTH(transaction_date) as month, SUM(amount) as total_amount
+    //              FROM finance_transactions
+    //              WHERE transaction_type = 'depense' AND YEAR(transaction_date) = :currentYear AND company_id = :companyId AND added_by = :userId
+    //              GROUP BY MONTH(transaction_date)",
+    //              ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+    //         );
+
+    //         return $sums ?? [];
+    //     } catch (Exception $e) {
+    //         error_log($e->getMessage());
+    //         return [];
+    //     }
+    // }
+
+    // public function getTotalDepotsAmount()
+    // {
+    //     if (session_status() == PHP_SESSION_NONE) {
+    //         session_start();
+    //     }
+
+    //     try {
+    //         if (isset($_SESSION['users'])) {
+    //             $companyId = $_SESSION['users']['company_id'];
+    //             $userId = $_SESSION['users']['id'];
+    //         } else {
+    //             return 0;
+    //         }
+
+    //         $sum = $this->db->select(
+    //             'SELECT SUM(amount) as total_amount
+    //              FROM finance_transactions
+    //              WHERE transaction_type = "depot" AND company_id = :companyId AND added_by = :userId',
+    //             ['companyId' => $companyId, 'userId' => $userId]
+    //         );
+
+    //         if (is_array($sum) && isset($sum[0]['total_amount'])) {
+    //             return $sum[0]['total_amount'] ?? 0;
+    //         }
+
+    //         return 0;
+
+    //     } catch (Exception $e) {
+    //         error_log($e->getMessage());
+    //         return 0;
+    //     }
+    // }
+
+    // public function getMonthlyDepotsAmount() {
+    //     if (session_status() == PHP_SESSION_NONE) {
+    //         session_start();
+    //     }
+
+    //     if (!isset($_SESSION['users'])) {
+    //         return [];
+    //     }
+
+    //     $companyId = $_SESSION['users']['company_id'];
+    //     $userId = $_SESSION['users']['id'];
+    //     $currentYear = date("Y");
+
+    //     try {
+    //         $sums = $this->db->select(
+    //             "SELECT MONTH(transaction_date) as month, SUM(amount) as total_amount
+    //              FROM finance_transactions
+    //              WHERE transaction_type = 'depot' AND YEAR(transaction_date) = :currentYear AND company_id = :companyId AND added_by = :userId
+    //              GROUP BY MONTH(transaction_date)",
+    //              ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+    //         );
+
+    //         return $sums ?? [];
+    //     } catch (Exception $e) {
+    //         error_log($e->getMessage());
+    //         return [];
+    //     }
+    // }
+
+    public function getTotalDGIAmount()
     {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -257,9 +377,9 @@ foreach ($userscompany as $userc) {
             }
 
             $sum = $this->db->select(
-                'SELECT SUM(amount) as total_amount
-                 FROM finance_transactions
-                 WHERE transaction_type = "depense" AND company_id = :companyId AND added_by = :userId',
+                'SELECT SUM(ipr) as total_amount
+                 FROM payslips
+                 WHERE company_id = :companyId AND added_by = :userId',
                 ['companyId' => $companyId, 'userId' => $userId]
             );
 
@@ -268,43 +388,12 @@ foreach ($userscompany as $userc) {
             }
 
             return 0;
-
         } catch (Exception $e) {
             error_log($e->getMessage());
             return 0;
         }
     }
-
-    public function getMonthlyDepenseAmount() {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-    
-        if (!isset($_SESSION['users'])) {
-            return [];
-        }
-    
-        $companyId = $_SESSION['users']['company_id'];
-        $userId = $_SESSION['users']['id'];
-        $currentYear = date("Y");
-    
-        try {
-            $sums = $this->db->select(
-                "SELECT MONTH(transaction_date) as month, SUM(amount) as total_amount
-                 FROM finance_transactions
-                 WHERE transaction_type = 'depense' AND YEAR(transaction_date) = :currentYear AND company_id = :companyId AND added_by = :userId
-                 GROUP BY MONTH(transaction_date)",
-                 ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
-            );
-    
-            return $sums ?? [];
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            return [];
-        }
-    }
-
-    public function getTotalDepotsAmount()
+    public function getTotalCnssCompanyAmount()
     {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -319,9 +408,9 @@ foreach ($userscompany as $userc) {
             }
 
             $sum = $this->db->select(
-                'SELECT SUM(amount) as total_amount
-                 FROM finance_transactions
-                 WHERE transaction_type = "depot" AND company_id = :companyId AND added_by = :userId',
+                'SELECT SUM(cnss_company) as total_amount
+                 FROM payslips
+                 WHERE company_id = :companyId AND added_by = :userId',
                 ['companyId' => $companyId, 'userId' => $userId]
             );
 
@@ -330,35 +419,333 @@ foreach ($userscompany as $userc) {
             }
 
             return 0;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
+    }
+    public function getTotalIereAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
+        try {
+            if (isset($_SESSION['users'])) {
+                $companyId = $_SESSION['users']['company_id'];
+                $userId = $_SESSION['users']['id'];
+            } else {
+                return 0;
+            }
+
+            $sum = $this->db->select(
+                'SELECT SUM(iere) as total_amount
+                 FROM payslips
+                 WHERE company_id = :companyId AND added_by = :userId',
+                ['companyId' => $companyId, 'userId' => $userId]
+            );
+
+            if (is_array($sum) && isset($sum[0]['total_amount'])) {
+                return $sum[0]['total_amount'] ?? 0;
+            }
+
+            return 0;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
+    }
+    public function getTotalInppAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        try {
+            if (isset($_SESSION['users'])) {
+                $companyId = $_SESSION['users']['company_id'];
+                $userId = $_SESSION['users']['id'];
+            } else {
+                return 0;
+            }
+
+            $sum = $this->db->select(
+                'SELECT SUM(inpp) as total_amount
+                 FROM payslips
+                 WHERE company_id = :companyId AND added_by = :userId',
+                ['companyId' => $companyId, 'userId' => $userId]
+            );
+
+            if (is_array($sum) && isset($sum[0]['total_amount'])) {
+                return $sum[0]['total_amount'] ?? 0;
+            }
+
+            return 0;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
+    }
+    public function getTotalOnemAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        try {
+            if (isset($_SESSION['users'])) {
+                $companyId = $_SESSION['users']['company_id'];
+                $userId = $_SESSION['users']['id'];
+            } else {
+                return 0;
+            }
+
+            $sum = $this->db->select(
+                'SELECT SUM(onem) as total_amount
+                 FROM payslips
+                 WHERE company_id = :companyId AND added_by = :userId',
+                ['companyId' => $companyId, 'userId' => $userId]
+            );
+
+            if (is_array($sum) && isset($sum[0]['total_amount'])) {
+                return $sum[0]['total_amount'] ?? 0;
+            }
+
+            return 0;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
+    }
+    public function getTotalBruteCompanyAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        try {
+            if (isset($_SESSION['users'])) {
+                $companyId = $_SESSION['users']['company_id'];
+                $userId = $_SESSION['users']['id'];
+            } else {
+                return 0;
+            }
+
+            $sum = $this->db->select(
+                'SELECT SUM(salary_brut_company) as total_amount
+                 FROM payslips
+                 WHERE company_id = :companyId AND added_by = :userId',
+                ['companyId' => $companyId, 'userId' => $userId]
+            );
+
+            if (is_array($sum) && isset($sum[0]['total_amount'])) {
+                return $sum[0]['total_amount'] ?? 0;
+            }
+
+            return 0;
         } catch (Exception $e) {
             error_log($e->getMessage());
             return 0;
         }
     }
 
-    public function getMonthlyDepotsAmount() {
+    public function getMonthlyDGIAmount()
+    {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
+
         if (!isset($_SESSION['users'])) {
             return [];
         }
-    
+
         $companyId = $_SESSION['users']['company_id'];
         $userId = $_SESSION['users']['id'];
         $currentYear = date("Y");
-    
+
         try {
             $sums = $this->db->select(
-                "SELECT MONTH(transaction_date) as month, SUM(amount) as total_amount
-                 FROM finance_transactions
-                 WHERE transaction_type = 'depot' AND YEAR(transaction_date) = :currentYear AND company_id = :companyId AND added_by = :userId
-                 GROUP BY MONTH(transaction_date)",
-                 ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+                "SELECT MONTH(salary_month_day) as monthyaer, SUM(ipr) as total_amount
+                 FROM payslips
+                 WHERE YEAR(salary_month_day) = :currentYear AND company_id = :companyId AND added_by = :userId
+                 GROUP BY MONTH(salary_month_day)",
+                ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
             );
-    
+
+            return $sums ?? [];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+    public function getMonthlyIereAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['users'])) {
+            return [];
+        }
+
+        $companyId = $_SESSION['users']['company_id'];
+        $userId = $_SESSION['users']['id'];
+        $currentYear = date("Y");
+
+        try {
+            $sums = $this->db->select(
+                "SELECT MONTH(salary_month_day) as monthyaer, SUM(iere) as total_amount
+                 FROM payslips
+                 WHERE YEAR(salary_month_day) = :currentYear AND company_id = :companyId AND added_by = :userId
+                 GROUP BY MONTH(salary_month_day)",
+                ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+            );
+
+            return $sums ?? [];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+    public function getMonthlyInppAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['users'])) {
+            return [];
+        }
+
+        $companyId = $_SESSION['users']['company_id'];
+        $userId = $_SESSION['users']['id'];
+        $currentYear = date("Y");
+
+        try {
+            $sums = $this->db->select(
+                "SELECT MONTH(salary_month_day) as monthyaer, SUM(inpp) as total_amount
+                 FROM payslips
+                 WHERE YEAR(salary_month_day) = :currentYear AND company_id = :companyId AND added_by = :userId
+                 GROUP BY MONTH(salary_month_day)",
+                ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+            );
+
+            return $sums ?? [];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+    public function getMonthlyOnemAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['users'])) {
+            return [];
+        }
+
+        $companyId = $_SESSION['users']['company_id'];
+        $userId = $_SESSION['users']['id'];
+        $currentYear = date("Y");
+
+        try {
+            $sums = $this->db->select(
+                "SELECT MONTH(salary_month_day) as monthyaer, SUM(onem) as total_amount
+                 FROM payslips
+                 WHERE YEAR(salary_month_day) = :currentYear AND company_id = :companyId AND added_by = :userId
+                 GROUP BY MONTH(salary_month_day)",
+                ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+            );
+
+            return $sums ?? [];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+    public function getMonthlyBruteCompanyAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['users'])) {
+            return [];
+        }
+
+        $companyId = $_SESSION['users']['company_id'];
+        $userId = $_SESSION['users']['id'];
+        $currentYear = date("Y");
+
+        try {
+            $sums = $this->db->select(
+                "SELECT MONTH(salary_month_day) as monthyaer, SUM(salary_brut_company) as total_amount
+                 FROM payslips
+                 WHERE YEAR(salary_month_day) = :currentYear AND company_id = :companyId AND added_by = :userId
+                 GROUP BY MONTH(salary_month_day)",
+                ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+            );
+
+            return $sums ?? [];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+    public function getMonthlyCnssCompanyAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['users'])) {
+            return [];
+        }
+
+        $companyId = $_SESSION['users']['company_id'];
+        $userId = $_SESSION['users']['id'];
+        $currentYear = date("Y");
+
+        try {
+            $sums = $this->db->select(
+                "SELECT MONTH(salary_month_day) as monthyaer, SUM(cnss_company) as total_amount
+                 FROM payslips
+                 WHERE YEAR(salary_month_day) = :currentYear AND company_id = :companyId AND added_by = :userId
+                 GROUP BY MONTH(salary_month_day)",
+                ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+            );
+
+            return $sums ?? [];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+    public function getMonthlyNetSalaryAmount()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['users'])) {
+            return [];
+        }
+
+        $companyId = $_SESSION['users']['company_id'];
+        $userId = $_SESSION['users']['id'];
+        $currentYear = date("Y");
+
+        try {
+            $sums = $this->db->select(
+                "SELECT MONTH(salary_month_day) as monthyaer, SUM(net_salary) as total_amount
+                 FROM payslips
+                 WHERE YEAR(salary_month_day) = :currentYear AND company_id = :companyId AND added_by = :userId
+                 GROUP BY MONTH(salary_month_day)",
+                ['currentYear' => $currentYear, 'companyId' => $companyId, 'userId' => $userId]
+            );
+
             return $sums ?? [];
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -366,11 +753,12 @@ foreach ($userscompany as $userc) {
         }
     }
 
-    public function getWeeklyAttendance() {
+    public function getWeeklyAttendance()
+    {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
+
         if (isset($_SESSION['users'])) {
             $companyId = $_SESSION['users']['company_id'];
             $userId = $_SESSION['users']['id'];
@@ -383,7 +771,7 @@ foreach ($userscompany as $userc) {
         $userId = $_SESSION['users']['id'];
         $currentYear = intval(date("Y"));
         $currentWeekNumber = intval(date("W")); // Récupère le numéro de la semaine actuelle.
-        
+
 
 
         try {
@@ -394,7 +782,7 @@ foreach ($userscompany as $userc) {
                  WHERE company_id = :companyId AND id != :userId',
                 ['companyId' => $companyId, 'userId' => $userId]
             );
-    
+
             $totalUsersCount = intval($totalUsers[0]['total_users']);
 
             $presentCounts = $this->db->select(
@@ -421,39 +809,37 @@ foreach ($userscompany as $userc) {
                 $present = intval($row['present_count']); // Convertir en entier
                 $absent = $totalUsersCount - $present;
                 $totalPresent += $present; // Incrémenter le total
-                
+
                 $result[$day] = [
                     'present' => $present,
                     'absent' => $absent
                 ];
             }
 
-            
-            return $result;
 
+            return $result;
         } catch (Exception $e) {
             error_log($e->getMessage());
             return [];
         }
-
     }
 
     public function getUserInformation()
-{
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
 
-    if (isset($_SESSION['users'])) {
-        $userId = $_SESSION['users']['id'];
-    } else {
-        // Si $_SESSION['users'] n'est pas défini, retourner zéro
-        return 0;
-    }
+        if (isset($_SESSION['users'])) {
+            $userId = $_SESSION['users']['id'];
+        } else {
+            // Si $_SESSION['users'] n'est pas défini, retourner zéro
+            return 0;
+        }
 
-    try {
-        $userProfile = $this->db->select(
-            "SELECT 
+        try {
+            $userProfile = $this->db->select(
+                "SELECT 
             u.*, 
             dep.department_name, 
             des.designation_name,
@@ -464,17 +850,13 @@ foreach ($userscompany as $userc) {
             LEFT JOIN departments dep ON u.departement_id = dep.department_id
             LEFT JOIN designations des ON u.designation_id = des.designation_id
             WHERE id = :userId",
-            ['userId' => $userId]
-        );
+                ['userId' => $userId]
+            );
 
-        return ($userProfile && count($userProfile) > 0) ? $userProfile[0] : null;
-    } catch (Exception $e) {
-        error_log($e->getMessage());
-        return null;
+            return ($userProfile && count($userProfile) > 0) ? $userProfile[0] : null;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
-}
-
-    
-    
-
 }

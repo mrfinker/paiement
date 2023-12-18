@@ -12,17 +12,17 @@ class superadmin_model extends Model
     public function getAllUserRoles()
     {
         $userRoles = $this->db->select("SELECT * FROM users_role");
-    
-    if ($userRoles) {
-        $count = 1;
 
-        foreach ($userRoles as &$userRole) {
-            $userRole['num'] = $count;
-            $count++;
+        if ($userRoles) {
+            $count = 1;
+
+            foreach ($userRoles as &$userRole) {
+                $userRole['num'] = $count;
+                $count++;
+            }
         }
-    }
 
-    return $userRoles;
+        return $userRoles;
     }
 
     public function deleteUserRole($id)
@@ -48,9 +48,9 @@ class superadmin_model extends Model
     {
         $Alluser = $this->db->select("SELECT * FROM users");
 
-        if($Alluser){
+        if ($Alluser) {
             $count = 1;
-            foreach($Alluser as &$user){
+            foreach ($Alluser as &$user) {
                 $user['num'] = $count;
                 $count++;
             }
@@ -68,31 +68,33 @@ class superadmin_model extends Model
             'address' => $addressupdate,
             'birthday' => $birthdayupdate
         );
-    
+
         if ($imageFileName !== null) {
             $data['image'] = $imageFileName;
         }
-    
+
         return $this->db->update("users", $data, "id = $id");
     }
 
-    public function UserActiveStatus($id) {
+    public function UserActiveStatus($id)
+    {
         $currentUser = $this->db->select("SELECT * FROM users WHERE id = :id LIMIT 1", array("id" => $id));
-        if(!$currentUser) return false; // ou vous pouvez également retourner un message d'erreur détaillé
-        
+        if (!$currentUser) return false; // ou vous pouvez également retourner un message d'erreur détaillé
+
         $newStatus = $currentUser[0]['is_active'] == 1 ? 0 : 1;
-        
+
         return $this->db->update("users", array('is_active' => $newStatus), "id = $id");
     }
-    
+
     // public function updateUserActiveStatus($id, $newIsActive) {
     //     return $this->db->update("users", array('is_active' => $newIsActive), "id = $id");
     // }
 
-    public function getUserById($id) {
+    public function getUserById($id)
+    {
         return $this->db->select("SELECT * FROM users WHERE id = :id LIMIT 1", array("id" => $id));
     }
-    
+
 
     public function deleteUser($id)
     {
@@ -121,10 +123,11 @@ class superadmin_model extends Model
         return $this->db->select("SELECT * FROM company");
     }
 
-    public function insertCompany($data) {
+    public function insertCompany($data)
+    {
         // Insérer dans la table company
         $company_id = $this->db->insert("company", $data);
-    
+
         // Vérifiez si l'insertion a réussi
         if ($company_id) {
             // Préparez les données pour la table 'users'
@@ -140,16 +143,16 @@ class superadmin_model extends Model
                 "user_type_id" => 3 // Remplacez par le type d'utilisateur approprié
                 // ajoutez d'autres champs nécessaires
             ];
-    
+
             // Insérer dans la table users
             $user_result = $this->db->insert("users", $user_data);
-    
+
             return $user_result ? true : false;
         } else {
             return false;
         }
     }
-    
+
     public function deleteCompany($id)
     {
         return $this->db->delete("company", "id =$id");
@@ -165,17 +168,18 @@ class superadmin_model extends Model
         return $this->db->select("SELECT name FROM country WHERE id = :countryId LIMIT 1", array("countryId" => $countryId));
     }
 
-    public function updateCompany($id, $nameupdate, $emailupdate, $phoneupdate, $addressupdate, $usernameupdate, $cityupdate, $provinceupdate, $code_postaleupdate, $tax_numberupdate, $rccmupdate, $bank_nameupdate, $bank_numberupdate) {
+    public function updateCompany($id, $nameupdate, $emailupdate, $phoneupdate, $addressupdate, $usernameupdate, $cityupdate, $provinceupdate, $code_postaleupdate, $tax_numberupdate, $rccmupdate, $bank_nameupdate, $bank_numberupdate)
+    {
         try {
             $this->db->beginTransaction();
-    
+
             // Mise à jour de la table company
             $updateCompany = $this->db->update(
-                "company", 
+                "company",
                 array(
-                    'name' => $nameupdate, 
-                    'email' => $emailupdate, 
-                    'phone' => $phoneupdate, 
+                    'name' => $nameupdate,
+                    'email' => $emailupdate,
+                    'phone' => $phoneupdate,
                     'address' => $addressupdate,
                     'city' => $cityupdate,
                     'province' => $provinceupdate,
@@ -185,33 +189,33 @@ class superadmin_model extends Model
                     'bank_name' => $bank_nameupdate,
                     'bank_number' => $bank_numberupdate,
                     'username' => $usernameupdate
-                ), 
+                ),
                 "id = $id"
             );
-            
+
             if (!$updateCompany) {
                 throw new Exception('La mise à jour de la table company a échoué');
             }
-    
+
             // Mise à jour de la table users
             $updateUsers = $this->db->update(
-                "users", 
+                "users",
                 array(
-                    'name' => $nameupdate, 
-                    'email' => $emailupdate, 
-                    'phone' => $phoneupdate, 
+                    'name' => $nameupdate,
+                    'email' => $emailupdate,
+                    'phone' => $phoneupdate,
                     'address' => $addressupdate,
                     'username' => $usernameupdate
-                ), 
+                ),
                 "company_id = $id AND username = '$usernameupdate'"
             );
-            
+
             if (!$updateUsers) {
                 throw new Exception('La mise à jour de la table users a échoué');
             }
-    
+
             $this->db->commit();
-    
+
             return true; // Les deux mises à jour ont réussi
         } catch (Exception $e) {
             $this->db->rollBack();
@@ -219,8 +223,8 @@ class superadmin_model extends Model
             return false; // Une ou les deux mises à jour ont échoué
         }
     }
-    
-    
+
+
 
     // Admin
 
@@ -229,9 +233,9 @@ class superadmin_model extends Model
     {
         $Allcountry = $this->db->select("SELECT * FROM country");
 
-        if($Allcountry){
+        if ($Allcountry) {
             $count = 1;
-            foreach($Allcountry as &$country){
+            foreach ($Allcountry as &$country) {
                 $country['num'] = $count;
                 $count++;
             }
@@ -244,9 +248,9 @@ class superadmin_model extends Model
     {
         $allcategory = $this->db->select("SELECT * FROM category");
 
-        if($allcategory){
+        if ($allcategory) {
             $count = 1;
-            foreach($allcategory as &$category){
+            foreach ($allcategory as &$category) {
                 $category['num'] = $count;
                 $count++;
             }
@@ -254,7 +258,8 @@ class superadmin_model extends Model
         return $allcategory;
     }
 
-    public function updateStatus($id, $status) {
+    public function updateStatus($id, $status)
+    {
         $data = ['is_active' => $status];
         return $this->db->update("users", $data, "id = $id");
     }
@@ -264,9 +269,9 @@ class superadmin_model extends Model
     {
         $allplan = $this->db->select("SELECT * FROM membership_plan");
 
-        if($allplan){
+        if ($allplan) {
             $count = 1;
-            foreach($allplan as &$allplans){
+            foreach ($allplan as &$allplans) {
                 $allplans['num'] = $count;
                 $count++;
             }
@@ -275,18 +280,19 @@ class superadmin_model extends Model
     }
 
     // Plan
-    public function addPlan($data) {
+    public function addPlan($data)
+    {
         return $this->db->insert("membership_plan", $data);
     }
 
-    public function deletePlan($id) {
-    
+    public function deletePlan($id)
+    {
+
         return $this->db->delete('membership_plan', "membership_plan_id = $id");
-         
     }
 
-    public function updatePlan($id, $data) {
+    public function updatePlan($id, $data)
+    {
         return $this->db->update("membership_plan", $data, "membership_plan_id = $id");
     }
-
 }

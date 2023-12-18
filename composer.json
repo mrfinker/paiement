@@ -1,0 +1,9 @@
+{
+    "require": {
+        "tecnickcom/tcpdf": "^6.6",
+        "dompdf/dompdf": "^2.0",
+        "phpoffice/phpspreadsheet": "^1.29",
+        "setasign/fpdi": "^2.5",
+        "setasign/fpdf": "^1.8"
+    }
+}

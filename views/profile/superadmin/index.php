@@ -15,7 +15,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
     exit;
 }
 ?>
-<?php include_once ("./views/include/header.php") ?>
+<?php include_once("./views/include/header.php") ?>
 <!-- content @s -->
 <div class="nk-content ">
     <div class="container-fluid">
@@ -34,10 +34,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                             </div>
                                         </div>
                                         <div class="nk-block-head-content align-self-start d-lg-none">
-                                            <a
-                                                href="#"
-                                                class="toggle btn btn-icon btn-trigger mt-n1"
-                                                data-target="userAside">
+                                            <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside">
                                                 <em class="icon ni ni-menu-alt-r"></em>
                                             </a>
                                         </div>
@@ -52,16 +49,9 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                         <div class="data-item">
                                             <div class="data-col">
                                                 <span class="data-label">Nom complet</span>
-                                                <span class="data-value"><?=$user['name']?></span>
+                                                <span class="data-value"><?= $user['name'] ?></span>
                                             </div>
-                                            <div
-                                                class="data-col data-col-end"
-                                                id="update_profile"
-                                                data-nameprofile="<?= $user['name'] ?>"
-                                                data-usernameprofile="<?= $user['username'] ?>"
-                                                data-phoneprofile="<?= $user['phone'] ?>"
-                                                data-birthdayprofile="<?= $user['birthday'] ?>"
-                                                data-id="<?=$user['id']?>">
+                                            <div class="data-col data-col-end" id="update_profile" data-nameprofile="<?= $user['name'] ?>" data-usernameprofile="<?= $user['username'] ?>" data-phoneprofile="<?= $user['phone'] ?>" data-birthdayprofile="<?= $user['birthday'] ?>" data-id="<?= $user['id'] ?>">
                                                 <span class="data-more">
                                                     <em class="icon ni ni-forward-ios"></em>
                                                 </span>
@@ -71,7 +61,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                         <div class="data-item">
                                             <div class="data-col">
                                                 <span class="data-label">Nom d'utilisation</span>
-                                                <span class="data-value"><?=$user['username']?></span>
+                                                <span class="data-value"><?= $user['username'] ?></span>
                                             </div>
                                             <div class="data-col data-col-end"></div>
                                         </div>
@@ -79,7 +69,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                         <div class="data-item">
                                             <div class="data-col">
                                                 <span class="data-label">Email</span>
-                                                <span class="data-value"><?=$user['email']?></span>
+                                                <span class="data-value"><?= $user['email'] ?></span>
                                             </div>
                                             <div class="data-col data-col-end"></div>
                                         </div>
@@ -87,7 +77,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                         <div class="data-item">
                                             <div class="data-col">
                                                 <span class="data-label">Telephone</span>
-                                                <span class="data-value text-soft"><?=$user['phone']?></span>
+                                                <span class="data-value text-soft"><?= $user['phone'] ?></span>
                                             </div>
                                             <div class="data-col data-col-end"></div>
                                         </div>
@@ -95,7 +85,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                         <div class="data-item">
                                             <div class="data-col">
                                                 <span class="data-label">Date de naissance</span>
-                                                <span class="data-value"><?=$user['birthday']?></span>
+                                                <span class="data-value"><?= $user['birthday'] ?></span>
                                             </div>
                                             <div class="data-col data-col-end"></div>
                                         </div>
@@ -103,7 +93,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                         <div class="data-item">
                                             <div class="data-col">
                                                 <span class="data-label">Adresse</span>
-                                                <span class="data-value"><?=$user['address']?></span>
+                                                <span class="data-value"><?= $user['address'] ?></span>
                                             </div>
                                             <div class="data-col data-col-end"></div>
                                         </div>
@@ -140,25 +130,20 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
                                 </div>
                                 <!-- .nk-block -->
                             </div>
-                            <div
-                                class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg"
-                                data-toggle-body="true"
-                                data-content="userAside"
-                                data-toggle-screen="lg"
-                                data-toggle-overlay="true">
+                            <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg" data-toggle-body="true" data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
                                 <div class="card-inner-group" data-simplebar="data-simplebar">
                                     <div class="card-inner">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary">
-                                            <?php if (isset($user['image']) && !empty($user['image'])): ?>
+                                                <?php if (isset($user['image']) && !empty($user['image'])) : ?>
                                                     <img src="<?= $user['image'] ?>" alt="User Avatar">
-                                                <?php else: ?>
+                                                <?php else : ?>
                                                     <em class="icon ni ni-user-alt"></em>
-                                                    <?php endif; ?>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="user-info">
-                                                <span class="lead-text"><?=$user['name']?></span>
-                                                <span class="sub-text"><?=$user['email']?></span>
+                                                <span class="lead-text"><?= $user['name'] ?></span>
+                                                <span class="sub-text"><?= $user['email'] ?></span>
                                             </div>
                                             <div class="user-action">
                                                 <div class="dropdown">
@@ -210,152 +195,120 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "superadmi
 </div>
 <!-- app-root @e -->
 <!-- @@ Profile Edit Modal @e -->
-<div
-class="modal fade"
-id="profile_edit"
-style="display: none;"
-aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-<div class="modal-content">
-    <a href="#" class="close" data-bs-dismiss="modal">
-        <em class="icon ni ni-cross-sm"></em>
-    </a>
-    <div class="modal-body modal-body-lg">
-        <h5 class="title">Update Profile</h5>
-        <ul class="nk-nav nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#personal">Personal</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#address">Address</a>
-            </li>
-        </ul>
-        <!-- .nav-tabs -->
-        <div class="tab-content">
-            <div class="tab-pane active" id="personal">
-                <form id="Updateinfo" method="post">
-                    <div class="row gy-4">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label" for="newName">Nom</label>
-                                <input
-                                    type="text"
-                                    class="form-control form-control-lg"
-                                    name="name"
-                                    id="newName">
+<div class="modal fade" id="profile_edit" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-bs-dismiss="modal">
+                <em class="icon ni ni-cross-sm"></em>
+            </a>
+            <div class="modal-body modal-body-lg">
+                <h5 class="title">Update Profile</h5>
+                <ul class="nk-nav nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#personal">Personal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#address">Address</a>
+                    </li>
+                </ul>
+                <!-- .nav-tabs -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="personal">
+                        <form id="Updateinfo" method="post">
+                            <div class="row gy-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="newName">Nom</label>
+                                        <input type="text" class="form-control form-control-lg" name="name" id="newName">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="newUsername">Nom d'utilisateur</label>
+                                        <input type="text" class="form-control form-control-lg" name="username" id="newUsername">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="newPhone">Telephone</label>
+                                        <input type="text" class="form-control form-control-lg" name="phone" id="newPhone">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="newBirthday">Date d'anniversaire</label>
+                                        <input type="text" class="form-control form-control-lg date-picker" name="birthday" id="newBirthday">
+                                    </div>
+                                </div>
+                                <input type="hidden" id="userId" name="userId" value="<?= $user['id'] ?>" class="id">
+                                <div class="col-12">
+                                    <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                        <li>
+                                            <button href="#" data-bs-dismiss="modal" id="update_info_btn" class="btn btn-lg btn-primary">Mettre a jour</button>
+                                        </li>
+                                        <li>
+                                            <a href="#" data-bs-dismiss="modal" class="link link-light">Annuler</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- .tab-pane -->
+                    <div class="tab-pane" id="address">
+                        <div class="row gy-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="address-l1">Address Line 1</label>
+                                    <input type="text" class="form-control form-control-lg" id="address-l1" value="2337 Kildeer Drive">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="address-l2">Address Line 2</label>
+                                    <input type="text" class="form-control form-control-lg" id="address-l2" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="address-st">State</label>
+                                    <input type="text" class="form-control form-control-lg" id="address-st" value="Kentucky">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="address-county">Country</label>
+                                    <select class="form-select js-select2" id="address-county" data-ui="lg">
+                                        <option>Canada</option>
+                                        <option>United State</option>
+                                        <option>United Kindom</option>
+                                        <option>Australia</option>
+                                        <option>India</option>
+                                        <option>Bangladesh</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                    <li>
+                                        <a href="#" class="btn btn-lg btn-primary">Update Address</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label" for="newUsername">Nom d'utilisateur</label>
-                                <input
-                                    type="text"
-                                    class="form-control form-control-lg"
-                                    name="username"
-                                    id="newUsername">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label" for="newPhone">Telephone</label>
-                                <input type="text" class="form-control form-control-lg" name="phone" id="newPhone">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label" for="newBirthday">Date d'anniversaire</label>
-                                <input
-                                    type="text"
-                                    class="form-control form-control-lg date-picker"
-                                    name="birthday"
-                                    id="newBirthday">
-                            </div>
-                        </div>
-                        <input type="hidden" id="userId" name="userId" value="<?= $user['id'] ?>" class="id">
-                        <div class="col-12">
-                            <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                                <li>
-                                    <button
-                                        href="#"
-                                        data-bs-dismiss="modal"
-                                        id="update_info_btn"
-                                        class="btn btn-lg btn-primary">Mettre a jour</button>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-dismiss="modal" class="link link-light">Annuler</a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
-                </form>
-            </div>
-            <!-- .tab-pane -->
-            <div class="tab-pane" id="address">
-                <div class="row gy-4">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label" for="address-l1">Address Line 1</label>
-                            <input
-                                type="text"
-                                class="form-control form-control-lg"
-                                id="address-l1"
-                                value="2337 Kildeer Drive">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label" for="address-l2">Address Line 2</label>
-                            <input
-                                type="text"
-                                class="form-control form-control-lg"
-                                id="address-l2"
-                                value="">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label" for="address-st">State</label>
-                            <input
-                                type="text"
-                                class="form-control form-control-lg"
-                                id="address-st"
-                                value="Kentucky">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label" for="address-county">Country</label>
-                            <select class="form-select js-select2" id="address-county" data-ui="lg">
-                                <option>Canada</option>
-                                <option>United State</option>
-                                <option>United Kindom</option>
-                                <option>Australia</option>
-                                <option>India</option>
-                                <option>Bangladesh</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                            <li>
-                                <a href="#" class="btn btn-lg btn-primary">Update Address</a>
-                            </li>
-                            <li>
-                                <a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <!-- .tab-pane -->
                 </div>
+                <!-- .tab-content -->
             </div>
-            <!-- .tab-pane -->
+            <!-- .modal-body -->
         </div>
-        <!-- .tab-content -->
+        <!-- .modal-content -->
     </div>
-    <!-- .modal-body -->
-</div>
-<!-- .modal-content -->
-</div>
-<!-- .modal-dialog -->
+    <!-- .modal-dialog -->
 </div>
 <!-- .modal -->
-<?php include_once ("./views/include/footer.php") ?>
+<?php include_once("./views/include/footer.php") ?>

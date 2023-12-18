@@ -37319,10 +37319,10 @@ button.close {
   padding-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
+  flex-direction: row;
 }
 .invoice-desc {
-  width: 210px;
+  width: 250px;
   padding-top: 1.5rem;
 }
 .invoice-desc .title {
