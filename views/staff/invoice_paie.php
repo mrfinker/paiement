@@ -2,6 +2,8 @@
 
 Session::init();
 
+require LIBS . 'tcpdf/tcpdf.php'; // ou le chemin vers tcpdf/tcpdf.php si installation manuelle
+
 if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
     $user = $_SESSION['users'];
     $userType = $_SESSION['userType'];
@@ -14,6 +16,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
     header('Location:' . ERROR);
     exit;
 }
+
 $companyModel = new staff_model();
 $userc = $companyModel->getAllUsersByCreatorAndCompany();
 $usersRoles = $companyModel->getAllUserRoles();
@@ -23,7 +26,8 @@ $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
 
 
 ?>
-<?php include_once './views/include/header.php'; ?>
+
+
 
 <div class="nk-content nk-content-fluid">
     <div class="nk-block-head">
@@ -151,34 +155,3 @@ $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
         </div><!-- .invoice -->
     </div><!-- .nk-block -->
 </div>
-<script>
-    function printInvoice() {
-        // Cacher la partie nk-main
-        const nkSidebar = document.querySelector('.nk-sidebar');
-        nkSidebar.style.display = 'none';
-
-        const nkHeader = document.querySelector('.nk-header');
-        nkHeader.style.display = 'none';
-
-        // Cacher les autres éléments de la page
-        const buttonsToHide = document.querySelectorAll('.invoice-action');
-        buttonsToHide.forEach(button => {
-            button.style.display = 'none';
-        });
-
-        // Imprimer la partie désignée
-        window.print();
-
-        // Afficher à nouveau la partie nk-main
-        nkSidebar.style.display = 'block';
-
-        // Afficher à nouveau la partie nk-main
-        nkHeader.style.display = 'block';
-
-        // Afficher à nouveau les éléments cachés après l'impression
-        buttonsToHide.forEach(button => {
-            button.style.display = 'block';
-        });
-    }
-</script>
-<?php include_once './views/include/footer.php' ?>

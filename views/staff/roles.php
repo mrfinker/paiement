@@ -10,9 +10,10 @@ if (isset($_SESSION['users']) && isset($_SESSION['userType'])) {
 }
 
 if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
-    header('Location:' . ERROR);
+    header('Location: ' . ERROR);
     exit;
 }
+
 $companyModel = new staff_model();
 $userRoles = $companyModel->getAllUserRoles();
 
@@ -37,7 +38,7 @@ $userRoles = $companyModel->getAllUserRoles();
                         </div>
                         <div class="card card-bordered card-preview">
                             <div class="card-inner">
-                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer" style="overflow: auto; width: 100%;">
 
                                     <table class="datatable-init nk-tb-list nk-tb-ulist dataTable no-footer" data-auto-responsive="false" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
 
@@ -46,10 +47,10 @@ $userRoles = $companyModel->getAllUserRoles();
                                                 <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="User: activate to sort column ascending">
                                                     <span class="sub-text">#</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
                                                     <span class="sub-text">Nom</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
                                                     <span class="sub-text">permissions</span>
                                                 </th>
                                                 <th class="nk-tb-col nk-tb-col-tools text-end sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="
@@ -86,7 +87,7 @@ $userRoles = $companyModel->getAllUserRoles();
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-mb">
+                                                    <td class="nk-tb-col">
                                                         <span class="tb-amount"><?= $userRole['name'] ?></span>
                                                     </td>
                                                     <td class="nk-tb-col tb-col-md col-9">

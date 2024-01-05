@@ -14,7 +14,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
     header('Location:' . ERROR);
     exit;
 }
-$companyModel = new staff_model();
 
 $nomUtilisateur = $user['name'] ?? 'Nom non disponible';
 
@@ -38,6 +37,8 @@ $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 $pdf->AddPage();
+
+$companyModel = new staff_model();
 $accounts = $companyModel->getAllAccountsByCreatorAndCompany();
 $depots = $companyModel->getAllDepotsByCreatorAndCompany();
 $userscompany = $selectedUserIds ? $companyModel->getAllUsersIdByCreatorAndCompany($selectedUserIds) : $companyModel->getAllUsersByCreatorAndCompany();

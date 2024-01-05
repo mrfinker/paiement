@@ -101,7 +101,7 @@ $daysInMonth = range(1, cal_days_in_month(CAL_GREGORIAN, $currentMonth, $current
                                 <div class="col-lg-2 col-sm-4">
                                     <button href="#" class="btn-lg btn btn-primary" onclick="filterData()">
                                         <span>Filtrer</span>
-                                        <em class="icon ni ni-setting"></em>
+                                        <em class="icon ni ni-filter"></em>
                                     </button>
                                 </div>
 
@@ -130,12 +130,20 @@ $daysInMonth = range(1, cal_days_in_month(CAL_GREGORIAN, $currentMonth, $current
                                             </tr>
 
                                             <tr class="nk-tb-item nk-tb-head">
-                                                <th class="nk-tb-col">Employer</th>
-                                                <?php foreach ($daysInMonth as $day) : ?>
-                                                    <?php
-                                                    // Convertir le numéro du jour en jour de la semaine (Mon, Tue, etc.)
-                                                    $dayOfWeek = date('D', strtotime("$currentYear-$currentMonth-$day"));
-                                                    ?>
+                                                <th class="nk-tb-col">Employeur</th>
+                                                <?php 
+                                                foreach ($daysInMonth as $day) : 
+                                                    $date = new DateTime("$currentYear-$currentMonth-$day");
+                                                    $formatter = new IntlDateFormatter(
+                                                        'fr_FR', 
+                                                        IntlDateFormatter::FULL, 
+                                                        IntlDateFormatter::NONE, 
+                                                        'Europe/Paris', 
+                                                        IntlDateFormatter::GREGORIAN,
+                                                        'E' // Format pour le jour de la semaine abrégé
+                                                    );
+                                                    $dayOfWeek = $formatter->format($date);
+                                                ?>
                                                     <th class="nk-tb-col"><?= $dayOfWeek ?></th>
                                                 <?php endforeach; ?>
                                                 <!-- <th class="nk-tb-col"> jours/mois</th> -->
@@ -152,7 +160,7 @@ $daysInMonth = range(1, cal_days_in_month(CAL_GREGORIAN, $currentMonth, $current
 
                                             ?>
                                                 <tr class="nk-tb-item odd">
-                                                    <td class="nk-tb-col tb-col-mb">
+                                                    <td class="nk-tb-col">
                                                         <div class="col">
                                                             <div class="custom-control custom-control-sm custom-checkbox notext">
                                                                 <input type="checkbox" class="custom-control-input user-checkbox" value="<?= $users['id']; ?>" id="user<?= $users['id']; ?>">

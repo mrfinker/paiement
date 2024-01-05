@@ -14,7 +14,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
     header('Location:' . ERROR);
     exit;
 }
-$companyModel = new staff_model();
 
 $pdf = new TCPDF();
 $pdf->AddPage();
@@ -52,6 +51,8 @@ $largeurMarge = 20; // Total des marges gauche et droite
 $largeurCellule = ($largeurPage - $largeurMarge) / $nombreDeColonnes;
 
 $selectedUserIds = isset($_GET['users']) ? explode(',', $_GET['users']) : null;
+
+$companyModel = new staff_model();
 $userscompany = $selectedUserIds ? $companyModel->getAllUsersIdByCreatorAndCompany($selectedUserIds) : $companyModel->getAllUsersByCreatorAndCompany();
 $timesheets  = $companyModel->getAllTimesheetsByCreatorAndCompany();
 
@@ -77,8 +78,17 @@ foreach ($userscompany as $users) {
 
     $pdf->SetFont('helvetica', '', 8);
 
-    // User Name
-    $pdf->MultiCell($largeurCellule + 20, 5, $users['name'], 1, 'L', 0, 0, '', '', true);
+    // Calculez la hauteur nécessaire pour le nom de l'utilisateur
+    $name = $users['name'];
+    $nameWidth = $largeurCellule + 20; // La largeur de la cellule du nom
+    $nameHeight = $pdf->getStringHeight($nameWidth, $name);
+
+    // Assurez-vous que la hauteur de la cellule est suffisante pour au moins une ligne
+    $cellHeight = max($nameHeight, 5);
+
+    // Écrivez le nom de l'utilisateur avec la hauteur calculée
+    $pdf->MultiCell($nameWidth, $cellHeight, $name, 1, 'L', 0, 0, '', '', true);
+
     for ($i = 1; $i <= $daysInCurrentMonth; $i++) {
         $dayKeyIn = strtolower(date('l', strtotime(date($currentYear . '-' . $currentMonth . '-' . $i)))) . '_in_time';
         $dayKeyOut = strtolower(date('l', strtotime(date($currentYear . '-' . $currentMonth . '-' . $i)))) . '_out_time';
@@ -96,10 +106,10 @@ foreach ($userscompany as $users) {
         }
 
         // Add a MultiCell for each day
-        $pdf->MultiCell($largeurCellule - 0.5, 5, $cellContent, 1, 'C', 0, 0, '', '', true);
+        $pdf->MultiCell($largeurCellule - 0.5, $cellHeight, $cellContent, 1, 'C', 0, 0, '', '', true);
     }
 
-    $pdf->Ln();
+    $pdf->Ln($cellHeight);
 }
 $dateNow = date("Y-m-d_H-i-s"); // Date au format AAAA-MM-JJ
 

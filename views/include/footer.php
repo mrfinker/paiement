@@ -252,7 +252,6 @@
         function resetTimer() {
             clearTimeout(time);
             time = setTimeout(logout, 1800000); // 30 min d'inactivité
-            console.log("Timer reset");
         }
 
         function logout() {
@@ -265,8 +264,6 @@
         window.addEventListener('load', resetTimer);
         document.addEventListener('mousemove', resetTimer);
         document.addEventListener('keypress', resetTimer);
-
-        console.log("Surveillance de l'inactivité démarrée");
     };
 
     inactivityTime();

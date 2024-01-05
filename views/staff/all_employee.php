@@ -38,7 +38,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                 <h5 class="nk-block-title">Liste des utiliateurs</h5>
                                 <div class="nk-block-head">
                                     <div class="nk-block-head-content">
-                                        <button href="#" class="btn btn-primary mt-2" type="button" data-bs-toggle="modal" data-bs-target="#newFormUserCompany">
+                                        <button href="#" class="btn btn-sm btn-primary mt-2" type="button" data-bs-toggle="modal" data-bs-target="#newFormUserCompany">
                                             Ajouter<em class="icon ni ni-plus p-1"></em>
                                         </button>
                                     </div>
@@ -56,9 +56,9 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                 </div>
                             </div>
                         </div>
-                        <div class="card card-bordered card-preview">
+                        <div class="card">
                             <div class="card-inner">
-                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer" style="overflow: auto; width: 100%;">
                                     <table class="datatable-init nk-tb-list nk-tb-ulist dataTable no-footer" data-auto-responsive="false" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
                                         <thead>
                                             <tr class="nk-tb-item nk-tb-head">
@@ -66,7 +66,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                                 <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="User: activate to sort column ascending">
                                                     <span class="sub-text">#</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Image</span>
                                                 </th>
                                                 <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
@@ -87,19 +87,19 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                                 <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
                                                     <span class="sub-text">Type de contrat</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Genre</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Telephone</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Pays</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Role</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Status</span>
                                                 </th>
                                                 <th class="nk-tb-col nk-tb-col-tools text-end sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="
@@ -141,7 +141,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <div class="user-toggle">
                                                             <div class="user-avatar sm">
                                                                 <?php if (isset($usercomp['image']) && !empty($usercomp['image'])) : ?>
@@ -160,16 +160,16 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                                     <td class="nk-tb-col tb-col-mb">
                                                         <span class="tb-amount"><?= $usercomp['name'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['designation'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['poste_name'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['contract_start'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span>
                                                             <?php
                                                             if ($usercomp['contract_type'] === 'CDD') {
@@ -180,22 +180,22 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                                             ?>
                                                         </span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['contract_type'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['gender'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['phone'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['country'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['role_name'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <?php if ($usercomp['is_active'] == 1) : ?>
                                                             <span class="badge badge-dim bg-success">Actif</span>
                                                         <?php else : ?>
@@ -228,19 +228,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                                                                     <span>Supprimer</span>
                                                                                 </a>
 
-                                                                                <a href="#" class="update_button_usercomp" 
-                                                                                data-id="<?= $usercomp['id']; ?>" 
-                                                                                data-userprofile-name="<?= $usercomp['name']; ?>" 
-                                                                                data-userprofile-designation="<?= $usercomp['designation_id']; ?>" 
-                                                                                data-userprofile-username="<?= $usercomp['username']; ?>" 
-                                                                                data-userprofile-email="<?= $usercomp['email']; ?>" 
-                                                                                data-userprofile-phone="<?= $usercomp['phone']; ?>" 
-                                                                                data-userprofile-address="<?= $usercomp['address']; ?>" 
-                                                                                data-userprofile-birthday="<?= $usercomp['birthday']; ?>" 
-                                                                                data-userprofile-departement="<?= $usercomp['departement_id']; ?>" 
-                                                                                data-userprofile-marital_status="<?= $usercomp['marital_status']; ?>" 
-                                                                                data-userprofile-poste_name="<?= $usercomp['poste_name']; ?>" 
-                                                                                data-userprofile-employeeid="<?= $usercomp['emplyee_id']; ?>" data-userprofile-working_time="<?= $usercomp['office_shift_id']; ?>" data-userprofile-salaire_base="<?= $usercomp['basic_salary']; ?>" data-userprofile-salary_type="<?= $usercomp['salary_type']; ?>" data-userprofile-country="<?= $usercomp['country_id']; ?>" data-userprofile-contract_type="<?= $usercomp['contract_type']; ?>" data-userprofile-gender="<?= $usercomp['gender']; ?>" data-userprofile-role="<?= $usercomp['user_role_id']; ?>" data-userprofile-image="<?= $usercomp['image']; ?>">
+                                                                                <a href="#" class="update_button_usercomp" data-id="<?= $usercomp['id']; ?>" data-userprofile-name="<?= $usercomp['name']; ?>" data-userprofile-designation="<?= $usercomp['designation_id']; ?>" data-userprofile-username="<?= $usercomp['username']; ?>" data-userprofile-email="<?= $usercomp['email']; ?>" data-userprofile-phone="<?= $usercomp['phone']; ?>" data-userprofile-address="<?= $usercomp['address']; ?>" data-userprofile-birthday="<?= $usercomp['birthday']; ?>" data-userprofile-departement="<?= $usercomp['departement_id']; ?>" data-userprofile-marital_status="<?= $usercomp['marital_status']; ?>" data-userprofile-gender="<?= $usercomp['gender']; ?>" data-userprofile-contract_type="<?= $usercomp['contract_type']; ?>" data-userprofile-poste_name="<?= $usercomp['poste_name']; ?>" data-userprofile-employeeid="<?= $usercomp['emplyee_id']; ?>" data-userprofile-working_time="<?= $usercomp['office_shift_id']; ?>" data-userprofile-salaire_base="<?= $usercomp['basic_salary']; ?>" data-userprofile-salary_type="<?= $usercomp['salary_type']; ?>" data-userprofile-country="<?= $usercomp['country_id']; ?>" data-userprofile-contract_type="<?= $usercomp['contract_type']; ?>" data-userprofile-gender="<?= $usercomp['gender']; ?>" data-userprofile-role="<?= $usercomp['user_role_id']; ?>" data-userprofile-image="<?= $usercomp['image']; ?>">
                                                                                     <em class="icon ni ni-pen"></em>
                                                                                     <span>Modifier</span>
                                                                                 </a>
@@ -321,9 +309,14 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                     <div class="row gy-4">
                         <div class="col-sm-12">
                             <div class="form-group">
+                                <div class="form-label-group">
+                                    <label class="form-label" for="image">Veuillez inserer une image</label>
+                                </div>
                                 <div class="form-control-wrap">
-                                    <input type="file" required="required" class="form-file-input" name="image" id="image">
-                                    <label class="form-file-label" for="image">Choisir un image</label>
+                                    <div class="form-file">
+                                        <input type="file" required="required" class="form-file-input" name="image" id="image" accept="image/*" hidden>
+                                        <label class="form-file-label" for="image">Choisir un image</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -386,12 +379,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                     <label class="form-label" for="poste">poste</label>
                                 </div>
                                 <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="poste"
-                                        class="form-control form-control-lg"
-                                        id="poste">
+                                    <input required="required" type="text" name="poste" class="form-control form-control-lg" id="poste">
                                 </div>
                             </div>
                         </div>
@@ -445,7 +433,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                             <div class="form-group">
                                 <label class="form-label" for="gender">Gender</label>
                                 <div class="form-control-wrap">
-                                    <select class="form-select js-select2 select2-hidden-accessible" data-search="on" aria-hidden="true" id="gender" name="gender" data-ui="lg">
+                                    <select class="form-select js-select2 select2-hidden-accessible" aria-hidden="true" id="gender" name="gender" data-ui="lg">
                                         <option disabled="disabled" selected="selected"></option>
                                         <option value="Homme">Homme</option>
                                         <option value="Femme">Femme</option>
@@ -457,7 +445,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                             <div class="form-group">
                                 <label class="form-label" for="country">Pays</label>
                                 <div class="form-control-wrap">
-                                    <select class="form-select js-select2 select2-hidden-accessible" data-search="on" id="country" name="country" aria-hidden="true" data-ui="lg">
+                                    <select class="form-select js-select2 select2-hidden-accessible" data-search="on" data-ui="lg" id="country" name="country">
                                         <option disabled="disabled" selected="selected"></option>
                                         <?php foreach ($countries as $country) : ?>
                                             <option value="<?= $country['id'] ?>"><?= $country['name'] ?></option>
@@ -606,7 +594,10 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                     </div>
 
                     <div class="form-group mt-2">
-                        <button type="submit" id="register_btn" name="register_btn" class="btn btn-lg btn-primary btn-block">Cree staff</button>
+                        <button type="submit" id="register_btn" name="register_btn" class="btn btn-lg btn-primary btn-block">
+                            <span id="spinnercreate" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                            <span id="buttonTextcreate">Cree</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -620,7 +611,8 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modifier l'utilisateur</h5>
+                <h5 class="modal-title">Modifier l'utilisateur</h5><?php 
+                                        var_dump($usercomp["user_role_id"]); ?>
                 <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
                 </a>
@@ -657,7 +649,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                 <label class="form-label" for="updatestatus_marital">Status marital</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select js-select2 select2-hidden-accessible" aria-hidden="true" name="updatestatus_marital" id="updatestatus_marital" data-ui="lg">
-                                        <option selected="selected"><?= $usercomp['marital_status'] ?></option>
+                                        <option disabled="disabled" <?php if (!isset($etat_civile)) echo 'selected="selected"'; ?>> Votre etat civile </option>
                                         <option value="Celibataire">Celibataire</option>
                                         <option value="Veuve/veuf">Veuve/veuf</option>
                                         <option value="Marier">Marier</option>
@@ -671,12 +663,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                     <label class="form-label" for="updateposte">poste</label>
                                 </div>
                                 <div class="form-control-wrap">
-                                    <input
-                                        required="required"
-                                        type="text"
-                                        name="updateposte"
-                                        class="form-control form-control-lg"
-                                        id="updateposte">
+                                    <input required="required" type="text" name="updateposte" class="form-control form-control-lg" id="updateposte">
                                 </div>
                             </div>
                         </div>
@@ -705,7 +692,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                 <label class="form-label" for="updategender">Gender</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select js-select2 select2-hidden-accessible" data-search="on" aria-hidden="true" id="updategender" name="updategender" data-ui="lg">
-                                        <option selected="selected"><?= $usercomp['gender'] ?></option>
+                                        <option disabled="disabled" <?php if (!isset($gender)) echo 'selected="selected"'; ?>> Votre genre </option>
                                         <option value="Homme">Homme</option>
                                         <option value="Femme">Femme</option>
                                     </select>
@@ -750,14 +737,14 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                 <label class="form-label" for="updateuser_role">Role</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select js-select2 select2-hidden-accessible" data-search="on" aria-hidden="true" id="updateuser_role" name="updateuser_role" data-ui="lg">
-                                        <option selected="selected"><?= $role['name']; ?></option>
+                                        <option selected="selected"><?= $role['name'] ?></option>
                                         <?php
                                         foreach ($usersRoles as $role) {
                                             echo '<option value="' . $role['id_role'] . '">' . $role['name'] . '</option>';
                                         }
                                         ?>
-
                                     </select>
+
                                 </div>
                             </div>
                         </div>
@@ -766,13 +753,15 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                 <label class="form-label" for="updatedepartment_id">Departements</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select js-select2 select2-hidden-accessible department-select" aria-hidden="true" name="updatedepartment_id" id="updatedepartment_id" data-ui="lg">
-                                        <option selected="selected"><?= $dep['department_name']; ?></option>
+                                        <option disabled="disabled">Choisissez un département</option>
                                         <?php
                                         foreach ($usersDepartements as $dep) {
-                                            echo '<option value="' . $dep['department_id'] . '">' . $dep['department_name'] . '</option>';
+                                            $selected = ($usercomp['departement_id'] == $dep['department_id']) ? 'selected' : '';
+                                            echo '<option value="' . $dep['department_id'] . '" ' . $selected . '>' . $dep['department_name'] . '</option>';
                                         }
                                         ?>
                                     </select>
+
                                 </div>
                             </div>
                         </div>
@@ -827,7 +816,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                 <label class="form-label" for="updatecontract_type">Type de contart</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select js-select2 select2-hidden-accessible" aria-hidden="true" id="updatecontract_type" name="updatecontract_type" data-ui="lg">
-                                        <option selected="selected"><?= $usercomp['contract_type']; ?></option>
+                                        <option disabled="disabled" <?php if (!isset($contract_type)) echo 'selected="selected"'; ?>> Le type de contract </option>
                                         <option value="CDD">CDD</option>
                                         <option value="CDI">CDI</option>
                                     </select>
@@ -837,7 +826,10 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                     </div>
                     <input type="hidden" class="id_users" name="id_users">
                     <div class="form-group mt-2">
-                        <button type="submit" id="update_btn" name="update_btn" class="btn btn-lg btn-primary btn-block">Modifier utilisateur</button>
+                        <button type="submit" id="update_btn" name="update_btn" class="btn btn-lg btn-primary btn-block">
+                            <span id="spinnerupdate" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                            <span id="buttonTextupdate">Modifier</span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -907,7 +899,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label class="form-label" for="viewaddress">Votre adresse</label>
@@ -922,7 +914,7 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
                                 <label class="form-label" for="viewbirthday">Date d'anniversaire</label>
                                 <input type="text" class="form-control form-control-lg date-picker" name="birthday" disabled="disabled" id="viewbirthday">
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <input type="hidden" class="id_users">
                 </form>
@@ -933,27 +925,27 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
 
 <!-- popup -->
 <div class="modal fade" id="deleterUser" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body modal-body-lg text-center">
-                    <div class="nk-modal">
-                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
-                        <h4 class="nk-modal-title">Confirmer la suppression !</h4>
-                        <div class="nk-modal-text">
-                            <p class="lead">Confirmez vous la suppression de l'utilisateur ?. <br>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                    <h4 class="nk-modal-title">Confirmer la suppression !</h4>
+                    <div class="nk-modal-text">
+                        <p class="lead">Confirmez vous la suppression de l'utilisateur ?. <br>
                             L'action de suppression est non reversible, etes-vous sur de votre choix ?
-                            </p>
-                        </div>
-                        <input type="hidden" class="id_users" name="id_users">
-                        <div class="nk-modal-action d-flex align-items-center justify-content-center mt-2">
-                            <a href="#" class="btn btn-lg btn-mw btn-light m-1" data-bs-dismiss="modal">Retourner</a>
-                            <a href="#" data-id="value" class="btn btn-lg btn-mw btn-danger m-1 delete-button-usercompp" data-bs-dismiss="modal">Supprimer</a>
-                        </div>
+                        </p>
                     </div>
-                </div><!-- .modal-body -->
-            </div>
+                    <input type="hidden" class="id_users" name="id_users">
+                    <div class="nk-modal-action d-flex align-items-center justify-content-center mt-2">
+                        <a href="#" class="btn btn-lg btn-mw btn-light m-1" data-bs-dismiss="modal">Retourner</a>
+                        <a href="#" data-id="value" class="btn btn-lg btn-mw btn-danger m-1 delete-button-usercompp" data-bs-dismiss="modal">Supprimer</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
         </div>
     </div>
+</div>
 
 <script>
     document.getElementById('download-pdf').addEventListener('click', function() {
@@ -980,8 +972,6 @@ $branches = $companyModel->getAllDesignationsByCreatorAndCompany();
 
 <script>
     document.getElementById('download-pdf-presence').addEventListener('click', function() {
-
-
         if (selectedUsers.length > 0) {
             url += '&users=' + selectedUsers;
         }

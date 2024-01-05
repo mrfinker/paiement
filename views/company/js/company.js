@@ -140,7 +140,7 @@ $(document).ready(function () {
   // Suppression role
   $(document).on("click", ".delete-button-deleteRole", function (e) {
     e.preventDefault();
-    let id_role = parseInt($('.id_users').val());
+    let id_role = parseInt($(".id_users").val());
     $.ajax({
       url: `${baseUrl}company/handleDeleteRole`,
       type: "POST",
@@ -179,12 +179,12 @@ $(document).ready(function () {
   });
 
   // delete avance sur salaire(recuperation donnees)
-$(document).on("click", ".delete-button-role", function (e) {
-  e.preventDefault();
-  let id = parseInt($(this).data("id"));
-  $(".id_users").val(id);
-  $("#deleterRole").modal("show");
-});
+  $(document).on("click", ".delete-button-role", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    $(".id_users").val(id);
+    $("#deleterRole").modal("show");
+  });
 
   // Ajouter departements
   $(document).on("submit", "#registerFormDepartements", function (e) {
@@ -252,7 +252,7 @@ $(document).on("click", ".delete-button-role", function (e) {
   // supprimer
   $(document).on("click", ".delete-button-deleterDepartment", function (e) {
     e.preventDefault();
-    let id = parseInt($('.id_users').val());
+    let id = parseInt($(".id_users").val());
     $.ajax({
       url: `${baseUrl}company/handleDeleteDepartement`, // Notez le changement d'URL ici
       type: "POST",
@@ -283,12 +283,12 @@ $(document).on("click", ".delete-button-role", function (e) {
   });
 
   // delete avance sur salaire(recuperation donnees)
-$(document).on("click", ".delete-button-departement", function (e) {
-  e.preventDefault();
-  let id = parseInt($(this).data("id"));
-  $(".id_users").val(id);
-  $("#deleterDepartment").modal("show");
-});
+  $(document).on("click", ".delete-button-departement", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    $(".id_users").val(id);
+    $("#deleterDepartment").modal("show");
+  });
 
   // Mise a jour departements(update)
   $(document).on("submit", "#updateFormDepartements", function (e) {
@@ -418,7 +418,7 @@ $(document).on("click", ".delete-button-departement", function (e) {
   // supprimer
   $(document).on("click", ".delete-button-deleterBranche", function (e) {
     e.preventDefault();
-    let id = parseInt($('.id_users').val());
+    let id = parseInt($(".id_users").val());
     $.ajax({
       url: `${baseUrl}company/handleDeleteDesignation`, // Notez le changement d'URL ici
       type: "POST",
@@ -449,12 +449,12 @@ $(document).on("click", ".delete-button-departement", function (e) {
   });
 
   // delete avance sur salaire(recuperation donnees)
-$(document).on("click", ".delete-button-designation", function (e) {
-  e.preventDefault();
-  let id = parseInt($(this).data("id"));
-  $(".id_users").val(id);
-  $("#deleterBranche").modal("show");
-});
+  $(document).on("click", ".delete-button-designation", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    $(".id_users").val(id);
+    $("#deleterBranche").modal("show");
+  });
 
   // Mise à jour désignations(update)
   $(document).on("submit", "#updateFormDesignation", function (e) {
@@ -505,14 +505,16 @@ $(document).on("click", ".delete-button-designation", function (e) {
   $(document).on("click", ".update_button_designation", function (e) {
     e.preventDefault();
     let id = parseInt($(this).data("id"));
+    let departmentId = $(this).data("departement-id");
     let designationName = $(this).data("designation-name");
-    let departmentName = $(this).data("designation-depname");
+
+    $("#designationId").val(departmentId).trigger('change');
+    // Mettre à jour la valeur du menu déroulant pour le département
 
     $("#designationNameUpdate").val(designationName);
-    $("#departmentNameUpdate").val(departmentName); // Correction du nom de l'ID
     $(".id_designation").val(id);
     $("#UpdateModalDesignation").modal("show");
-  });
+});
 
   $(document).ready(function () {
     $('select[name="department_id"]').on("change", function () {
@@ -1040,7 +1042,7 @@ $(document).on("click", ".delete-button-designation", function (e) {
   // supprimer
   $(document).on("click", ".delete-button-deleteOffice", function (e) {
     e.preventDefault();
-    let id = parseInt($('.id_users').val());
+    let id = parseInt($(".id_users").val());
     $.ajax({
       url: `${baseUrl}company/handleDeleteHoraire`, // Notez le changement d'URL ici
       type: "POST",
@@ -1071,12 +1073,12 @@ $(document).on("click", ".delete-button-designation", function (e) {
   });
 
   // delete avance sur salaire(recuperation donnees)
-$(document).on("click", ".delete-button-horaire", function (e) {
-  e.preventDefault();
-  let id = parseInt($(this).data("id"));
-  $(".id_users").val(id);
-  $("#deleterOffice").modal("show");
-});
+  $(document).on("click", ".delete-button-horaire", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    $(".id_users").val(id);
+    $("#deleterOffice").modal("show");
+  });
 
   // calcul asynchrone des heures
   $(document).ready(function () {
@@ -1250,7 +1252,7 @@ $(document).on("click", ".delete-button-horaire", function (e) {
   // Users utilisateur | utilisateurs suppression utilisateurs
   $(document).on("click", ".delete-button-usercompp", function (e) {
     e.preventDefault();
-    let id = parseInt($('.id_users').val());
+    let id = parseInt($(".id_users").val());
     $.ajax({
       url: `${baseUrl}company/handleDeleteUserscomp`,
       type: "POST",
@@ -1284,6 +1286,14 @@ $(document).on("click", ".delete-button-horaire", function (e) {
     e.preventDefault();
 
     let formData = new FormData(this);
+    let button = $("#register_btn");
+    let buttonText = $("#buttonTextcreate");
+    let spinner = $("#spinnercreate");
+
+    // Désactiver le bouton et afficher le spinner
+    button.prop("disabled", true);
+    buttonText.hide();
+    spinner.show();
 
     $.ajax({
       url: `${baseUrl}company/handleRegisterUsers`,
@@ -1315,6 +1325,12 @@ $(document).on("click", ".delete-button-horaire", function (e) {
           text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
         });
       },
+      complete: function () {
+        // Réactiver le bouton et cacher le spinner
+        button.prop("disabled", false);
+        buttonText.show();
+        spinner.hide();
+      },
     });
   });
 
@@ -1322,6 +1338,15 @@ $(document).on("click", ".delete-button-horaire", function (e) {
   $(document).on("submit", "#updateFormUsercomp", function (e) {
     e.preventDefault();
     let id = parseInt($(".id_users").val()); // Récupère l'ID de l'utilisateur
+    let button = $("#update_btn");
+    let buttonText = $("#buttonTextupdate");
+    let spinner = $("#spinnerupdate");
+
+    // Désactiver le bouton et afficher le spinner
+    button.prop("disabled", true);
+    buttonText.hide();
+    spinner.show();
+
     if (isNaN(id)) {
       // Gérer l'erreur, par exemple afficher une alerte
       Swal.fire({
@@ -1369,6 +1394,12 @@ $(document).on("click", ".delete-button-horaire", function (e) {
           text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
         });
       },
+      complete: function () {
+        // Réactiver le bouton et cacher le spinner
+        button.prop("disabled", false);
+        buttonText.show();
+        spinner.hide();
+      },
     });
   });
 
@@ -1400,21 +1431,27 @@ $(document).on("click", ".delete-button-horaire", function (e) {
     $("#updatephone").val(phone);
     $("#updateaddress").val(address);
     $("#updatebirthday").val(birthday);
-    $("#updatestatus_marital").val(marital_status);
+    $("#updatestatus_marital").val(marital_status).trigger("change");
+    // $("#updatestatus_marital").val(marital_status);
     $("#updateposte").val(poste_name);
     $("#updateemployeid").val(employeeid);
-    $("#updategender").val(gender);
-    $("#updateuser_role").val(role);
-    $("#updatedepartment_id").val(departement);
-    $("#updatedesignation_id").val(designation);
-    $("#updateworking_time").val(working_time);
+    $("#updategender").val(gender).trigger("change");
+    // $("#updategender").val(gender);
+    $("#updateuser_role").val(role).trigger("change");
+    // $("#updateuser_role").val(role);
+    $("#updatedepartment_id").val(departement).trigger("change");
+    // $("#updatedepartment_id").val(departement);
+    $("#updateworking_time").val(working_time).trigger("change");
+    // $("#updateworking_time").val(working_time);
     $("#updatesalaire_base").val(salaire_base);
     $("#updatepaiement_type").val(salary_type);
-    $("#updatecontract_type").val(contract_type);
+    $("#updatecontract_type").val(contract_type).trigger("change");
+    // $("#updatecontract_type").val(contract_type);
     $("#updatecountry").val(updatecountry);
     $(".id_users").val(id);
     // Sélectionner la bonne option dans le menu déroulant de la désignation
-    $("select[name='updatedesignation_id']").val(designation);
+    // $("#updatedesignation_id").val(designation);
+    $("select[name='updatedesignation_id']").attr("data-default-value", designation);
     $("#UpdateModalUsercomp").modal("show");
   });
 
@@ -1459,7 +1496,6 @@ $(document).on("click", ".delete-button-horaire", function (e) {
     let spouse = Number($(this).data("spouse"));
     let timesheet_count = Number($(this).data("timesheet_count"));
     let advanced_salary = Number($(this).data("advanced_salary"));
-    console.log(advanced_salary);
     let regularization = 0;
     // Number($(this).data("regularization"))
     let other = 0;
@@ -1469,7 +1505,6 @@ $(document).on("click", ".delete-button-horaire", function (e) {
     let monthlastone = 0;
     // Number($(this).data("monthlastone"))
     let telephone = 0;
-    // Number($(this).data("telephone"))
     let country = $(this).data("country");
 
     $("#basic_salary").val(bs);
@@ -1484,8 +1519,7 @@ $(document).on("click", ".delete-button-horaire", function (e) {
 
     // Calculez le nombre de jours et le reste des heures
     let total_hours_month = parseInt(hours_time * 4);
-    let jours = Number(Math.floor(total_hours_month / 8)); // 8 heures par jour
-    let heures = parseInt(total_hours_month % 8); // Le reste des heures
+    let jours = Number(Math.floor(total_hours_month / 8));
 
     // Calcul du salaire de base new
     let absent_days = jours - timesheet_count;
@@ -1497,32 +1531,7 @@ $(document).on("click", ".delete-button-horaire", function (e) {
     if (absent_days >= jours) {
       $("#final_salary_display").text("0 $");
       $("#transport_display").text("0 $");
-      console.log(absent_days);
     } else {
-      let jours_travailles = jours - absent_days;
-
-      let bsp = ((bs + bs * 0) / jours) * jours_travailles;
-      let salary_imposable =
-        bsp + regularization + other + leave + monthlastone;
-      // Le reste de votre code ici, et utilisez salary_imposable comme vous le
-      // souhaitez.
-      $("#salary_imposable_display").text(salary_imposable.toFixed(2) + " $");
-      $("#salary_imposable").val(salary_imposable.toFixed(2));
-
-      let housing = ((bsp + regularization + leave) * 30) / 100;
-      if (isNaN(housing)) {
-        housing = 0;
-      }
-
-      // Afficher la valeur de net_before_taxes dans le DOM, si vous avez un élément
-      // HTML approprié pour cela
-      $("#housing_display").text(housing + " $");
-      $("#housing").val(housing);
-
-      let Transport = 0.545454545454545 * 4 * jours_travailles;
-      $("#transport_display").text(Transport.toFixed(2) + " $");
-      $("#transport").val(Transport.toFixed(2));
-
       if (isNaN(regularization)) regularization = 0;
       $("#regularization").text(`${regularization} / Regularization`);
       if (isNaN(other)) other = 0;
@@ -1541,9 +1550,32 @@ $(document).on("click", ".delete-button-horaire", function (e) {
 
       $("#jours").text(jours + " jours" + " / mois");
 
+      let jours_travailles = jours - absent_days;
+
+      let bsp = (bs + (bs * 0))/ jours * jours_travailles;
+      console.log(bsp);
+      let salary_imposable =
+        bsp + regularization + other + leave + monthlastone;
+      // Le reste de votre code ici, et utilisez salary_imposable comme vous le
+      // souhaitez.
+      $("#salary_imposable_display").text(salary_imposable.toFixed(2) + " $");
+      $("#salary_imposable").val(salary_imposable);
+
+      let housing = ((bsp + regularization + leave) * 30) / 100;
+      if (isNaN(housing)) {
+        housing = 0;
+      }
+
+      $("#housing_display").text(housing.toFixed(2) + " $");
+      $("#housing").val(housing);
+
+      let Transport = 0.545454545454545 * 4 * jours_travailles;
+      $("#transport_display").text(Transport.toFixed(2) + " $");
+      $("#transport").val(Transport);
+
       let cnss_company = (salary_imposable * 13) / 100;
       $("#cnss_company_display").text(cnss_company.toFixed(2) + " $");
-      $("#cnss_company").val(cnss_company.toFixed(2));
+      $("#cnss_company").val(cnss_company);
 
       let iere;
       if (country.toLowerCase() === "republique democratique du congo") {
@@ -1551,11 +1583,11 @@ $(document).on("click", ".delete-button-horaire", function (e) {
       } else {
         iere = (salary_imposable * 25) / 100;
       }
-      $("#iere_display").text(iere + " $");
+      $("#iere_display").text(iere.toFixed(2) + " $");
       $("#iere").val(iere);
 
       let inpp = (salary_imposable * 3) / 100;
-      $("#inpp_display").text(inpp + " $");
+      $("#inpp_display").text(inpp.toFixed(2) + " $");
       $("#inpp").val(inpp);
 
       let onem = (salary_imposable * 0.2) / 100;
@@ -1613,8 +1645,6 @@ $(document).on("click", ".delete-button-horaire", function (e) {
       let convertUsdFc = usdFranc / exchange_rate;
       $("#convertUsdFc").text(convertUsdFc.toFixed(2));
 
-      // Fin du calcul important en fond
-
       let ipr_franc;
 
       if (usdFranc < 2000) {
@@ -1626,43 +1656,50 @@ $(document).on("click", ".delete-button-horaire", function (e) {
       }
       ipr = ipr_franc / exchange_rate;
       $("#ipr_display").text(ipr.toFixed(2) + " $");
-      $("#ipr").val(ipr.toFixed(2));
+      $("#ipr").val(ipr);
 
       let net_after_taxes = net_before_taxes - ipr;
       $("#net_after_taxes_display").text(net_after_taxes.toFixed(2) + " $");
-      $("#net_after_taxes").val(net_after_taxes.toFixed(2));
+      $("#net_after_taxes").val(net_after_taxes);
 
       let salaire_final = (bsp / jours) * jours_travailles;
       $("#final_salary_display").text(salaire_final.toFixed(2) + " $");
-      $("#final_salary").val(salaire_final.toFixed(2));
-
+      $("#final_salary").val(salaire_final);
+      console.log(jours_travailles);
+      
       let salary_net =
         net_after_taxes + housing + Transport + telephone - advanced_salary;
       $("#salary_net_display").text(salary_net.toFixed(2) + " $");
-      $("#salary_net").val(salary_net.toFixed(2));
-
+      $("#salary_net").val(salary_net);
+      console.log(salary_net);
+      
       let salary_brut_company =
         salary_net + cnss + cnss_company + ipr + iere + inpp + onem;
       $("#salary_brut_company_display").text(
         salary_brut_company.toFixed(2) + " $"
       );
-      $("#salary_brut_company").val(salary_brut_company.toFixed(2));
+      $("#salary_brut_company").val(salary_brut_company);
     }
   });
 
-  // Ajouter payements
-  $(document).on("submit", "#payeFormUsercomp", function (e) {
-    // ajusté pour cibler le formulaire, pas le bouton
+  $(document).on("click", "#payement_btn", function (e) {
+    e.preventDefault();
+    $("#confirmationModal").modal("show");
+    $("#payeModalUsercomp").hide();
+  });
+
+  $("#confirmationModal").on("hidden.bs.modal", function () {
+    $("#payeModalUsercomp").show(); // Retire l'effet de flou à la fermeture de la modale
+  });
+
+  $(document).on("click", "#confirmPayement", function (e) {
     e.preventDefault();
 
+    let formData = new FormData($("#payeFormUsercomp")[0]);
     let year = document.getElementById("year-select").value; // Récupère l'année
     let month = document.getElementById("month-select").value; // Récupère le mois
-
-    // Ajoute l'année et le mois au formData
-    let formData = new FormData(this);
     formData.append("year", year);
     formData.append("month", month);
-    console.log("Données envoyées :", formData);
 
     $.ajax({
       url: `${baseUrl}company/handleAddPayments`, // Remplacez par l'URL appropriée de votre contrôleur
@@ -1716,7 +1753,77 @@ $(document).on("click", ".delete-button-horaire", function (e) {
         });
       },
     });
+
+    $("#confirmationModal").modal("hide");
   });
+
+  // Ajouter payements
+  // $(document).on("submit", "#payeFormUsercomp", function (e) {
+  //   // ajusté pour cibler le formulaire, pas le bouton
+  //   e.preventDefault();
+
+  //   let year = document.getElementById("year-select").value; // Récupère l'année
+  //   let month = document.getElementById("month-select").value; // Récupère le mois
+
+  //   // Ajoute l'année et le mois au formData
+  //   let formData = new FormData(this);
+  //   formData.append("year", year);
+  //   formData.append("month", month);
+  //   console.log("Données envoyées :", formData);
+
+  //   $.ajax({
+  //     url: `${baseUrl}company/handleAddPayments`, // Remplacez par l'URL appropriée de votre contrôleur
+  //     type: "POST",
+  //     dataType: "JSON",
+  //     processData: false, // Important pour envoyer les données du formulaire avec FormData
+  //     contentType: false, // Important pour envoyer les données du formulaire avec FormData
+  //     data: formData,
+  //     success: function (res) {
+  //       if (res.status === 200) {
+  //         let timerInterval;
+  //         Swal.fire({
+  //           icon: "success",
+  //           title: "Enregistrement réussi",
+  //           text: res.msg,
+  //           timer: 100, // Par exemple, disparaît après 2 secondes
+  //           timerProgressBar: true,
+  //           willOpen: () => {
+  //             Swal.showLoading();
+  //             timerInterval = setInterval(() => {
+  //               const content = Swal.getContent();
+  //               if (content) {
+  //                 const b = content.querySelector("b");
+  //                 if (b) {
+  //                   b.textContent = Swal.getTimerLeft();
+  //                 }
+  //               }
+  //             }, 100);
+  //           },
+  //           willClose: () => {
+  //             clearInterval(timerInterval);
+  //           },
+  //         }).then((result) => {
+  //           if (result.dismiss === Swal.DismissReason.timer) {
+  //             window.location.href = window.location.href;
+  //           }
+  //         });
+  //       } else {
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Erreur lors de l'enregistrement",
+  //           text: res.msg,
+  //         });
+  //       }
+  //     },
+  //     error: function () {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Erreur",
+  //         text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
+  //       });
+  //     },
+  //   });
+  // });
 
   // selection departement pour afficher sa branche
   $(document).ready(function () {
@@ -1793,6 +1900,9 @@ $(document).on("click", ".delete-button-horaire", function (e) {
             });
 
             designationSelect.prop("disabled", false);
+            setTimeout(function() {
+              designationSelect.val(designationSelect.attr('data-default-value')).trigger('change');
+          }, 100);
           },
           error: function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX Error:", textStatus, errorThrown); // Log pour débugger
@@ -1801,63 +1911,6 @@ $(document).on("click", ".delete-button-horaire", function (e) {
       }
     });
   });
-
-  // Voir facture paiement
-  // $(document).on('click', '.facture_button_usercomp', function (e) {
-  //     e.preventDefault();
-
-  //     let id = $(this).data('id');
-  //     let name = $(this).data('name');
-  //     let address = $(this).data('address');
-  //     let phone = $(this).data('phone');
-  //     let basicSalary = $(this).data('basic_salary');
-  //     let created_at = $(this).data('created_at');
-  //     let totalTime = $(this).data('total_time');
-  //     let country = $(this).data('country');
-  //     let payslip_value = $(this).data('payslip_value');
-  //     let payslip_code = $(this).data('payslip_code');
-  //     let salary_month = $(this).data('salary_month');
-  //     let year_to_date = $(this).data('year_to_date');
-  //     let designation = $(this).data('designation');
-  //     let department = $(this).data('department');
-  //     let net_salary = $(this).data('net_salary');
-  //     let housing = $(this).data('housing');
-  //     let transport = $(this).data('transport');
-  //     let advance_salary = $(this).data('advance_salary');
-  //     let net_after_taxes = $(this).data('net_after_taxes');
-
-  //     // Stocker les données dans le localStorage ou sessionStorage
-  //     sessionStorage.setItem('id', id);
-  //     sessionStorage.setItem('name', name);
-  //     sessionStorage.setItem('address', address);
-  //     sessionStorage.setItem('phone', phone);
-  //     sessionStorage.setItem('created_at', created_at);
-  //     sessionStorage.setItem('basicSalary', basicSalary);
-  //     sessionStorage.setItem('totalTime', totalTime);
-  //     sessionStorage.setItem('country', country);
-  //     sessionStorage.setItem('payslip_value', payslip_value);
-  //     sessionStorage.setItem('payslip_code', payslip_code);
-  //     sessionStorage.setItem('salary_month', salary_month);
-  //     sessionStorage.setItem('year_to_date', year_to_date);
-  //     sessionStorage.setItem('designation', designation);
-  //     sessionStorage.setItem('department', department);
-  //     sessionStorage.setItem('net_salary', net_salary);
-  //     sessionStorage.setItem('housing', housing);
-  //     sessionStorage.setItem('transport', transport);
-  //     sessionStorage.setItem('advance_salary', advance_salary);
-  //     sessionStorage.setItem('net_after_taxes', net_after_taxes);
-
-  //     let url = `${baseUrl}company/generate_paie_pdf?` +
-  //       `id=${id}&name=${encodeURIComponent(name)}&address=${encodeURIComponent(address)}&` +
-  //       `phone=${phone}&basicSalary=${basicSalary}&created_at=${created_at}&` +
-  //       `totalTime=${totalTime}&country=${country}&payslip_value=${payslip_value}&` +
-  //       `payslip_code=${payslip_code}&salary_month=${salary_month}&` +
-  //       `year_to_date=${year_to_date}&designation=${designation}&department=${encodeURIComponent(department)}&` +
-  //       `net_salary=${net_salary}&housing=${housing}&transport=${transport}&` +
-  //       `advance_salary=${advance_salary}&net_after_taxes=${net_after_taxes}`;
-  //         window.open(url, '_blank');
-
-  // });
 
   $(document).on("click", ".facture_button_usercomp", function (e) {
     e.preventDefault();
@@ -1877,11 +1930,30 @@ $(document).on("click", ".delete-button-horaire", function (e) {
       designation: $(this).data("designation"),
       department: $(this).data("department"),
       net_salary: $(this).data("net_salary"),
+      net_after_taxes: $(this).data("net_after_taxes"),
       housing: $(this).data("housing"),
       transport: $(this).data("transport"),
       advance_salary: $(this).data("advance_salary"),
-      net_after_taxes: $(this).data("net_after_taxes"),
+      contract_start: $(this).data("contract_start"),
+      contract_type: $(this).data("contract_type"),
+      marital_status: $(this).data("marital_status"),
+      poste_name: $(this).data("poste_name"),
+      children: $(this).data("children"),
+      cnss_employee: $(this).data("cnss_employee"),
+      cnss_company: $(this).data("cnss_company"),
+      emplyee_id: $(this).data("emplyee_id"),
+      bank_name: $(this).data("bank_name"),
+      bank_number: $(this).data("bank_number"),
+      presents_days: $(this).data("presents_days"),
+      absents_days: $(this).data("absents_days"),
+      ipr: $(this).data("ipr"),
+      inpp: $(this).data("inpp"),
+      onem: $(this).data("onem"),
+      net_before_taxes: $(this).data("net_before_taxes"),
+      salary_imposable: $(this).data("salary_imposable"),
     };
+
+    console.log(data);
 
     // Stocker les données dans sessionStorage
     Object.keys(data).forEach((key) => sessionStorage.setItem(key, data[key]));
@@ -1891,8 +1963,6 @@ $(document).on("click", ".delete-button-horaire", function (e) {
       type: "POST",
       data: data,
       success: function (response) {
-        alert("La facture a été générée avec succès !");
-
         // Ouvre l'URL dans un nouvel onglet
         if (response.redirectUrl) {
           window.open(response.redirectUrl, "_blank");
@@ -2168,76 +2238,47 @@ $(document).on("click", ".delete-button-horaire", function (e) {
   //   document.getElementById("created_at").textContent = created_at;
   // });
 
-  // voir facture avance sur salaire
-  $(document).on("click", ".voir_button_advanced", function (e) {
+$(document).on("click", ".voir_button_advanced", function (e) {
     e.preventDefault();
+    let data = {
+      id : $(this).data("id"),
+    advance_amount : $(this).data("advance_amount"),
+    month_year : $(this).data("month_year"),
+    paiement_type : $(this).data("paiement_type"),
+    description : $(this).data("description"),
+    avance_reference : $(this).data("avance_reference"),
+    avance_value : $(this).data("avance_value"),
+    avance_code : $(this).data("avance_code"),
+    salary_type : $(this).data("salary_type"),
+    adresse_company : $(this).data("adresse_company"),
+    company_name : $(this).data("company_name"),
+    staff_name : $(this).data("staff_name"),
+    created_at : $(this).data("created_at"),
+    }
 
-    let id = $(this).data("id");
-    let advance_amount = $(this).data("advance_amount");
-    let month_year = $(this).data("month_year");
-    let paiement_type = $(this).data("paiement_type");
-    let description = $(this).data("description");
-    let avance_reference = $(this).data("avance_reference");
-    let avance_value = $(this).data("avance_value");
-    let avance_code = $(this).data("avance_code");
-    let salary_type = $(this).data("salary_type");
-    let adresse_company = $(this).data("adresse_company");
-    let company_name = $(this).data("company_name");
-    let staff_name = $(this).data("staff_name");
-    let created_at = $(this).data("created_at");
+    console.log(data);
 
-    // Stocker les données dans le localStorage ou sessionStorage
-    sessionStorage.setItem("id", id);
-    sessionStorage.setItem("advance_amount", advance_amount);
-    sessionStorage.setItem("month_year", month_year);
-    sessionStorage.setItem("paiement_type", paiement_type);
-    sessionStorage.setItem("description", description);
-    sessionStorage.setItem("avance_reference", avance_reference);
-    sessionStorage.setItem("avance_value", avance_value);
-    sessionStorage.setItem("avance_code", avance_code);
-    sessionStorage.setItem("salary_type", salary_type);
-    sessionStorage.setItem("adresse_company", adresse_company);
-    sessionStorage.setItem("staff_name", staff_name);
-    sessionStorage.setItem("company_name", company_name);
-    sessionStorage.setItem("created_at", created_at);
+    // Stocker les données dans sessionStorage
+    Object.keys(data).forEach((key) => sessionStorage.setItem(key, data[key]));
 
-    let url = `${baseUrl}company/invoice_avance?avance_value=${avance_value}?linked-solution?`;
-    window.open(url, "_blank");
-  });
+    $.ajax({
+      url: `${baseUrl}company/generateAvancePdfAjax`,
+      type: "POST",
+      data: data,
+      success: function (response) {
+        // Ouvre l'URL dans un nouvel onglet
+        if (response.redirectUrl) {
+          window.open(response.redirectUrl, "_blank");
+        } else {
+          console.error("URL de redirection manquante dans la réponse");
+        }
 
-  $(document).ready(function () {
-    let advance_amount = sessionStorage.getItem("advance_amount");
-    let month_year = sessionStorage.getItem("month_year");
-    let paiement_type = sessionStorage.getItem("paiement_type");
-    let description = sessionStorage.getItem("description");
-    let avance_reference = sessionStorage.getItem("avance_reference");
-    let avance_code = sessionStorage.getItem("avance_code");
-    let salary_type = sessionStorage.getItem("salary_type");
-    let staff_name = sessionStorage.getItem("staff_name");
-    let adresse_company = sessionStorage.getItem("adresse_company");
-    let company_name = sessionStorage.getItem("company_name");
-    let created_at = sessionStorage.getItem("created_at");
-
-    // Obtenez la date actuelle
-    let today = new Date();
-    // Obtenez la date au format "AAAA-MM-JJ" (par exemple, "2023-10-25")
-    let todayDate = today.toISOString().split("T")[0];
-
-    // Sélectionner l'élément par son ID et changer son contenu Utiliser les données
-    // récupérées comme vous le souhaitez
-    document.getElementById("advance_amount").textContent =
-      advance_amount + " $";
-    document.getElementById("month_year").textContent = month_year;
-    document.getElementById("paiement_type").textContent = paiement_type;
-    document.getElementById("avance_code").textContent = avance_code;
-    document.getElementById("company_name").textContent = company_name;
-    document.getElementById("staff_name").textContent = staff_name;
-    document.getElementById("today_date").textContent = todayDate;
-    document.getElementById("description").textContent = description;
-    document.getElementById("avance_reference").textContent = avance_reference;
-    document.getElementById("salary_type").textContent = salary_type;
-    document.getElementById("adresse_company").textContent = adresse_company;
-    document.getElementById("created_at").textContent = created_at;
+        console.log(response.data); // Assurez-vous que cela fait partie de la réponse si nécessaire
+      },
+      error: function (xhr, status, error) {
+        alert("Une erreur est survenue : " + error);
+      },
+    });
   });
 
   // Mise a jour is_active(update)
@@ -2526,7 +2567,7 @@ $(document).on("click", ".delete-button-horaire", function (e) {
   // timesheet supprimer
   $(document).on("click", ".delete-button-deleterPresence", function (e) {
     e.preventDefault();
-    let id = parseInt($('.id_users').val());
+    let id = parseInt($(".id_users").val());
     $.ajax({
       url: `${baseUrl}company/handleDeleteTimesheet`, // Notez le changement d'URL ici
       type: "POST",
@@ -2555,14 +2596,6 @@ $(document).on("click", ".delete-button-horaire", function (e) {
       },
     });
   });
-
-  // delete avance sur salaire(recuperation donnees)
-$(document).on("click", ".delete-button-timesheet", function (e) {
-  e.preventDefault();
-  let id = parseInt($(this).data("id"));
-  $(".id_users").val(id);
-  $("#deleterPresence").modal("show");
-});
 
   // Mise a jour timesheet(update)
   $(document).on("submit", "#updateFormTimesheet", function (e) {
@@ -2616,6 +2649,14 @@ $(document).on("click", ".delete-button-timesheet", function (e) {
     });
   });
 
+  // delete timesheet(recuperation donnees)
+  $(document).on("click", ".delete-button-timesheet", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    $(".id_users").val(id);
+    $("#deleterPresence").modal("show");
+  });
+
   // update timesheet(recuperation donnees)
   $(document).on("click", ".update_button_timesheet", function (e) {
     e.preventDefault();
@@ -2628,6 +2669,7 @@ $(document).on("click", ".delete-button-timesheet", function (e) {
     $("#clock_in_update").val(timesheet_clockin);
     $("#clock_out_update").val(timesheet_clockout);
     $("#staff_id_update").val(timesheet_staffid);
+    $("#staff_id_update").val(timesheet_staffid).trigger('change');
     $(".timesheet_id").val(id);
     $("#UpdateModalTimesheet").modal("show");
   });
@@ -2720,7 +2762,7 @@ $(document).on("click", ".delete-button-timesheet", function (e) {
   // supprimer Avance sur salaire
   $(document).on("click", ".delete-button-avanceSalaire", function (e) {
     e.preventDefault();
-    let id = parseInt($('.id_users').val());
+    let id = parseInt($(".id_users").val());
     $.ajax({
       url: `${baseUrl}company/handleDeleteAvanceSalaire`, // Notez le changement d'URL ici
       type: "POST",
@@ -2812,22 +2854,257 @@ $(document).on("click", ".delete-button-timesheet", function (e) {
     let avance_reference = $(this).data("avance_reference");
     console.log(avance_reference);
     let paiement_type = $(this).data("paiement_type");
-    let staff_name = $(this).data("staff_name");
-    $("#updatestaff_id").val(staff_name);
+    // let staff_name = $(this).data("staff_name");
+    let staffId = $(this).data("staff_id");
+
+    // Mettre a jour la valeur du dropdown
+    $("#updatestaff_id").val(staffId).trigger("change");
+    $("#updatepaiement_type").val(paiement_type).trigger("change");
+
     $("#updateadvance_amount").val(advance_amount);
     $("#updatemonth_year").val(month_year);
-    $("#updatepaiement_type").val(paiement_type);
+    // $("#updatepaiement_type").val(paiement_type);
     $("#updateavance_reference").val(avance_reference);
     $("#updatedescription").val(description);
     $(".advanced_salary_id").val(id);
     $("#UpdateModalAvanceSalaire").modal("show");
   });
-});
 
-// delete avance sur salaire(recuperation donnees)
-$(document).on("click", ".delete_button_advanced", function (e) {
-  e.preventDefault();
-  let id = parseInt($(this).data("id"));
-  $(".id_users").val(id);
-  $("#deleterAvance").modal("show");
+  // delete avance sur salaire(recuperation donnees)
+  $(document).on("click", ".delete_button_advanced", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    $(".id_users").val(id);
+    $("#deleterAvance").modal("show");
+  });
+
+
+  $(document).ready(function () {
+    // Lorsque l'utilisateur change
+    $("#staff_id").change(function () {
+      var staffId = $(this).val();
+      $.ajax({
+        url: `${baseUrl}company/getOfficeShiftDetailsPresence`, // Modifiez avec l'URL correcte
+        type: "GET",
+        data: { staffId: staffId },
+        success: function (response) {
+          console.log("Réponse AJAX brute :", response);
+          try {
+            // Si la réponse est une chaîne, essayez de la parser en JSON
+            if (typeof response === "string") {
+              response = JSON.parse(response);
+            }
+            if (response && response.length > 0) {
+              window.officeShiftDetails = response[0];
+            } else {
+              window.officeShiftDetails = null;
+            }
+          } catch (error) {
+            console.error("Erreur lors du parsing JSON :", error);
+            window.officeShiftDetails = null;
+          }
+          console.log("Détails des horaires :", window.officeShiftDetails);
+        },
+      });
+    });
+
+    // Lorsque la date change
+    $("#timesheet_date").change(function () {
+      var selectedDate = new Date($(this).val());
+      var dayOfWeek = selectedDate
+        .toLocaleString("en-us", { weekday: "long" })
+        .toLowerCase(); // 'monday', 'tuesday', etc.
+      console.log("Jour de la semaine sélectionné :", dayOfWeek);
+
+      if (window.officeShiftDetails) {
+        console.log(
+          "Heure d'arrivée pour " + dayOfWeek + ":",
+          window.officeShiftDetails[dayOfWeek + "_in_time"]
+        );
+        console.log(
+          "Heure de départ pour " + dayOfWeek + ":",
+          window.officeShiftDetails[dayOfWeek + "_out_time"]
+        );
+
+        $("#clock_in")
+          .val(window.officeShiftDetails[dayOfWeek + "_in_time"] || "")
+          .trigger("change");
+        $("#clock_out")
+          .val(window.officeShiftDetails[dayOfWeek + "_out_time"] || "")
+          .trigger("change");
+      } else {
+        $("#clock_in").val("");
+        $("#clock_out").val("");
+      }
+    });
+  });
+
+  // DayOff - jours ferier
+  // timesheet Ajouter
+  $(document).on("submit", "#registerFormDayoff", function (e) {
+    // ajusté pour cibler le formulaire, pas le bouton
+    e.preventDefault();
+
+    let formData = new FormData(this); // 'this' fait référence au formulaire soumis
+
+    $.ajax({
+      url: `${baseUrl}company/handleAddDayoff`, // Remplacez par l'URL appropriée de votre contrôleur
+      type: "POST",
+      dataType: "JSON",
+      processData: false, // Important pour envoyer les données du formulaire avec FormData
+      contentType: false, // Important pour envoyer les données du formulaire avec FormData
+      data: formData,
+      success: function (res) {
+        if (res.status === 200) {
+          let timerInterval;
+          Swal.fire({
+            icon: "success",
+            title: "Enregistrement réussi",
+            text: res.msg,
+            timer: 100, // Par exemple, disparaît après 2 secondes
+            timerProgressBar: true,
+            willOpen: () => {
+              Swal.showLoading();
+              timerInterval = setInterval(() => {
+                const content = Swal.getContent();
+                if (content) {
+                  const b = content.querySelector("b");
+                  if (b) {
+                    b.textContent = Swal.getTimerLeft();
+                  }
+                }
+              }, 100);
+            },
+            willClose: () => {
+              clearInterval(timerInterval);
+            },
+          }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.timer) {
+              console.log("Fermé par le timer");
+              window.location.href = window.location.href;
+            }
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Erreur lors de l'enregistrement",
+            text: res.msg,
+          });
+        }
+      },
+
+      error: function () {
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
+        });
+      },
+    });
+  });
+
+  // timesheet supprimer
+  $(document).on("click", ".delete-button-deleteDayoff", function (e) {
+    e.preventDefault();
+    let id = parseInt($(".id_users").val());
+    $.ajax({
+      url: `${baseUrl}company/handleDeleteDayoff`, // Notez le changement d'URL ici
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        id,
+      },
+      success: function (res) {
+        if (res.status === 200) {
+          window.location.reload();
+          Swal.fire({
+            icon: "success",
+            title: "Suppression réussie",
+            text: res.msg,
+          });
+        } else {
+          Swal.fire({ icon: "error", title: "Erreur", text: res.msg });
+        }
+      },
+      error: function () {
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
+        });
+      },
+    });
+  });
+
+  // delete timesheet(recuperation donnees)
+  $(document).on("click", ".delete-button-dayoff", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    $(".id_users").val(id);
+    $("#deleterDayoff").modal("show");
+  });
+
+  // Mise a jour timesheet(update)
+  $(document).on("submit", "#updateFormdayoff", function (e) {
+    e.preventDefault();
+    let id = parseInt($(".id_horaire").val()); // Récupère l'ID de l'utilisateur
+    if (isNaN(id)) {
+      // Gérer l'erreur, par exemple afficher une alerte
+      Swal.fire({
+        icon: "error",
+        title: "Erreur",
+        text: "ID jour non valide",
+      });
+      return;
+    }
+
+    let formData = new FormData(this);
+    formData.append(".id_horaire", id);
+
+    $.ajax({
+      url: `${baseUrl}company/updateDayOff`,
+      type: "POST",
+      dataType: "JSON",
+      processData: false,
+      contentType: false,
+      data: formData,
+      success: function (res) {
+        if (res.status === 200) {
+          window.location.reload();
+          Swal.fire({
+            icon: "success",
+            title: "Mise à jour réussie",
+            text: res.msg,
+          });
+        } else if (res.status === 409) {
+          Swal.fire({
+            icon: "error",
+            title: "Erreur lors de la mise à jour",
+            text: res.msg,
+          });
+        } else {
+          Swal.fire({ icon: "error", title: "Erreur", text: res.msg });
+        }
+      },
+      error: function () {
+        Swal.fire({
+          icon: "error",
+          title: "Erreur",
+          text: "Une erreur s'est produite. Veuillez réessayer plus tard.",
+        });
+      },
+    });
+  });
+
+  // update timesheet(recuperation donnees)
+  $(document).on("click", ".update_button_dayoff", function (e) {
+    e.preventDefault();
+    let id = parseInt($(this).data("id"));
+    let dateoff = $(this).data("dateoff");
+    let description = $(this).data("description");
+    $("#date_offupdate").val(dateoff);
+    $("#descriptionupdate").val(description);
+    $(".id_horaire").val(id);
+    $("#updateModaldayoff").modal("show");
+  });
 });

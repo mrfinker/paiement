@@ -19,6 +19,7 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
     header('Location:' . ERROR);
     exit;
 }
+
 $companyModel = new staff_model();
 $info_company = $companyModel->getUserById_Company($copany_id);
 $idnat = $info_company[0]['idnat'];

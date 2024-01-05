@@ -41,15 +41,12 @@ $advance = $companyModel->getAllAdvanceSalaireByCreatorAndCompany();
                                 </button>
                             </div>
                         </div>
-                        <div class="card card-bordered card-preview">
+                        <div class="card">
                             <div class="card-inner">
-                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                    <div class="dt-export-buttons d-flex align-center mb-3 d-flex justify-content-end">
+                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer" style="overflow: auto; width: 100%;">
+                                    <div class=" mb-3 d-flex justify-content-end">
                                         <h6 class="m-2">Telecharger</h6>
                                         <div class="dt-buttons btn-group flex-wrap">
-                                            <button class="btn btn-secondary buttons-excel buttons-html5" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Telecharger en excel" data-bs-original-title="Telecharger en excel" tabindex="0" aria-controls="DataTables_Table_2" type="button">
-                                                <span>Excel</span>
-                                            </button>
                                             <button class="btn btn-secondary buttons-pdf buttons-html5" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Telecharger en pdf" data-bs-original-title="Telecharger en pdf" tabindex="0" aria-controls="DataTables_Table_2" type="button">
                                                 <span>PDF</span>
                                             </button>
@@ -65,16 +62,16 @@ $advance = $companyModel->getAllAdvanceSalaireByCreatorAndCompany();
                                                 <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="User: activate to sort column ascending">
                                                     <span class="sub-text">Employer</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Date</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Reference</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Montant</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Methode</span>
                                                 </th>
                                                 <th class="nk-tb-col nk-tb-col-tools text-end sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="
@@ -100,32 +97,34 @@ $advance = $companyModel->getAllAdvanceSalaireByCreatorAndCompany();
                                                 <!-- .nk-tb-item -->
                                                 <!-- .nk-tb-item -->
                                                 <tr class="nk-tb-item odd">
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $advanced['num'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $advanced['staff_name'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?php
                                                                 try {
-                                                                    $date = DateTime::createFromFormat('Y-m', $advanced['month_year']);
+                                                                    // Ajouter "-01" pour spécifier le premier jour du mois
+                                                                    $date = DateTime::createFromFormat('Y-m-d', $advanced['month_year'] . '-01');
                                                                     echo $date->format('m-Y'); // Affiche le mois et l'année (par exemple : "10-2023")
                                                                 } catch (Exception $e) {
-                                                                    // Si une exception est levée, cela signifie que la date n'a pas pu être analysée.
-                                                                    // Afficher la date telle quelle ou afficher un message d'erreur selon vos préférences.
+                                                                    // Gestion des erreurs
                                                                     echo $advanced['month_year'];
                                                                 }
+                                                                
                                                                 ?></span>
+                                                                
 
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span class="badge badge-dim bg-primary"><?= $advanced['avance_reference'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $advanced['advance_amount'] ?> $</span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span class="badge badge-dim bg-success"><?= $advanced['paiement_type'] ?></span>
                                                     </td>
 
@@ -153,7 +152,7 @@ $advance = $companyModel->getAllAdvanceSalaireByCreatorAndCompany();
                                                                                     <em class="icon ni ni-trash"></em>
                                                                                     <span>Supprimer</span>
                                                                                 </a>
-                                                                                <a href="#" class="update_button_advanced" data-id="<?= $advanced['advanced_salary_id']; ?>" data-advance_amount="<?= $advanced['advance_amount']; ?>" data-month_year="<?= $advanced['month_year']; ?>" data-paiement_type="<?= $advanced['paiement_type']; ?>" data-description="<?= $advanced['description']; ?>" data-avance_reference="<?= $advanced['avance_reference']; ?>" data-staff_name="<?= $advanced['staff_name']; ?>">
+                                                                                <a href="#" class="update_button_advanced" data-id="<?= $advanced['advanced_salary_id']; ?>" data-advance_amount="<?= $advanced['advance_amount']; ?>" data-month_year="<?= $advanced['month_year']; ?>" data-paiement_type="<?= $advanced['paiement_type']; ?>" data-description="<?= $advanced['description']; ?>" data-avance_reference="<?= $advanced['avance_reference']; ?>" data-staff_name="<?= $advanced['staff_name']; ?>" data-staff_id="<?= $advanced['staff_id']; ?>">
                                                                                     <em class="icon ni ni-pen"></em>
                                                                                     <span>Modifier</span>
                                                                                 </a>
@@ -221,7 +220,7 @@ $advance = $companyModel->getAllAdvanceSalaireByCreatorAndCompany();
                             <div class="form-group">
                                 <label class="form-label" for="staff_id">Employer</label>
                                 <div class="form-control-wrap">
-                                    <select class="form-select js-select2 select2-hidden-accessible" aria-hidden="true" name="staff_id" id="staff_id" required="required" data-ui="lg">
+                                    <select class="form-select js-select2 select2-hidden-accessible" data-search="on" name="staff_id" id="staff_id" required="required" data-ui="lg">
                                         <option disabled selected>Choisissez une personne</option>
                                         <?php foreach ($userscompany as $userc) { ?>
                                             <option value="<?= $userc['id']; ?>"><?= $userc['name']; ?></option>
@@ -313,10 +312,12 @@ $advance = $companyModel->getAllAdvanceSalaireByCreatorAndCompany();
                             <div class="form-group">
                                 <label class="form-label" for="updatestaff_id">Employer</label>
                                 <div class="form-control-wrap">
-                                    <select class="form-select js-select2 select2-hidden-accessible" aria-hidden="true" name="updatestaff_id" id="updatestaff_id" required="required" data-ui="lg">
-                                        <option selected>Choisissez une personne</option>
+                                    <select class="form-select js-select2 select2-hidden-accessible" data-search="on" aria-hidden="true" name="updatestaff_id" id="updatestaff_id" required="required" data-ui="lg">
+                                        <option disabled="disabled" <?php if (!isset($staffId)) echo 'selected="selected"'; ?>> Choisissez une personne </option>
                                         <?php foreach ($userscompany as $userc) { ?>
-                                            <option value="<?= $userc['id']; ?>"><?= $userc['name']; ?></option>
+                                            <option value="<?= $userc['id']; ?>" <?php if (isset($staffId) && $staffId == $userc['id']) echo 'selected'; ?>>
+                                            <?= $userc['name']; ?>
+                                        </option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -350,9 +351,8 @@ $advance = $companyModel->getAllAdvanceSalaireByCreatorAndCompany();
                                 <label class="form-label" for="updatepaiement_type">Methode de paiement</label>
                                 <div class="form-control-wrap">
                                     <select class="form-select js-select2 select2-hidden-accessible" aria-hidden="true" name="updatepaiement_type" id="updatepaiement_type" required="required" data-ui="lg">
-                                        <option disabled="disabled" selected="selected">Le type de paiement</option>
+                                        <option disabled="disabled" <?php if (!isset($paiement_type)) echo 'selected="selected"'; ?>> Le type de paiement </option>
                                         <option value="cash">Cash</option>
-                                        <option value="carte bancaire">Carte bancaire</option>
                                         <option value="cheque">Cheque</option>
                                         <option value="banque">Bank</option>
                                     </select>

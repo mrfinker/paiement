@@ -17,13 +17,14 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
     header('Location:' . ERROR);
     exit;
 }
-$companyModel = new staff_model();
 
 // Créer un nouveau document Excel
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
 $selectedUserIds = isset($_GET['users']) ? explode(',', $_GET['users']) : null;
+
+$companyModel = new staff_model();
 $userscompany = $selectedUserIds ? $companyModel->getAllUsersIdByCreatorAndCompany($selectedUserIds) : $companyModel->getAllUsersByCreatorAndCompany();
 $timesheets  = $companyModel->getAllTimesheetsByCreatorAndCompany();
 

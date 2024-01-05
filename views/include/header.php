@@ -39,12 +39,18 @@ $hasRequiredPermissionsPaie = (strpos($PermissionsRoles, 'admin_paie') !== false
     <!-- StyleSheets -->
     <link rel="stylesheet" href="<?= URL ?>public/assets/css/dashlite.css?ver=3.2.0">
     <link rel="stylesheet" href="<?= URL ?>public/assets/css/skins/theme-blue.css">
-    <link id="skin-default" rel="stylesheet" href="<?= URL ?>public/assets/css/theme.css?ver=3.2.0">
+    <link id="skin-default" rel="stylesheet" href="<?= URL ?>public/assets/css/theme.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
     <!-- Par défaut theme -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script defer src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Inclure jQuery Timepicker -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js"></script> -->
 </head>
 
 
@@ -498,7 +504,7 @@ $hasRequiredPermissionsPaie = (strpos($PermissionsRoles, 'admin_paie') !== false
                                                     <li class="nk-menu-item">
                                                         <a href="<? #=URL
                                                                     ?><? #=$userType['name'] 
-                                                                            ?>/settings" class="nk-menu-link">
+                                                                        ?>/settings" class="nk-menu-link">
                                                             <span class="nk-menu-text">Parametre</span>
                                                         </a>
                                                     </li> -->
@@ -572,6 +578,12 @@ $hasRequiredPermissionsPaie = (strpos($PermissionsRoles, 'admin_paie') !== false
                                                             <a href="<?= URL ?><?= $userType['name'] ?>/roles">
                                                                 <em class="icon ni ni-users-fill"></em>
                                                                 <span class="nk-menu-text">Administration de comptes</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="<?= URL ?><?= $userType['name'] ?>/dayoffnation">
+                                                                <em class="icon ni ni-layers"></em>
+                                                                <span class="nk-menu-text">Jours fériers</span>
                                                             </a>
                                                         </li>
                                                     <?php endif; ?>

@@ -152,7 +152,7 @@ $daysInMonth = range(1, cal_days_in_month(CAL_GREGORIAN, $currentMonth, $current
 
                                                 ?>
                                                     <tr class="nk-tb-item odd">
-                                                        <td class="nk-tb-col tb-col-mb">
+                                                        <td class="nk-tb-col">
                                                             <div class="col">
                                                                 <div class="custom-control custom-control-sm custom-checkbox notext">
                                                                     <input type="checkbox" class="custom-control-input user-checkbox" value="<?= $user['id']; ?>" id="user<?= $user['id']; ?>">

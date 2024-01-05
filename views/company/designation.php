@@ -36,49 +36,47 @@ $dep = $companyModel->getAllDepartmentsByCreatorAndCompany();
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
-                                <div class="card card-bordered card-preview" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <form id="registerFormDesignation" method="POST">
-                                                <div class="row gy-4">
-                                                    <div class="col-sm-12">
-                                                        <div class="form-group">
-                                                            <div class="form-label-group">
-                                                                <label class="form-label" for="designation_name">Nom</label>
-                                                            </div>
-                                                            <div class="form-control-wrap">
-                                                                <input required="required" type="text" name="designation_name" class="form-control form-control-lg" id="designation_name" placeholder="Entrer le nom">
-                                                            </div>
+                            <div class="col m-1">
+                                <div class="card" role="document">
+                                    <div class="card-inner">
+                                        <form id="registerFormDesignation" method="POST">
+                                            <div class="row gy-4">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <div class="form-label-group">
+                                                            <label class="form-label" for="designation_name">Nom</label>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-sm-12" data-select2-id="12">
-                                                        <div class="form-group" data-select2-id="11">
-                                                            <label class="form-label">Departements</label>
-                                                            <div class="form-control-wrap" data-select2-id="10">
-                                                                <select class="form-select js-select2 select2-hidden-accessible" data-search="on" aria-hidden="true" name="department_id" data-ui="lg">
-                                                                    <option value="default_option">Default Option</option>
-                                                                    <?php
-                                                                    foreach ($dep as $deps) {
-                                                                        echo '<option value="' . $deps['department_id'] . '">' . $deps['department_name'] . '</option>';
-                                                                    }
-                                                                    ?>
-                                                                </select>
-                                                            </div>
+                                                        <div class="form-control-wrap">
+                                                            <input required="required" type="text" name="designation_name" class="form-control form-control-lg" id="designation_name" placeholder="Entrer le nom">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group mt-2">
-                                                    <button type="submit" name="register_btn" class="btn btn-lg btn-primary btn-block">Cree branche
-                                                    </button>
+                                                <div class="col-sm-12" data-select2-id="12">
+                                                    <div class="form-group" data-select2-id="11">
+                                                        <label class="form-label">Departements</label>
+                                                        <div class="form-control-wrap" data-select2-id="10">
+                                                            <select class="form-select js-select2 select2-hidden-accessible" data-search="on" aria-hidden="true" name="department_id" data-ui="lg">
+                                                                <option value="default_option">choisissez le departement</option>
+                                                                <?php
+                                                                foreach ($dep as $deps) {
+                                                                    echo '<option value="' . $deps['department_id'] . '">' . $deps['department_name'] . '</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <button type="submit" name="register_btn" class="btn btn-lg btn-primary btn-block">Cree branche
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="card card-bordered card-preview">
+                            <div class="col m-1">
+                                <div class="card">
                                     <div class="card-inner">
                                         <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                             <table class="datatable-init nk-tb-list nk-tb-ulist dataTable no-footer" data-auto-responsive="false" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
@@ -88,13 +86,13 @@ $dep = $companyModel->getAllDepartmentsByCreatorAndCompany();
                                                         <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="User: activate to sort column ascending">
                                                             <span class="sub-text">#</span>
                                                         </th>
-                                                        <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                        <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                             <span class="sub-text">Nom branche</span>
                                                         </th>
-                                                        <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                        <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                             <span class="sub-text">Nom Departement</span>
                                                         </th>
-                                                        <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                        <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                             <span class="sub-text">Cree à</span>
                                                         </th>
                                                         <th class="nk-tb-col nk-tb-col-tools text-end sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="
@@ -121,16 +119,16 @@ $dep = $companyModel->getAllDepartmentsByCreatorAndCompany();
                                                         <!-- .nk-tb-item -->
                                                         <tr class="nk-tb-item odd">
 
-                                                            <td class="nk-tb-col tb-col-md">
+                                                            <td class="nk-tb-col">
                                                                 <span><?= $branche['num'] ?></span>
                                                             </td>
-                                                            <td class="nk-tb-col tb-col-md">
+                                                            <td class="nk-tb-col">
                                                                 <span><?= $branche['designation_name'] ?></span>
                                                             </td>
-                                                            <td class="nk-tb-col tb-col-md">
+                                                            <td class="nk-tb-col">
                                                                 <span><?= $branche['department_name'] ?></span>
                                                             </td>
-                                                            <td class="nk-tb-col tb-col-md">
+                                                            <td class="nk-tb-col">
                                                                 <span><?= $branche['created_at'] ?></span>
                                                             </td>
 
@@ -158,7 +156,7 @@ $dep = $companyModel->getAllDepartmentsByCreatorAndCompany();
                                                                                             <em class="icon ni ni-trash"></em>
                                                                                             <span>Supprimer</span>
                                                                                         </a>
-                                                                                        <a href="#" class="update_button_designation" data-id="<?= $branche['designation_id']; ?>" data-designation-name="<?= $branche['designation_name']; ?>" data-designation-depname="<?= $branche['department_name']; ?>">
+                                                                                        <a href="#" class="update_button_designation" data-id="<?= $branche['designation_id']; ?>" data-departement-id="<?= $branche['department_id']; ?>" data-designation-name="<?= $branche['designation_name']; ?>" data-designation-depname="<?= $branche['department_name']; ?>">
                                                                                             <em class="icon ni ni-pen"></em>
                                                                                             <span>Modifier</span>
                                                                                         </a>
@@ -230,17 +228,18 @@ $dep = $companyModel->getAllDepartmentsByCreatorAndCompany();
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12" data-select2-id="12">
-                            <div class="form-group" data-select2-id="11">
+                        <div class="col-sm-12">
+                            <div class="form-group">
                                 <label class="form-label" for="departmentNameUpdate">Departements</label>
                                 <input type="hidden" name="department_id" id="departmentNameUpdate">
-                                <div class="form-control-wrap" data-select2-id="10">
-                                    <select class="form-select js-select2 select2-hidden-accessible" data-search="on" aria-hidden="true" name="department_id" id="departmentNameUpdate" data-ui="lg">
-                                        <option value="<?php echo $branche['department_id']; ?>"><?php echo $branche['department_name']; ?></option>
-                                        <?php foreach ($dep as $deps) {
-                                            $selected = ($deps['department_name'] === $branche['department_name']) ? 'selected' : '';
-                                            echo '<option value="' . $deps['department_id'] . '" ' . $selected . '>' . $deps['department_name'] . '</option>';
-                                        } ?>
+                                <div class="form-control-wrap">
+                                    <select class="form-select js-select2 select2-hidden-accessible" data-search="on" data-select2-id="800" tabindex="-1" aria-hidden="true" name="department_id" id="designationId" required="required" data-ui="lg">
+                                        <option disabled="disabled" <?php if (!isset($departmentId)) echo 'selected="selected"'; ?>>Choisissez le departement</option>
+                                        <?php foreach ($dep as $deps) { ?>
+                                            <option value="<?= $deps['department_id']; ?>" <?php if (isset($departmentId) && $departmentId == $deps['department_id']) echo 'selected'; ?>>
+                                                <?= $deps['department_name']; ?>
+                                            </option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -254,31 +253,30 @@ $dep = $companyModel->getAllDepartmentsByCreatorAndCompany();
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- popup -->
 <div class="modal fade" id="deleterBranche" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body modal-body-lg text-center">
-                    <div class="nk-modal">
-                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
-                        <h4 class="nk-modal-title">Confirmer la suppression !</h4>
-                        <div class="nk-modal-text">
-                            <p class="lead">Confirmez vous la suppression de cette branche ?. <br>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                    <h4 class="nk-modal-title">Confirmer la suppression !</h4>
+                    <div class="nk-modal-text">
+                        <p class="lead">Confirmez vous la suppression de cette branche ?. <br>
                             L'action de suppression est non reversible et peut avoir des consequences majeurs sur les donnees, etes-vous sur de votre choix ?
-                            </p>
-                        </div>
-                        <input type="hidden" class="id_users" name="id_users">
-                        <div class="nk-modal-action d-flex align-items-center justify-content-center mt-2">
-                            <a href="#" class="btn btn-lg btn-mw btn-light m-1" data-bs-dismiss="modal">Retourner</a>
-                            <a href="#" data-id="value" class="btn btn-lg btn-mw btn-danger m-1 delete-button-deleterBranche" data-bs-dismiss="modal">Supprimer</a>
-                        </div>
+                        </p>
                     </div>
-                </div><!-- .modal-body -->
-            </div>
+                    <input type="hidden" class="id_users" name="id_users">
+                    <div class="nk-modal-action d-flex align-items-center justify-content-center mt-2">
+                        <a href="#" class="btn btn-lg btn-mw btn-light m-1" data-bs-dismiss="modal">Retourner</a>
+                        <a href="#" data-id="value" class="btn btn-lg btn-mw btn-danger m-1 delete-button-deleterBranche" data-bs-dismiss="modal">Supprimer</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
         </div>
     </div>
+</div>
 
 <?php include_once './views/include/footer.php' ?>

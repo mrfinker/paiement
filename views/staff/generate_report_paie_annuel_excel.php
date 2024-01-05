@@ -14,12 +14,12 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
     header('Location:' . ERROR);
     exit;
 }
-$companyModel = new staff_model();
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
+$companyModel = new staff_model();
 $accounts = $companyModel->getAllAccountsByCreatorAndCompany();
 $depots = $companyModel->getAllDepotsByCreatorAndCompany();
 $userscompany = $companyModel->getAllUsersByCreatorAndCompany();

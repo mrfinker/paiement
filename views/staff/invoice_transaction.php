@@ -14,7 +14,6 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
     header('Location:' . ERROR);
     exit;
 }
-$companyModel = new staff_model();
 
 ?>
 <?php include_once './views/include/header.php'; ?>

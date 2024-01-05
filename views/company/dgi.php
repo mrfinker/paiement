@@ -37,9 +37,6 @@ $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
                         <div class="dt-export-buttons d-flex align-center mb-3 d-flex justify-content-end">
                             <h6 class="m-2">Telecharger</h6>
                             <div class="dt-buttons btn-group flex-wrap">
-                                <button id="download-excel-presence" class="btn btn-secondary buttons-excel buttons-html5" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Excel" data-bs-original-title="Excel" tabindex="0" aria-controls="DataTables_Table_2" type="button">
-                                    <span>Excel</span>
-                                </button>
                                 <button id="download-pdf-dgi" class="btn btn-secondary buttons-pdf buttons-html5 dgi_info" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Pdf" data-bs-original-title="Pdf" tabindex="0" aria-controls="DataTables_Table_2" type="button">
                                     <span>PDF</span>
                                 </button>
@@ -89,22 +86,22 @@ $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
                             <div class="col-lg-2 col-sm-4">
                                 <button href="#" id="dgiData" class="btn-lg btn btn-primary" onclick="filterData()">
                                     <span>Filtrer</span>
-                                    <em class="icon ni ni-setting"></em>
+                                    <em class="icon ni ni-filter"></em>
                                 </button>
                             </div>
 
                         </div>
 
-                        <div class="card card-bordered card-preview">
+                        <div class="card">
                             <div class="card-inner">
-                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer" style="overflow: auto; width: 100%;">
                                     <table class="datatable-init nk-tb-list nk-tb-ulist dataTable no-footer" data-auto-responsive="false" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
                                         <thead>
                                             <tr class="nk-tb-item nk-tb-head">
                                                 <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="User: activate to sort column ascending">
                                                     <span class="sub-text">#</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Image</span>
                                                 </th>
                                                 <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
@@ -113,13 +110,13 @@ $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
                                                 <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
                                                     <span class="sub-text">Employee ID</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Salaire de base</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Salaire net</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">DGI</span>
                                                 </th>
 
@@ -166,7 +163,7 @@ $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <div class="user-toggle">
                                                             <div class="user-avatar sm">
                                                                 <?php if (isset($usercomp['image']) && !empty($usercomp['image'])) : ?>
@@ -185,16 +182,16 @@ $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
                                                     <td class="nk-tb-col tb-col-mb">
                                                         <span class="tb-amount"><?= $usercomp['name'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['emplyee_id'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['basic_salary'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['net_salary'] ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span><?= $usercomp['ipr'] ?></span>
                                                     </td>
 
@@ -325,9 +322,6 @@ $office_shifts = $companyModel->getAllOfficeShiftsByCreatorAndCompany();
         };
         xhr.send('year=' + year + '&month=' + month);
     }
-</script>
-
-<script>
 </script>
 
 <?php include_once './views/include/footer.php' ?>

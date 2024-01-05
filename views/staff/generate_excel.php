@@ -17,9 +17,10 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
     header('Location:' . ERROR);
     exit;
 }
-$companyModel = new staff_model();
 
 $selectedUserIds = isset($_GET['users']) ? explode(',', $_GET['users']) : null;
+
+$companyModel = new staff_model();
 $userc = $selectedUserIds ? $companyModel->getAllUsersIdByCreatorAndCompany($selectedUserIds) : $companyModel->getAllUsersByCreatorAndCompany();
 $usersRoles = $companyModel->getAllUserRoles();
 $usersDepartements = $companyModel->getAllDepartmentsByCreatorAndCompany();

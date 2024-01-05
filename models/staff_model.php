@@ -8,7 +8,6 @@ class staff_model extends Model
         parent::__construct();
     }
 
-
     // Roles
     public function getAllUserRoles()
     {
@@ -71,7 +70,22 @@ class staff_model extends Model
         return $this->db->update("users_role", array('name' => $newName, 'permissions' => $permissions), "id_role = $id");
     }
 
+    public function roleExists($name, $companyId)
+    {
+        try {
+            $result = $this->db->select(
+                'SELECT * FROM users_role WHERE name = :name AND company_id = :companyId',
+                ['name' => $name, 'companyId' => $companyId]
+            );
 
+            error_log('nameExists Result: ' . json_encode($result));
+
+            return !empty($result); // Cela renvoie true si le tableau n'est pas vide
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
 
 
     // Departements
@@ -177,7 +191,7 @@ class staff_model extends Model
             }
 
             $designations = $this->db->select(
-                'SELECT d.*, u.name as creator_name, de.department_name 
+                'SELECT d.*, u.name as creator_name, de.department_name, de.department_id
              FROM designations d
              LEFT JOIN users u ON d.added_by = u.id
              LEFT JOIN departments de ON d.department_id = de.department_id
@@ -591,6 +605,46 @@ class staff_model extends Model
         }
     }
 
+    public function getOfficeShiftIdByStaffId($staffId)
+    {
+        try {
+            $officeShifts = $this->db->select(
+                'SELECT office_shift_id FROM users WHERE id = :staffId',
+                ['staffId' => $staffId]
+            );
+
+            // Si la requête retourne un tableau vide, renvoyez null
+            if (empty($officeShifts)) {
+                return null;
+            }
+
+            // Si la requête retourne un tableau d'enregistrements, accédez au premier élément
+            $officeShift = $officeShifts[0];
+
+            return isset($officeShift['office_shift_id']) ? $officeShift['office_shift_id'] : null;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return null;
+        }
+    }
+
+
+    public function getOfficeShiftDetailsById($officeShiftId)
+    {
+        try {
+            $officeShiftDetails = $this->db->select(
+                'SELECT * FROM office_shifts WHERE office_shift_id = :officeShiftId',
+                ['officeShiftId' => $officeShiftId]
+            );
+
+            return $officeShiftDetails ? $officeShiftDetails : null;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return null;
+        }
+    }
+
+
     public function getAllOfficeShiftsByCreatorAndCompanyListe()
     {
         if (session_status() == PHP_SESSION_NONE) {
@@ -840,18 +894,23 @@ class staff_model extends Model
                 MAX(avc.advance_amount) as advanced_salary, 
                 MAX(p.is_payment) as payed, 
                 MAX(p.payslip_value) as payslip_value, 
+                MAX(p.payslip_code) as payslip_code, 
                 MAX(p.year_to_date) as year_to_date, 
                 MAX(p.created_at) as created_at, 
-                MAX(p.payslip_code) as payslip_code, 
                 MAX(p.salary_month) as salary_month, 
                 MAX(p.net_salary) as net_salary, 
                 MAX(p.housing) as housing, 
                 MAX(p.ipr) as ipr, 
-                MAX(p.cnss) as cnss, 
+                MAX(p.cnss) as cnss_employee, 
+                MAX(p.cnss_company) as cnss_company, 
                 MAX(p.inpp) as inpp, 
                 MAX(p.onem) as onem, 
                 MAX(p.transport) as transport, 
                 MAX(p.net_after_taxes) as net_after_taxes, 
+                MAX(p.net_before_taxes) as net_before_taxes, 
+                MAX(p.salary_imposable) as salary_imposable, 
+                MAX(p.presents_days) as presents_days, 
+                MAX(p.absents_days) as absents_days, 
                 MAX(os.total_time) as total_time,
                 MAX(ts.timesheet_status) as timesheet_count
                 FROM users u
@@ -872,7 +931,7 @@ class staff_model extends Model
                 GROUP BY u.id", // Assurez-vous de grouper par la clé primaire de la table utilisateur pour éviter les doublons
                 ['userId' => $userId, 'companyId' => $companyId, 'formattedMonthYear' => $formattedMonthYear]
             );
-
+            
             // Vérifiez si $userscompany est un tableau avant de continuer
             if (!is_array($userscompany)) {
                 return [];
@@ -892,7 +951,6 @@ class staff_model extends Model
             return [];
         }
     }
-
 
     public function getUsersByName($searchUsername)
     {
@@ -1292,9 +1350,10 @@ class staff_model extends Model
 
             $timesheets = $this->db->select(
                 'SELECT t.*, u.name as staff_name, u.image as staff_image
-             FROM timesheet t
-             LEFT JOIN users u ON t.staff_id = u.id
-             WHERE t.added_by = :userId OR t.company_id = :companyId',
+                FROM timesheet t
+                LEFT JOIN users u ON t.staff_id = u.id
+                WHERE t.added_by = :userId OR t.company_id = :companyId
+                ORDER BY t.timesheet_date DESC',
                 ['userId' => $userId, 'companyId' => $companyId]
             );
 
@@ -1314,6 +1373,123 @@ class staff_model extends Model
             return [];
         }
     }
+
+    public function getAllTimesheetsByCreatorAndCompanyYearMonthDay($year, $month, $day)
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        try {
+            if (isset($_SESSION['users'])) {
+                $user = $_SESSION['users'];
+                $userId = $user['id'];
+                $companyId = $user['company_id'];
+            } else {
+                return [];
+            }
+
+            $formattedDayMonthYear = sprintf('%04d-%02d-%02d', $year, $month, $day);
+
+            $timesheets = $this->db->select(
+                'SELECT t.*, u.name as staff_name, u.image as staff_image
+                FROM timesheet t
+                LEFT JOIN users u ON t.staff_id = u.id
+                WHERE (t.added_by = :userId OR t.company_id = :companyId) AND t.timesheet_date = :formattedDayMonthYear
+                ORDER BY t.timesheet_date DESC',
+                ['userId' => $userId, 'companyId' => $companyId, 'formattedDayMonthYear' => $formattedDayMonthYear]
+            );
+
+            if (!is_array($timesheets)) {
+                return [];
+            }
+
+            $count = 1;
+            foreach ($timesheets as &$timesheet) {
+                $timesheet['num'] = $count;
+                $count++;
+            }
+
+            return $timesheets;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+
+    public function getTimesheetByStaffAndDate($staff_id, $timesheet_date)
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        try {
+            if (isset($_SESSION['users'])) {
+                $user = $_SESSION['users'];
+                $userId = $user['id'];
+                $companyId = $user['company_id'];
+            } else {
+                return null;
+            }
+
+            // Exécutez une requête pour rechercher un enregistrement avec le staff_id et timesheet_date spécifiés
+            $timesheet = $this->db->select(
+                'SELECT t.* 
+                 FROM timesheet t 
+                 WHERE (t.added_by = :userId OR t.company_id = :companyId) 
+                 AND t.staff_id = :staffId 
+                 AND DATE(t.timesheet_date) = :timesheetDate',
+                ['userId' => $userId, 'companyId' => $companyId, 'staffId' => $staff_id, 'timesheetDate' => $timesheet_date]
+            );
+
+            return $timesheet;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return null;
+        }
+    }
+
+    public function getTimesheetByStaffAndDateAndClockInOut($staff_id, $timesheet_date, $clock_in, $clock_out)
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        try {
+            if (isset($_SESSION['users'])) {
+                $user = $_SESSION['users'];
+                $userId = $user['id'];
+                $companyId = $user['company_id'];
+            } else {
+                return null;
+            }
+
+            // Exécutez une requête pour rechercher un enregistrement avec le staff_id, timesheet_date spécifiés, clock_in et clock_out specifiques
+            $timesheet = $this->db->select(
+                'SELECT t.* 
+                 FROM timesheet t 
+                 WHERE (t.added_by = :userId OR t.company_id = :companyId) 
+                 AND t.staff_id = :staffId 
+                 AND DATE(t.timesheet_date) = :timesheetDate
+                 AND t.clock_in = :clockIn
+                 AND t.clock_out = :clockOut',
+                [
+                    'userId' => $userId, 
+                    'companyId' => $companyId, 
+                    'staffId' => $staff_id, 
+                    'timesheetDate' => $timesheet_date,
+                    'clockIn' => $clock_in,
+                    'clockOut' => $clock_out
+                ]
+            );
+
+            return $timesheet;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return null;
+        }
+    }
+
 
     public function getYearlyTimesheetsByStaffAndYear($staffId, $year)
     {
@@ -1495,7 +1671,7 @@ class staff_model extends Model
         return $this->db->delete('timesheet', "timesheet_id = $id");
     }
 
-    public function updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timesheet_date, $total_work, $total_rest, $total_sup)
+    public function updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timesheet_date, $total_work, $total_rest, $total_sup, $status_enter, $status_out)
     {
         $data = [
             'staff_id' => $staff_id,
@@ -1505,6 +1681,8 @@ class staff_model extends Model
             'total_work' => $total_work,
             'total_rest' => $total_rest,
             'total_sup' => $total_sup,
+            'status_enter' => $status_enter,
+            'status_out' => $status_out,
         ];
         return $this->db->update("timesheet", $data, "timesheet_id = $id");
     }
@@ -1514,6 +1692,23 @@ class staff_model extends Model
     {
         return $this->db->insert("advanced_salary", $data);
     }
+
+    public function getBasicSalary($userId) {
+        $result = $this->db->select(
+            'SELECT basic_salary FROM users WHERE id = :userId',
+            ['userId' => $userId]
+        );
+        return $result ? $result[0]['basic_salary'] : null;
+    } 
+    
+    public function isPaymentDoneForMonth($staffId, $monthYear) {
+        $result = $this->db->select(
+            'SELECT COUNT(*) as count FROM payslips WHERE staff_id = :staffId AND salary_month = :monthYear',
+            ['staffId' => $staffId, 'monthYear' => $monthYear]
+        );
+        return $result[0]['count'] > 0;
+    }
+    
 
     public function getAllAdvanceSalaireByCreatorAndCompany()
     {
@@ -1531,7 +1726,7 @@ class staff_model extends Model
             }
 
             $advance = $this->db->select(
-                'SELECT avc.*, u.name as staff_name, c.name as company_name, c.address as adresse_company
+                'SELECT avc.*, u.name as staff_name, u.id as staff_id, c.name as company_name, c.address as adresse_company, u.basic_salary as salaire_utilisateur
              FROM advanced_salary avc
              LEFT JOIN users u ON avc.staff_id = u.id
              LEFT JOIN company c ON avc.company_id = c.id
@@ -1573,5 +1768,67 @@ class staff_model extends Model
             'description' => $updatedescription,
         ];
         return $this->db->update("advanced_salary", $data, "advanced_salary_id = $id");
+    }
+
+    // Dayoffnation
+    public function getAllDayOffNationByCreatorAndCompanyListe()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        try {
+            if (isset($_SESSION['users'])) {
+                $user = $_SESSION['users'];
+                $userId = $user['id'];
+                $companyId = $user['company_id'];
+            } else {
+                return [];
+            }
+
+            // Sélectionner les enregistrements de dayoffnation
+            $dayOffNations = $this->db->select(
+                'SELECT dn.*, u.name as creator_name
+             FROM dayoffnation dn
+             LEFT JOIN users u ON dn.added_by = u.id
+             WHERE (dn.company_id = 1 AND dn.added_by = 1) 
+                OR (dn.added_by = :userId AND dn.company_id = :companyId)',
+                ['userId' => $userId, 'companyId' => $companyId]
+            );
+
+            if (!is_array($dayOffNations)) {
+                return [];
+            }
+
+            $count = 1;
+            foreach ($dayOffNations as &$dayOffNation) {
+                $dayOffNation['num'] = $count;
+                $count++;
+            }
+
+            return $dayOffNations;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+
+    public function addDayOff($data)
+    {
+        return $this->db->insert("dayoffnation", $data);
+    }
+
+    public function deleteDayOff($id)
+    {
+        return $this->db->delete('dayoffnation', "id = $id");
+    }
+    public function updateDayOff($id, $date_offupdate, $date_off, $description)
+    {
+        $data = [
+            'dayoff_date' => $date_offupdate,
+            'day_date' => $date_off,
+            'description' => $description,
+        ];
+        return $this->db->update("dayoffnation", $data, "id = $id");
     }
 }

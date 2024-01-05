@@ -4,7 +4,6 @@ class Company extends Controller
 {
     public function __construct()
     {
-
         parent::__construct();
         Session::init();
         $this->view->js = array("company/js/company.js");
@@ -28,6 +27,10 @@ class Company extends Controller
     {
         $this->view->render('company/roles', true);
     }
+    public function dayoffnation()
+    {
+        $this->view->render('company/dayoffnation', true);
+    }
     public function office_shifts()
     {
         $this->view->render('company/office_shifts', true);
@@ -36,10 +39,10 @@ class Company extends Controller
     {
         $this->view->render('company/paie', true);
     }
-    public function history_paiement()
-    {
-        $this->view->render('company/history_paiement', true);
-    }
+    // public function history_paiement()
+    // {
+    //     $this->view->render('company/history_paiement', true);
+    // }
     public function generate_paie_pdf()
     {
         $this->view->render('company/generate_paie_pdf', true);
@@ -72,56 +75,60 @@ class Company extends Controller
     {
         $this->view->render('company/generate_dgi_pdf', true);
     }
+    public function generate_cnss_pdf()
+    {
+        $this->view->render('company/generate_cnss_pdf', true);
+    }
     public function invoice_paie()
     {
         $this->view->render('company/invoice_paie', true);
     }
-    public function invoice_account()
-    {
-        // Récupérez la valeur de account_value depuis la requête GET
-        $accountValue = isset($_GET['account_value']) ? $_GET['account_value'] : '';
-        $this->view->render('company/invoice_account', true);
-    }
+    // public function invoice_account()
+    // {
+    //     // Récupérez la valeur de account_value depuis la requête GET
+    //     $accountValue = isset($_GET['account_value']) ? $_GET['account_value'] : '';
+    //     $this->view->render('company/invoice_account', true);
+    // }
 
-    public function getAllAccountsByCreatorAndCompany_hack()
-    {
-        if (isset($_POST["account_id"]) && !empty($_POST["account_id"])) {
-            $get = $this->model->getAllAccountsByCreatorAndCompany_hack($_POST["account_id"]);
-            if (!empty($get)) {
-                echo json_encode(array("status" => 200, "data" => $get));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "error"));
-            }
-        }
-    }
+    // public function getAllAccountsByCreatorAndCompany_hack()
+    // {
+    //     if (isset($_POST["account_id"]) && !empty($_POST["account_id"])) {
+    //         $get = $this->model->getAllAccountsByCreatorAndCompany_hack($_POST["account_id"]);
+    //         if (!empty($get)) {
+    //             echo json_encode(array("status" => 200, "data" => $get));
+    //         } else {
+    //             echo json_encode(array("status" => 500, "msg" => "error"));
+    //         }
+    //     }
+    // }
     public function invoice_avance()
     {
         $this->view->render('company/invoice_avance', true);
     }
-    public function invoice_transaction()
-    {
-        $this->view->render('company/invoice_transaction', true);
-    }
-    public function comptes()
-    {
-        $this->view->render('company/comptes', true);
-    }
-    public function depenses()
-    {
-        $this->view->render('company/depenses', true);
-    }
-    public function depots()
-    {
-        $this->view->render('company/depots', true);
-    }
-    public function transactions()
-    {
-        $this->view->render('company/transactions', true);
-    }
-    public function depense_depot()
-    {
-        $this->view->render('company/depense_depot', true);
-    }
+    // public function invoice_transaction()
+    // {
+    //     $this->view->render('company/invoice_transaction', true);
+    // }
+    // public function comptes()
+    // {
+    //     $this->view->render('company/comptes', true);
+    // }
+    // public function depenses()
+    // {
+    //     $this->view->render('company/depenses', true);
+    // }
+    // public function depots()
+    // {
+    //     $this->view->render('company/depots', true);
+    // }
+    // public function transactions()
+    // {
+    //     $this->view->render('company/transactions', true);
+    // }
+    // public function depense_depot()
+    // {
+    //     $this->view->render('company/depense_depot', true);
+    // }
     public function timesheet()
     {
         $this->view->render('company/timesheet', true);
@@ -214,6 +221,12 @@ class Company extends Controller
 
             $permissionsString = implode(', ', $permissions);
 
+            // Vérifiez si le département existe déjà pour l'id de la company
+            if ($this->model->roleExists($name, $companyId)) {
+                echo json_encode(array("status" => 400, "msg" => "Un role avec ce nom existe déjà dans votre company."));
+                return;
+            }
+
             $data = [
                 'name' => $name,
                 'permissions' => $permissionsString,
@@ -284,9 +297,10 @@ class Company extends Controller
             } else {
                 return [];
             }
+
             $departmentName = $_POST['departement_name'];
 
-            // Vérifiez si le département existe déjà
+            // Vérifiez si le département existe déjà pour l'id de la company
             if ($this->model->departmentExists($departmentName, $companyId)) {
                 echo json_encode(array("status" => 400, "msg" => "Un département avec ce nom existe déjà."));
                 return;
@@ -331,8 +345,20 @@ class Company extends Controller
     public function updateDepartment()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_SESSION['users'])) {
+                $user = $_SESSION['users'];
+                $companyId = $user['company_id'];
+            } else {
+                return [];
+            }
             $id = intval($_POST['department_id']);
             $departmentNameUpdate = $_POST['departmentNameUpdate'];
+
+            // Vérifiez si le département existe déjà pour l'id de la company
+            if ($this->model->departmentExists($departmentNameUpdate, $companyId)) {
+                echo json_encode(array("status" => 400, "msg" => "Un département avec ce nom existe déjà."));
+                return;
+            }
 
             // Vérifiez si les données obligatoires ne sont pas vides
             if (empty($departmentNameUpdate)) {
@@ -425,9 +451,23 @@ class Company extends Controller
     public function updateDesignation()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_SESSION['users'])) {
+                $user = $_SESSION['users'];
+                $companyId = $user['company_id'];
+            } else {
+                echo json_encode(array("status" => 400, "msg" => "L'utilisateur n'est pas connecté."));
+                return;
+            }
+
             $id = intval($_POST['designation_id']);
             $designationNameUpdate = $_POST['designationNameUpdate'];
             $departmentId = $_POST['department_id'];
+
+            // Vérifiez si la designation existe déjà
+            if ($this->model->designationExists($designationNameUpdate, $departmentId, $companyId)) {
+                echo json_encode(array("status" => 400, "msg" => "Une designation avec ce nom existe déjà dans ce département."));
+                return;
+            }
 
             if (empty($designationNameUpdate)) {
                 $response = ['status' => 400, 'msg' => 'Le nom de la désignation est vide, veuillez le remplir'];
@@ -460,314 +500,314 @@ class Company extends Controller
     }
 
     // depots et depenses
-    public function handleAddDepExp()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_SESSION['users'])) {
-                $user = $_SESSION['users'];
-                $userId = $user['id'];
-                $companyId = $user['company_id'];
-            } else {
-                echo json_encode(array("status" => 400, "msg" => "Session utilisateur non trouvée."));
-                return;
-            }
+    // public function handleAddDepExp()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         if (isset($_SESSION['users'])) {
+    //             $user = $_SESSION['users'];
+    //             $userId = $user['id'];
+    //             $companyId = $user['company_id'];
+    //         } else {
+    //             echo json_encode(array("status" => 400, "msg" => "Session utilisateur non trouvée."));
+    //             return;
+    //         }
 
-            $categoryName = $_POST['category_name'];
-            $type = $_POST['type'];
+    //         $categoryName = $_POST['category_name'];
+    //         $type = $_POST['type'];
 
-            // TODO: Ajoutez des vérifications pour s'assurer que categoryName et type sont valides.
+    //         // TODO: Ajoutez des vérifications pour s'assurer que categoryName et type sont valides.
 
-            // Par exemple, pour vérifier si cette catégorie et ce type existent déjà, 
-            // vous pourriez avoir une méthode `categoryExists($categoryName, $type, $companyId)`.
-            // Pour l'instant, je vais continuer sans cette vérification.
+    //         // Par exemple, pour vérifier si cette catégorie et ce type existent déjà, 
+    //         // vous pourriez avoir une méthode `categoryExists($categoryName, $type, $companyId)`.
+    //         // Pour l'instant, je vais continuer sans cette vérification.
 
-            $data = [
-                'category_name' => $categoryName,
-                'type' => $type,
-                'company_id' => $companyId,
-                'added_by' => $userId,
-            ];
+    //         $data = [
+    //             'category_name' => $categoryName,
+    //             'type' => $type,
+    //             'company_id' => $companyId,
+    //             'added_by' => $userId,
+    //         ];
 
-            $result = $this->model->addDepExp($data);
+    //         $result = $this->model->addDepExp($data);
 
-            if ($result) {
-                echo json_encode(array("status" => 200, "msg" => "La catégorie a été ajoutée avec succès."));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout de la catégorie."));
-            }
-        }
-    }
+    //         if ($result) {
+    //             echo json_encode(array("status" => 200, "msg" => "La catégorie a été ajoutée avec succès."));
+    //         } else {
+    //             echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout de la catégorie."));
+    //         }
+    //     }
+    // }
 
-    public function updateDepExp()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = intval($_POST['constants_id']);
-            $depexpNameUpdate = $_POST['depexpNameUpdate'];
-            $constantsId = $_POST['constants_id'];
+    // public function updateDepExp()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $id = intval($_POST['constants_id']);
+    //         $depexpNameUpdate = $_POST['depexpNameUpdate'];
+    //         $constantsId = $_POST['constants_id'];
 
-            if (empty($depexpNameUpdate)) {
-                $response = ['status' => 400, 'msg' => 'Le nom de la category est vide, veuillez le remplir'];
-            } else {
-                $result = $this->model->updateDepExp($id, $depexpNameUpdate, $constantsId);
+    //         if (empty($depexpNameUpdate)) {
+    //             $response = ['status' => 400, 'msg' => 'Le nom de la category est vide, veuillez le remplir'];
+    //         } else {
+    //             $result = $this->model->updateDepExp($id, $depexpNameUpdate, $constantsId);
 
-                if ($result) {
-                    $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
-                } else {
-                    $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
-                }
-            }
+    //             if ($result) {
+    //                 $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+    //             } else {
+    //                 $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+    //             }
+    //         }
 
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            exit;
-        }
-    }
+    //         header('Content-Type: application/json');
+    //         echo json_encode($response);
+    //         exit;
+    //     }
+    // }
 
-    public function handleDeleteCategoryDepExp()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'];
+    // public function handleDeleteCategoryDepExp()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $id = $_POST['id'];
 
-            // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
-            // ...
+    //         // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
+    //         // ...
 
-            $result = $this->model->deleteCategoryDepExp($id);
+    //         $result = $this->model->deleteCategoryDepExp($id);
 
-            if ($result) {
-                echo json_encode(array("status" => 200, "msg" => "L'element a été supprimée avec succès."));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'element."));
-            }
-        } else {
-            echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
-        }
-    }
+    //         if ($result) {
+    //             echo json_encode(array("status" => 200, "msg" => "L'element a été supprimée avec succès."));
+    //         } else {
+    //             echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'element."));
+    //         }
+    //     } else {
+    //         echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
+    //     }
+    // }
 
-    public function handleAddDepenses()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_SESSION['users'])) {
-                $user = $_SESSION['users'];
-                $userId = $user['id'];
-                $companyId = $user['company_id'];
-            } else {
-                echo json_encode(array("status" => 400, "msg" => "Session utilisateur non trouvée."));
-                return;
-            }
+    // public function handleAddDepenses()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         if (isset($_SESSION['users'])) {
+    //             $user = $_SESSION['users'];
+    //             $userId = $user['id'];
+    //             $companyId = $user['company_id'];
+    //         } else {
+    //             echo json_encode(array("status" => 400, "msg" => "Session utilisateur non trouvée."));
+    //             return;
+    //         }
 
-            $accountName = $_POST['account_name'];
-            $amount = $_POST['amount'];
-            try {
-                $date = DateTime::createFromFormat('Y-m-d', $_POST['transaction_date']);
-                if (!$date) {
-                    throw new Exception("Format de date invalide.");
-                }
-                $transaction_date = $date->format('Y-m-d'); // Pas nécessaire de reformater si on utilise le même format
-            } catch (Exception $e) {
-                // Traiter l'exception ou indiquer une date incorrecte
-                echo $e->getMessage();
-            }
+    //         $accountName = $_POST['account_name'];
+    //         $amount = $_POST['amount'];
+    //         try {
+    //             $date = DateTime::createFromFormat('Y-m-d', $_POST['transaction_date']);
+    //             if (!$date) {
+    //                 throw new Exception("Format de date invalide.");
+    //             }
+    //             $transaction_date = $date->format('Y-m-d'); // Pas nécessaire de reformater si on utilise le même format
+    //         } catch (Exception $e) {
+    //             // Traiter l'exception ou indiquer une date incorrecte
+    //             echo $e->getMessage();
+    //         }
 
-            $entity_category_id = $_POST['entity_category_id'];
-            $staff_id = $_POST['staff_id'];
-            $payement_method = $_POST['payement_method'];
-            $reference = $_POST['reference'];
-            $description = $_POST['description'];
-            $transaction_type = "depense";
+    //         $entity_category_id = $_POST['entity_category_id'];
+    //         $staff_id = $_POST['staff_id'];
+    //         $payement_method = $_POST['payement_method'];
+    //         $reference = $_POST['reference'];
+    //         $description = $_POST['description'];
+    //         $transaction_type = "depense";
 
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $transactionsValue = '';
-            for ($i = 0; $i < 30; $i++) {
-                $transactionsValue .= $characters[mt_rand(0, strlen($characters) - 1)];
-            }
+    //         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    //         $transactionsValue = '';
+    //         for ($i = 0; $i < 30; $i++) {
+    //             $transactionsValue .= $characters[mt_rand(0, strlen($characters) - 1)];
+    //         }
 
-            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
-            $transactionsCode = '#'; // Commence par #
+    //         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
+    //         $transactionsCode = '#'; // Commence par #
 
-            for ($i = 0; $i < 10; $i++) {
-                $transactionsCode .= $characters[mt_rand(0, strlen($characters) - 1)];
-            }
+    //         for ($i = 0; $i < 10; $i++) {
+    //             $transactionsCode .= $characters[mt_rand(0, strlen($characters) - 1)];
+    //         }
 
-            // TODO: Ajoutez des vérifications pour s'assurer que accountName et type sont valides.
+    //         // TODO: Ajoutez des vérifications pour s'assurer que accountName et type sont valides.
 
-            // Par exemple, pour vérifier si cette catégorie et ce type existent déjà, 
-            // vous pourriez avoir une méthode `categoryExists($accountName, $type, $companyId)`.
-            // Pour l'instant, je vais continuer sans cette vérification.
+    //         // Par exemple, pour vérifier si cette catégorie et ce type existent déjà, 
+    //         // vous pourriez avoir une méthode `categoryExists($accountName, $type, $companyId)`.
+    //         // Pour l'instant, je vais continuer sans cette vérification.
 
-            $data = [
-                'account_id' => $accountName,
-                'amount' => $amount,
-                'transaction_date' => $transaction_date,
-                'entity_category_id' => $entity_category_id,
-                'staff_id' => $staff_id,
-                'payement_method' => $payement_method,
-                'reference' => $reference,
-                'description' => $description,
-                'transaction_type' => $transaction_type,
-                'transactions_value' => $transactionsValue,
-                'transactions_code' => $transactionsCode,
-                'company_id' => $companyId,
-                'added_by' => $userId,
-            ];
+    //         $data = [
+    //             'account_id' => $accountName,
+    //             'amount' => $amount,
+    //             'transaction_date' => $transaction_date,
+    //             'entity_category_id' => $entity_category_id,
+    //             'staff_id' => $staff_id,
+    //             'payement_method' => $payement_method,
+    //             'reference' => $reference,
+    //             'description' => $description,
+    //             'transaction_type' => $transaction_type,
+    //             'transactions_value' => $transactionsValue,
+    //             'transactions_code' => $transactionsCode,
+    //             'company_id' => $companyId,
+    //             'added_by' => $userId,
+    //         ];
 
-            $result = $this->model->addDepenses($data);
+    //         $result = $this->model->addDepenses($data);
 
-            if ($result) {
-                echo json_encode(array("status" => 200, "msg" => "La depense a été ajoutée avec succès."));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout de la depense."));
-            }
-        }
-    }
-    public function handleDeleteTransactionDepExp()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'];
+    //         if ($result) {
+    //             echo json_encode(array("status" => 200, "msg" => "La depense a été ajoutée avec succès."));
+    //         } else {
+    //             echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout de la depense."));
+    //         }
+    //     }
+    // }
+    // public function handleDeleteTransactionDepExp()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $id = $_POST['id'];
 
-            // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
-            // ...
+    //         // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
+    //         // ...
 
-            $result = $this->model->deleteTransactionDepExp($id);
+    //         $result = $this->model->deleteTransactionDepExp($id);
 
-            if ($result) {
-                echo json_encode(array("status" => 200, "msg" => "L'element a été supprimée avec succès."));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'element."));
-            }
-        } else {
-            echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
-        }
-    }
+    //         if ($result) {
+    //             echo json_encode(array("status" => 200, "msg" => "L'element a été supprimée avec succès."));
+    //         } else {
+    //             echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression de l'element."));
+    //         }
+    //     } else {
+    //         echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
+    //     }
+    // }
 
-    public function handleAddDepots()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_SESSION['users'])) {
-                $user = $_SESSION['users'];
-                $userId = $user['id'];
-                $companyId = $user['company_id'];
-            } else {
-                echo json_encode(array("status" => 400, "msg" => "Session utilisateur non trouvée."));
-                return;
-            }
+    // public function handleAddDepots()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         if (isset($_SESSION['users'])) {
+    //             $user = $_SESSION['users'];
+    //             $userId = $user['id'];
+    //             $companyId = $user['company_id'];
+    //         } else {
+    //             echo json_encode(array("status" => 400, "msg" => "Session utilisateur non trouvée."));
+    //             return;
+    //         }
 
-            $accountName = $_POST['account_name'];
-            $amount = $_POST['amount'];
-            try {
-                $date = DateTime::createFromFormat('Y-m-d', $_POST['transaction_date']);
-                if (!$date) {
-                    throw new Exception("Format de date invalide.");
-                }
-                $transaction_date = $date->format('Y-m-d'); // Pas nécessaire de reformater si on utilise le même format
-            } catch (Exception $e) {
-                // Traiter l'exception ou indiquer une date incorrecte
-                echo $e->getMessage();
-            }
-            $entity_category_id = $_POST['entity_category_id'];
-            $staff_id = $_POST['staff_id'];
-            $payement_method = $_POST['payement_method'];
-            $reference = $_POST['reference'];
-            $description = $_POST['description'];
-            $transaction_type = "depot";
+    //         $accountName = $_POST['account_name'];
+    //         $amount = $_POST['amount'];
+    //         try {
+    //             $date = DateTime::createFromFormat('Y-m-d', $_POST['transaction_date']);
+    //             if (!$date) {
+    //                 throw new Exception("Format de date invalide.");
+    //             }
+    //             $transaction_date = $date->format('Y-m-d'); // Pas nécessaire de reformater si on utilise le même format
+    //         } catch (Exception $e) {
+    //             // Traiter l'exception ou indiquer une date incorrecte
+    //             echo $e->getMessage();
+    //         }
+    //         $entity_category_id = $_POST['entity_category_id'];
+    //         $staff_id = $_POST['staff_id'];
+    //         $payement_method = $_POST['payement_method'];
+    //         $reference = $_POST['reference'];
+    //         $description = $_POST['description'];
+    //         $transaction_type = "depot";
 
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $transactionsValue = '';
-            for ($i = 0; $i < 30; $i++) {
-                $transactionsValue .= $characters[mt_rand(0, strlen($characters) - 1)];
-            }
+    //         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    //         $transactionsValue = '';
+    //         for ($i = 0; $i < 30; $i++) {
+    //             $transactionsValue .= $characters[mt_rand(0, strlen($characters) - 1)];
+    //         }
 
-            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
-            $transactionsCode = '#'; // Commence par #
+    //         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
+    //         $transactionsCode = '#'; // Commence par #
 
-            for ($i = 0; $i < 10; $i++) {
-                $transactionsCode .= $characters[mt_rand(0, strlen($characters) - 1)];
-            }
+    //         for ($i = 0; $i < 10; $i++) {
+    //             $transactionsCode .= $characters[mt_rand(0, strlen($characters) - 1)];
+    //         }
 
-            // TODO: Ajoutez des vérifications pour s'assurer que accountName et type sont valides.
+    //         // TODO: Ajoutez des vérifications pour s'assurer que accountName et type sont valides.
 
-            // Par exemple, pour vérifier si cette catégorie et ce type existent déjà, 
-            // vous pourriez avoir une méthode `categoryExists($accountName, $type, $companyId)`.
-            // Pour l'instant, je vais continuer sans cette vérification.
+    //         // Par exemple, pour vérifier si cette catégorie et ce type existent déjà, 
+    //         // vous pourriez avoir une méthode `categoryExists($accountName, $type, $companyId)`.
+    //         // Pour l'instant, je vais continuer sans cette vérification.
 
-            $data = [
-                'account_id' => $accountName,
-                'amount' => $amount,
-                'transaction_date' => $transaction_date,
-                'entity_category_id' => $entity_category_id,
-                'staff_id' => $staff_id,
-                'payement_method' => $payement_method,
-                'reference' => $reference,
-                'description' => $description,
-                'transaction_type' => $transaction_type,
-                'transactions_value' => $transactionsValue,
-                'transactions_code' => $transactionsCode,
-                'company_id' => $companyId,
-                'added_by' => $userId,
-            ];
+    //         $data = [
+    //             'account_id' => $accountName,
+    //             'amount' => $amount,
+    //             'transaction_date' => $transaction_date,
+    //             'entity_category_id' => $entity_category_id,
+    //             'staff_id' => $staff_id,
+    //             'payement_method' => $payement_method,
+    //             'reference' => $reference,
+    //             'description' => $description,
+    //             'transaction_type' => $transaction_type,
+    //             'transactions_value' => $transactionsValue,
+    //             'transactions_code' => $transactionsCode,
+    //             'company_id' => $companyId,
+    //             'added_by' => $userId,
+    //         ];
 
-            $result = $this->model->addDepots($data);
+    //         $result = $this->model->addDepots($data);
 
-            if ($result) {
-                echo json_encode(array("status" => 200, "msg" => "Le depot a été ajoutée avec succès."));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du depot."));
-            }
-        }
-    }
+    //         if ($result) {
+    //             echo json_encode(array("status" => 200, "msg" => "Le depot a été ajoutée avec succès."));
+    //         } else {
+    //             echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du depot."));
+    //         }
+    //     }
+    // }
 
-    public function updateTransactions()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = intval($_POST['transactions_id']);
-            $date = $_POST['transactionDate'];
-            $amount = $_POST['TransactionAmount'];
+    // public function updateTransactions()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $id = intval($_POST['transactions_id']);
+    //         $date = $_POST['transactionDate'];
+    //         $amount = $_POST['TransactionAmount'];
 
-            // Formatage et validation de la date
-            $parts = explode('/', $date);
-            if (count($parts) === 3) {
-                $date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
-            } else {
-                $parts = explode('-', $date);
-                if (count($parts) === 3) {
-                    $year = $parts[0];
-                    $month = $parts[1];
-                    $day = $parts[2];
-                    $date = $year . '-' . $month . '-' . $day;
-                }
-            }
+    //         // Formatage et validation de la date
+    //         $parts = explode('/', $date);
+    //         if (count($parts) === 3) {
+    //             $date = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+    //         } else {
+    //             $parts = explode('-', $date);
+    //             if (count($parts) === 3) {
+    //                 $year = $parts[0];
+    //                 $month = $parts[1];
+    //                 $day = $parts[2];
+    //                 $date = $year . '-' . $month . '-' . $day;
+    //             }
+    //         }
 
-            try {
-                $dateObject = DateTime::createFromFormat('Y-m-d', $date);
-                if (!$dateObject) {
-                    throw new Exception("Format de date invalide.");
-                }
-                $transaction_date = $dateObject->format('Y-m-d');
-            } catch (Exception $e) {
-                // Traiter l'exception ou indiquer une date incorrecte
-                $response = ['status' => 400, 'msg' => $e->getMessage()];
-                header('Content-Type: application/json');
-                echo json_encode($response);
-                exit;
-            }
+    //         try {
+    //             $dateObject = DateTime::createFromFormat('Y-m-d', $date);
+    //             if (!$dateObject) {
+    //                 throw new Exception("Format de date invalide.");
+    //             }
+    //             $transaction_date = $dateObject->format('Y-m-d');
+    //         } catch (Exception $e) {
+    //             // Traiter l'exception ou indiquer une date incorrecte
+    //             $response = ['status' => 400, 'msg' => $e->getMessage()];
+    //             header('Content-Type: application/json');
+    //             echo json_encode($response);
+    //             exit;
+    //         }
 
-            // Vérification de la date
-            if (empty($transaction_date)) {
-                $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
-            } else {
-                $result = $this->model->updateTransaction($id, $transaction_date, $amount);
+    //         // Vérification de la date
+    //         if (empty($transaction_date)) {
+    //             $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
+    //         } else {
+    //             $result = $this->model->updateTransaction($id, $transaction_date, $amount);
 
-                if ($result) {
-                    $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
-                } else {
-                    $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
-                }
-            }
+    //             if ($result) {
+    //                 $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+    //             } else {
+    //                 $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+    //             }
+    //         }
 
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            exit;
-        }
-    }
+    //         header('Content-Type: application/json');
+    //         echo json_encode($response);
+    //         exit;
+    //     }
+    // }
 
 
 
@@ -1313,6 +1353,9 @@ class Company extends Controller
                 'inpp' => $_POST['inpp'],
                 'onem' => $_POST['onem'],
                 'salary_brut_company' => $_POST['salary_brut_company'],
+                
+                'presents_days' => $_POST['timesheet_count'],
+                'absents_days' => $_POST['absent_days'],
 
                 'pay_comments' => $_POST['commentaire'],
                 'is_payment' => 1,
@@ -1348,116 +1391,116 @@ class Company extends Controller
     }
 
     // Comptes
-    public function handleAddComptes()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_SESSION['users'])) {
-                $user = $_SESSION['users'];
-                $userId = $user['id'];
-                $companyId = $user['company_id'];
-            } else {
-                return [];
-            }
+    // public function handleAddComptes()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         if (isset($_SESSION['users'])) {
+    //             $user = $_SESSION['users'];
+    //             $userId = $user['id'];
+    //             $companyId = $user['company_id'];
+    //         } else {
+    //             return [];
+    //         }
 
-            $accountName = $_POST['account_name'];
-            $accountNumber = $_POST['account_number'];
-            $accountBalance = $_POST['account_balance'];
-            $bankName = strtoupper($_POST['bank_name']);
+    //         $accountName = $_POST['account_name'];
+    //         $accountNumber = $_POST['account_number'];
+    //         $accountBalance = $_POST['account_balance'];
+    //         $bankName = strtoupper($_POST['bank_name']);
 
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $accountValue = '';
-            for ($i = 0; $i < 20; $i++) {
-                $accountValue .= $characters[mt_rand(0, strlen($characters) - 1)];
-            }
+    //         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    //         $accountValue = '';
+    //         for ($i = 0; $i < 20; $i++) {
+    //             $accountValue .= $characters[mt_rand(0, strlen($characters) - 1)];
+    //         }
 
-            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
-            $accountCode = '#'; // Commence par #
+    //         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Les lettres en majuscules et les chiffres
+    //         $accountCode = '#'; // Commence par #
 
-            for ($i = 0; $i < 10; $i++) {
-                $accountCode .= $characters[mt_rand(0, strlen($characters) - 1)];
-            }
+    //         for ($i = 0; $i < 10; $i++) {
+    //             $accountCode .= $characters[mt_rand(0, strlen($characters) - 1)];
+    //         }
 
-            // TODO: Ajoutez une validation pour chacun des champs pour s'assurer qu'ils sont correctement remplis.
+    //         // TODO: Ajoutez une validation pour chacun des champs pour s'assurer qu'ils sont correctement remplis.
 
-            $data = [
-                'account_value' => $accountValue,
-                'account_code' => $accountCode,
-                'account_name' => $accountName,
-                'account_number' => $accountNumber,
-                'account_balance' => $accountBalance,
-                'account_opening_balance' => $accountBalance, // la meme valeur que account_balance
-                'bank_name' => $bankName,
-                'company_id' => $companyId,
-                'added_by' => $userId,
-            ];
+    //         $data = [
+    //             'account_value' => $accountValue,
+    //             'account_code' => $accountCode,
+    //             'account_name' => $accountName,
+    //             'account_number' => $accountNumber,
+    //             'account_balance' => $accountBalance,
+    //             'account_opening_balance' => $accountBalance, // la meme valeur que account_balance
+    //             'bank_name' => $bankName,
+    //             'company_id' => $companyId,
+    //             'added_by' => $userId,
+    //         ];
 
-            $result = $this->model->addComptes($data);
+    //         $result = $this->model->addComptes($data);
 
-            if ($result) {
-                echo json_encode(array("status" => 200, "msg" => "Le compte a été ajouté avec succès."));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du compte."));
-            }
-        }
-    }
+    //         if ($result) {
+    //             echo json_encode(array("status" => 200, "msg" => "Le compte a été ajouté avec succès."));
+    //         } else {
+    //             echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout du compte."));
+    //         }
+    //     }
+    // }
 
-    public function handleDeleteComptes()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'];
+    // public function handleDeleteComptes()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $id = $_POST['id'];
 
-            // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
-            // ...
+    //         // Sécurité supplémentaire : vérifier que l'utilisateur a les droits pour supprimer une entreprise
+    //         // ...
 
-            $result = $this->model->deleteComptes($id);
+    //         $result = $this->model->deleteComptes($id);
 
-            if ($result) {
-                echo json_encode(array("status" => 200, "msg" => "Le compte a été supprimée avec succès."));
-            } else {
-                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression du compte"));
-            }
-        } else {
-            echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
-        }
-    }
+    //         if ($result) {
+    //             echo json_encode(array("status" => 200, "msg" => "Le compte a été supprimée avec succès."));
+    //         } else {
+    //             echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression du compte"));
+    //         }
+    //     } else {
+    //         echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
+    //     }
+    // }
 
-    public function updateComptes()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = intval($_POST['account_id']);
-            $compteNameUpdate = $_POST['compteNameUpdate'];
-            $compteNumberUpdate = $_POST['compteNumberUpdate'];
-            $compteBalanceUpdate = $_POST['compteBalanceUpdate'];
-            $compteBankNameUpdate = $_POST['compteBankNameUpdate'];
+    // public function updateComptes()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $id = intval($_POST['account_id']);
+    //         $compteNameUpdate = $_POST['compteNameUpdate'];
+    //         $compteNumberUpdate = $_POST['compteNumberUpdate'];
+    //         $compteBalanceUpdate = $_POST['compteBalanceUpdate'];
+    //         $compteBankNameUpdate = $_POST['compteBankNameUpdate'];
 
-            // Vérifiez si les données obligatoires ne sont pas vides
-            if (empty($compteNameUpdate)) {
-                $response = [
-                    'status' => 400,
-                    'msg' => 'Le nom du comptes est vide, veuillez le remplir',
-                ];
-            } else {
-                // Appelez la méthode de mise à jour du département dans votre modèle ici
-                $result = $this->model->updateComptes($id, $compteNameUpdate, $compteNumberUpdate, $compteBalanceUpdate, $compteBankNameUpdate);
+    //         // Vérifiez si les données obligatoires ne sont pas vides
+    //         if (empty($compteNameUpdate)) {
+    //             $response = [
+    //                 'status' => 400,
+    //                 'msg' => 'Le nom du comptes est vide, veuillez le remplir',
+    //             ];
+    //         } else {
+    //             // Appelez la méthode de mise à jour du département dans votre modèle ici
+    //             $result = $this->model->updateComptes($id, $compteNameUpdate, $compteNumberUpdate, $compteBalanceUpdate, $compteBankNameUpdate);
 
-                if ($result) {
-                    $response = [
-                        'status' => 200,
-                        'msg' => 'Mise à jour réussie',
-                    ];
-                } else {
-                    $response = [
-                        'status' => 409,
-                        'msg' => 'Erreur lors de la mise à jour',
-                    ];
-                }
-            }
+    //             if ($result) {
+    //                 $response = [
+    //                     'status' => 200,
+    //                     'msg' => 'Mise à jour réussie',
+    //                 ];
+    //             } else {
+    //                 $response = [
+    //                     'status' => 409,
+    //                     'msg' => 'Erreur lors de la mise à jour',
+    //                 ];
+    //             }
+    //         }
 
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            exit;
-        }
-    }
+    //         header('Content-Type: application/json');
+    //         echo json_encode($response);
+    //         exit;
+    //     }
+    // }
 
     // Timesheet
     public function handleAddTimesheet()
@@ -1476,6 +1519,48 @@ class Company extends Controller
             $clock_in = $_POST['clock_in'];
             $clock_out = $_POST['clock_out'];
             $timesheet_status = "Present";
+
+            // Obtenez l'office_shift_id de l'employé
+            $officeShiftId = $this->model->getOfficeShiftIdByStaffId($staff_id);
+
+            // Obtenez les détails de l'office_shift
+            $officeShiftDetailsArray = $this->model->getOfficeShiftDetailsById($officeShiftId);
+
+            $officeShiftDetails = $officeShiftDetailsArray[0];
+
+            // Déterminez le jour de la semaine de la timesheet_date
+            $dayOfWeek = strtolower(date('l', strtotime($timesheet_date))); // 'monday', 'tuesday', etc.
+            // Obtenez les heures d'arrivée et de départ prévues pour ce jour
+            function convertTo24HourFormat($time)
+            {
+                return date("H:i", strtotime($time));
+            }
+
+            $expectedInTime = convertTo24HourFormat($officeShiftDetails[$dayOfWeek . '_in_time']);
+            $expectedOutTime = convertTo24HourFormat($officeShiftDetails[$dayOfWeek . '_out_time']);
+
+            $clock_in_24hour = convertTo24HourFormat($clock_in);
+            $clock_out_24hour = convertTo24HourFormat($clock_out);
+
+            // Comparaison pour l'entrée
+            $status_enter = '';
+            if ($clock_in_24hour < $expectedInTime) {
+                $status_enter = 'en avance';
+            } elseif ($clock_in_24hour > $expectedInTime) {
+                $status_enter = 'en retard';
+            } else {
+                $status_enter = 'a l\'heure';
+            }
+
+            // Comparaison pour la sortie
+            $status_out = '';
+            if ($clock_out_24hour < $expectedOutTime) {
+                $status_out = 'en avance';
+            } elseif ($clock_out_24hour > $expectedOutTime) {
+                $status_out = 'apres l\'heure';
+            } else {
+                $status_out = 'a l\'heure';
+            }
 
             // Formatage et validation de la date
             $parts = explode('/', $timesheet_date);
@@ -1546,12 +1631,20 @@ class Company extends Controller
                 'clock_in' => $clock_in,
                 'clock_out' => $clock_out,
                 'timesheet_status' => $timesheet_status,
-                'total_work' => intval($total_work), // converti en entier
-                'total_rest' => intval($total_rest), // converti en entier
-                'total_sup' => intval($total_sup),   // converti en entier
+                'status_enter' => $status_enter,
+                'status_out' => $status_out,
+                'total_work' => intval($total_work),
+                'total_rest' => intval($total_rest),
+                'total_sup' => intval($total_sup),
                 'company_id' => $companyId,
                 'added_by' => $userId,
             ];
+
+            $existingTimesheet = $this->model->getTimesheetByStaffAndDate($staff_id, $timesheet_date);
+            if ($existingTimesheet) {
+                echo json_encode(array("status" => 400, "msg" => "Un enregistrement existe déjà pour cet employé à cette date."));
+                exit;
+            }
 
             $result = $this->model->addTimesheet($data);
 
@@ -1560,6 +1653,16 @@ class Company extends Controller
             } else {
                 echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout."));
             }
+        }
+    }
+
+    public function getOfficeShiftDetailsPresence()
+    {
+        if (isset($_GET['staffId'])) {
+            $staffId = $_GET['staffId'];
+            $officeShiftId = $this->model->getOfficeShiftIdByStaffId($staffId);
+            $officeShiftDetails = $this->model->getOfficeShiftDetailsById($officeShiftId);
+            echo json_encode($officeShiftDetails);
         }
     }
 
@@ -1648,6 +1751,48 @@ class Company extends Controller
                 exit;
             }
 
+            // Obtenez l'office_shift_id de l'employé
+            $officeShiftId = $this->model->getOfficeShiftIdByStaffId($staff_id);
+
+            // Obtenez les détails de l'office_shift
+            $officeShiftDetailsArray = $this->model->getOfficeShiftDetailsById($officeShiftId);
+
+            $officeShiftDetails = $officeShiftDetailsArray[0];
+
+            // Déterminez le jour de la semaine de la timesheet_date
+            $dayOfWeek = strtolower(date('l', strtotime($timesheet_date))); // 'monday', 'tuesday', etc.
+            // Obtenez les heures d'arrivée et de départ prévues pour ce jour
+            function convertTo24HourFormat($time)
+            {
+                return date("H:i", strtotime($time));
+            }
+
+            $expectedInTime = convertTo24HourFormat($officeShiftDetails[$dayOfWeek . '_in_time']);
+            $expectedOutTime = convertTo24HourFormat($officeShiftDetails[$dayOfWeek . '_out_time']);
+
+            $clock_in_24hour = convertTo24HourFormat($clock_in);
+            $clock_out_24hour = convertTo24HourFormat($clock_out);
+
+            // Comparaison pour l'entrée
+            $status_enter = '';
+            if ($clock_in_24hour < $expectedInTime) {
+                $status_enter = 'en avance';
+            } elseif ($clock_in_24hour > $expectedInTime) {
+                $status_enter = 'en retard';
+            } else {
+                $status_enter = 'a l\'heure';
+            }
+
+            // Comparaison pour la sortie
+            $status_out = '';
+            if ($clock_out_24hour < $expectedOutTime) {
+                $status_out = 'en avance';
+            } elseif ($clock_out_24hour > $expectedOutTime) {
+                $status_out = 'apres l\'heure';
+            } else {
+                $status_out = 'a l\'heure';
+            }
+
             // Convertir clock_in et clock_out en heures
             $clockInParts = explode(':', $clock_in);
             $clockOutParts = explode(':', $clock_out);
@@ -1683,15 +1828,21 @@ class Company extends Controller
                 $total_sup = abs($workDifference);
             }
 
-            $total_work = intval($total_work); // converti en entier
-            $total_rest = intval($total_rest); // converti en entier
+            $total_work = intval($total_work);
+            $total_rest = intval($total_rest);
             $total_sup = intval($total_sup);
+
+            $existingTimesheet = $this->model->getTimesheetByStaffAndDateAndClockInOut($staff_id, $timesheet_date, $clock_in, $clock_out);
+            if ($existingTimesheet) {
+                echo json_encode(array("status" => 400, "msg" => "Un enregistrement existe déjà pour cet employé à cette date au memes heures."));
+                exit;
+            }
 
             // Vérification de la date
             if (empty($transaction_date)) {
                 $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
             } else {
-                $result = $this->model->updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timesheet_date, $total_work, $total_rest, $total_sup);
+                $result = $this->model->updateTimesheet($id, $staff_id, $clock_in, $clock_out, $timesheet_date, $total_work, $total_rest, $total_sup, $status_enter, $status_out);
 
                 if ($result) {
                     $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
@@ -1706,6 +1857,7 @@ class Company extends Controller
         }
     }
 
+    // Avance sur salaire
     public function handleAddavanceSalaire()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -1766,6 +1918,12 @@ class Company extends Controller
                 'added_by' => $userId,
             ];
 
+            $basicSalary = $this->model->getBasicSalary($staff_id);
+            if ($advance_amount > $basicSalary * 0.6) { // Exemple : Limite à 50% du salaire de base
+                echo json_encode(array("status" => 400, "msg" => "Demande d'avance sur salaire trop élevée par rapport au 60% du salaire de base."));
+                return;
+            }
+
             $result = $this->model->addAvanceSalaire($data);
 
             if ($result) {
@@ -1821,7 +1979,13 @@ class Company extends Controller
                 }
             }
 
+            // Formatage et validation de la updatemonth_year
             try {
+                if (preg_match('/^\d{4}-\d{2}$/', $updatemonth_year)) {
+                    // Si le format est YYYY-MM, ajoutez le premier jour du mois
+                    $updatemonth_year = $updatemonth_year . '-01';
+                }
+
                 $date = DateTime::createFromFormat('Y-m-d', $updatemonth_year);
                 if (!$date) {
                     throw new Exception("Format de date invalide.");
@@ -1829,8 +1993,20 @@ class Company extends Controller
                 $updatemonth_year = $date->format('Y-m'); // Pas nécessaire de reformater si on utilise le même format
             } catch (Exception $e) {
                 // Traiter l'exception ou indiquer une date incorrecte
-                echo $e->getMessage();
+                echo json_encode(array("status" => 400, "msg" => $e->getMessage()));
+                return;
             }
+
+            if ($this->model->isPaymentDoneForMonth($updatestaff_id, $updatemonth_year)) {
+                echo json_encode(array("status" => 400, "msg" => "Un paiement a déjà été effectué pour ce mois. La mise à jour de l'avance n'est pas autorisée."));
+                return;
+            }
+
+            // $basicSalary = $this->model->getBasicSalary($updatestaff_id);
+            // if ($updateadvance_amount > $basicSalary * 0.6) { // Exemple : Limite à 50% du salaire de base
+            //     echo json_encode(array("status" => 400, "msg" => "Demande d'avance sur salaire trop élevée par rapport au 60% du salaire de base."));
+            //     return;
+            // }
 
             // Vérification de la date
             if (empty($updatemonth_year)) {
@@ -1912,9 +2088,19 @@ class Company extends Controller
                 $thead .= '<th class="nk-tb-col">' . $i . '</th>';
             }
             $thead .= '</tr><tr class="nk-tb-item nk-tb-head">
-                        <th class="nk-tb-col">Employer</th>';
+                <th class="nk-tb-col">Employeur</th>';
+
             foreach (range(1, $daysInCurrentMonth) as $day) {
-                $dayOfWeek = date('D', strtotime("$currentYear-$currentMonth-$day"));
+                $date = new DateTime("$currentYear-$currentMonth-$day");
+                $formatter = new IntlDateFormatter(
+                    'fr_FR',
+                    IntlDateFormatter::FULL,
+                    IntlDateFormatter::NONE,
+                    'Europe/Paris',
+                    IntlDateFormatter::GREGORIAN,
+                    'E' // Format pour le jour de la semaine abrégé
+                );
+                $dayOfWeek = $formatter->format($date);
                 $thead .= '<th class="nk-tb-col">' . $dayOfWeek . '</th>';
             }
             $thead .= '</tr></thead>';
@@ -1960,7 +2146,6 @@ class Company extends Controller
             exit;
         }
     }
-
 
     public function updateTable()
     {
@@ -2047,7 +2232,43 @@ class Company extends Controller
                 $tbody .= '<li><div class="drodown"><a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>';
                 $tbody .= '<div class="dropdown-menu dropdown-menu-end"><ul class="link-list-opt no-bdr">';
                 if (isset($usercomp['payed']) && $usercomp['payed'] == 1 && $usercomp['salary_month'] == $currentYear . "-" . $currentMonth) {
-                    $tbody .= '<a href="#" class="facture_button_usercomp" data-id="' . $usercomp['id'] . '" data-name="' . $usercomp['name'] . '" data-address="' . $usercomp['address'] . '" data-phone="' . $usercomp['phone'] . '" data-created_at="' . $usercomp['created_at'] . '" data-basic_salary="' . $usercomp['basic_salary'] . '" data-total_time="' . $usercomp['total_time'] . '" data-country="' . $usercomp['country'] . '" data-payslip_value="' . $usercomp['payslip_value'] . '" data-payslip_code="' . $usercomp['payslip_code'] . '" data-salary_month="' . $usercomp['salary_month'] . '" data-year_to_date="' . $usercomp['year_to_date'] . '" data-net_salary="' . $usercomp['net_salary'] . '" data-housing="' . $usercomp['housing'] . '" data-transport="' . $usercomp['transport'] . '" data-net_after_taxes="' . $usercomp['net_after_taxes'] . '" data-advance_salary="' . $usercomp['advanced_salary'] . '" data-department="' . $usercomp['department'] . '" data-designation="' . $usercomp['designation'] . '"><em class="icon ni ni-file-text"></em><span>Voir Facture</span></a>';
+                    $tbody .= '<a href="#" class="facture_button_usercomp" 
+                    data-id="' . $usercomp['id'] . '" 
+                    data-name="' . $usercomp['name'] . '" 
+                    data-address="' . $usercomp['address'] . '" 
+                    data-phone="' . $usercomp['phone'] . '" 
+                    data-created_at="' . $usercomp['created_at'] . '" 
+                    data-basic_salary="' . $usercomp['basic_salary'] . '" 
+                    data-total_time="' . $usercomp['total_time'] . '" 
+                    data-country="' . $usercomp['country'] . '" 
+                    data-payslip_value="' . $usercomp['payslip_value'] . '" 
+                    data-payslip_code="' . $usercomp['payslip_code'] . '" 
+                    data-salary_month="' . $usercomp['salary_month'] . '" 
+                    data-year_to_date="' . $usercomp['year_to_date'] . '" 
+                    data-net_salary="' . $usercomp['net_salary'] . '" 
+                    data-housing="' . $usercomp['housing'] . '" 
+                    data-transport="' . $usercomp['transport'] . '" 
+                    data-net_after_taxes="' . $usercomp['net_after_taxes'] . '" 
+                    data-advance_salary="' . $usercomp['advanced_salary'] . '" 
+                    data-department="' . $usercomp['department'] . '" 
+                    data-designation="' . $usercomp['designation'] . '" 
+                    data-contract_start="' . $usercomp['contract_start'] . '" 
+                    data-contract_type="' . $usercomp['contract_type'] . '" 
+                    data-marital_status="' . $usercomp['marital_status'] . '" 
+                    data-poste_name="' . $usercomp['poste_name'] . '" 
+                    data-children="' . $usercomp['children'] . '" 
+                    data-cnss_employee="' . $usercomp['cnss_employee'] . '" 
+                    data-cnss_company="' . $usercomp['cnss_company'] . '" 
+                    data-emplyee_id="' . $usercomp['emplyee_id'] . '" 
+                    data-bank_name="' . $usercomp['bank_name'] . '" 
+                    data-bank_number="' . $usercomp['bank_number'] . '" 
+                    data-presents_days="' . $usercomp['presents_days'] . '" 
+                    data-ipr="' . $usercomp['ipr'] . '" 
+                    data-inpp="' . $usercomp['inpp'] . '" 
+                    data-onem="' . $usercomp['onem'] . '" 
+                    data-net_before_taxes="' . $usercomp['net_before_taxes'] . '" 
+                    data-salary_imposable="' . $usercomp['salary_imposable'] . '" 
+                    data-absents_days="' . $usercomp['absents_days'] . '"><em class="icon ni ni-file-text"></em><span>Voir Facture</span></a>';
                 } else {
                     $tbody .= '<a href="#" class="paye_button_usercomp" data-id="' . $usercomp['id'] . '" data-basic_salary="' . $usercomp['basic_salary'] . '" data-total_time="' . $usercomp['total_time'] . '" data-children="' . $usercomp['children'] . '" data-spouse="' . $usercomp['spouse'] . '" data-advanced_salary="' . $usercomp['advanced_salary'] . '" data-timesheet_count="' . $usercomp['timesheet_count'] . '" data-country="' . $usercomp['country'] . '"><em class="icon ni ni-money"></em><span>Payer</span></a>';
                 }
@@ -2109,6 +2330,256 @@ class Company extends Controller
             exit;
         }
     }
+    public function cnss_search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllUsersByCreatorAndCompanyFiltered($currentYear, $currentMonth);
+
+            // Commencer le HTML pour le corps du tableau
+            $tbody = '<tbody>';
+
+            foreach ($userc as $usercomp) {
+                // Générer chaque ligne du tableau pour les utilisateurs
+                $tbody .= '<tr class="nk-tb-item odd">';
+                $tbody .= '<td class="nk-tb-col"><div class="user-card"><div class="user-info"><span class="tb-lead">' . $usercomp['num'] . '<span class="d-md-none ms-1"></span></span></div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><div class="user-toggle"><div class="user-avatar sm">';
+                if (isset($usercomp['image']) && !empty($usercomp['image'])) {
+                    $tbody .= '<img src="' . $usercomp['image'] . '" alt="User Avatar">';
+                    if ($usercomp['is_logged_in'] == 1) {
+                        $tbody .= '<div class="status dot dot-lg dot-success"></div>';
+                    } else {
+                        $tbody .= '<div class="status dot dot-lg dot-danger"></div>';
+                    }
+                } else {
+                    $tbody .= '<em class="icon ni ni-user-alt"></em>';
+                }
+                $tbody .= '</div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-mb"><span class="tb-amount">' . $usercomp['name'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['emplyee_id'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['basic_salary'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['net_salary'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['cnss'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['cnss_company'] . '</span></td>';
+
+                $tbody .= '</tr>';
+            }
+
+            $tbody .= '</tbody>';
+
+            // Envoyer le HTML généré comme réponse
+            echo $tbody;
+            exit;
+        }
+    }
+    public function inpp_search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllUsersByCreatorAndCompanyFiltered($currentYear, $currentMonth);
+
+            // Commencer le HTML pour le corps du tableau
+            $tbody = '<tbody>';
+
+            foreach ($userc as $usercomp) {
+                // Générer chaque ligne du tableau pour les utilisateurs
+                $tbody .= '<tr class="nk-tb-item odd">';
+                $tbody .= '<td class="nk-tb-col"><div class="user-card"><div class="user-info"><span class="tb-lead">' . $usercomp['num'] . '<span class="d-md-none ms-1"></span></span></div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><div class="user-toggle"><div class="user-avatar sm">';
+                if (isset($usercomp['image']) && !empty($usercomp['image'])) {
+                    $tbody .= '<img src="' . $usercomp['image'] . '" alt="User Avatar">';
+                    if ($usercomp['is_logged_in'] == 1) {
+                        $tbody .= '<div class="status dot dot-lg dot-success"></div>';
+                    } else {
+                        $tbody .= '<div class="status dot dot-lg dot-danger"></div>';
+                    }
+                } else {
+                    $tbody .= '<em class="icon ni ni-user-alt"></em>';
+                }
+                $tbody .= '</div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-mb"><span class="tb-amount">' . $usercomp['name'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['emplyee_id'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['basic_salary'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['net_salary'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['inpp'] . '</span></td>';
+
+                $tbody .= '</tr>';
+            }
+
+            $tbody .= '</tbody>';
+
+            // Envoyer le HTML généré comme réponse
+            echo $tbody;
+            exit;
+        }
+    }
+    public function onem_search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllUsersByCreatorAndCompanyFiltered($currentYear, $currentMonth);
+
+            // Commencer le HTML pour le corps du tableau
+            $tbody = '<tbody>';
+
+            foreach ($userc as $usercomp) {
+                // Générer chaque ligne du tableau pour les utilisateurs
+                $tbody .= '<tr class="nk-tb-item odd">';
+                $tbody .= '<td class="nk-tb-col"><div class="user-card"><div class="user-info"><span class="tb-lead">' . $usercomp['num'] . '<span class="d-md-none ms-1"></span></span></div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><div class="user-toggle"><div class="user-avatar sm">';
+                if (isset($usercomp['image']) && !empty($usercomp['image'])) {
+                    $tbody .= '<img src="' . $usercomp['image'] . '" alt="User Avatar">';
+                    if ($usercomp['is_logged_in'] == 1) {
+                        $tbody .= '<div class="status dot dot-lg dot-success"></div>';
+                    } else {
+                        $tbody .= '<div class="status dot dot-lg dot-danger"></div>';
+                    }
+                } else {
+                    $tbody .= '<em class="icon ni ni-user-alt"></em>';
+                }
+                $tbody .= '</div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-mb"><span class="tb-amount">' . $usercomp['name'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['emplyee_id'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['basic_salary'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['net_salary'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['onem'] . '</span></td>';
+
+                $tbody .= '</tr>';
+            }
+
+            $tbody .= '</tbody>';
+
+            // Envoyer le HTML généré comme réponse
+            echo $tbody;
+            exit;
+        }
+    }
+    public function presence_search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+            $currentDay = $_POST['day'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllTimesheetsByCreatorAndCompanyYearMonthDay($currentYear, $currentMonth, $currentDay);
+
+            // Commencer le HTML pour le corps du tableau
+            $tbody = '<tbody>';
+
+            foreach ($userc as $usercomp) {
+
+                $formattedDate = '';
+
+                try {
+                    $date = DateTime::createFromFormat('Y-m-d', $usercomp['timesheet_date']);
+                    $formatter = new IntlDateFormatter(
+                        'fr_FR',
+                        IntlDateFormatter::FULL,
+                        IntlDateFormatter::NONE,
+                        'Europe/Paris',
+                        IntlDateFormatter::GREGORIAN
+                    );
+                    $formatter->setPattern('EEEE dd MMMM yyyy');
+                    $formattedDate = $formatter->format($date);
+                } catch (Exception $e) {
+                    // En cas d'erreur, utiliser la date non formatée
+                    $formattedDate = $usercomp['timesheet_date'];
+                }
+
+                $clockIn = DateTime::createFromFormat('h:i A', $usercomp['clock_in']);
+                $formattedClockIn = $clockIn ? $clockIn->format('H:i') : $usercomp['clock_in'];
+
+                $clockOut = DateTime::createFromFormat('h:i A', $usercomp['clock_out']);
+                $formattedclockOut = $clockOut ? $clockOut->format('H:i') : $usercomp['clock_out'];
+
+                $statusenterClass = '';
+    if ($usercomp['status_enter'] === 'en avance') {
+        $statusenterClass = 'bg-warning';
+    } elseif ($usercomp['status_enter'] === 'en retard') {
+        $statusenterClass = 'bg-danger';
+    } else {
+        $statusenterClass = 'bg-success';
+    }
+                $statusoutClass = '';
+    if ($usercomp['status_out'] === 'en avance') {
+        $statusoutClass = 'bg-danger';
+    } elseif ($usercomp['status_out'] === 'apres l\'heure') {
+        $statusoutClass = 'bg-warning';
+    } else {
+        $statusoutClass = 'bg-success';
+    }
+
+                // Générer chaque ligne du tableau pour les utilisateurs
+                $tbody .= '<tr class="nk-tb-item odd">';
+                $tbody .= '<td class="nk-tb-col">
+                <div class="user-card">
+                <div class="user-info">
+                <span class="tb-lead">' . $usercomp['num'] . '<span class="d-md-none ms-1"></span></span></div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md">
+                <div class="user-toggle">
+                <div class="user-avatar sm">';
+                if (isset($usercomp['staff_image']) && !empty($usercomp['staff_image'])) {
+                    $tbody .= '<img src="' . $usercomp['staff_image'] . '" alt="User Avatar">';
+                }
+                $tbody .= '</div></div></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-mb"><span class="tb-amount">' . $usercomp['staff_name'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $formattedDate . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $formattedClockIn . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $formattedclockOut . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span class="badge badge-dim bg-success">' . $usercomp['timesheet_status'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span class="badge badge-dim '. $statusenterClass .'">' . $usercomp['status_enter'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span class="badge badge-dim '. $statusoutClass .'">' . $usercomp['status_out'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col tb-col-md"><span>' . $usercomp['total_work'] . '</span></td>';
+                $tbody .= '<td class="nk-tb-col nk-tb-col-tools">
+        <ul class="nk-tb-actions gx-1">
+            <li>
+                <div class="drodown">
+                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
+                        <em class="icon ni ni-more-h"></em>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <ul class="link-list-opt no-bdr">
+                            <li>
+                                <a href="#" class="delete-button-timesheet" data-id="' . $usercomp['timesheet_id'] . '">
+                                    <em class="icon ni ni-trash"></em>
+                                    <span>Supprimer</span>
+                                </a>
+                                <a href="#" class="update_button_timesheet" data-id="' . $usercomp['timesheet_id'] . '" data-timesheet_date="' . $usercomp['timesheet_date'] . '" data-timesheet_clockin="' . $usercomp['clock_in'] . '" data-timesheet_clockout="' . $usercomp['clock_out'] . '" data-timesheet_staffid="' . $usercomp['staff_id'] . '">
+                                    <em class="icon ni ni-pen"></em>
+                                    <span>Modifier</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </td>';
+
+                $tbody .= '</tr>';
+            }
+
+            $tbody .= '</tbody>';
+
+            // Envoyer le HTML généré comme réponse
+            echo $tbody;
+            exit;
+        }
+    }
 
     public function dgi_searchData()
     {
@@ -2136,6 +2607,117 @@ class Company extends Controller
             exit;
         }
     }
+    public function presence_searchData()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+            $currentDay = $_POST['day'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllTimesheetsByCreatorAndCompanyYearMonthDay($currentYear, $currentMonth, $currentDay);
+
+            $data = [];
+            foreach ($userc as $usercomp) {
+                $data[] = [
+                    'num' => $usercomp['num'],
+                    'staff_image' => $usercomp['staff_image'],
+                    'staff_name' => $usercomp['staff_name'],
+                    'timesheet_date' => $usercomp['timesheet_date'],
+                    'clock_in' => $usercomp['clock_in'],
+                    'clock_out' => $usercomp['clock_out'],
+                    'timesheet_status' => $usercomp['timesheet_status'],
+                    'status_enter' => $usercomp['status_enter'],
+                    'status_out' => $usercomp['status_out'],
+                    'is_logged_in' => $usercomp['is_logged_in'],
+                    'total_work' => $usercomp['total_work']
+                ];
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        }
+    }
+    public function cnss_searchData()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllUsersByCreatorAndCompanyFiltered($currentYear, $currentMonth);
+
+            $data = [];
+            foreach ($userc as $usercomp) {
+                $data[] = [
+                    'name' => $usercomp['name'],
+                    'employee_id' => $usercomp['emplyee_id'],
+                    'basic_salary' => $usercomp['basic_salary'],
+                    'net_salary' => $usercomp['net_salary'] ?? '0',
+                    'ipr' => $usercomp['cnss'] ?? '0'
+                ];
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        }
+    }
+    public function inpp_searchData()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllUsersByCreatorAndCompanyFiltered($currentYear, $currentMonth);
+
+            $data = [];
+            foreach ($userc as $usercomp) {
+                $data[] = [
+                    'name' => $usercomp['name'],
+                    'employee_id' => $usercomp['emplyee_id'],
+                    'basic_salary' => $usercomp['basic_salary'],
+                    'net_salary' => $usercomp['net_salary'] ?? '0',
+                    'ipr' => $usercomp['inpp'] ?? '0'
+                ];
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        }
+    }
+    public function onem_searchData()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $currentYear = $_POST['year'];
+            $currentMonth = $_POST['month'];
+
+
+            $companyModel = new company_model();
+            $userc = $companyModel->getAllUsersByCreatorAndCompanyFiltered($currentYear, $currentMonth);
+
+            $data = [];
+            foreach ($userc as $usercomp) {
+                $data[] = [
+                    'name' => $usercomp['name'],
+                    'employee_id' => $usercomp['emplyee_id'],
+                    'basic_salary' => $usercomp['basic_salary'],
+                    'net_salary' => $usercomp['net_salary'] ?? '0',
+                    'ipr' => $usercomp['onem'] ?? '0'
+                ];
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        }
+    }
 
     public function generatePaiePdfAjax()
     {
@@ -2147,6 +2729,26 @@ class Company extends Controller
 
             // Supposons que vous avez généré une URL pour rediriger l'utilisateur
             $redirectUrl = URL . "company/generate_paie_pdf";
+
+            // Créez un tableau avec l'URL de redirection
+            $responseArray = ['redirectUrl' => $redirectUrl];
+
+            // Encodez ce tableau en JSON et renvoyez-le
+            header('Content-Type: application/json');
+            echo json_encode($responseArray);
+        }
+    }
+
+    public function generateAvancePdfAjax()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Définir l'en-tête pour le type de contenu JSON
+
+            $postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $_SESSION['pdfAvance'] = $postData;
+
+            // Supposons que vous avez généré une URL pour rediriger l'utilisateur
+            $redirectUrl = URL . "company/invoice_avance";
 
             // Créez un tableau avec l'URL de redirection
             $responseArray = ['redirectUrl' => $redirectUrl];
@@ -2183,6 +2785,251 @@ class Company extends Controller
             // Encodez ce tableau en JSON et renvoyez-le
             header('Content-Type: application/json');
             echo json_encode($responseArray);
+        }
+    }
+    public function generatecnssPdfAjax()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Récupérer les données JSON de la requête POST
+            $json = file_get_contents('php://input');
+            $postData = json_decode($json, true);
+
+            // Vérifier si les données JSON ont été décodées correctement
+            if ($postData === null) {
+                // Gérer l'erreur de décodage JSON
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Invalid JSON data']);
+                exit;
+            }
+
+            $_SESSION['pdfData'] = $postData;
+
+            // Supposons que vous avez généré une URL pour rediriger l'utilisateur
+            $redirectUrl = URL . "company/generate_cnss_pdf";
+
+            // Créez un tableau avec l'URL de redirection
+            $responseArray = ['redirectUrl' => $redirectUrl];
+
+            // Encodez ce tableau en JSON et renvoyez-le
+            header('Content-Type: application/json');
+            echo json_encode($responseArray);
+        }
+    }
+    public function generateinppPdfAjax()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Récupérer les données JSON de la requête POST
+            $json = file_get_contents('php://input');
+            $postData = json_decode($json, true);
+
+            // Vérifier si les données JSON ont été décodées correctement
+            if ($postData === null) {
+                // Gérer l'erreur de décodage JSON
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Invalid JSON data']);
+                exit;
+            }
+
+            $_SESSION['pdfData'] = $postData;
+
+            // Supposons que vous avez généré une URL pour rediriger l'utilisateur
+            $redirectUrl = URL . "company/generate_inpp_pdf";
+
+            // Créez un tableau avec l'URL de redirection
+            $responseArray = ['redirectUrl' => $redirectUrl];
+
+            // Encodez ce tableau en JSON et renvoyez-le
+            header('Content-Type: application/json');
+            echo json_encode($responseArray);
+        }
+    }
+    public function generateonemPdfAjax()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Récupérer les données JSON de la requête POST
+            $json = file_get_contents('php://input');
+            $postData = json_decode($json, true);
+
+            // Vérifier si les données JSON ont été décodées correctement
+            if ($postData === null) {
+                // Gérer l'erreur de décodage JSON
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Invalid JSON data']);
+                exit;
+            }
+
+            $_SESSION['pdfData'] = $postData;
+
+            // Supposons que vous avez généré une URL pour rediriger l'utilisateur
+            $redirectUrl = URL . "company/generate_onem_pdf";
+
+            // Créez un tableau avec l'URL de redirection
+            $responseArray = ['redirectUrl' => $redirectUrl];
+
+            // Encodez ce tableau en JSON et renvoyez-le
+            header('Content-Type: application/json');
+            echo json_encode($responseArray);
+        }
+    }
+
+    public function handleAddDayoff()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_SESSION['users'])) {
+                $user = $_SESSION['users'];
+                $userId = $user['id'];
+                $companyId = $user['company_id'];
+            } else {
+                return [];
+            }
+
+            $date_off = $_POST['date_off'];
+            $description = $_POST['description'];
+            $is_universal = 0;
+
+            // Formatage et validation de la date
+            $parts = explode('/', $date_off);
+            if (count($parts) === 3) {
+                $date_off = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+            } else {
+                $parts = explode('-', $date_off);
+                if (count($parts) === 3) {
+                    $year = $parts[0];
+                    $month = $parts[1];
+                    $day = $parts[2];
+                    $date_off = $year . '-' . $month . '-' . $day;
+                }
+            }
+
+            try {
+                $dateObject = DateTime::createFromFormat('Y-m-d', $date_off);
+                if (!$dateObject) {
+                    throw new Exception("Format de date invalide.");
+                }
+                $date_off = $dateObject->format('Y-m-d');
+                $day_date = $dateObject->format('m-d');
+            } catch (Exception $e) {
+                // Traiter l'exception ou indiquer une date incorrecte
+                $response = ['status' => 400, 'msg' => $e->getMessage()];
+                header('Content-Type: application/json');
+                echo json_encode($response);
+                exit;
+            }
+
+            $data = [
+                'dayoff_date' => $date_off,
+                'day_date' => $day_date,
+                'is_universal' => $is_universal,
+                'description' => $description,
+                'company_id' => $companyId,
+                'added_by' => $userId,
+            ];
+
+            // $existingTimesheet = $this->model->getTimesheetByStaffAndDate($staff_id, $timesheet_date);
+            // if ($existingTimesheet) {
+            //     echo json_encode(array("status" => 400, "msg" => "Un enregistrement existe déjà pour cet employé à cette date."));
+            //     exit;
+            // }
+
+            $result = $this->model->addDayOff($data);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "Le jour a été ajouté avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de l'ajout."));
+            }
+        }
+    }
+
+    public function handleDeleteDayoff()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+
+            $result = $this->model->deleteDayOff($id);
+
+            if ($result) {
+                echo json_encode(array("status" => 200, "msg" => "Le jour a été supprimée avec succès."));
+            } else {
+                echo json_encode(array("status" => 500, "msg" => "Une erreur s'est produite lors de la suppression du jour"));
+            }
+        } else {
+            echo json_encode(array("status" => 400, "msg" => "Méthode non autorisée."));
+        }
+    }
+
+    public function updatedayoff()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = intval($_POST['id_horaire']);
+            $date_offupdate = $_POST['date_offupdate'];
+            $description = $_POST['descriptionupdate'];
+
+            // Formatage et validation de la date
+            $parts = explode('/', $date_offupdate);
+            if (count($parts) === 3) {
+                $date_offupdate = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+            } else {
+                $parts = explode('-', $date_offupdate);
+                if (count($parts) === 3) {
+                    $year = $parts[0];
+                    $month = $parts[1];
+                    $day = $parts[2];
+                    $date_offupdate = $year . '-' . $month . '-' . $day;
+                }
+            }
+
+            // Formatage et validation de la date
+            $parts = explode('/', $date_offupdate);
+            if (count($parts) === 3) {
+                $date_offupdate = $parts[2] . '-' . $parts[0] . '-' . $parts[1];
+            } else {
+                $parts = explode('-', $date_offupdate);
+                if (count($parts) === 3) {
+                    $year = $parts[0];
+                    $month = $parts[1];
+                    $day = $parts[2];
+                    $date_offupdate = $year . '-' . $month . '-' . $day;
+                }
+            }
+
+            try {
+                $dateObject = DateTime::createFromFormat('Y-m-d', $date_offupdate);
+                if (!$dateObject) {
+                    throw new Exception("Format de date invalide.");
+                }
+                $date_offupdate = $dateObject->format('Y-m-d');
+                $date_off = $dateObject->format('m-d');
+            } catch (Exception $e) {
+                // Traiter l'exception ou indiquer une date incorrecte
+                $response = ['status' => 400, 'msg' => $e->getMessage()];
+                header('Content-Type: application/json');
+                echo json_encode($response);
+                exit;
+            }
+
+            // $existingTimesheet = $this->model->getTimesheetByStaffAndDate($staff_id, $timesheet_date);
+            // if ($existingTimesheet) {
+            //     echo json_encode(array("status" => 400, "msg" => "Un enregistrement existe déjà pour cet employé à cette date."));
+            //     exit;
+            // }
+
+            // Vérification de la date
+            if (empty($date_offupdate)) {
+                $response = ['status' => 400, 'msg' => 'La date est vide, veuillez le remplir'];
+            } else {
+                $result = $this->model->updatedayoff($id, $date_offupdate, $date_off, $description);
+
+                if ($result) {
+                    $response = ['status' => 200, 'msg' => 'Mise à jour réussie'];
+                } else {
+                    $response = ['status' => 409, 'msg' => 'Erreur lors de la mise à jour'];
+                }
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
         }
     }
 }

@@ -93,7 +93,10 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button id="moginBtn" type="submit" name="login_btn" class="btn btn-lg btn-primary btn-block">Connexion</button>
+                                            <button id="moginBtn" type="submit" name="login_btn" class="btn btn-lg btn-primary btn-block">
+                                                <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                                                <span id="buttonText">Connexion</span>
+                                            </button>
                                         </div>
 
                                     </form>

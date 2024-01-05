@@ -35,47 +35,45 @@ $dep = $companyModel->getAllDepartmentsByCreatorAndCompany();
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
-                                <div class="card card-bordered card-preview" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <form id="registerFormDepartements" method="POST">
-                                                <div class="row gy-4">
-                                                    <div class="col-sm-12">
-                                                        <div class="form-group">
-                                                            <div class="form-label-group">
-                                                                <label class="form-label" for="departement_name">Nom</label>
-                                                            </div>
-                                                            <div class="form-control-wrap">
-                                                                <input required="required" type="text" name="departement_name" class="form-control form-control-lg" id="departement_name" placeholder="Entrer le nom">
-                                                            </div>
+                            <div class="col m-1">
+                                <div class="card" role="document">
+                                    <div class="card-inner">
+                                        <form id="registerFormDepartements" method="POST">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <div class="form-label-group">
+                                                            <label class="form-label" for="departement_name">Nom</label>
+                                                        </div>
+                                                        <div class="form-control-wrap">
+                                                            <input required="required" type="text" name="departement_name" class="form-control form-control-lg" id="departement_name" placeholder="Entrer le nom">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group mt-2">
-                                                    <button type="submit" name="register_btn" class="btn btn-lg btn-primary btn-block">Cree departements
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <button type="submit" name="register_btn" class="btn btn-lg btn-primary btn-block">Cree departements
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="card card-bordered card-preview">
+                            <div class="col m-1">
+                                <div class="card">
                                     <div class="card-inner">
                                         <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                             <table class="datatable-init nk-tb-list nk-tb-ulist dataTable no-footer" data-auto-responsive="false" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
                                                 <thead>
                                                     <tr class="nk-tb-item nk-tb-head">
 
-                                                        <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                        <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                             <span class="sub-text">#</span>
                                                         </th>
-                                                        <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                        <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                             <span class="sub-text">Noms</span>
                                                         </th>
-                                                        <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                        <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                             <span class="sub-text">Cree à</span>
                                                         </th>
                                                         <th class="nk-tb-col nk-tb-col-tools text-end sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="
@@ -102,13 +100,13 @@ $dep = $companyModel->getAllDepartmentsByCreatorAndCompany();
                                                         <!-- .nk-tb-item -->
                                                         <tr class="nk-tb-item odd">
 
-                                                            <td class="nk-tb-col tb-col-md">
+                                                            <td class="nk-tb-col">
                                                                 <span><?= $deps['num'] ?></span>
                                                             </td>
-                                                            <td class="nk-tb-col tb-col-md">
+                                                            <td class="nk-tb-col">
                                                                 <span><?= $deps['department_name'] ?></span>
                                                             </td>
-                                                            <td class="nk-tb-col tb-col-md">
+                                                            <td class="nk-tb-col">
                                                                 <span><?= $deps['created_at'] ?></span>
                                                             </td>
 
@@ -222,26 +220,26 @@ $dep = $companyModel->getAllDepartmentsByCreatorAndCompany();
 
 <!-- popup -->
 <div class="modal fade" id="deleterDepartment" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body modal-body-lg text-center">
-                    <div class="nk-modal">
-                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
-                        <h4 class="nk-modal-title">Confirmer la suppression !</h4>
-                        <div class="nk-modal-text">
-                            <p class="lead">Confirmez vous la suppression du departement ?. <br>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                    <h4 class="nk-modal-title">Confirmer la suppression !</h4>
+                    <div class="nk-modal-text">
+                        <p class="lead">Confirmez vous la suppression du departement ?. <br>
                             L'action de suppression est non reversible et peut avoir des consequences majeurs sur les donnees, etes-vous sur de votre choix ?
-                            </p>
-                        </div>
-                        <input type="hidden" class="id_users" name="id_users">
-                        <div class="nk-modal-action d-flex align-items-center justify-content-center mt-2">
-                            <a href="#" class="btn btn-lg btn-mw btn-light m-1" data-bs-dismiss="modal">Retourner</a>
-                            <a href="#" data-id="value" class="btn btn-lg btn-mw btn-danger m-1 delete-button-deleterDepartment" data-bs-dismiss="modal">Supprimer</a>
-                        </div>
+                        </p>
                     </div>
-                </div><!-- .modal-body -->
-            </div>
+                    <input type="hidden" class="id_users" name="id_users">
+                    <div class="nk-modal-action d-flex align-items-center justify-content-center mt-2">
+                        <a href="#" class="btn btn-lg btn-mw btn-light m-1" data-bs-dismiss="modal">Retourner</a>
+                        <a href="#" data-id="value" class="btn btn-lg btn-mw btn-danger m-1 delete-button-deleterDepartment" data-bs-dismiss="modal">Supprimer</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
         </div>
     </div>
+</div>
 
 <?php include_once './views/include/footer.php' ?>

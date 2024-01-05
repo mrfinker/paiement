@@ -22,10 +22,10 @@ class Login extends Controller
             if (!empty($email) && !empty($password)) {
                 $getUserByEmail = $this->model->getUserByEmail($email);
                 if (!empty($getUserByEmail)) {
-                    if ($getUserByEmail[0]['is_logged_in'] == 1) {
-                        echo json_encode(array("status" => 403, "msg" => "Ce compte est déjà connecté."));
-                        return;
-                    }
+                    // if ($getUserByEmail[0]['is_logged_in'] == 1) {
+                    //     echo json_encode(array("status" => 201, "msg" => "Ce compte etait déjà connecté."));
+                    //     return;
+                    // }
 
                     if ($getUserByEmail[0]['is_active'] == 0) {
                         echo json_encode(array("status" => 403, "msg" => "Ce compte est désactivé."));

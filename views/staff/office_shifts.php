@@ -17,6 +17,18 @@ if (isset($_SESSION['userType']) && $_SESSION['userType']['name'] !== "staff") {
 $companyModel = new staff_model();
 $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
 
+function formatTimeRange($inTime, $outTime) {
+    if (!empty($inTime) && !empty($outTime)) {
+        $formattedInTime = DateTime::createFromFormat('h:i A', $inTime)->format('H:i');
+        $formattedOutTime = DateTime::createFromFormat('h:i A', $outTime)->format('H:i');
+
+        return $formattedInTime . ' - ' . $formattedOutTime;
+    } else {
+        return '<span class="badge badge-dim bg-success">off</span>';
+    }
+}
+
+
 ?>
 <?php include_once './views/include/header.php'; ?>
 
@@ -29,18 +41,18 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <button href="#" class="btn btn-primary mt-2" type="button" data-bs-toggle="modal" data-bs-target="#newFormTime">
+                                <button href="#" class="btn btn-primary mt-2" type="button" style="height: 35px;" data-bs-toggle="modal" data-bs-target="#newFormTime">
                                     Ajouter<em class="icon ni ni-plus p-1"></em>
                                 </button>
                             </div>
                         </div>
-                        <div class="card card-bordered card-preview">
+                        <div class="card">
                             <div class="card-inner">
-                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer" style="overflow: auto; width: 100%;">
                                     <table class="datatable-init nk-tb-list nk-tb-ulist dataTable no-footer" data-auto-responsive="false" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
                                         <thead>
                                             <tr class="nk-tb-item nk-tb-head">
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Nom</span>
                                                 </th>
                                                 <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
@@ -49,22 +61,22 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                                 <th class="nk-tb-col tb-col-mb sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Balance: activate to sort column ascending">
                                                     <span class="sub-text">Mardi</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Mercredi</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Jeudi</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Vendredi</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Samedi</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Dimanche</span>
                                                 </th>
-                                                <th class="nk-tb-col tb-col-md sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
+                                                <th class="nk-tb-col sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">
                                                     <span class="sub-text">Total</span>
                                                 </th>
                                                 <th class="nk-tb-col nk-tb-col-tools text-end sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="
@@ -94,28 +106,28 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                                     <td class="nk-tb-col tb-col-mb">
                                                         <span class="tb-amount"><?= !empty($horaire['shift_name']) ? $horaire['shift_name'] : '<span class="badge badge-dim-success">off</span>' ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
-                                                        <span><?= !empty($horaire['monday_in_time']) && !empty($horaire['monday_out_time']) ? $horaire['monday_in_time'] . ' - ' . $horaire['monday_out_time'] : '<span class="badge badge-dim bg-success">off</span>' ?></span>
+                                                    <td class="nk-tb-col">
+                                                        <span><?= formatTimeRange($horaire['monday_in_time'], $horaire['monday_out_time']) ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
-                                                        <span><?= !empty($horaire['tuesday_in_time']) && !empty($horaire['tuesday_out_time']) ? $horaire['tuesday_in_time'] . ' - ' . $horaire['tuesday_out_time'] : '<span class="badge badge-dim bg-success">off</span>' ?></span>
+                                                    <td class="nk-tb-col">
+                                                        <span><?= formatTimeRange($horaire['tuesday_in_time'], $horaire['tuesday_out_time']) ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
-                                                        <span><?= !empty($horaire['wednesday_in_time']) && !empty($horaire['wednesday_out_time']) ? $horaire['wednesday_in_time'] . ' - ' . $horaire['wednesday_out_time'] : '<span class="badge badge-dim bg-success">off</span>' ?></span>
+                                                    <td class="nk-tb-col">
+                                                        <span><?= formatTimeRange($horaire['wednesday_in_time'], $horaire['wednesday_out_time']) ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
-                                                        <span><?= !empty($horaire['thursday_in_time']) && !empty($horaire['thursday_out_time']) ? $horaire['thursday_in_time'] . ' - ' . $horaire['thursday_out_time'] : '<span class="badge badge-dim bg-success">off</span>' ?></span>
+                                                    <td class="nk-tb-col">
+                                                        <span><?= formatTimeRange($horaire['thursday_in_time'], $horaire['thursday_out_time']) ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
-                                                        <span><?= !empty($horaire['friday_in_time']) && !empty($horaire['friday_out_time']) ? $horaire['friday_in_time'] . ' - ' . $horaire['friday_out_time'] : '<span class="badge badge-dim bg-success">off</span>' ?></span>
+                                                    <td class="nk-tb-col">
+                                                        <span><?= formatTimeRange($horaire['friday_in_time'], $horaire['friday_out_time']) ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
-                                                        <span><?= !empty($horaire['saturday_in_time']) && !empty($horaire['saturday_out_time']) ? $horaire['saturday_in_time'] . ' - ' . $horaire['saturday_out_time'] : '<span class="badge badge-dim bg-success">off</span>' ?></span>
+                                                    <td class="nk-tb-col">
+                                                        <span><?= formatTimeRange($horaire['saturday_in_time'], $horaire['saturday_out_time']) ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
-                                                        <span><?= !empty($horaire['sunday_in_time']) && !empty($horaire['sunday_out_time']) ? $horaire['sunday_in_time'] . ' - ' . $horaire['sunday_out_time'] : '<span class="badge badge-dim bg-success">off</span>' ?></span>
+                                                    <td class="nk-tb-col">
+                                                        <span><?= formatTimeRange($horaire['sunday_in_time'], $horaire['sunday_out_time']) ?></span>
                                                     </td>
-                                                    <td class="nk-tb-col tb-col-md">
+                                                    <td class="nk-tb-col">
                                                         <span class="badge badge-dim bg-success"><?= $horaire['total_time'] . ' heures' ?></span>
                                                     </td>
 
@@ -219,7 +231,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="lundi_in" class="form-control form-control-xl form-control-outlined time-picker" id="lundi_in">
+                                    <input type="text" name="lundi_in" class="form-control form-control-lg form-control-outlined time-picker" id="lundi_in">
                                     <label class="form-label-outlined" for="lundi_in">Temps d'arriver - Lundi</label>
                                 </div>
                             </div>
@@ -230,7 +242,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="lundi_out" class="form-control form-control-xl form-control-outlined time-picker" id="lundi_out">
+                                    <input type="text" name="lundi_out" class="form-control form-control-lg form-control-outlined time-picker" id="lundi_out">
                                     <label class="form-label-outlined" for="lundi_out">Temps de sortie - Lundi</label>
                                 </div>
                             </div>
@@ -241,7 +253,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="mardi_in" class="form-control form-control-xl form-control-outlined time-picker" id="mardi_in">
+                                    <input type="text" name="mardi_in" class="form-control form-control-lg form-control-outlined time-picker" id="mardi_in">
                                     <label class="form-label-outlined" for="mardi_in">Temps d'arriver - Mardi</label>
                                 </div>
                             </div>
@@ -252,7 +264,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="mardi_out" class="form-control form-control-xl form-control-outlined time-picker" id="mardi_out">
+                                    <input type="text" name="mardi_out" class="form-control form-control-lg form-control-outlined time-picker" id="mardi_out">
                                     <label class="form-label-outlined" for="mardi_out">Temps de sortie - Mardi</label>
                                 </div>
                             </div>
@@ -263,7 +275,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="mercredi_in" class="form-control form-control-xl form-control-outlined time-picker" id="mercredi_in">
+                                    <input type="text" name="mercredi_in" class="form-control form-control-lg form-control-outlined time-picker" id="mercredi_in">
                                     <label class="form-label-outlined" for="mercredi_in">Temps d'arriver - Mercredi</label>
                                 </div>
                             </div>
@@ -274,7 +286,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="mercredi_out" class="form-control form-control-xl form-control-outlined time-picker" id="mercredi_out">
+                                    <input type="text" name="mercredi_out" class="form-control form-control-lg form-control-outlined time-picker" id="mercredi_out">
                                     <label class="form-label-outlined" for="mercredi_out">Temps de sortie - Mercredi</label>
                                 </div>
                             </div>
@@ -285,7 +297,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="jeudi_in" class="form-control form-control-xl form-control-outlined time-picker" id="jeudi_in">
+                                    <input type="text" name="jeudi_in" class="form-control form-control-lg form-control-outlined time-picker" id="jeudi_in">
                                     <label class="form-label-outlined" for="jeudi_in">Temps d'arriver - Jeudi</label>
                                 </div>
                             </div>
@@ -296,7 +308,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="jeudi_out" class="form-control form-control-xl form-control-outlined time-picker" id="jeudi_out">
+                                    <input type="text" name="jeudi_out" class="form-control form-control-lg form-control-outlined time-picker" id="jeudi_out">
                                     <label class="form-label-outlined" for="jeudi_out">Temps de sortie - Jeudi</label>
                                 </div>
                             </div>
@@ -307,7 +319,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="vendredi_in" class="form-control form-control-xl form-control-outlined time-picker" id="vendredi_in">
+                                    <input type="text" name="vendredi_in" class="form-control form-control-lg form-control-outlined time-picker" id="vendredi_in">
                                     <label class="form-label-outlined" for="vendredi_in">Temps d'arriver - Vendredi</label>
                                 </div>
                             </div>
@@ -318,7 +330,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="vendredi_out" class="form-control form-control-xl form-control-outlined time-picker" id="vendredi_out">
+                                    <input type="text" name="vendredi_out" class="form-control form-control-lg form-control-outlined time-picker" id="vendredi_out">
                                     <label class="form-label-outlined" for="vendredi_out">Temps de sortie - Vendredi</label>
                                 </div>
                             </div>
@@ -329,7 +341,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="samedi_in" class="form-control form-control-xl form-control-outlined time-picker" id="samedi_in">
+                                    <input type="text" name="samedi_in" class="form-control form-control-lg form-control-outlined time-picker" id="samedi_in">
                                     <label class="form-label-outlined" for="samedi_in">Temps d'arriver - Samedi</label>
                                 </div>
                             </div>
@@ -340,7 +352,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="samedi_out" class="form-control form-control-xl form-control-outlined time-picker" id="samedi_out">
+                                    <input type="text" name="samedi_out" class="form-control form-control-lg form-control-outlined time-picker" id="samedi_out">
                                     <label class="form-label-outlined" for="samedi_out">Temps de sortie - Samedi</label>
                                 </div>
                             </div>
@@ -351,7 +363,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="dimanche_in" class="form-control form-control-xl form-control-outlined time-picker" id="dimanche_in">
+                                    <input type="text" name="dimanche_in" class="form-control form-control-lg form-control-outlined time-picker" id="dimanche_in">
                                     <label class="form-label-outlined" for="dimanche_in">Temps d'arriver - Dimanche</label>
                                 </div>
                             </div>
@@ -362,7 +374,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="dimanche_out" class="form-control form-control-xl form-control-outlined time-picker" id="dimanche_out">
+                                    <input type="text" name="dimanche_out" class="form-control form-control-lg form-control-outlined time-picker" id="dimanche_out">
                                     <label class="form-label-outlined" for="dimanche_out">Temps de sortie - Dimanche</label>
                                 </div>
                             </div>
@@ -422,7 +434,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="lundi_in" class="form-control form-control-xl form-control-outlined time-picker" id="updatelundi_in">
+                                    <input type="text" name="lundi_in" class="form-control form-control-lg form-control-outlined time-picker" id="updatelundi_in">
                                     <label class="form-label-outlined" for="updatelundi_in"></label>
                                 </div>
                             </div>
@@ -433,7 +445,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="lundi_out" class="form-control form-control-xl form-control-outlined time-picker" id="updatelundi_out">
+                                    <input type="text" name="lundi_out" class="form-control form-control-lg form-control-outlined time-picker" id="updatelundi_out">
                                     <label class="form-label-outlined" for="updatelundi_out"></label>
                                 </div>
                             </div>
@@ -444,7 +456,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="mardi_in" class="form-control form-control-xl form-control-outlined time-picker" id="updatemardi_in">
+                                    <input type="text" name="mardi_in" class="form-control form-control-lg form-control-outlined time-picker" id="updatemardi_in">
                                     <label class="form-label-outlined" for="updatemardi_in"></label>
                                 </div>
                             </div>
@@ -455,7 +467,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="mardi_out" class="form-control form-control-xl form-control-outlined time-picker" id="updatemardi_out">
+                                    <input type="text" name="mardi_out" class="form-control form-control-lg form-control-outlined time-picker" id="updatemardi_out">
                                     <label class="form-label-outlined" for="updatemardi_out"></label>
                                 </div>
                             </div>
@@ -466,7 +478,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="mercredi_in" class="form-control form-control-xl form-control-outlined time-picker" id="updatemercredi_in">
+                                    <input type="text" name="mercredi_in" class="form-control form-control-lg form-control-outlined time-picker" id="updatemercredi_in">
                                     <label class="form-label-outlined" for="updatemercredi_in"></label>
                                 </div>
                             </div>
@@ -477,7 +489,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="mercredi_out" class="form-control form-control-xl form-control-outlined time-picker" id="updatemercredi_out">
+                                    <input type="text" name="mercredi_out" class="form-control form-control-lg form-control-outlined time-picker" id="updatemercredi_out">
                                     <label class="form-label-outlined" for="updatemercredi_out"></label>
                                 </div>
                             </div>
@@ -488,7 +500,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="jeudi_in" class="form-control form-control-xl form-control-outlined time-picker" id="updatejeudi_in">
+                                    <input type="text" name="jeudi_in" class="form-control form-control-lg form-control-outlined time-picker" id="updatejeudi_in">
                                     <label class="form-label-outlined" for="updatejeudi_in"></label>
                                 </div>
                             </div>
@@ -499,7 +511,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="jeudi_out" class="form-control form-control-xl form-control-outlined time-picker" id="updatejeudi_out">
+                                    <input type="text" name="jeudi_out" class="form-control form-control-lg form-control-outlined time-picker" id="updatejeudi_out">
                                     <label class="form-label-outlined" for="updatejeudi_out"></label>
                                 </div>
                             </div>
@@ -510,7 +522,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="vendredi_in" class="form-control form-control-xl form-control-outlined time-picker" id="updatevendredi_in">
+                                    <input type="text" name="vendredi_in" class="form-control form-control-lg form-control-outlined time-picker" id="updatevendredi_in">
                                     <label class="form-label-outlined" for="updatevendredi_in"></label>
                                 </div>
                             </div>
@@ -521,7 +533,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="vendredi_out" class="form-control form-control-xl form-control-outlined time-picker" id="updatevendredi_out">
+                                    <input type="text" name="vendredi_out" class="form-control form-control-lg form-control-outlined time-picker" id="updatevendredi_out">
                                     <label class="form-label-outlined" for="updatevendredi_out"></label>
                                 </div>
                             </div>
@@ -532,7 +544,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="samedi_in" class="form-control form-control-xl form-control-outlined time-picker" id="updatesamedi_in">
+                                    <input type="text" name="samedi_in" class="form-control form-control-lg form-control-outlined time-picker" id="updatesamedi_in">
                                     <label class="form-label-outlined" for="updatesamedi_in"></label>
                                 </div>
                             </div>
@@ -543,7 +555,7 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
                                     <div class="form-icon form-icon-right">
                                         <em class="icon ni ni-clock"></em>
                                     </div>
-                                    <input type="text" name="samedi_out" class="form-control form-control-xl form-control-outlined time-picker" id="updatesamedi_out">
+                                    <input type="text" name="samedi_out" class="form-control form-control-lg form-control-outlined time-picker" id="updatesamedi_out">
                                     <label class="form-label-outlined" for="updatesamedi_out"></label>
                                 </div>
                             </div>
@@ -591,27 +603,27 @@ $temps_horaire = $companyModel->getAllOfficeShiftsByCreatorAndCompanyListe();
 
 <!-- popup -->
 <div class="modal fade" id="deleterOffice" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body modal-body-lg text-center">
-                    <div class="nk-modal">
-                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
-                        <h4 class="nk-modal-title">Confirmer la suppression !</h4>
-                        <div class="nk-modal-text">
-                            <p class="lead">Confirmez vous la suppression de l'horaire ?. <br>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                    <h4 class="nk-modal-title">Confirmer la suppression !</h4>
+                    <div class="nk-modal-text">
+                        <p class="lead">Confirmez vous la suppression de l'horaire ?. <br>
                             L'action de suppression est non reversible et peut avoir des consequences majeurs sur les donnees, etes-vous sur de votre choix ?
-                            </p>
-                        </div>
-                        <input type="hidden" class="id_users" name="id_users">
-                        <div class="nk-modal-action d-flex align-items-center justify-content-center mt-2">
-                            <a href="#" class="btn btn-lg btn-mw btn-light m-1" data-bs-dismiss="modal">Retourner</a>
-                            <a href="#" data-id="value" class="btn btn-lg btn-mw btn-danger m-1 delete-button-deleteOffice" data-bs-dismiss="modal">Supprimer</a>
-                        </div>
+                        </p>
                     </div>
-                </div><!-- .modal-body -->
-            </div>
+                    <input type="hidden" class="id_users" name="id_users">
+                    <div class="nk-modal-action d-flex align-items-center justify-content-center mt-2">
+                        <a href="#" class="btn btn-lg btn-mw btn-light m-1" data-bs-dismiss="modal">Retourner</a>
+                        <a href="#" data-id="value" class="btn btn-lg btn-mw btn-danger m-1 delete-button-deleteOffice" data-bs-dismiss="modal">Supprimer</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
         </div>
     </div>
+</div>
 
 
 
