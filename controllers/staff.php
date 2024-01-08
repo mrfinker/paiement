@@ -2279,6 +2279,7 @@ class Staff extends Controller
 
             $tbody .= '</tbody>';
 
+            
             // Envoyer le HTML généré comme réponse
             echo $tbody;
             exit;
