@@ -1952,6 +1952,7 @@ $(document).ready(function () {
       net_before_taxes: $(this).data("net_before_taxes"),
       salary_imposable: $(this).data("salary_imposable"),
     };
+    
 
     console.log(data);
 
